@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:13.3-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: develop
+      POSTGRES_USER: develop
+    ports:
+      - "5432:5432"
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.dev
+    env_file:
+      - docker/.env
+    working_dir: /home/node/
+    volumes:
+      - "./src:/home/node/src"
+      - "./test:/home/node/test"
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        ./entrypoint.sh
+    ports:
+      - "8080:8080"
+    networks:
+      - default

@@ -1,0 +1,18 @@
+FROM node:14-alpine
+ARG SSH_KEY=${SSH_KEY}
+
+RUN apk add python build-base git
+
+WORKDIR /home/node
+COPY ./package*.json .
+
+RUN npm install
+
+COPY . .
+
+COPY ./docker/entrypoint.local.sh ./entrypoint.sh
+COPY ./docker/wait-for.sh ./wait-for.sh
+
+EXPOSE 8080
+
+ENTRYPOINT [ "./entrypoint.sh" ]
