@@ -1,9 +1,8 @@
 import { Controller, Get } from '@nestjs/common'
-import { ApiOkResponse, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger'
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HealthCheckResult, HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus'
 
 @ApiTags('Health')
-@ApiSecurity('api-key')
 @Controller('health')
 export default class HealthController {
   constructor(private health: HealthCheckService, private db: TypeOrmHealthIndicator) {}

@@ -115,3 +115,6 @@ dist
 *.launch
 .settings/
 *.sublime-workspace
+
+# OS
+.DS_Store
