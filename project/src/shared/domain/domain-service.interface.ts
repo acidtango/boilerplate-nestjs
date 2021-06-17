@@ -1,3 +1,2 @@
-export default interface DomainService<T, U> {
-  execute(params?: T): Promise<U> | U
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export default interface DomainService {}
