@@ -17,6 +17,7 @@ export default async function booksSeeder(): Promise<void> {
     await insertIfNotExists(books, connection)
     await connection.close()
 
+    // eslint-disable-next-line no-console
     console.log('-> Books seeder executed successfully')
   }
 }
