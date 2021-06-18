@@ -1,0 +1,14 @@
+# TODO: extract this file to a template.
+
+stages:
+  - test
+
+test:
+  stage: test
+  needs: []
+  image: node:lts-alpine
+  script:
+    - yarn install --frozen-lockfile
+    - yarn build
+    - yarn lint
+#    - yarn test
