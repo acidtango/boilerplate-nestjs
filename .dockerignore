@@ -1,0 +1,8 @@
+*
+!src
+!yarn.lock
+!package.json
+!tsconfig.json
+!tsconfig.build.json
+!docker/entrypoint.local.sh
+!docker/wait-for.sh
