@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NestJS boilerplate",
   "author": "Acid Tango",
-  "license": "Custom",
+  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
