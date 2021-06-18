@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { Connection, createConnection } from 'typeorm'
 import AppConfig from '../../app.config'
-import Book from '../../domains/books/domain/book.domain'
-import Genre from '../../domains/books/domain/types/genre.enum'
-import BookEntityPostgres from '../../domains/books/infrastructure/entities/book.entity.postgres'
+import Book from '../../application/books/domain/book.domain'
+import Genre from '../../application/books/domain/types/genre.enum'
+import BookEntityPostgres from '../../application/books/infrastructure/entities/book.entity.postgres'
 import * as ormconfig from '../orm.config'
 
 /**

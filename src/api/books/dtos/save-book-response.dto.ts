@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsISBN, IsPositive, Length } from 'class-validator'
-import Genre from '../../../domains/books/domain/types/genre.enum'
+import Genre from '../../../application/books/domain/types/genre.enum'
 
 export default class SaveBookResponseDto {
   @ApiProperty({

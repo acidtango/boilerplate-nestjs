@@ -9,8 +9,8 @@ import AppConfig from '../../src/app.config'
 import ApiModule from '../../src/api/api.module'
 import { request } from './request'
 import AppProviders from '../../src/app.providers'
-import BookRepository from '../../src/domains/books/domain/book.repository.interface'
-import BookRepositoryFake from '../../src/domains/books/infrastructure/repositories/book.repository.fake'
+import BookRepository from '../../src/application/books/domain/book.repository.interface'
+import BookRepositoryFake from '../../src/application/books/infrastructure/repositories/book.repository.fake'
 
 type Dependencies = {
   databaseHealthIndicator?: DatabaseHealthIndicator
