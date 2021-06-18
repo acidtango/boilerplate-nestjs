@@ -17,7 +17,7 @@ const config: ConnectionOptions = {
   logger: 'file',
   migrations: [path.resolve(__dirname, './migrations/**/*{.ts,.js}')],
   cli: {
-    migrationsDir: 'project/src/database/migrations',
+    migrationsDir: 'src/database/migrations',
   },
 }
 

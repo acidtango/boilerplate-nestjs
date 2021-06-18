@@ -8,13 +8,16 @@ import DatabaseHealthIndicator from '../../src/shared/domain/database-health-ind
 import AppConfig from '../../src/app.config'
 import ApiModule from '../../src/api/api.module'
 import { request } from './request'
+import AppProviders from '../../src/app.providers'
+import BookRepository from '../../src/domains/books/domain/book.repository.interface'
+import BookRepositoryFake from '../../src/domains/books/infrastructure/repositories/book.repository.fake'
 
 type Dependencies = {
   databaseHealthIndicator?: DatabaseHealthIndicator
 }
 
 type Repositories = {
-  // Repositories used by the app
+  bookRepository?: BookRepository
 }
 
 type AllDependencies = Dependencies & Repositories
@@ -39,9 +42,11 @@ export class TestClient {
     let testingModuleBuilder = Test.createTestingModule({
       imports: [ApiModule],
     })
-      // Here we oveerride the necessary services
+      // Here we override the necessary services
       .overrideProvider(TypeOrmHealthIndicator)
       .useValue(dependencies.databaseHealthIndicator)
+      .overrideProvider(AppProviders.BOOK_REPOSITORY)
+      .useValue(dependencies.bookRepository)
 
     if (!AppConfig.forceEnableORMRepositories) {
       // We need to change the repositories with the memory ones
@@ -67,10 +72,11 @@ export class TestClient {
 
 export async function createClient({
   databaseHealthIndicator = new DatabaseHealthIndicatorFake(),
+  bookRepository = new BookRepositoryFake(),
 }: AllDependencies = {}) {
   const client = new TestClient()
 
-  await client.initialize({ databaseHealthIndicator })
+  await client.initialize({ databaseHealthIndicator, bookRepository })
 
   return client
 }

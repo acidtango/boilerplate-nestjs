@@ -17,7 +17,7 @@ const FAKE_BOOK = new Book({
   genre: FAKE_GENRE,
   numberOfPages: FAKE_NUMBER_OF_PAGES,
 })
-describe('BookRepositoryPostgres', () => {
+describe.skip('BookRepositoryPostgres', () => {
   let fakeBookRepository: BookRepositoryPostgres
   let saveSpy: jest.SpyInstance
   let updateSpy: jest.SpyInstance

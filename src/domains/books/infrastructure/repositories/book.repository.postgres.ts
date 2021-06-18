@@ -1,5 +1,5 @@
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Connection, Repository } from 'typeorm'
+import { InjectConnection } from '@nestjs/typeorm'
 import Book from '../../domain/book.domain'
 import BookRepository from '../../domain/book.repository.interface'
 import BookEntityPostgres from '../entities/book.entity.postgres'
@@ -7,11 +7,8 @@ import BookEntityPostgres from '../entities/book.entity.postgres'
 export default class BookRepositoryPostgres implements BookRepository {
   private repository: Repository<BookEntityPostgres>
 
-  constructor(
-    @InjectRepository(BookEntityPostgres)
-    repository: Repository<BookEntityPostgres>
-  ) {
-    this.repository = repository
+  constructor(@InjectConnection() connection: Connection) {
+    this.repository = connection.getRepository(BookEntityPostgres)
   }
 
   async save(book: Book): Promise<void> {

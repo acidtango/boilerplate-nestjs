@@ -15,17 +15,17 @@
     "typecheck": "tsc",
     "lint": "npx eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "lint --fix",
-    "test": "jest -w=75%",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:unit": "jest --forceExit --detectOpenHandles --config ./test/jest-unit.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ./src/database/orm.config.ts",
-    "migration:generate": "npm run typeorm migration:generate -- -n",
-    "migration:create-empty": "npm run typeorm migration:create -- -n",
-    "migration:run": "npm run typeorm migration:run",
-    "migration:revert": "npm run typeorm migration:revert",
+    "migration:generate": "yarn typeorm migration:generate -- -n",
+    "migration:create-empty": "yarn typeorm migration:create -- -n",
+    "migration:run": "yarn typeorm migration:run",
+    "migration:revert": "yarn typeorm migration:revert",
     "seed": "ts-node ./src/database/seeders/seeder.ts",
     "precommit": "rimraf dist && npm run typecheck && npm run format && npm run lint && npm run test"
   },
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.1",
-    "@nestjs/testing": "^7.6.17",
+    "@nestjs/testing": "^7.6.18",
     "@types/express": "^4.17.12",
     "@types/jest": "26.0.23",
     "@types/morgan": "^1.9.2",
@@ -109,14 +109,14 @@
       "!src/**/mocks/*",
       "!src/main.ts",
       "!src/*.config.ts",
-      "!src/database/migrations/*.{js,ts}"
+      "!src/database/**/*.{js,ts}"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
+        "branches": 25,
+        "functions": 25,
+        "lines": 25,
+        "statements": 25
       }
     }
   }
