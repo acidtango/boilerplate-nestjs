@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-async function run(): Promise<void> {}
+import booksSeeder from './books.seeder'
+
+async function run(): Promise<void> {
+  await booksSeeder()
+}
 
 run()
   .then(() => {
