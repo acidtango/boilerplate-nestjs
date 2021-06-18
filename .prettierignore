@@ -1,2 +1,2 @@
-database/migrations/
+src/database/migrations
 docker-compose.yml
