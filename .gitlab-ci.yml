@@ -11,4 +11,4 @@ test:
     - yarn install --frozen-lockfile
     - yarn build
     - yarn lint
-#    - yarn test
+    - yarn test
