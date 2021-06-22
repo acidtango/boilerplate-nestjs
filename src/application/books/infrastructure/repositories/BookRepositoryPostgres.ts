@@ -1,8 +1,8 @@
 import { Connection, Repository } from 'typeorm'
 import { InjectConnection } from '@nestjs/typeorm'
-import Book from '../../domain/book.domain'
-import BookRepository from '../../domain/book.repository.interface'
-import BookEntityPostgres from '../entities/book.entity.postgres'
+import Book from '../../domain/Book'
+import BookRepository from '../../domain/BookRepository'
+import BookEntityPostgres from '../entities/BookEntityPostgres'
 
 export default class BookRepositoryPostgres implements BookRepository {
   private repository: Repository<BookEntityPostgres>

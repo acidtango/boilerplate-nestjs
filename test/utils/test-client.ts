@@ -3,14 +3,14 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import { TypeOrmHealthIndicator } from '@nestjs/terminus'
-import DatabaseHealthIndicatorFake from '../../src/shared/infrastructure/database/health-indicator.provider.fake'
-import DatabaseHealthIndicator from '../../src/shared/domain/database-health-indicator.interface'
-import AppConfig from '../../src/app.config'
-import ApiModule from '../../src/api/api.module'
+import DatabaseHealthIndicator from '../../src/shared/domain/DatabaseHealthIndicator'
+import DatabaseHealthIndicatorFake from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorFake'
+import { config } from '../../src/config'
+import ApiModule from '../../src/api/ApiModule'
 import { request } from './request'
-import AppProviders from '../../src/app.providers'
-import BookRepository from '../../src/application/books/domain/book.repository.interface'
-import BookRepositoryFake from '../../src/application/books/infrastructure/repositories/book.repository.fake'
+import AppProviders from '../../src/AppProviders'
+import BookRepository from '../../src/application/books/domain/BookRepository'
+import BookRepositoryFake from '../../src/application/books/infrastructure/repositories/BookRepositoryFake'
 
 type Dependencies = {
   databaseHealthIndicator?: DatabaseHealthIndicator
@@ -48,7 +48,7 @@ export class TestClient {
       .overrideProvider(AppProviders.BOOK_REPOSITORY)
       .useValue(dependencies.bookRepository)
 
-    if (!AppConfig.forceEnableORMRepositories) {
+    if (!config.forceEnableORMRepositories) {
       // We need to change the repositories with the memory ones
       //
       // testingModuleBuilder = testingModuleBuilder

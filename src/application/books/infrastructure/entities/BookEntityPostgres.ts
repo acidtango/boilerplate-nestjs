@@ -1,6 +1,6 @@
 import { Column, Entity, Index, PrimaryColumn, Timestamp } from 'typeorm'
-import Book from '../../domain/book.domain'
-import Genre from '../../domain/types/genre.enum'
+import Book from '../../domain/Book'
+import Genre from '../../domain/types/Genre'
 
 @Entity('books')
 @Index(['isbn'], { unique: true })

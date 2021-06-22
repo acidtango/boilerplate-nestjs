@@ -1,5 +1,5 @@
 import { HealthCheckError } from '@nestjs/terminus'
-import DatabaseHealthIndicator from '../../domain/database-health-indicator.interface'
+import DatabaseHealthIndicator from '../../domain/DatabaseHealthIndicator'
 
 export default class DatabaseHealthIndicatorFake implements DatabaseHealthIndicator {
   constructor(private throwError: boolean = false) {}

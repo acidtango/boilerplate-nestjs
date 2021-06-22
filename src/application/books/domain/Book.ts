@@ -1,4 +1,4 @@
-import Genre from './types/genre.enum'
+import Genre from './types/Genre'
 
 export default class Book {
   readonly uuid: string

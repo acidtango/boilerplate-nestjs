@@ -2,9 +2,9 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import morgan, { Options } from 'morgan'
-import ApiModule from './api/api.module'
-import AppConfig from './app.config'
-import DomainErrorFilter from './shared/infrastructure/filters/domain-error.filter'
+import ApiModule from './api/ApiModule'
+import { config } from './config'
+import DomainErrorFilter from './shared/infrastructure/filters/DomainErrorFilter'
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiModule)
@@ -31,6 +31,6 @@ async function bootstrap() {
   // Just run 'npm run start' and visit http://localhost:8080/docs
   // To generate and download a Swagger JSON file, go to http://localhost:8080/docs-json
 
-  await app.listen(AppConfig.listeningPort)
+  await app.listen(config.listeningPort)
 }
 bootstrap()

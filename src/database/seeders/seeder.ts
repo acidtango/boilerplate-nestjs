@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import booksSeeder from './books.seeder'
+import booksSeeder from './booksSeeder'
 
 async function run(): Promise<void> {
   await booksSeeder()

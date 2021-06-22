@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { v4 as generateUuid } from 'uuid'
-import AppProviders from '../../../app.providers'
-import UseCase from '../../../shared/domain/use-case.interface'
-import Book from '../domain/book.domain'
-import BookRepository from '../domain/book.repository.interface'
-import Genre from '../domain/types/genre.enum'
+import AppProviders from '../../../AppProviders'
+import UseCase from '../../../shared/domain/UseCase'
+import Book from '../domain/Book'
+import BookRepository from '../domain/BookRepository'
+import Genre from '../domain/types/Genre'
 
 @Injectable()
 export default class AddBook

@@ -1,4 +1,4 @@
-import DomainErrorCode from './domain-error-code.domain'
+import DomainErrorCode from './DomainErrorCode'
 
 export default class DomainError extends Error {
   public readonly code: DomainErrorCode

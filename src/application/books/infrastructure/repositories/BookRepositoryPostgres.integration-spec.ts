@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import Book from '../../domain/book.domain'
-import Genre from '../../domain/types/genre.enum'
-import BookEntityPostgres from '../entities/book.entity.postgres'
-import BookRepositoryPostgres from './book.repository.postgres'
+import Book from '../../domain/Book'
+import Genre from '../../domain/types/Genre'
+import BookEntityPostgres from '../entities/BookEntityPostgres'
+import BookRepositoryPostgres from './BookRepositoryPostgres'
 
 const FAKE_UUID = '225cf7b7-3555-43e8-9bea-cbba0d296677'
 const FAKE_TITLE = 'Fake Title'

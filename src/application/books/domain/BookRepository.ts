@@ -1,4 +1,4 @@
-import Book from './book.domain'
+import Book from './Book'
 
 export default interface BookRepository {
   save(book: Book): Promise<void>

@@ -1,8 +1,8 @@
-import DomainService from '../../../../shared/domain/domain-service.interface'
-import Book from '../book.domain'
-import BookRepository from '../book.repository.interface'
-import BookNotFoundKey from '../errors/book-not-found-key.enum'
-import BookNotFoundError from '../errors/book-not-found.error'
+import DomainService from '../../../../shared/domain/DomainService'
+import Book from '../Book'
+import BookRepository from '../BookRepository'
+import BookNotFoundKey from '../errors/BookNotFoundKey'
+import BookNotFoundError from '../errors/BookNotFoundError'
 
 export default class BookFinder implements DomainService {
   constructor(private readonly bookRepository: BookRepository) {}

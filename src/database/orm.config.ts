@@ -1,14 +1,14 @@
 import path from 'path'
 import { ConnectionOptions } from 'typeorm'
-import AppConfig from '../app.config'
+import { config } from '../config'
 
-const config: ConnectionOptions = {
+const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  host: AppConfig.db.postgres.host,
-  port: AppConfig.db.postgres.port,
-  username: AppConfig.db.postgres.username,
-  password: AppConfig.db.postgres.password,
-  database: AppConfig.db.postgres.database,
+  host: config.db.postgres.host,
+  port: config.db.postgres.port,
+  username: config.db.postgres.username,
+  password: config.db.postgres.password,
+  database: config.db.postgres.database,
   entities: [path.resolve(__dirname, '../**/*.entity.*{.ts,.js}')],
   synchronize: false,
   migrationsRun: false,
@@ -21,4 +21,4 @@ const config: ConnectionOptions = {
   },
 }
 
-export = config
+export = ormConfig

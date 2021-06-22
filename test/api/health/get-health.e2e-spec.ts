@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import DatabaseHealthIndicatorFake from '../../../src/shared/infrastructure/database/health-indicator.provider.fake'
+import DatabaseHealthIndicatorFake from '../../../src/shared/infrastructure/database/DatabaseHealthIndicatorFake'
 import { createClient } from '../../utils/test-client'
 
 const HEALTH_URL = '/health'

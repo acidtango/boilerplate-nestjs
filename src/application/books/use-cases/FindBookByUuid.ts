@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common'
-import AppProviders from '../../../app.providers'
-import UseCase from '../../../shared/domain/use-case.interface'
-import Book from '../domain/book.domain'
-import BookRepository from '../domain/book.repository.interface'
-import BookFinder from '../domain/services/book-finder.domain-service'
+import AppProviders from '../../../AppProviders'
+import UseCase from '../../../shared/domain/UseCase'
+import Book from '../domain/Book'
+import BookRepository from '../domain/BookRepository'
+import BookFinder from '../domain/services/BookFinder'
 
 @Injectable()
 export default class FindBookByUuid implements UseCase<{ uuid: string }, Book> {

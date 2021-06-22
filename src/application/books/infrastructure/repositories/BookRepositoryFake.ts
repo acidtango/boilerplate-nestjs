@@ -1,5 +1,5 @@
-import Book from '../../domain/book.domain'
-import BookRepository from '../../domain/book.repository.interface'
+import Book from '../../domain/Book'
+import BookRepository from '../../domain/BookRepository'
 
 export default class BookRepositoryFake implements BookRepository {
   constructor(private readonly repository: Book[] = []) {}

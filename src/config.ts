@@ -1,5 +1,5 @@
 // Please keep this alphabetically ordered.
-const AppConfig = {
+export const config = {
   db: {
     postgres: {
       host: process.env.DB_HOST || 'localhost',
@@ -14,5 +14,3 @@ const AppConfig = {
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
   testModeEnabled: process.env.NODE_ENV === 'test',
 }
-
-export default AppConfig

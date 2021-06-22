@@ -60,7 +60,7 @@ The health endpoint `GET /health` should be maintained for monitoring and alerti
 Our environment variables are set in the `.env` file, which is present in the `.gitignore` file so it is never pushed to the repositories, you'll need to ask for the credentials to other team members. 
 
 There are two rules to consider when working with environment variables:
-- They should not be used in the code directly. don't use the `process.env.ENV_VARIABLE` hack. Instead, use the configuration file: `src/app.config.ts`.
+- They should not be used in the code directly. don't use the `process.env.ENV_VARIABLE` hack. Instead, use the configuration file: `src/config.ts`.
 - Remember to update the `.env.example` file whenever you add or remove any environment variables so other developers can keep track of the required variables.
 
 ## 📊 Database

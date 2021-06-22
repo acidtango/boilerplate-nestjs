@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import DomainErrorCode from '../../domain/errors/domain-error-code.domain'
+import DomainErrorCode from '../../domain/errors/DomainErrorCode'
 
 // Please, maintain this enum alphabetically ordered
 const domainErrorToHttpStatusCode: Record<DomainErrorCode, number> = {

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
-import AddBook from '../../application/books/use-cases/add-book.usecase'
-import FindBookByUuid from '../../application/books/use-cases/find-book-by-uuid.usecase'
-import GenericErrorResponseDto from '../../shared/dtos/generic-error-response.dto'
-import CreateBookDto from './dtos/create-book.dto'
-import GetBookResponseDto from './dtos/get-book-response.dto'
-import SaveBookResponseDto from './dtos/save-book-response.dto'
+import AddBook from '../../application/books/use-cases/AddBook'
+import FindBookByUuid from '../../application/books/use-cases/FindBookByUuid'
+import GenericErrorResponseDto from '../../shared/dtos/GenericErrorResponseDto'
+import CreateBookDto from './dtos/CreateBookDto'
+import GetBookResponseDto from './dtos/GetBookResponseDto'
+import SaveBookResponseDto from './dtos/SaveBookResponseDto'
 
 @ApiTags('Books')
 @Controller('books')

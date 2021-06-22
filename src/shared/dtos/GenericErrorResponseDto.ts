@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common'
 import { ApiProperty } from '@nestjs/swagger'
-import DomainErrorCode from '../domain/errors/domain-error-code.domain'
+import DomainErrorCode from '../domain/errors/DomainErrorCode'
 
 export default class GenericErrorResponseDto {
   @ApiProperty({
