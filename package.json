@@ -24,6 +24,10 @@
     "migration:revert": "mikro-orm migration:down",
     "run-checks": "yarn typecheck && yarn format && yarn lint"
   },
+  "engines": {
+    "node": "^14",
+    "yarn": "~1.22"
+  },
   "dependencies": {
     "@mikro-orm/cli": "^4.5.7",
     "@mikro-orm/core": "^4.5.7",
