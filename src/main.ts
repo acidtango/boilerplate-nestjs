@@ -14,7 +14,7 @@ async function bootstrap() {
     morgan('combined', { skip: (req: Request) => req.url === '/health' } as Options<never, never>)
   )
 
-  // Add data validation and excepcion filters
+  // Add data validation and exception filters
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new DomainErrorFilter())
 

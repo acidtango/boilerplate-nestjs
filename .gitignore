@@ -1,3 +1,6 @@
+# Environment
+/docker/.env
+
 # Compiled output
 dist/*
 !/dist/v4
