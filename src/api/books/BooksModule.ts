@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import AddBook from '../../application/books/use-cases/AddBook'
-import FindBookByUuid from '../../application/books/use-cases/FindBookByUuid'
-import BooksController from './BooksController'
+import BookDetailsFetcher from '../../application/books/use-cases/BookDetailsFetcher'
+import BookInsertionCreator from '../../application/books/use-cases/BookInsertionCreator'
 import BookRepositoryModule from '../../application/books/infrastructure/repositories/BookRepositoryModule'
+import BooksController from './BooksController'
 
-const useCases = [AddBook, FindBookByUuid]
+const useCases = [BookInsertionCreator, BookDetailsFetcher]
 
 @Module({
   imports: [BookRepositoryModule],

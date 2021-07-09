@@ -7,7 +7,7 @@ import BookRepository from '../domain/BookRepository'
 import Genre from '../domain/types/Genre'
 
 @Injectable()
-export default class AddBook
+export default class BookInsertionCreator
   implements UseCase<{ title: string; isbn: string; genre: Genre; numberOfPages: number }, Book>
 {
   constructor(

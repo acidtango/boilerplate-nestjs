@@ -6,7 +6,7 @@ import BookRepository from '../domain/BookRepository'
 import BookFinder from '../domain/services/BookFinder'
 
 @Injectable()
-export default class FindBookByUuid implements UseCase<{ uuid: string }, Book> {
+export default class BookDetailsFetcher implements UseCase<{ uuid: string }, Book> {
   private bookFinder: BookFinder
 
   constructor(
