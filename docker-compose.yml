@@ -12,8 +12,14 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.dev
-    env_file:
-      - docker/.env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: develop
+      DB_PASSWORD: password
+      DB_DATABASE: develop
+      DEPLOY_ENV: dev
+
     working_dir: /home/node/
     volumes:
       - "./src:/home/node/src"
@@ -27,3 +33,5 @@ services:
       - "8080:8080"
     networks:
       - default
+
+
