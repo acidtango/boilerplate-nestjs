@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  skip-draft:
+    name: skip draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: fail on draft
+        if: github.event.pull_request.draft == true
+        run: echo "is a draft PR, failing..." && exit 1
+      - name: success
+        run: echo "is not a draft PR"
+
+  tests:
+    needs: skip-draft
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    container: node:lts
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2.1.6
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Eslint
+        run: yarn lint
+      - name: Typecheck
+        run: yarn typecheck
+      - name: Tests
+        run: yarn test
+
+  docker-build:
+    needs: tests
+    name: Build Docker Container
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push docker image
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: false
+          tags: nestjs:latest
