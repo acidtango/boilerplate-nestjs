@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "schedule": ["after 7pm and before 7am"],
+  "prConcurrentLimit": 2,
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": false
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": false
+    }
+  ]
+}
