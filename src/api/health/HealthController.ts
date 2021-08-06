@@ -4,7 +4,7 @@ import { HealthCheckResult, HealthCheckService, TypeOrmHealthIndicator } from '@
 
 @ApiTags('Health')
 @Controller('health')
-export default class HealthController {
+export class HealthController {
   constructor(private health: HealthCheckService, private db: TypeOrmHealthIndicator) {}
 
   @ApiOperation({ summary: 'Check if the API is working fine' })

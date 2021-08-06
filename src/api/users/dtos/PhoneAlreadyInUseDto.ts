@@ -1,11 +1,11 @@
 import { HttpStatus } from '@nestjs/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { DomainErrorCode } from '../../../shared/domain/errors/DomainErrorCode'
-import domainErrorToHttpStatusCode from '../../../shared/infrastructure/errors/domainErrorToHttpStatusCode'
+import { domainErrorToHttpStatusCode } from '../../../shared/infrastructure/errors/domainErrorToHttpStatusCode'
 
 const domainErrorCode = DomainErrorCode.USER_PHONE_IN_USE
 
-export default class PhoneAlreadyInUseDto {
+export class PhoneAlreadyInUseDto {
   @ApiProperty({ enum: DomainErrorCode, example: domainErrorCode })
   error?: DomainErrorCode
 

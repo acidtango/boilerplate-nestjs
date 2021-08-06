@@ -1,6 +1,6 @@
 import { DomainErrorCode } from './DomainErrorCode'
 
-export default class DomainError extends Error {
+export class DomainError extends Error {
   public readonly code: DomainErrorCode
 
   constructor(message: string, code: DomainErrorCode) {

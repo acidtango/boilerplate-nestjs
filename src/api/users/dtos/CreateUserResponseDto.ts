@@ -3,7 +3,7 @@ import { IsPhoneNumber, IsString, Length } from 'class-validator'
 import { User } from '../../../application/users/domain/User'
 import { MICHAEL } from '../../../shared/fixtures/users'
 
-export default class CreateUserResponseDto {
+export class CreateUserResponseDto {
   @ApiProperty({
     description: 'Id of the user',
     example: '8275cf5f-c871-4d1a-bbcb-97549567b705',

@@ -4,7 +4,7 @@ import { ContactsInCommonFetcher } from '../../application/users/use-cases/Conta
 import { UserContactsUpdater } from '../../application/users/use-cases/UserContactsUpdater'
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserFinder } from '../../application/users/use-cases/UserFinder'
-import UsersController from './UsersController'
+import { UsersController } from './UsersController'
 
 @Module({
   imports: [UserRepositoryModule],

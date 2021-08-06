@@ -3,7 +3,7 @@ import { IsPhoneNumber, IsString, Length } from 'class-validator'
 import { ContactPrimitives } from '../../../application/users/domain/Contact'
 import { OLIVER_CONTACT } from '../../../shared/fixtures/users'
 
-export default class ContactDto {
+export class ContactDto {
   @ApiProperty({
     description: 'Name of the contact',
     example: OLIVER_CONTACT.name,

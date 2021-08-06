@@ -37,6 +37,7 @@
     "nonblock-statement-body-position": "off",
     "no-tabs": "warn",
     "arrow-body-style": "warn",
-    "max-len": "warn"
+    "max-len": "warn",
+    "import/no-default-export": "warn"
   }
 }

@@ -1,10 +1,10 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
 import { Response } from 'express'
-import DomainError from '../../domain/errors/DomainError'
-import domainErrorToHttpStatusCode from '../errors/domainErrorToHttpStatusCode'
+import { DomainError } from '../../domain/errors/DomainError'
+import { domainErrorToHttpStatusCode } from '../errors/domainErrorToHttpStatusCode'
 
 @Catch(DomainError)
-export default class DomainErrorFilter implements ExceptionFilter {
+export class DomainErrorFilter implements ExceptionFilter {
   catch(exception: DomainError, host: ArgumentsHost): void {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()

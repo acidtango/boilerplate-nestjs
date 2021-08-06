@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsPhoneNumber } from 'class-validator'
 import { MICHAEL } from '../../../shared/fixtures/users'
 
-export default class GetUsersCommonContactsResponseDto {
+export class GetUsersCommonContactsResponseDto {
   @ApiProperty({
     description: 'Phone number of the user',
     example: MICHAEL.phone,

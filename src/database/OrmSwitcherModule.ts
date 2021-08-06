@@ -3,7 +3,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs'
 import ormConfig from './orm.config'
 
 @Module({})
-export default class OrmSwitcherModule {
+export class OrmSwitcherModule {
   static init({ disable }: { disable: boolean }): DynamicModule {
     if (disable) {
       return {

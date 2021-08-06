@@ -1,4 +1,4 @@
-import DomainError from '../../../../shared/domain/errors/DomainError'
+import { DomainError } from '../../../../shared/domain/errors/DomainError'
 import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
 
 export class ContactNotRegisteredError extends DomainError {

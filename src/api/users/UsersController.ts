@@ -14,20 +14,20 @@ import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserFinder } from '../../application/users/use-cases/UserFinder'
 import { UserId } from '../../shared/domain/ids/UserId'
 import { UuidGenerator, UUID_GENERATOR_TOKEN } from '../../shared/domain/services/UuidGenerator'
-import ContactDto from './dtos/ContactDto'
-import CreateUserDto from './dtos/CreateUserDto'
-import CreateUserResponseDto from './dtos/CreateUserResponseDto'
+import { ContactDto } from './dtos/ContactDto'
+import { CreateUserDto } from './dtos/CreateUserDto'
+import { CreateUserResponseDto } from './dtos/CreateUserResponseDto'
 import { GetUsersCommonContactsParamsDto } from './dtos/GetUsersCommonContactsParamsDto'
-import GetUsersCommonContactsResponseDto from './dtos/GetUsersCommonContactsResponseDto'
-import InvalidPhoneNumberDto from './dtos/InvalidPhoneNumberDto'
-import PhoneAlreadyInUseDto from './dtos/PhoneAlreadyInUseDto'
+import { GetUsersCommonContactsResponseDto } from './dtos/GetUsersCommonContactsResponseDto'
+import { InvalidPhoneNumberDto } from './dtos/InvalidPhoneNumberDto'
+import { PhoneAlreadyInUseDto } from './dtos/PhoneAlreadyInUseDto'
 
 @ApiTags('Users')
 @Controller({
   path: 'users',
   version: '1',
 })
-export default class UsersController {
+export class UsersController {
   constructor(
     @Inject(UUID_GENERATOR_TOKEN) private uuidGenerator: UuidGenerator,
     private userCreator: UserCreator,

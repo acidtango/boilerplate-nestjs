@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsString, Length } from 'class-validator'
 import { MICHAEL } from '../../../shared/fixtures/users'
 
-export default class CreateUserDto {
+export class CreateUserDto {
   @ApiProperty({ description: 'Name of the user', example: MICHAEL.name, maxLength: 36 })
   @IsString()
   @Length(0, 36)
