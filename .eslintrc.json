@@ -13,11 +13,13 @@
   },
   "rules": {
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
     "prettier/prettier": "warn",
     "class-methods-use-this": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "warn",
     "import/no-extraneous-dependencies": [
       "error",
       {

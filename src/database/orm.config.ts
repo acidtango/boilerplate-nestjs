@@ -1,24 +1,21 @@
+import { Options } from '@mikro-orm/core'
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
 import path from 'path'
-import { ConnectionOptions } from 'typeorm'
 import { config } from '../config'
 
-const ormConfig: ConnectionOptions = {
-  type: 'postgres',
-  host: config.db.postgres.host,
-  port: config.db.postgres.port,
-  username: config.db.postgres.username,
-  password: config.db.postgres.password,
-  database: config.db.postgres.database,
-  entities: [path.resolve(__dirname, '../**/*.entity.*{.ts,.js}')],
-  synchronize: false,
-  migrationsRun: false,
-  migrationsTableName: 'migrations',
-  logging: true,
-  logger: 'file',
-  migrations: [path.resolve(__dirname, './migrations/**/*{.ts,.js}')],
-  cli: {
-    migrationsDir: 'src/database/migrations',
+const ormConfig: Options = {
+  type: 'postgresql',
+  host: config.db.mysql.host,
+  cache: { enabled: false },
+  port: config.db.mysql.port,
+  user: config.db.mysql.username,
+  password: config.db.mysql.password,
+  dbName: config.db.mysql.database,
+  entities: [path.resolve(__dirname, '../application/**/*Entity.{ts,js}')],
+  migrations: {
+    path: path.resolve(__dirname, './migrations'),
   },
+  metadataProvider: TsMorphMetadataProvider,
 }
 
-export = ormConfig
+export default ormConfig

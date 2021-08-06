@@ -1,6 +1,6 @@
-// Please, maintain this enum alphabetically ordered
-enum DomainErrorCode {
-  BOOK_NOT_FOUND_ERROR = 'BOOK_NOT_FOUND_ERROR',
+export enum DomainErrorCode {
+  CONTACT_NOT_REGISTERED = 'CONTACT_NOT_REGISTERED',
+  INVALID_PHONE_NUMBER = 'INVALID_PHONE_NUMBER',
+  USER_NOT_FOUND_ERROR = 'USER_NOT_FOUND_ERROR',
+  USER_PHONE_IN_USE = 'USER_PHONE_IN_USE',
 }
-
-export default DomainErrorCode

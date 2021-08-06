@@ -10,15 +10,7 @@ if [ $exitCode -ne 0 ] ; then
 fi
 
 echo "*** RUNNING MIGRATIONS ***"
-npm run migration:run
-
-exitCode=$?
-if [ $exitCode -ne 0 ] ; then
-  exit $exitCode
-fi
-
-echo "*** RUNNING SEEDERS ***"
-npm run seed
+yarn migration:run
 
 exitCode=$?
 if [ $exitCode -ne 0 ] ; then
@@ -26,4 +18,4 @@ if [ $exitCode -ne 0 ] ; then
 fi
 
 echo "*** STARTING SERVICE ***"
-npm run start:dev
+yarn start:dev

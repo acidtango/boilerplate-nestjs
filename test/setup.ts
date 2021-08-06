@@ -1,32 +1,12 @@
-// You can use this file to add custom matchers for jest
+import * as uuid from 'uuid'
 
-// expect.extend({
-//   toHavePayload(jwt: string | undefined, expectedPayload: Record<string, any>) {
-//     if (!jwt) {
-//       return {
-//         message: () => `received JWT is undefined.`,
-//         pass: false,
-//       }
-//     }
+expect.extend({
+  toBeAnUuid(str: string) {
+    const isValid = uuid.validate(str)
 
-//     const decoded = getPayload(jwt)
-
-//     if (!decoded) {
-//       return {
-//         message: () => `received JWT is malformed.`,
-//         pass: false,
-//       }
-//     }
-//     const { iat, exp, ...rest } = decoded
-
-//     expect(rest).toEqual(expectedPayload)
-
-//     expect(typeof exp).toEqual('number')
-//     expect(typeof iat).toEqual('number')
-
-//     return {
-//       message: () => `payloads are equal.`,
-//       pass: true,
-//     }
-//   },
-// })
+    return {
+      message: () => `${str} is not a valid UUID`,
+      pass: isValid,
+    }
+  },
+})

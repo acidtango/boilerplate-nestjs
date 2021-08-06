@@ -31,21 +31,21 @@ We are using `Prettier` for code formatting and `ESLint` as our code linter with
 
 ```sh
 # Format the project code.
-npm run format
+yarn format
 
 #Run the linter.
-npm run lint
+yarn lint
 
 # Fix linter errors automatically.
-npm run lint:fix
+yarn lint:fix
 ```
 
-### Pre-commit
+### Run checks before a commit
 
-Remember to always execute the following command before any commit to make sure that the format of your files are correct and that every test is passing:
+Remember to always execute the following command before any commit to make sure that the format of your files are correct and the linter rules are applied correctly:
 
 ```sh
-npm run precommit
+yarn run-checks
 ```
 
 ## 🩺 Health Check
@@ -65,46 +65,28 @@ There are two rules to consider when working with environment variables:
 
 ## 📊 Database
 
-We are using [PostgreSQL](https://www.postgresql.org/) and [TypeORM](https://typeorm.io/) as our main database with [Data Mapper](https://github.com/typeorm/typeorm/blob/master/docs/active-record-data-mapper.md#what-is-the-data-mapper-pattern) patterns for connections.
+We are using [MySQL](https://https://www.mysql.com) as our main database and [MikroORM](https://mikro-orm.io/) as our ORM.
 
 ### Migrations
 
-Configuration file `database/ormconfig.ts` is configured to use TypeORM's [migrations](https://typeorm.io/#/migrations).
+Configuration file `database/ormconfig.ts` is configured to use MikroORM's migrations.
 
 To generate a migration based on the entities modifications:
 
 ```sh
-npm run migration:generate MigrationName
-```
-
-To generate an empty migration:
-
-```sh
-npm run migration:create MigrationName
+yarn migration:generate
 ```
 
 To run the migrations:
 
 ```sh
-npm run migration:run
+yarn migration:run
 ```
 
 To revert the last migration:
 
 ```sh
-npm run migration:revert
-```
-
-### Seeds
-
-We are also using seeds to populate the database automatically whenever the server is started with Docker. Script `database/seeders/seeder.ts` is executed to run the seeds after the migrations have finished.
-
-The seeder script will check if the records are present in the database first, if they are, it won't insert them again, so you can run the script and restart the server as many times as you need.
-
-To run the seeder script:
-
-```sh
-npm run seed
+yarn migration:revert
 ```
 
 ## 📜 Swagger

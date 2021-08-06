@@ -1,24 +1,19 @@
 import { HttpStatus } from '@nestjs/common'
-import DatabaseHealthIndicatorFake from '../../../src/shared/infrastructure/database/DatabaseHealthIndicatorFake'
-import { createClient } from '../../utils/test-client'
+import { DatabaseHealthIndicatorFake } from '../../../src/shared/infrastructure/database/DatabaseHealthIndicatorFake'
+import { createClient } from '../../utils/createClient'
 
-const HEALTH_URL = '/health'
-
-// TODO: check for bodys
-describe(`${HEALTH_URL} (GET)`, () => {
-  it('returns ok health status', async () => {
+describe(`/health (GET)`, () => {
+  it('returns OK health status', async () => {
     const client = await createClient()
 
-    const { body } = await client.health().expect(HttpStatus.OK).run()
-    expect(body).toMatchSnapshot()
+    await client.health().expect(HttpStatus.OK).run()
   })
 
-  it('returns ko health status', async () => {
+  it('returns KO health status', async () => {
     const client = await createClient({
       databaseHealthIndicator: new DatabaseHealthIndicatorFake(true),
     })
 
-    const { body } = await client.health().expect(HttpStatus.SERVICE_UNAVAILABLE).run()
-    expect(body).toMatchSnapshot()
+    await client.health().expect(HttpStatus.SERVICE_UNAVAILABLE).run()
   })
 })

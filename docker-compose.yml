@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: develop
-      POSTGRES_USER: develop
+      POSTGRES_USER: acid
     ports:
       - "5432:5432"
   api:
@@ -15,7 +15,7 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 5432
-      DB_USERNAME: develop
+      DB_USERNAME: acid
       DB_PASSWORD: password
       DB_DATABASE: develop
       DEPLOY_ENV: dev
@@ -33,5 +33,3 @@ services:
       - "8080:8080"
     networks:
       - default
-
-

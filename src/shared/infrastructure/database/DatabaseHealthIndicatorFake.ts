@@ -1,14 +1,17 @@
 import { HealthCheckError } from '@nestjs/terminus'
-import DatabaseHealthIndicator from '../../domain/DatabaseHealthIndicator'
+import {
+  DatabaseHealthIndicator,
+  HealthResult,
+} from '../../domain/services/DatabaseHealthIndicator'
 
-export default class DatabaseHealthIndicatorFake implements DatabaseHealthIndicator {
+export class DatabaseHealthIndicatorFake implements DatabaseHealthIndicator {
   constructor(private throwError: boolean = false) {}
 
   static withError(): DatabaseHealthIndicatorFake {
     return new DatabaseHealthIndicatorFake(false)
   }
 
-  pingCheck(): { up: { status: string } } {
+  pingCheck(): HealthResult {
     if (this.throwError) {
       throw new HealthCheckError('Down', { down: { status: 'down' } })
     }

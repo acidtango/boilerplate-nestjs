@@ -9,7 +9,7 @@ export default class HealthController {
 
   @ApiOperation({ summary: 'Check if the API is working fine' })
   @ApiOkResponse({ description: 'The API health is good' })
-  @Get('/')
+  @Get()
   async checkHealth(): Promise<HealthCheckResult> {
     return this.health.check([() => this.db.pingCheck('db')])
   }

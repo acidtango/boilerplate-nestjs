@@ -1,7 +1,0 @@
-process.env.DB_HOST = 'localhost'
-process.env.DB_PORT = '3306'
-process.env.DB_USERNAME = 'test'
-process.env.DB_PASSWORD = 'password'
-process.env.DB_DATABASE = 'test'
-process.env.DEPLOY_ENV = 'test'
-process.env.APP_PORT = '8080'

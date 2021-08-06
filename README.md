@@ -1,4 +1,6 @@
-# NestJS Boilerplate
+# Bnext NestJS Challenge
+
+- [Bnext Challenge](./bnext-challenge.md)
 
 ## 🚀 Infra
 
@@ -6,7 +8,6 @@
 
 ## 🖥 Project
 
-- [Workflow](/project/docs/workflow.md)
-- [Conventions](/project/docs/conventions.md)
-- [IDE Settings](/project/docs/ide-settings.md)
-- [Code Review Guidelines](/project/docs/code-review-guidelines.md)
+- [Workflow](/docs/workflow.md)
+- [Conventions](/docs/conventions.md)
+- [Code Review Guidelines](/docs/code-review-guidelines.md)

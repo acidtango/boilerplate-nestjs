@@ -1,14 +1,23 @@
-# TODO: extract this file to a template.
+services:
+  - postgres:13.3-alpine
+
+variables:
+  POSTGRES_DB: develop
+  POSTGRES_USER: acid
+  POSTGRES_PASSWORD: password
 
 stages:
   - test
 
 test:
   stage: test
-  needs: []
   image: node:lts-alpine
+  variables:
+    DB_HOST: postgres
   script:
     - yarn install --frozen-lockfile
     - yarn build
     - yarn lint
+    - yarn migration:run
     - yarn test
+    - yarn test:e2e:db

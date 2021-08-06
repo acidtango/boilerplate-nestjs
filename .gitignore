@@ -2,12 +2,14 @@
 /docker/.env
 
 # Compiled output
+dist
 dist/*
 !/dist/v4
 !/dist/v5
 !/dist/v6
 
 /tmp
+/temp
 /out-tsc
 
 # Dependencies
