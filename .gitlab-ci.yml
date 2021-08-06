@@ -17,7 +17,7 @@ test:
   script:
     - yarn install --frozen-lockfile
     - yarn build
-    - yarn lint
+    - yarn lint:ci
     - yarn migration:run
     - yarn test
     - yarn test:e2e:db

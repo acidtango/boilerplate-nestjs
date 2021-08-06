@@ -10,5 +10,5 @@ export type NeutrinoApiPhoneValidateResponse = {
   'country-code3': string
   'currency-code': string
   'is-mobile': boolean
-  'prefix-network	': string
+  'prefix-network': string
 }

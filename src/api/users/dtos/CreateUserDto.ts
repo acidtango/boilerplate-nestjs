@@ -15,10 +15,14 @@ export default class CreateUserDto {
   @IsString()
   public lastName!: string
 
+  /**
+   * IsMobilePhone could be used instead but we're using Neutrino API to
+   * validate the phone.
+   */
   @ApiProperty({
     description: 'Phone number of the user',
     example: MICHAEL.phone,
   })
-  @IsString() // IsMobilePhone could be used instead but we're using Neutrino API to validate the phone.
+  @IsString()
   public phone!: string
 }

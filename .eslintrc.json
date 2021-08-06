@@ -1,12 +1,8 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "airbnb-typescript/base",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "plugins": ["@typescript-eslint", "@shopify/eslint-plugin"],
+  "extends": ["airbnb-typescript/base", "plugin:@typescript-eslint/recommended"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
@@ -14,7 +10,6 @@
   "rules": {
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
     "@typescript-eslint/no-unused-vars": "warn",
-    "prettier/prettier": "warn",
     "class-methods-use-this": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
@@ -25,6 +20,23 @@
       {
         "devDependencies": ["**/*.test.ts", "**/*.spec.ts", "**/*.integration-spec.ts", "test/**/*"]
       }
-    ]
+    ],
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      { "selector": "enum", "format": ["PascalCase"] },
+      { "selector": "enumMember", "format": ["UPPER_CASE"] }
+    ],
+    "@shopify/typescript/prefer-singular-enums": "warn",
+    "@shopify/typescript/prefer-pascal-case-enums": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/quotes": "off",
+    "operator-linebreak": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "curly": "off",
+    "object-curly-newline": "off",
+    "nonblock-statement-body-position": "off",
+    "no-tabs": "warn",
+    "arrow-body-style": "warn",
+    "max-len": "warn"
   }
 }

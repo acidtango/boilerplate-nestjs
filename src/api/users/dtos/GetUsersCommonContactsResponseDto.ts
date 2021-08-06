@@ -11,9 +11,7 @@ export default class GetUsersCommonContactsResponseDto {
   public phone: string
 
   static from(phones: string[]) {
-    return phones.map((phone) => {
-      return new GetUsersCommonContactsResponseDto(phone)
-    })
+    return phones.map((phone) => new GetUsersCommonContactsResponseDto(phone))
   }
 
   constructor(phone: string) {
