@@ -8,11 +8,11 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": false
+      "automerge": true
     },
     {
       "matchDepTypes": ["devDependencies"],
-      "automerge": false
+      "automerge": true
     }
   ]
 }
