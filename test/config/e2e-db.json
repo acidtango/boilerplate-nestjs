@@ -6,13 +6,8 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "setupFiles": [
-    "<rootDir>/test/config/setup-env-e2e-db.ts"
-  ],
-  "setupFilesAfterEnv": [
-    "<rootDir>/test/setup.ts",
-    "<rootDir>/test/config/setup-e2e-db.ts"
-  ],
+  "setupFiles": ["<rootDir>/test/config/setup-env-e2e-db.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/test/setup.ts", "<rootDir>/test/config/setup-e2e-db.ts"],
   "testTimeout": 30000,
   "maxWorkers": 1
 }
