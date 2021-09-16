@@ -1,21 +1,26 @@
-import { HealthCheckError } from '@nestjs/terminus'
-import {
-  DatabaseHealthIndicator,
-  HealthResult,
-} from '../../domain/services/DatabaseHealthIndicator'
+import { Injectable } from '@nestjs/common'
+import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus'
+import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
 
-export class DatabaseHealthIndicatorFake implements DatabaseHealthIndicator {
-  constructor(private throwError: boolean = false) {}
-
-  static withError(): DatabaseHealthIndicatorFake {
-    return new DatabaseHealthIndicatorFake(false)
+@Injectable()
+export class DatabaseHealthIndicatorFake extends HealthIndicator implements CustomHealthIndicator {
+  constructor(private throwError: boolean = false) {
+    super()
   }
 
-  pingCheck(): HealthResult {
-    if (this.throwError) {
-      throw new HealthCheckError('Down', { down: { status: 'down' } })
-    }
+  static withError(): DatabaseHealthIndicatorFake {
+    return new DatabaseHealthIndicatorFake(true)
+  }
 
-    return { up: { status: 'up' } }
+  async checkHealth(key: string): Promise<HealthIndicatorResult> {
+    const result = this.getStatus(
+      key,
+      !this.throwError,
+      this.throwError ? { message: 'DatabaseHealthIndicatorFake mocked health error' } : undefined
+    )
+    if (this.throwError) {
+      throw new HealthCheckError('DatabaseHealthIndicatorFake mocked health error', result)
+    }
+    return result
   }
 }

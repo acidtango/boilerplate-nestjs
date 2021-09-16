@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { INestApplication, VersioningType } from '@nestjs/common'
-import { TypeOrmHealthIndicator } from '@nestjs/terminus'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
@@ -9,6 +8,7 @@ import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRe
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
+import { DatabaseHealthIndicatorMikroOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorMikroOrm'
 import { AllDependencies } from './dependencies'
 
 export class TestClient {
@@ -32,7 +32,7 @@ export class TestClient {
       imports: [ApiModule],
     })
       // Here we override the necessary services
-      .overrideProvider(TypeOrmHealthIndicator)
+      .overrideProvider(DatabaseHealthIndicatorMikroOrm)
       .useValue(dependencies.databaseHealthIndicator)
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useValue(dependencies.phoneValidator)

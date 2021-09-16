@@ -5,12 +5,12 @@ import { config } from '../config'
 
 const ormConfig: Options = {
   type: 'postgresql',
-  host: config.db.mysql.host,
+  host: config.db.postgresql.host,
   cache: { enabled: false },
-  port: config.db.mysql.port,
-  user: config.db.mysql.username,
-  password: config.db.mysql.password,
-  dbName: config.db.mysql.database,
+  port: config.db.postgresql.port,
+  user: config.db.postgresql.username,
+  password: config.db.postgresql.password,
+  dbName: config.db.postgresql.database,
   entities: [path.resolve(__dirname, '../application/**/*Entity.{ts,js}')],
   migrations: {
     path: path.resolve(__dirname, './migrations'),

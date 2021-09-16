@@ -1,9 +1,9 @@
 import { UserRepositoryMemory } from '../../src/application/users/infrastructure/repositories/UserRepositoryMemory'
-import { DatabaseHealthIndicator } from '../../src/shared/domain/services/DatabaseHealthIndicator'
 import { PhoneValidator } from '../../src/shared/domain/services/PhoneValidator'
+import { CustomHealthIndicator } from '../../src/shared/infrastructure/services/CustomHealthIndicator'
 
 type Dependencies = {
-  databaseHealthIndicator?: DatabaseHealthIndicator
+  databaseHealthIndicator?: CustomHealthIndicator
   phoneValidator?: PhoneValidator
 }
 

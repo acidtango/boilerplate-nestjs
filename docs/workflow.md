@@ -65,7 +65,7 @@ There are two rules to consider when working with environment variables:
 
 ## 📊 Database
 
-We are using [MySQL](https://https://www.mysql.com) as our main database and [MikroORM](https://mikro-orm.io/) as our ORM.
+We are using [PostgreSQL](https://www.postgresql.org/) as our main database and [MikroORM](https://mikro-orm.io/) as our ORM.
 
 ### Migrations
 
