@@ -11,3 +11,4 @@
 - [Workflow](/docs/workflow.md)
 - [Conventions](/docs/conventions.md)
 - [Code Review Guidelines](/docs/code-review-guidelines.md)
+- [IDE settings](/docs/ide-settings.md)
