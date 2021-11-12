@@ -53,13 +53,13 @@ export class User extends AggregateRoot {
     this.contacts = contacts
   }
 
-  toPrimitives() {
-    return User.toPrimitives(this)
-  }
-
   contactsInCommonWith(otherUser: User): Contact[] {
     const otherUserPhoneNumbers = otherUser.contacts.map((contact) => contact.getPhone())
 
     return this.contacts.filter((contact) => otherUserPhoneNumbers.includes(contact.getPhone()))
+  }
+
+  toPrimitives() {
+    return User.toPrimitives(this)
   }
 }

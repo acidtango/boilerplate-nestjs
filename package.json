@@ -16,18 +16,20 @@
     "lint:check": "eslint --max-warnings 0 \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,apps,libs,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
-    "test": "jest",
-    "test:coverage": "yarn test --coverage",
-    "test:ci": "yarn test:coverage",
-    "test:e2e:db": "jest -c ./test/config/e2e-db.json",
+    "test": "jest -c test/config/unitary.json",
+    "test:integration": "jest -c test/config/integration.json",
+    "test:unitary:db": "jest -c test/config/unitary-db.json",
+    "test:all:db": "jest -c test/config/all-db.json",
+    "test:coverage": "yarn test:all:db --coverage",
+    "test:ci": "yarn test:all:db",
     "migration:generate": "mikro-orm migration:create",
     "migration:run": "mikro-orm migration:up",
     "migration:revert": "mikro-orm migration:down",
     "run-checks": "yarn typecheck && yarn format && yarn lint"
   },
   "engines": {
-    "node": "^14",
-    "yarn": "~1.22"
+    "node": "^16.13.0",
+    "yarn": "~1.22.5"
   },
   "dependencies": {
     "@mikro-orm/cli": "4.5.9",
@@ -89,22 +91,6 @@
     "ts-node": "10.2.1",
     "tsconfig-paths": "3.11.0",
     "typescript": "4.4.3"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": ".",
-    "testRegex": ".(e2e-)?spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "<rootDir>/test/setup.ts"
-    ]
   },
   "mikro-orm": {
     "useTsNode": true,

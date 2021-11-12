@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../..",
+  "testEnvironment": "node",
+  "testRegex": "\\.spec.ts$",
+  "modulePathIgnorePatterns": ["integration\\.spec.ts$"],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "setupFiles": ["<rootDir>/test/config/setup-env-db.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/test/setup.ts", "<rootDir>/test/config/setup-db.ts"],
+  "testTimeout": 10000,
+  "maxWorkers": 1
+}

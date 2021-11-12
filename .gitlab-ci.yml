@@ -19,5 +19,4 @@ test:
     - yarn build
     - yarn lint:ci
     - yarn migration:run
-    - yarn test
-    - yarn test:e2e:db
+    - yarn test:ci
