@@ -3,6 +3,7 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core'
 import { config } from '../config'
 import { OrmSwitcherModule } from '../database/OrmSwitcherModule'
 import { DomainErrorFilter } from '../shared/infrastructure/filters/DomainErrorFilter'
+import { ApplicationShutdownService } from '../shared/infrastructure/services/ApplicationShutdownService'
 import { PhoneValidatorModule } from '../shared/infrastructure/services/phone-validator/PhoneValidatorModule'
 import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-generator/UuidGeneratorModule'
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
@@ -30,6 +31,7 @@ import { UsersModule } from './users/UsersModule'
       provide: APP_FILTER,
       useClass: DomainErrorFilter,
     },
+    ApplicationShutdownService,
   ],
 })
 export class ApiModule {}

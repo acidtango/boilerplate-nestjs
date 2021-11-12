@@ -9,6 +9,9 @@ import { config } from './config'
 async function bootstrap() {
   const app = await NestFactory.create(ApiModule)
 
+  // Starts listening for shutdown hooks
+  app.enableShutdownHooks()
+
   app.enableVersioning({
     type: VersioningType.URI,
   })

@@ -11,7 +11,7 @@
     "start": "rimraf dist && nest start",
     "start:dev": "rimraf dist && nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "typecheck": "tsc",
     "lint:check": "eslint --max-warnings 0 \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,apps,libs,test}/**/*.ts\"",

@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 ARG SSH_KEY=${SSH_KEY}
 
-RUN apk add python build-base git
+RUN apk add build-base git
 
 WORKDIR /home/node
 ADD ./package.json ./package.json
