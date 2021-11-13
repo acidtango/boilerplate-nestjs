@@ -7588,10 +7588,10 @@ tarn@^3.0.1:
   resolved "https://registry.yarnpkg.com/tarn/-/tarn-3.0.1.tgz#ebac2c6dbc6977d34d4526e0a7814200386a8aec"
   integrity sha512-6usSlV9KyHsspvwu2duKH+FMUhqJnAh6J5J/4MITl8s94iSUQTLkJggdiewKv4RyARQccnigV48Z+khiuVZDJw==
 
-tepper@0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/tepper/-/tepper-0.3.3.tgz#acb113850e6d6a9bea18dfa0292af164134a1dc2"
-  integrity sha512-Pew9KM8wax8e/YX7ZSNynMa++ehd4M8Jc7+nn72MRg7kpIQq0sJnToepiHiOWnlQ6zaHIaEV0pLdPoDX/7m5wg==
+tepper@0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/tepper/-/tepper-0.3.4.tgz#4f85f7a61a6e16634cfe1f7595251cf96f488dcb"
+  integrity sha512-LMDUm8cK7a/Fr7knP6l+9WZ8j9ANZuubQIhmMp6q6yXaw3Y8sGFzLkQouKb04Pq5IWTAwWKN+bwiadNZA5GdHQ==
   dependencies:
     node-fetch "^2.6.1"
 
