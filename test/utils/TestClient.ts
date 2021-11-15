@@ -48,6 +48,7 @@ export class TestClient {
     const nestApplication: INestApplication = moduleFixture.createNestApplication()
     nestApplication.enableVersioning({
       type: VersioningType.URI,
+      prefix: config.apiVersioningPrefix,
     })
     await nestApplication.init()
 
@@ -61,7 +62,7 @@ export class TestClient {
   }
 
   createUser({ name = MICHAEL.name, lastName = MICHAEL.lastName, phone = MICHAEL.phone } = {}) {
-    return tepper(this.app).post('/v1/users').send({
+    return tepper(this.app).post('/api/v1/users').send({
       name,
       lastName,
       phone,
@@ -69,15 +70,15 @@ export class TestClient {
   }
 
   updateUserContacts({ id = '', contacts = MICHAEL.contacts } = {}) {
-    return tepper(this.app).post(`/v1/users/${id}/contacts`).send(contacts)
+    return tepper(this.app).post(`/api/v1/users/${id}/contacts`).send(contacts)
   }
 
   getUserContacts({ id = '' }) {
-    return tepper(this.app).get(`/v1/users/${id}/contacts`)
+    return tepper(this.app).get(`/api/v1/users/${id}/contacts`)
   }
 
   getCommonContacts(userId1: string, userId2: string) {
-    return tepper(this.app).get(`/v1/users/common-contacts`).withQuery({
+    return tepper(this.app).get(`/api/v1/users/common-contacts`).withQuery({
       userId1,
       userId2,
     })
