@@ -49,7 +49,7 @@
     "express": "4.17.1",
     "leaked-handles": "5.2.0",
     "morgan": "1.10.0",
-    "nestjs-pino": "2.2.0",
+    "nestjs-pino": "2.3.0",
     "node-fetch": "3.0.0",
     "pino-http": "5.7.0",
     "reflect-metadata": "0.1.13",
