@@ -7,7 +7,7 @@ let orm: MikroORM<PostgreSqlDriver>
 
 beforeAll(async () => {
   orm = await MikroORM.init()
-})
+}, 15000)
 
 beforeEach(async () => {
   await dropTables(orm)
