@@ -7,7 +7,9 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\"",
+    "format:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\"",
+    "format:ci": "yarn format:check",
     "start": "rimraf dist && nest start",
     "start:dev": "rimraf dist && nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -25,7 +27,8 @@
     "migration:generate": "mikro-orm migration:create",
     "migration:run": "mikro-orm migration:up",
     "migration:revert": "mikro-orm migration:down",
-    "run-checks": "yarn typecheck && yarn format && yarn lint:ci"
+    "precommit": "yarn typecheck && yarn format:fix && yarn lint:fix",
+    "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
     "node": "^16.13.0",
