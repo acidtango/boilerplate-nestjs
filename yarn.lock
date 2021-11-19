@@ -6029,10 +6029,10 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nestjs-pino@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/nestjs-pino/-/nestjs-pino-2.3.0.tgz#615f4b8185e7ef0e8e80c13c1bd64c7f2c69e78f"
-  integrity sha512-RoTnZD8bbZdAkZyw1rBJ1UkMlnm9OXI9vsUPAQKTbCsWvsvx7/uTzcMFbIdnf7OJ4dceC57A4iq10OePKEuUtQ==
+nestjs-pino@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/nestjs-pino/-/nestjs-pino-2.3.1.tgz#1d3f5559ac4c6813b813388a11afb7e42a84ada8"
+  integrity sha512-FFDGs34LYv/MdFbtGPKz7PzrwLgtIrVnCPsjWDfW9ZEqAHwFz2v4X1DDM42tgeSiPgtvsF8+N6nA5GZQy3jzlQ==
 
 no-case@^3.0.4:
   version "3.0.4"
