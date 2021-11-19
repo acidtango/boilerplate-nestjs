@@ -14,6 +14,7 @@ async function bootstrap() {
 
   app.enableVersioning({
     type: VersioningType.URI,
+    prefix: config.apiVersioningPrefix,
   })
 
   // Add Morgan for HTTP Logging
