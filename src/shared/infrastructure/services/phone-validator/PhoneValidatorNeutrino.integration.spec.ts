@@ -1,8 +1,9 @@
 import { HttpService } from '@nestjs/axios'
 import { PhoneValidatorNeutrino } from './PhoneValidatorNeutrino'
 import { PhoneValidator } from '../../../domain/services/PhoneValidator'
+import { describeThirdParty } from '../../../../../test/utils/describeThirdParty'
 
-describe('PhoneValidatorNeutrino', () => {
+describeThirdParty('PhoneValidatorNeutrino', () => {
   let phoneValidator: PhoneValidator
 
   beforeEach(() => {

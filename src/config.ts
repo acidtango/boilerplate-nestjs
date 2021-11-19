@@ -18,4 +18,5 @@ export const config = {
     apiKey: process.env.NEUTRINO_API_KEY || 'pXvFlGOA8ndrnUZV9SDKLbKMBVI2PsfX9cHyYyijZmv9zIyf',
   },
   testModeEnabled: process.env.NODE_ENV === 'test',
+  runThirdPartyTests: process.env.RUN_THIRD_PARTY_TESTS === 'true',
 }

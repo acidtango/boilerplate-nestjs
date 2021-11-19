@@ -25,7 +25,7 @@
     "migration:generate": "mikro-orm migration:create",
     "migration:run": "mikro-orm migration:up",
     "migration:revert": "mikro-orm migration:down",
-    "run-checks": "yarn typecheck && yarn format && yarn lint"
+    "run-checks": "yarn typecheck && yarn format && yarn lint:ci"
   },
   "engines": {
     "node": "^16.13.0",
