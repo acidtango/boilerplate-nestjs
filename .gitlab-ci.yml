@@ -17,6 +17,8 @@ test:
   script:
     - yarn install --frozen-lockfile
     - yarn build
+    - yarn typecheck
     - yarn lint:ci
+    - yarn format:ci
     - yarn migration:run
     - yarn test:ci

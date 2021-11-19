@@ -44,10 +44,12 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Eslint
-        run: yarn lint:ci
       - name: Typecheck
         run: yarn typecheck
+      - name: Eslint
+        run: yarn lint:ci
+      - name: Prettier
+        run: yarn format:ci
       - name: Tests
         run: |
           yarn migration:run
