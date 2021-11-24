@@ -15,8 +15,8 @@ export const config = {
   apiVersioningPrefix: process.env.API_VERSIONING_PREFIX || 'api/v',
   neutrinoApi: {
     baseURL: process.env.NEUTRINO_API_BASE_URL || 'https://neutrinoapi.net',
-    userId: process.env.NEUTRINO_API_USER_ID,
-    apiKey: process.env.NEUTRINO_API_KEY,
+    userId: process.env.NEUTRINO_API_USER_ID || '',
+    apiKey: process.env.NEUTRINO_API_KEY || '',
   },
   testModeEnabled: process.env.NODE_ENV === 'test',
   runThirdPartyTests: process.env.RUN_THIRD_PARTY_TESTS === 'true',
