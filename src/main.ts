@@ -1,7 +1,8 @@
+import { IncomingMessage } from 'http'
 import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import morgan, { Options } from 'morgan'
+import morgan from 'morgan'
 import { Logger } from 'nestjs-pino'
 import { ApiModule } from './api/ApiModule'
 import { config } from './config'
@@ -18,9 +19,8 @@ async function bootstrap() {
   })
 
   // Add Morgan for HTTP Logging
-  app.use(
-    morgan('combined', { skip: (req: Request) => req.url === '/health' } as Options<never, never>)
-  )
+  const isHealthEndpoint = (req: IncomingMessage) => req.url === '/health'
+  app.use(morgan('combined', { skip: isHealthEndpoint }))
 
   // Auto generated API documentation!!!
   const documentBuilder = new DocumentBuilder()
