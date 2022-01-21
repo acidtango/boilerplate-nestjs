@@ -1,16 +1,38 @@
 {
   "extends": ["config:base"],
-  "schedule": ["after 7pm and before 7am"],
+  "schedule": ["after 9pm and before 5am"],
   "prConcurrentLimit": 2,
   "dependencyDashboard": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "groupName": "patch",
+      "prPriority": 50,
       "automerge": true
     },
     {
-      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "minor",
+      "prPriority": 40,
       "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major",
+      "prPriority": 20,
+      "automerge": false
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "devDependencies",
+      "prPriority": 30,
+      "automerge": true
+    },
+    {
+      "matchCurrentVersion": "<1.0.0",
+      "groupName": "beta",
+      "prPriority": 10,
+      "automerge": false
     }
   ]
 }
