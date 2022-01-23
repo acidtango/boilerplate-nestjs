@@ -23,7 +23,7 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
     container: node:lts
-    timeout-minutes: 5
+    timeout-minutes: 10
     services:
       database:
         image: postgres:14.1-alpine
