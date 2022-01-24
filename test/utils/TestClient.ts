@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'

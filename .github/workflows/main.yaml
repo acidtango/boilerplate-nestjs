@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 5
     services:
       database:
-        image: postgres:13.3-alpine
+        image: postgres:14.1-alpine
         env:
           POSTGRES_USER: acid
           POSTGRES_PASSWORD: password
@@ -44,10 +44,12 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Eslint
-        run: yarn lint:ci
       - name: Typecheck
         run: yarn typecheck
+      - name: Eslint
+        run: yarn lint:ci
+      - name: Prettier
+        run: yarn format:ci
       - name: Tests
         run: |
           yarn migration:run
