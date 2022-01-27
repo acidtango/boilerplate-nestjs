@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsPhoneNumber, IsString, Length } from 'class-validator'
-import { ContactPrimitives } from '../../../application/users/domain/Contact'
 import { OLIVER_CONTACT } from '../../../shared/fixtures/users'
+import { ContactPrimitives } from '../../../application/contacts/domain/Contact'
 
 export class ContactDto {
   @ApiProperty({

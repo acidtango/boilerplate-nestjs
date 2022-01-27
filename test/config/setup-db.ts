@@ -11,6 +11,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await dropTables(orm)
+  orm.em.clear()
 })
 
 afterEach(async () => {

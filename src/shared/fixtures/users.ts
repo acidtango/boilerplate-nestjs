@@ -18,6 +18,11 @@ export const STUART_CONTACT = {
   phone: '+34648571899',
 }
 
+export const JOSEPHINE_CONTACT = {
+  name: 'Josephine',
+  phone: '+34629571819',
+}
+
 export const MICHAEL = {
   name: MICHAEL_CONTACT.name,
   lastName: 'Phelps',

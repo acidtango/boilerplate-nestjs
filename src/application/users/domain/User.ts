@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { UserId } from '../../../shared/domain/ids/UserId'
-import { Contact } from './Contact'
+import { UserPhoneNumber } from './UserPhoneNumber'
 
 export type UserPrimitives = ReturnType<typeof User['toPrimitives']>
 
@@ -10,8 +10,7 @@ export class User extends AggregateRoot {
       UserId.fromPrimitives(userPrimitives.id),
       userPrimitives.name,
       userPrimitives.lastName,
-      userPrimitives.phone,
-      userPrimitives.contacts.map(Contact.fromPrimitives)
+      UserPhoneNumber.fromPrimitives(userPrimitives.phone)
     )
   }
 
@@ -20,8 +19,7 @@ export class User extends AggregateRoot {
       id: user.id.toPrimitives(),
       name: user.name,
       lastName: user.lastName,
-      phone: user.phone,
-      contacts: user.contacts.map(Contact.toPrimitives),
+      phone: user.phone.toPrimitives(),
     }
   }
 
@@ -34,29 +32,25 @@ export class User extends AggregateRoot {
     userId: UserId
     name: string
     lastName: string
-    phone: string
+    phone: UserPhoneNumber
   }) {
-    return new User(userId, name, lastName, phone, [])
+    return new User(userId, name, lastName, phone)
   }
 
   constructor(
     private id: UserId,
     private name: string,
     private lastName: string,
-    private phone: string,
-    private contacts: Contact[]
+    private phone: UserPhoneNumber
   ) {
     super()
   }
 
-  updateContacts(contacts: Contact[]) {
-    this.contacts = contacts
-  }
-
-  contactsInCommonWith(otherUser: User): Contact[] {
-    const otherUserPhoneNumbers = otherUser.contacts.map((contact) => contact.getPhone())
-
-    return this.contacts.filter((contact) => otherUserPhoneNumbers.includes(contact.getPhone()))
+  /**
+   * This method is just for testing purposes of the boilerplate. You should avoid setters/getters
+   */
+  setName(name: string) {
+    this.name = name
   }
 
   toPrimitives() {

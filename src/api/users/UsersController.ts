@@ -7,13 +7,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger'
-import { Contact } from '../../application/users/domain/Contact'
-import { ContactsInCommonFetcher } from '../../application/users/use-cases/ContactsInCommonFetcher'
-import { UserContactsUpdater } from '../../application/users/use-cases/UserContactsUpdater'
+import { Contact } from '../../application/contacts/domain/Contact'
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
-import { UserFinder } from '../../application/users/use-cases/UserFinder'
 import { UserId } from '../../shared/domain/ids/UserId'
-import { UuidGenerator, UUID_GENERATOR_TOKEN } from '../../shared/domain/services/UuidGenerator'
+import { UUID_GENERATOR_TOKEN, UuidGenerator } from '../../shared/domain/services/UuidGenerator'
 import { ContactDto } from './dtos/ContactDto'
 import { CreateUserDto } from './dtos/CreateUserDto'
 import { CreateUserResponseDto } from './dtos/CreateUserResponseDto'
@@ -21,6 +18,10 @@ import { GetUsersCommonContactsParamsDto } from './dtos/GetUsersCommonContactsPa
 import { GetUsersCommonContactsResponseDto } from './dtos/GetUsersCommonContactsResponseDto'
 import { InvalidPhoneNumberDto } from './dtos/InvalidPhoneNumberDto'
 import { PhoneAlreadyInUseDto } from './dtos/PhoneAlreadyInUseDto'
+import { UserContactsUpdater } from '../../application/contacts/use-cases/UserContactsUpdater'
+import { ContactsInCommonFetcher } from '../../application/contacts/use-cases/ContactsInCommonFetcher'
+import { UserContactsLister } from '../../application/contacts/use-cases/UserContactsLister'
+import { UserPhoneNumber } from '../../application/users/domain/UserPhoneNumber'
 
 @ApiTags('Users')
 @Controller({
@@ -32,7 +33,7 @@ export class UsersController {
     @Inject(UUID_GENERATOR_TOKEN) private uuidGenerator: UuidGenerator,
     private userCreator: UserCreator,
     private userContactsUpdater: UserContactsUpdater,
-    private userFinder: UserFinder,
+    private userContactsLister: UserContactsLister,
     private contactsInCommonFetcher: ContactsInCommonFetcher
   ) {}
 
@@ -56,7 +57,7 @@ export class UsersController {
       new UserId(this.uuidGenerator.generate()),
       body.name,
       body.lastName,
-      body.phone
+      UserPhoneNumber.fromPrimitives(body.phone)
     )
 
     return CreateUserResponseDto.from(user)
@@ -66,9 +67,15 @@ export class UsersController {
   @ApiBody({ type: ContactDto, isArray: true })
   @Post(':id/contacts')
   async updateUserContacts(@Param('id') userId: string, @Body() body: ContactDto[]): Promise<void> {
-    const contacts = body.map((contact) => new Contact(contact.name, contact.phone))
+    const contactsNews = body.map((contact) =>
+      Contact.fromPrimitives({
+        name: contact.name,
+        phone: contact.phone,
+        owner: userId,
+      })
+    )
 
-    await this.userContactsUpdater.execute(UserId.fromPrimitives(userId), contacts)
+    await this.userContactsUpdater.execute(contactsNews)
   }
 
   @ApiOperation({ summary: 'Retrieves the user contacts' })
@@ -78,9 +85,9 @@ export class UsersController {
   })
   @Get(':id/contacts')
   async getUserContacts(@Param('id') userId: string): Promise<ContactDto[]> {
-    const user = await this.userFinder.execute(UserId.fromPrimitives(userId))
+    const contacts = await this.userContactsLister.execute(UserId.fromPrimitives(userId))
 
-    return user.toPrimitives().contacts.map((contact) => ContactDto.fromDomain(contact))
+    return contacts.toPrimitives().contacts.map((contact) => ContactDto.fromDomain(contact))
   }
 
   @ApiOperation({
@@ -95,11 +102,13 @@ export class UsersController {
   async getUsersCommonContacts(
     @Query() { userId1, userId2 }: GetUsersCommonContactsParamsDto
   ): Promise<GetUsersCommonContactsResponseDto[]> {
-    const commonPhoneNumbers = await this.contactsInCommonFetcher.execute(
+    const commonContacts = await this.contactsInCommonFetcher.execute(
       UserId.fromPrimitives(userId1),
       UserId.fromPrimitives(userId2)
     )
 
-    return GetUsersCommonContactsResponseDto.from(commonPhoneNumbers)
+    const phones = commonContacts.toPrimitives().contacts.map((contact) => contact.phone)
+
+    return GetUsersCommonContactsResponseDto.from(phones)
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { UserId } from '../../../../shared/domain/ids/UserId'
 import { User, UserPrimitives } from '../../domain/User'
 import { UserRepository } from '../../domain/UserRepository'
+import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
 
 @Injectable()
 export class UserRepositoryMemory implements UserRepository {
@@ -19,46 +19,11 @@ export class UserRepositoryMemory implements UserRepository {
     }
   }
 
-  async findById(userId: UserId): Promise<User | undefined> {
-    const userPrimitives = this.users.find((u) => u.id === userId.toPrimitives())
+  async findByPhone(phone: UserPhoneNumber): Promise<User | null> {
+    const userPrimitives = this.users.find((user) => user.phone === phone.toPrimitives())
 
-    if (userPrimitives)
-      return User.fromPrimitives(UserRepositoryMemory.sortContactPrimitives(userPrimitives))
+    if (userPrimitives) return User.fromPrimitives(userPrimitives)
 
-    return undefined
-  }
-
-  async findByPhone(phone: string): Promise<User | undefined> {
-    const userPrimitives = this.users.find((user) => user.phone === phone)
-
-    if (userPrimitives)
-      return User.fromPrimitives(UserRepositoryMemory.sortContactPrimitives(userPrimitives))
-
-    return undefined
-  }
-
-  async filterRegisteredPhones(phones: string[]): Promise<string[]> {
-    const registeredPhones = this.users.map((user) => user.phone)
-    return phones.filter((phone) => registeredPhones.includes(phone))
-  }
-
-  async updateContacts(user: User): Promise<User> {
-    await this.save(user)
-    return user
-  }
-
-  private static sortContactPrimitives(userPrimitives: UserPrimitives): UserPrimitives {
-    return {
-      ...userPrimitives,
-      contacts: [...userPrimitives.contacts].sort((a, b) => {
-        if (a.name < b.name) {
-          return -1
-        }
-        if (a.name > b.name) {
-          return 1
-        }
-        return 0
-      }),
-    }
+    return null
   }
 }

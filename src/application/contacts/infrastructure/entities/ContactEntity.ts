@@ -1,13 +1,13 @@
 import { EntitySchema } from '@mikro-orm/core'
-import { User } from '../../domain/User'
+import { Contact } from '../../domain/Contact'
 
-export const UserEntity = new EntitySchema<User>({
-  class: User,
-  tableName: 'users',
+export const ContactEntity = new EntitySchema<Contact>({
+  class: Contact,
+  tableName: 'contacts',
   properties: {
     id: { type: 'string', primary: true },
+    owner: { type: 'string' },
     name: { type: 'string' },
-    lastName: { type: 'string' },
     phone: { type: 'string', unique: true },
   },
 })

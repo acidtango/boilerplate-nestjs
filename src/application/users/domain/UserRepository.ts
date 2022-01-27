@@ -1,12 +1,10 @@
-import { UserId } from '../../../shared/domain/ids/UserId'
 import { User } from './User'
+import { Nullable } from '../../../shared/domain/utils/Nullable'
+import { UserPhoneNumber } from './UserPhoneNumber'
 
 export const USER_REPOSITORY_TOKEN = 'UserRepository'
 
 export interface UserRepository {
   save(user: User): Promise<void>
-  findById(userId: UserId): Promise<User | undefined>
-  findByPhone(phone: string): Promise<User | undefined>
-  filterRegisteredPhones(phones: string[]): Promise<string[]>
-  updateContacts(user: User): Promise<User>
+  findByPhone(phone: UserPhoneNumber): Promise<Nullable<User>>
 }
