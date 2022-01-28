@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { UserPhoneNumber } from './UserPhoneNumber'
+import { Contacts } from './UserContacts'
 
 export type UserPrimitives = ReturnType<typeof User['toPrimitives']>
 
@@ -10,7 +11,8 @@ export class User extends AggregateRoot {
       UserId.fromPrimitives(userPrimitives.id),
       userPrimitives.name,
       userPrimitives.lastName,
-      UserPhoneNumber.fromPrimitives(userPrimitives.phone)
+      UserPhoneNumber.fromPrimitives(userPrimitives.phone),
+      Contacts.fromPrimitives(userPrimitives.contacts)
     )
   }
 
@@ -20,6 +22,7 @@ export class User extends AggregateRoot {
       name: user.name,
       lastName: user.lastName,
       phone: user.phone.toPrimitives(),
+      contacts: user.contacts.toPrimitives(),
     }
   }
 
@@ -34,16 +37,25 @@ export class User extends AggregateRoot {
     lastName: string
     phone: UserPhoneNumber
   }) {
-    return new User(userId, name, lastName, phone)
+    return new User(userId, name, lastName, phone, Contacts.empty())
   }
 
   constructor(
     private id: UserId,
     private name: string,
     private lastName: string,
-    private phone: UserPhoneNumber
+    private phone: UserPhoneNumber,
+    private contacts: Contacts
   ) {
     super()
+  }
+
+  updateContacts(contacts: Contacts) {
+    this.contacts = contacts
+  }
+
+  contactsInCommonWith(otherUser: User): Contacts {
+    return this.contacts.commonWith(otherUser.contacts)
   }
 
   /**

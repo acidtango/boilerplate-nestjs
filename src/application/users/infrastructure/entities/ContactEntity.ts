@@ -1,4 +1,4 @@
-import { EntitySchema } from '@mikro-orm/core'
+import { EntitySchema, ReferenceType } from '@mikro-orm/core'
 import { Contact } from '../../domain/Contact'
 
 export const ContactEntity = new EntitySchema<Contact>({
@@ -6,8 +6,8 @@ export const ContactEntity = new EntitySchema<Contact>({
   tableName: 'contacts',
   properties: {
     id: { type: 'string', primary: true },
-    owner: { type: 'string' },
     name: { type: 'string' },
     phone: { type: 'string', unique: true },
+    user: { reference: ReferenceType.MANY_TO_ONE, entity: 'User' },
   },
 })

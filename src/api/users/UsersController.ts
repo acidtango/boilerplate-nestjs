@@ -7,7 +7,6 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger'
-import { Contact } from '../../application/contacts/domain/Contact'
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserId } from '../../shared/domain/ids/UserId'
 import { UUID_GENERATOR_TOKEN, UuidGenerator } from '../../shared/domain/services/UuidGenerator'
@@ -18,10 +17,11 @@ import { GetUsersCommonContactsParamsDto } from './dtos/GetUsersCommonContactsPa
 import { GetUsersCommonContactsResponseDto } from './dtos/GetUsersCommonContactsResponseDto'
 import { InvalidPhoneNumberDto } from './dtos/InvalidPhoneNumberDto'
 import { PhoneAlreadyInUseDto } from './dtos/PhoneAlreadyInUseDto'
-import { UserContactsUpdater } from '../../application/contacts/use-cases/UserContactsUpdater'
-import { ContactsInCommonFetcher } from '../../application/contacts/use-cases/ContactsInCommonFetcher'
-import { UserContactsLister } from '../../application/contacts/use-cases/UserContactsLister'
+import { UserContactsUpdater } from '../../application/users/use-cases/UserContactsUpdater'
+import { UserContactsInCommonFetcher } from '../../application/users/use-cases/UserContactsInCommonFetcher'
+import { UserContactsLister } from '../../application/users/use-cases/UserContactsLister'
 import { UserPhoneNumber } from '../../application/users/domain/UserPhoneNumber'
+import { Contacts } from '../../application/users/domain/UserContacts'
 
 @ApiTags('Users')
 @Controller({
@@ -34,7 +34,7 @@ export class UsersController {
     private userCreator: UserCreator,
     private userContactsUpdater: UserContactsUpdater,
     private userContactsLister: UserContactsLister,
-    private contactsInCommonFetcher: ContactsInCommonFetcher
+    private contactsInCommonFetcher: UserContactsInCommonFetcher
   ) {}
 
   @ApiOperation({ summary: 'Creates a new user' })
@@ -67,15 +67,9 @@ export class UsersController {
   @ApiBody({ type: ContactDto, isArray: true })
   @Post(':id/contacts')
   async updateUserContacts(@Param('id') userId: string, @Body() body: ContactDto[]): Promise<void> {
-    const contactsNews = body.map((contact) =>
-      Contact.fromPrimitives({
-        name: contact.name,
-        phone: contact.phone,
-        owner: userId,
-      })
-    )
+    const updatedContacts = Contacts.fromPrimitives(body)
 
-    await this.userContactsUpdater.execute(contactsNews)
+    await this.userContactsUpdater.execute(UserId.fromPrimitives(userId), updatedContacts)
   }
 
   @ApiOperation({ summary: 'Retrieves the user contacts' })
@@ -85,9 +79,13 @@ export class UsersController {
   })
   @Get(':id/contacts')
   async getUserContacts(@Param('id') userId: string): Promise<ContactDto[]> {
-    const contacts = await this.userContactsLister.execute(UserId.fromPrimitives(userId))
+    const user = await this.userContactsLister.execute(UserId.fromPrimitives(userId))
 
-    return contacts.toPrimitives().contacts.map((contact) => ContactDto.fromDomain(contact))
+    console.log('El usuario', user)
+
+    const userPrimitives = user.toPrimitives()
+
+    return userPrimitives.contacts.map(ContactDto.fromDomain)
   }
 
   @ApiOperation({
@@ -107,7 +105,7 @@ export class UsersController {
       UserId.fromPrimitives(userId2)
     )
 
-    const phones = commonContacts.toPrimitives().contacts.map((contact) => contact.phone)
+    const phones = commonContacts.toPrimitives().map((contact) => contact.phone)
 
     return GetUsersCommonContactsResponseDto.from(phones)
   }

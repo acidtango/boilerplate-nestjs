@@ -1,35 +1,34 @@
 import { JANE_CONTACT, JOSEPHINE_CONTACT, STUART_CONTACT } from '../shared/fixtures/users'
-import { Contact, ContactPrimitives } from '../application/contacts/domain/Contact'
+import { Contact, ContactPrimitives } from '../application/users/domain/Contact'
 
 export class ContactBuilder {
   public static jane() {
-    return new ContactBuilder({
-      name: JANE_CONTACT.name,
-      phone: JANE_CONTACT.phone,
-      owner: '',
-    })
+    return new ContactBuilder().withName(JANE_CONTACT.name).withPhone(JANE_CONTACT.phone).build()
   }
 
   public static stuart() {
-    return new ContactBuilder({
-      name: STUART_CONTACT.name,
-      phone: STUART_CONTACT.phone,
-      owner: '',
-    })
+    return new ContactBuilder()
+      .withName(STUART_CONTACT.name)
+      .withPhone(STUART_CONTACT.phone)
+      .build()
   }
 
   public static josephine() {
-    return new ContactBuilder({
-      name: JOSEPHINE_CONTACT.name,
-      phone: JOSEPHINE_CONTACT.phone,
-      owner: '',
-    })
+    return new ContactBuilder()
+      .withName(JOSEPHINE_CONTACT.name)
+      .withPhone(JOSEPHINE_CONTACT.phone)
+      .build()
   }
 
-  constructor(private contactPrimitives: ContactPrimitives) {}
+  private contactPrimitives: ContactPrimitives = JANE_CONTACT
 
-  withOwner(userId: string) {
-    this.contactPrimitives.owner = userId
+  withName(userName: string) {
+    this.contactPrimitives.name = userName
+    return this
+  }
+
+  withPhone(userPhone: string) {
+    this.contactPrimitives.phone = userPhone
     return this
   }
 

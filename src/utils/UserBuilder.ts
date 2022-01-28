@@ -9,10 +9,21 @@ export class UserBuilder {
     lastName: OLIVER.lastName,
     phone: OLIVER.phone,
     id: v4(),
+    contacts: OLIVER.contacts,
   }
 
-  withPhone(phone: UserPhoneNumber) {
-    this.userPrimitives.phone = phone.toPrimitives()
+  withUserId(userId: string) {
+    this.userPrimitives.id = userId
+    return this
+  }
+
+  withPhone(phone: UserPhoneNumber | string) {
+    this.userPrimitives.phone = phone instanceof UserPhoneNumber ? phone.toPrimitives() : phone
+    return this
+  }
+
+  withContacts(contacts = OLIVER.contacts) {
+    this.userPrimitives.contacts = contacts
     return this
   }
 

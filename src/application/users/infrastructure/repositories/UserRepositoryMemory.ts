@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { User, UserPrimitives } from '../../domain/User'
 import { UserRepository } from '../../domain/UserRepository'
 import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
+import { UserId } from '../../../../shared/domain/ids/UserId'
+import { Nullable } from '../../../../shared/domain/utils/Nullable'
+import { Contact } from '../../domain/Contact'
 
 @Injectable()
 export class UserRepositoryMemory implements UserRepository {
@@ -25,5 +28,19 @@ export class UserRepositoryMemory implements UserRepository {
     if (userPrimitives) return User.fromPrimitives(userPrimitives)
 
     return null
+  }
+
+  async findById(userId: UserId): Promise<Nullable<User>> {
+    const userPrimitives = this.users.find((u) => u.id === userId.toPrimitives())
+
+    if (userPrimitives) return User.fromPrimitives(userPrimitives)
+
+    return null
+  }
+
+  async isUser(contact: Contact): Promise<boolean> {
+    const contactPrimitives = contact.toPrimitives()
+
+    return this.users.some((u) => u.phone === contactPrimitives.phone)
   }
 }

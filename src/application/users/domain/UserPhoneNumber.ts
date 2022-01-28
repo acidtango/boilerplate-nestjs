@@ -10,4 +10,8 @@ export class UserPhoneNumber extends ValueObject<string> {
   static toPrimitives(userPhoneNumber: UserPhoneNumber) {
     return userPhoneNumber.value
   }
+
+  equals(other: UserPhoneNumber) {
+    return this.value === other.value
+  }
 }
