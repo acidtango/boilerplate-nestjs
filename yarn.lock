@@ -1021,10 +1021,10 @@
     consola "^2.15.0"
     node-fetch "^2.6.1"
 
-"@shopify/eslint-plugin@41.0.1":
-  version "41.0.1"
-  resolved "https://registry.yarnpkg.com/@shopify/eslint-plugin/-/eslint-plugin-41.0.1.tgz#9279aee0d8b090ebf05be24031473852ae4022e1"
-  integrity sha512-LpjAfKPxZCvCNSGrODOn+BqsA2YCQR1XkRhxtMKDlpu0A9GR2rorE5yolb0eekHpi2ZpNWccWOXd9oACsOXosQ==
+"@shopify/eslint-plugin@41.1.0":
+  version "41.1.0"
+  resolved "https://registry.yarnpkg.com/@shopify/eslint-plugin/-/eslint-plugin-41.1.0.tgz#c0b0e7e2259252316d1559c38e1fcc90e695e76d"
+  integrity sha512-DEFoJJjsTJBpKsfXdC2/UYqKrQtWKcwZIYDL2OZSMbvDr6/++vz2v41qlf+NCfQBQN9szNsQivhCUJsZxZaajw==
   dependencies:
     "@babel/eslint-parser" "^7.16.3"
     "@babel/eslint-plugin" "^7.14.5"
@@ -1289,10 +1289,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.10.tgz#616f16e9d3a2a3d618136b1be244315d95bd7cab"
   integrity sha512-S/3xB4KzyFxYGCppyDt68yzBU9ysL88lSdIah4D6cptdcltc4NCPCAMc0+PCpg/lLIyC7IPvj2Z52OJWeIUkog==
 
-"@types/node@16.11.21":
-  version "16.11.21"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.21.tgz#474d7589a30afcf5291f59bd49cca9ad171ffde4"
-  integrity sha512-Pf8M1XD9i1ksZEcCP8vuSNwooJ/bZapNmIzpmsMaL+jMI+8mEYU3PKvs+xDNuQcJWF/x24WzY4qxLtB0zNow9A==
+"@types/node@16.11.22":
+  version "16.11.22"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.22.tgz#e704150225bfc4195f8ce68a7ac8da02b753549a"
+  integrity sha512-DYNtJWauMQ9RNpesl4aVothr97/tIJM8HbyOXJ0AYT1Z2bEjLHyfjOBPAQQVMLf8h3kSShYfNk8Wnto8B2zHUA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
