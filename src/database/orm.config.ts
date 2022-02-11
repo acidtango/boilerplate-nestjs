@@ -15,6 +15,7 @@ const ormConfig: Options = {
   migrations: {
     path: path.resolve(__dirname, './migrations'),
   },
+  debug: true,
   metadataProvider: TsMorphMetadataProvider,
 }
 

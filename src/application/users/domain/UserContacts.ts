@@ -1,8 +1,9 @@
 import { Contact } from './Contact'
+import { DomainCollection } from '../../../shared/domain/hex/DomainCollection'
 
 export type ContactsPrimitives = ReturnType<typeof Contacts['toPrimitives']>
 
-export class Contacts {
+export class Contacts extends DomainCollection<Contact> {
   static empty() {
     return new Contacts([])
   }
@@ -12,18 +13,7 @@ export class Contacts {
   }
 
   static toPrimitives(contacts: Contacts) {
-    return contacts.contacts.map(Contact.toPrimitives)
-  }
-
-  constructor(private contacts: Contact[]) {}
-
-  [Symbol.iterator]() {
-    let index = -1
-    const data = this.contacts
-
-    return {
-      next: () => ({ value: data[++index], done: !(index in data) }),
-    }
+    return contacts.getItems().map(Contact.toPrimitives)
   }
 
   commonWith(other: Contacts): Contacts {
@@ -31,11 +21,11 @@ export class Contacts {
   }
 
   private filter(cb: (c: Contact) => boolean): Contacts {
-    return new Contacts(this.contacts.filter(cb))
+    return new Contacts(this.getItems().filter(cb))
   }
 
   private includes(other: Contact) {
-    return this.contacts.some((contact) => contact.equals(other))
+    return this.getItems().some((contact) => contact.equals(other))
   }
 
   toPrimitives() {

@@ -1,5 +1,4 @@
 import { JANE_CONTACT } from '../../../shared/fixtures/users'
-import { User } from './User'
 import { UserBuilder } from '../../../utils/UserBuilder'
 import { Contacts } from './UserContacts'
 

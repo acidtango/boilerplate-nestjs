@@ -22,7 +22,7 @@ export class User extends AggregateRoot {
       name: user.name,
       lastName: user.lastName,
       phone: user.phone.toPrimitives(),
-      contacts: user.contacts.toPrimitives(),
+      contacts: Contacts.toPrimitives(user.contacts),
     }
   }
 
@@ -51,7 +51,9 @@ export class User extends AggregateRoot {
   }
 
   updateContacts(contacts: Contacts) {
-    this.contacts = contacts
+    for (const contact of contacts) {
+      this.contacts.add(contact)
+    }
   }
 
   contactsInCommonWith(otherUser: User): Contacts {
