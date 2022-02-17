@@ -7,7 +7,7 @@ import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRe
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
-import { DatabaseHealthIndicatorMikroOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorMikroOrm'
+import { DatabaseHealthIndicatorKysely } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorKysely'
 import { AllDependencies } from './dependencies'
 
 export class TestClient {
@@ -21,7 +21,7 @@ export class TestClient {
 
   public static async teardownApps() {
     for await (const app of this.apps) {
-      app.close()
+      await app.close()
     }
   }
 
@@ -31,12 +31,12 @@ export class TestClient {
       imports: [ApiModule],
     })
       // Here we override the necessary services
-      .overrideProvider(DatabaseHealthIndicatorMikroOrm)
+      .overrideProvider(DatabaseHealthIndicatorKysely)
       .useValue(dependencies.databaseHealthIndicator)
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useValue(dependencies.phoneValidator)
 
-    if (!config.forceEnableORMRepositories) {
+    if (!config.forceDbConnection) {
       // We need to change the repositories with the orm ones
       testingModuleBuilder = testingModuleBuilder
         .overrideProvider(USER_REPOSITORY_TOKEN)

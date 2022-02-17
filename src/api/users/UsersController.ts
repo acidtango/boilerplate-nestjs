@@ -21,7 +21,7 @@ import { UserContactsUpdater } from '../../application/users/use-cases/UserConta
 import { UserContactsInCommonFetcher } from '../../application/users/use-cases/UserContactsInCommonFetcher'
 import { UserContactsLister } from '../../application/users/use-cases/UserContactsLister'
 import { UserPhoneNumber } from '../../application/users/domain/UserPhoneNumber'
-import { Contacts } from '../../application/users/domain/UserContacts'
+import { UserContacts } from '../../application/users/domain/UserContacts'
 
 @ApiTags('Users')
 @Controller({
@@ -67,7 +67,7 @@ export class UsersController {
   @ApiBody({ type: ContactDto, isArray: true })
   @Post(':id/contacts')
   async updateUserContacts(@Param('id') userId: string, @Body() body: ContactDto[]): Promise<void> {
-    const updatedContacts = Contacts.fromPrimitives(body)
+    const updatedContacts = UserContacts.fromPrimitives(body)
 
     await this.userContactsUpdater.execute(UserId.fromPrimitives(userId), updatedContacts)
   }
@@ -80,8 +80,6 @@ export class UsersController {
   @Get(':id/contacts')
   async getUserContacts(@Param('id') userId: string): Promise<ContactDto[]> {
     const user = await this.userContactsLister.execute(UserId.fromPrimitives(userId))
-
-    console.log('El usuario', user)
 
     const userPrimitives = user.toPrimitives()
 

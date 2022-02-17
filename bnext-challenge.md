@@ -1,4 +1,4 @@
-## Introducción
+  ## Introducción
 
 Bnext sigue creciendo teniendo ya presencial en España y México y ha adquirido la licencia de dinero electrónico lo que nos enfrenta a nuevos retos. Para ello, los objetivos principales en 2020 son crecer la base de clientes, asegurando que estos clientes usan la plataforma. 
 

@@ -1,16 +1,27 @@
-import { Migration } from '@mikro-orm/migrations';
+import { Kysely } from 'kysely'
 
-export class Migration20220207181029 extends Migration {
+export async function up(db: Kysely<any>): Promise<void> {
+  await db.schema
+    .createTable('users')
+    .addColumn('id', 'varchar(36)', (col) => col.primaryKey())
+    .addColumn('name', 'varchar(255)', (col) => col.notNull())
+    .addColumn('last_name', 'varchar(255)', (col) => col.notNull())
+    .addColumn('phone', 'varchar(255)', (col) => col.notNull().unique())
+    .execute()
 
-  async up(): Promise<void> {
-    this.addSql('create table "users" ("id" text not null, "name" text not null, "last_name" text not null, "phone" text not null);');
-    this.addSql('alter table "users" add constraint "users_pkey" primary key ("id");');
-    this.addSql('alter table "users" add constraint "users_phone_unique" unique ("phone");');
+  await db.schema
+    .createTable('contacts')
+    .addColumn('name', 'varchar(255)', (col) => col.notNull())
+    .addColumn('phone', 'varchar(255)', (col) => col.notNull())
+    .addColumn('user_id', 'varchar(36)', (col) =>
+      col.references('users.id').onDelete('cascade').notNull()
+    )
+    .execute()
 
-    this.addSql('create table "contacts" ("id" text not null, "name" text not null, "phone" text not null, "user_id" text not null);');
-    this.addSql('alter table "contacts" add constraint "contacts_pkey" primary key ("id");');
+  await db.schema.createIndex('contacts_user_id_index').on('contacts').column('user_id').execute()
+}
 
-    this.addSql('alter table "contacts" add constraint "contacts_user_id_foreign" foreign key ("user_id") references "users" ("id") on update cascade;');
-  }
-
+export async function down(db: Kysely<any>): Promise<void> {
+  await db.schema.dropTable('contacts').execute()
+  await db.schema.dropTable('users').execute()
 }

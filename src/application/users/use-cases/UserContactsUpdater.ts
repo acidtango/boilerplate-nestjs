@@ -3,7 +3,7 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { USER_REPOSITORY_TOKEN, UserRepository } from '../domain/UserRepository'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { UserFinder } from '../domain/UserFinder'
-import { Contacts } from '../domain/UserContacts'
+import { UserContacts } from '../domain/UserContacts'
 
 @Injectable()
 export class UserContactsUpdater extends UseCase {
@@ -14,7 +14,7 @@ export class UserContactsUpdater extends UseCase {
     this.userFinder = new UserFinder(userRepository)
   }
 
-  async execute(userId: UserId, contacts: Contacts): Promise<void> {
+  async execute(userId: UserId, contacts: UserContacts): Promise<void> {
     const user = await this.userFinder.findById(userId)
 
     user.updateContacts(contacts)

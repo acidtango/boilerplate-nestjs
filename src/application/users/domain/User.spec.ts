@@ -1,6 +1,6 @@
 import { JANE_CONTACT } from '../../../shared/fixtures/users'
 import { UserBuilder } from '../../../utils/UserBuilder'
-import { Contacts } from './UserContacts'
+import { UserContacts } from './UserContacts'
 
 describe('User', () => {
   it('extracts the users in common', () => {
@@ -9,6 +9,6 @@ describe('User', () => {
 
     const contactsInCommon = user1.contactsInCommonWith(user2)
 
-    expect(contactsInCommon).toEqual(Contacts.fromPrimitives([JANE_CONTACT]))
+    expect(contactsInCommon).toEqual(UserContacts.fromPrimitives([JANE_CONTACT]))
   })
 })

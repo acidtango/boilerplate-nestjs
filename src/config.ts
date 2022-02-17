@@ -10,7 +10,7 @@ export const config = {
     },
   },
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
-  forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
+  forceDbConnection: process.env.FORCE_DB_CONNECTION === 'true',
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
   apiVersioningPrefix: process.env.API_VERSIONING_PREFIX || 'api/v',
   neutrinoApi: {

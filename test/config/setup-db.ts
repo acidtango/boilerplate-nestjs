@@ -1,17 +1,17 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
-import { dropTables } from '../utils/DropTables'
 import { TestClient } from '../utils/TestClient'
+import { Kysely } from 'kysely'
+import { databaseConnectionFactory } from '../../src/database/DatabaseConnectionFactory'
+import { DatabaseSchema } from '../../src/database/DatabaseSchema'
 
-let orm: MikroORM<PostgreSqlDriver>
+let db: Kysely<DatabaseSchema>
 
 beforeAll(async () => {
-  orm = await MikroORM.init()
+  db = databaseConnectionFactory()
 }, 15000)
 
 beforeEach(async () => {
-  await dropTables(orm)
-  orm.em.clear()
+  await db.deleteFrom('contacts').execute()
+  await db.deleteFrom('users').execute()
 })
 
 afterEach(async () => {
@@ -19,5 +19,5 @@ afterEach(async () => {
 })
 
 afterAll(async () => {
-  await orm.close()
+  await db.destroy()
 })

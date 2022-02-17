@@ -1,7 +1,7 @@
 import { Module, ValidationPipe } from '@nestjs/common'
 import { APP_FILTER, APP_PIPE } from '@nestjs/core'
 import { config } from '../config'
-import { OrmSwitcherModule } from '../database/OrmSwitcherModule'
+import { DatabaseConnectionModule } from '../database/DatabaseConnectionModule'
 import { DomainErrorFilter } from '../shared/infrastructure/filters/DomainErrorFilter'
 import { ApplicationShutdownService } from '../shared/infrastructure/services/ApplicationShutdownService'
 import { PhoneValidatorModule } from '../shared/infrastructure/services/phone-validator/PhoneValidatorModule'
@@ -13,8 +13,8 @@ import { UsersModule } from './users/UsersModule'
 @Module({
   imports: [
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
-    OrmSwitcherModule.init({
-      disable: config.testModeEnabled && !config.forceEnableORMRepositories,
+    DatabaseConnectionModule.init({
+      disable: config.testModeEnabled && !config.forceDbConnection,
     }),
     PhoneValidatorModule,
     UuidGeneratorModule,

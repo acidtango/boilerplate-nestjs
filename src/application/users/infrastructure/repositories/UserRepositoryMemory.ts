@@ -4,7 +4,7 @@ import { UserRepository } from '../../domain/UserRepository'
 import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import { Nullable } from '../../../../shared/domain/utils/Nullable'
-import { Contact } from '../../domain/Contact'
+import { UserContact } from '../../domain/UserContact'
 
 @Injectable()
 export class UserRepositoryMemory implements UserRepository {
@@ -38,7 +38,7 @@ export class UserRepositoryMemory implements UserRepository {
     return null
   }
 
-  async isUser(contact: Contact): Promise<boolean> {
+  async isUser(contact: UserContact): Promise<boolean> {
     const contactPrimitives = contact.toPrimitives()
 
     return this.users.some((u) => u.phone === contactPrimitives.phone)

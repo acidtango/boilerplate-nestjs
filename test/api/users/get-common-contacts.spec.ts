@@ -3,11 +3,9 @@ import { JANE_CONTACT } from '../../../src/shared/fixtures/users'
 import { createClient } from '../../utils/createClient'
 
 describe(`GET /v1/users/common-contacts`, () => {
-  it.only('shows the users common contacts that are registered', async () => {
+  it('shows the users common contacts that are registered', async () => {
     const client = await createClient()
-    console.log("antes")
     const { michael, oliver } = await client.createMichaelAndOliverWithJaneInCommonAndRegistered()
-    console.log("despues")
 
     const { body: commonContacts } = await client
       .getCommonContacts(michael.id, oliver.id)

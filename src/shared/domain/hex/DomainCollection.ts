@@ -6,12 +6,4 @@ export class DomainCollection<T> {
       yield item
     }
   }
-
-  add(element: T): void {
-    this.items.push(element)
-  }
-
-  getItems(): ReadonlyArray<T> {
-    return this.items
-  }
 }

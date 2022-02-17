@@ -4,7 +4,6 @@ import { UserId } from '../../../shared/domain/ids/UserId'
 import { UserNotFoundError } from './errors/UserNotFoundError'
 import { UserRepository } from './UserRepository'
 
-@Injectable()
 export class UserFinder extends DomainService {
   constructor(private userRepository: UserRepository) {
     super()

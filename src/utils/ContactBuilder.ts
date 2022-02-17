@@ -1,5 +1,5 @@
 import { JANE_CONTACT, JOSEPHINE_CONTACT, STUART_CONTACT } from '../shared/fixtures/users'
-import { Contact, ContactPrimitives } from '../application/users/domain/Contact'
+import { UserContact, ContactPrimitives } from '../application/users/domain/UserContact'
 
 export class ContactBuilder {
   public static jane() {
@@ -33,6 +33,6 @@ export class ContactBuilder {
   }
 
   build() {
-    return Contact.fromPrimitives(this.contactPrimitives)
+    return UserContact.fromPrimitives(this.contactPrimitives)
   }
 }

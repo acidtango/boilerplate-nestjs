@@ -21,7 +21,7 @@ describe(`GET /v1/users/:id/contacts`, () => {
     expect(contacts).toEqual(michaelContacts)
   })
 
-  xit('throws a 404 error if the user does not exist', async () => {
+  it('throws a 404 error if the user does not exist', async () => {
     const client = await createClient()
 
     const { body, status } = await client.getUserContacts({ id: UNKNOWN.id }).run()

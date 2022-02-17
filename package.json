@@ -24,9 +24,8 @@
     "test:all:db": "jest -c test/config/all-db.json",
     "test:coverage": "yarn test:all:db --coverage",
     "test:ci": "yarn test:coverage",
-    "migration:generate": "mikro-orm migration:create",
-    "migration:run": "mikro-orm migration:up",
-    "migration:revert": "mikro-orm migration:down",
+    "migration:run": "ts-node ./src/database/migrate.ts",
+    "migration:revert": "ts-node ./src/database/migrate-revert.ts",
     "precommit": "yarn typecheck && yarn format:fix && yarn lint:fix",
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
@@ -35,35 +34,29 @@
     "yarn": "~1.22.5"
   },
   "dependencies": {
-    "@mikro-orm/cli": "4.5.10",
-    "@mikro-orm/core": "4.5.10",
-    "@mikro-orm/nestjs": "4.3.1",
-    "@mikro-orm/postgresql": "4.5.10",
-    "@mikro-orm/reflection": "4.5.10",
     "@nestjs/axios": "0.0.5",
     "@nestjs/common": "8.2.6",
     "@nestjs/core": "8.2.6",
     "@nestjs/platform-express": "8.2.6",
     "@nestjs/swagger": "5.1.5",
     "@nestjs/terminus": "8.0.4",
-    "@nestjs/typeorm": "8.0.3",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "express": "4.17.2",
+    "kysely": "^0.17.1",
     "leaked-handles": "5.2.0",
     "morgan": "1.10.0",
     "nestjs-pino": "2.5.0",
     "node-fetch": "3.2.0",
+    "pg": "^8.7.3",
     "pino-http": "6.6.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "7.5.2",
     "swagger-ui-express": "4.3.0",
-    "typeorm": "0.2.41",
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@mikro-orm/migrations": "4.5.10",
     "@nestjs/cli": "8.2.0",
     "@nestjs/schematics": "8.0.5",
     "@nestjs/testing": "8.2.6",
@@ -76,6 +69,7 @@
     "@types/pino-http": "5.8.1",
     "@types/supertest": "2.0.11",
     "@types/uuid": "8.3.4",
+    "@types/validator": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "5.10.0",
     "@typescript-eslint/parser": "5.10.0",
     "eslint": "8.7.0",
@@ -94,12 +88,5 @@
     "ts-node": "10.4.0",
     "tsconfig-paths": "3.12.0",
     "typescript": "4.5.5"
-  },
-  "mikro-orm": {
-    "useTsNode": true,
-    "configPaths": [
-      "./src/database/orm.config.ts",
-      "./dist/database/orm.config.ts"
-    ]
   }
 }

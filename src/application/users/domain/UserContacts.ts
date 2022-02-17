@@ -1,34 +1,34 @@
-import { Contact } from './Contact'
+import { UserContact } from './UserContact'
 import { DomainCollection } from '../../../shared/domain/hex/DomainCollection'
 
-export type ContactsPrimitives = ReturnType<typeof Contacts['toPrimitives']>
+export type ContactsPrimitives = ReturnType<typeof UserContacts['toPrimitives']>
 
-export class Contacts extends DomainCollection<Contact> {
+export class UserContacts extends DomainCollection<UserContact> {
   static empty() {
-    return new Contacts([])
+    return new UserContacts([])
   }
 
   static fromPrimitives(contactsPrimitives: ContactsPrimitives) {
-    return new Contacts(contactsPrimitives.map(Contact.fromPrimitives))
+    return new UserContacts(contactsPrimitives.map(UserContact.fromPrimitives))
   }
 
-  static toPrimitives(contacts: Contacts) {
-    return contacts.getItems().map(Contact.toPrimitives)
+  static toPrimitives(contacts: UserContacts) {
+    return contacts.items.map(UserContact.toPrimitives)
   }
 
-  commonWith(other: Contacts): Contacts {
+  commonWith(other: UserContacts): UserContacts {
     return this.filter((contact) => other.includes(contact))
   }
 
-  private filter(cb: (c: Contact) => boolean): Contacts {
-    return new Contacts(this.getItems().filter(cb))
+  private filter(cb: (c: UserContact) => boolean): UserContacts {
+    return new UserContacts(this.items.filter(cb))
   }
 
-  private includes(other: Contact) {
-    return this.getItems().some((contact) => contact.equals(other))
+  private includes(other: UserContact) {
+    return this.items.some((contact) => contact.equals(other))
   }
 
   toPrimitives() {
-    return Contacts.toPrimitives(this)
+    return UserContacts.toPrimitives(this)
   }
 }

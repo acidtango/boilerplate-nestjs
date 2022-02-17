@@ -1,8 +1,8 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { SingleValueObject } from '../../../shared/domain/hex/SingleValueObject'
 
 export type UserPhoneNumberPrimitives = ReturnType<typeof UserPhoneNumber['toPrimitives']>
 
-export class UserPhoneNumber extends ValueObject<string> {
+export class UserPhoneNumber extends SingleValueObject<string> {
   static fromPrimitives(userPrimitives: UserPhoneNumberPrimitives) {
     return new UserPhoneNumber(userPrimitives)
   }

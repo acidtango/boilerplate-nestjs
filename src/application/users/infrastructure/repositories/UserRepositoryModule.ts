@@ -1,6 +1,6 @@
-import { Global, Module } from '@nestjs/common'
+import { Global, Inject, Module, OnModuleDestroy, Optional } from '@nestjs/common'
 import { USER_REPOSITORY_TOKEN } from '../../domain/UserRepository'
-import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
+import { UserRepositoryKysely } from './UserRepositoryKysely'
 
 @Global()
 @Module({
@@ -8,8 +8,16 @@ import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
   providers: [
     {
       provide: USER_REPOSITORY_TOKEN,
-      useClass: UserRepositoryMikroORM,
+      useClass: UserRepositoryKysely,
     },
   ],
 })
-export class UserRepositoryModule {}
+export class UserRepositoryModule implements OnModuleDestroy {
+  constructor(
+    @Optional() @Inject(USER_REPOSITORY_TOKEN) private userRepository?: UserRepositoryKysely
+  ) {}
+
+  async onModuleDestroy(): Promise<void> {
+    await this.userRepository?.destroy()
+  }
+}
