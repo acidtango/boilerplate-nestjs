@@ -3,7 +3,7 @@ import { config } from '../../../config'
 
 @Injectable()
 export class ApplicationShutdownService implements OnApplicationShutdown {
-  private readonly logger = new Logger(ApplicationShutdownService.name)
+  private readonly logger = new Logger('ApplicationShutdownService')
 
   onApplicationShutdown(signal?: string) {
     if (!config.testModeEnabled && signal) {
