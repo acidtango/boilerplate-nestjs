@@ -99,8 +99,4 @@ export class UserRepositoryKysely implements UserRepository {
       .values(contacts.map(contactPrimitivesToDatabase(id)))
       .execute()
   }
-
-  async destroy() {
-    await this.db.destroy()
-  }
 }

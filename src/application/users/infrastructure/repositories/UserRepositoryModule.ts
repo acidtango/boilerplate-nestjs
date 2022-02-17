@@ -12,12 +12,4 @@ import { UserRepositoryKysely } from './UserRepositoryKysely'
     },
   ],
 })
-export class UserRepositoryModule implements OnModuleDestroy {
-  constructor(
-    @Optional() @Inject(USER_REPOSITORY_TOKEN) private userRepository?: UserRepositoryKysely
-  ) {}
-
-  async onModuleDestroy(): Promise<void> {
-    await this.userRepository?.destroy()
-  }
-}
+export class UserRepositoryModule {}
