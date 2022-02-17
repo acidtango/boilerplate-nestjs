@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common'
 import { DomainService } from '../../../shared/domain/hex/DomainService'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { UserNotFoundError } from './errors/UserNotFoundError'

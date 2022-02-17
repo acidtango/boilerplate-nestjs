@@ -4,45 +4,24 @@ import { User, UserPrimitives } from '../../domain/User'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
 import { Nullable } from '../../../../shared/domain/utils/Nullable'
-import { ContactPrimitives, UserContact } from '../../domain/UserContact'
+import { UserContact } from '../../domain/UserContact'
 import { Inject } from '@nestjs/common'
-import { ContactsTable } from '../../../../database/schemas/ContactsTable'
-import { UsersTable } from '../../../../database/schemas/UsersTable'
+import {
+  contactPrimitivesToDatabase,
+  ContactsTable,
+} from '../../../../database/schemas/ContactsTable'
+import {
+  userDatabaseToPrimitives,
+  userPrimitivesToDatabase,
+  UsersTable,
+} from '../../../../database/schemas/UsersTable'
 import { DATABASE_CONNECTION, DatabaseConnection } from '../../../../database/DatabaseConnection'
 
-type UserTableAggreagation = UsersTable & { contacts: ContactsTable[] }
+type UserTableAggregation = UsersTable & { contacts: ContactsTable[] }
 
 export class UserRepositoryKysely implements UserRepository {
-  private static toDomain = (user: UserTableAggreagation) =>
-    User.fromPrimitives({
-      id: user.id,
-      phone: user.phone,
-      name: user.phone,
-      lastName: user.last_name,
-      contacts: user.contacts.map(
-        (c): ContactPrimitives => ({
-          phone: c.phone,
-          name: c.name,
-        })
-      ),
-    })
-
-  private static userToDatabase = (user: UserPrimitives): UsersTable => ({
-    id: user.id,
-    name: user.name,
-    phone: user.phone,
-    last_name: user.lastName,
-  })
-
-  private static contactToDatabase =
-    (userId: string) =>
-    (contact: ContactPrimitives): ContactsTable => {
-      return {
-        name: contact.name,
-        phone: contact.phone,
-        user_id: userId,
-      }
-    }
+  private static toDomain = ({ contacts, ...user }: UserTableAggregation): User =>
+    User.fromPrimitives(userDatabaseToPrimitives(user, contacts))
 
   constructor(@Inject(DATABASE_CONNECTION) private db: DatabaseConnection) {}
 
@@ -101,10 +80,8 @@ export class UserRepositoryKysely implements UserRepository {
 
     await this.db
       .insertInto('users')
-      .values(UserRepositoryKysely.userToDatabase(userPrimitives))
-      .onConflict((oc) =>
-        oc.column('id').doUpdateSet(UserRepositoryKysely.userToDatabase(userPrimitives))
-      )
+      .values(userPrimitivesToDatabase(userPrimitives))
+      .onConflict((oc) => oc.column('id').doUpdateSet(userPrimitivesToDatabase(userPrimitives)))
       .execute()
 
     await this.saveContacts(userPrimitives)
@@ -119,7 +96,7 @@ export class UserRepositoryKysely implements UserRepository {
 
     await this.db
       .insertInto('contacts')
-      .values(contacts.map(UserRepositoryKysely.contactToDatabase(id)))
+      .values(contacts.map(contactPrimitivesToDatabase(id)))
       .execute()
   }
 
