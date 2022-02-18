@@ -76,25 +76,30 @@ export class UserRepositoryKysely implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    const userPrimitives = user.toPrimitives()
+    await this.db.transaction().execute(async (tx) => {
+      const userPrimitives = user.toPrimitives()
 
-    await this.db
+      await this.saveUser(tx, userPrimitives)
+      await this.saveContacts(tx, userPrimitives)
+    })
+  }
+
+  private async saveUser(tx: DatabaseConnection, userPrimitives: UserPrimitives) {
+    await tx
       .insertInto('users')
       .values(userPrimitivesToDatabase(userPrimitives))
       .onConflict((oc) => oc.column('id').doUpdateSet(userPrimitivesToDatabase(userPrimitives)))
       .execute()
-
-    await this.saveContacts(userPrimitives)
   }
 
-  private async saveContacts({ id, contacts }: UserPrimitives) {
-    await this.db.deleteFrom('contacts').where('contacts.user_id', '=', id).execute()
+  private async saveContacts(tx: DatabaseConnection, { id, contacts }: UserPrimitives) {
+    await tx.deleteFrom('contacts').where('contacts.user_id', '=', id).execute()
 
     if (!contacts.length) {
       return
     }
 
-    await this.db
+    await tx
       .insertInto('contacts')
       .values(contacts.map(contactPrimitivesToDatabase(id)))
       .execute()
