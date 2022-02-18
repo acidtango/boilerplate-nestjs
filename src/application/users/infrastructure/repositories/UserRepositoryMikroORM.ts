@@ -29,10 +29,13 @@ export class UserRepositoryMikroORM implements UserRepository {
       return null
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     user.contacts.commonWith = Contacts.prototype.commonWith.bind(user.contacts)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     user.contacts.filter = Contacts.prototype.filter.bind(user.contacts)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     user.contacts.includes = Contacts.prototype.includes.bind(user.contacts)
 

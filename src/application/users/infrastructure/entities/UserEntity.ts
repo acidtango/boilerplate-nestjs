@@ -1,10 +1,10 @@
-import { EntityProperty, EntitySchema, Platform, ReferenceType, Type } from '@mikro-orm/core'
+import { EntitySchema, ReferenceType, Type } from '@mikro-orm/core'
 import { User } from '../../domain/User'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
 
 export class UserIdType extends Type<UserId, string> {
-  convertToDatabaseValue(value: UserId | string, platform: Platform): string {
+  convertToDatabaseValue(value: UserId | string): string {
     if (value instanceof UserId) {
       return value.toPrimitives()
     }
@@ -12,17 +12,17 @@ export class UserIdType extends Type<UserId, string> {
     return value
   }
 
-  convertToJSValue(value: string, platform: Platform): UserId {
+  convertToJSValue(value: string): UserId {
     return UserId.fromPrimitives(value)
   }
 
-  getColumnType(prop: EntityProperty, platform: Platform) {
+  getColumnType() {
     return `text`
   }
 }
 
 export class UserPhoneType extends Type<UserPhoneNumber, string> {
-  convertToDatabaseValue(value: UserPhoneNumber | string, platform: Platform): string {
+  convertToDatabaseValue(value: UserPhoneNumber | string): string {
     if (value instanceof UserPhoneNumber) {
       return value.toPrimitives()
     }
@@ -30,11 +30,11 @@ export class UserPhoneType extends Type<UserPhoneNumber, string> {
     return value
   }
 
-  convertToJSValue(value: string, platform: Platform): UserPhoneNumber {
+  convertToJSValue(value: string): UserPhoneNumber {
     return UserPhoneNumber.fromPrimitives(value)
   }
 
-  getColumnType(prop: EntityProperty, platform: Platform) {
+  getColumnType() {
     return `text`
   }
 }

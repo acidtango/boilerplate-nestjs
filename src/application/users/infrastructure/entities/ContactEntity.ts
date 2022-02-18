@@ -1,11 +1,11 @@
 import { randomUUID } from 'crypto' // Added in: node v14.17.0
-import { EntityProperty, EntitySchema, Platform, ReferenceType, Type } from '@mikro-orm/core'
+import { EntitySchema, ReferenceType, Type } from '@mikro-orm/core'
 import { Contact } from '../../domain/Contact'
 import { UserPhoneNumber } from '../../domain/UserPhoneNumber'
 import { UserName } from '../../domain/UserName'
 
 export class UserPhoneType extends Type<UserPhoneNumber, string> {
-  convertToDatabaseValue(value: UserPhoneNumber | string, platform: Platform): string {
+  convertToDatabaseValue(value: UserPhoneNumber | string): string {
     if (value instanceof UserPhoneNumber) {
       return value.toPrimitives()
     }
@@ -13,17 +13,17 @@ export class UserPhoneType extends Type<UserPhoneNumber, string> {
     return value
   }
 
-  convertToJSValue(value: string, platform: Platform): UserPhoneNumber {
+  convertToJSValue(value: string): UserPhoneNumber {
     return UserPhoneNumber.fromPrimitives(value)
   }
 
-  getColumnType(prop: EntityProperty, platform: Platform) {
+  getColumnType() {
     return `text`
   }
 }
 
 export class UserNameType extends Type<UserName, string> {
-  convertToDatabaseValue(value: UserName | string, platform: Platform): string {
+  convertToDatabaseValue(value: UserName | string): string {
     if (value instanceof UserName) {
       return value.toPrimitives()
     }
@@ -31,11 +31,11 @@ export class UserNameType extends Type<UserName, string> {
     return value
   }
 
-  convertToJSValue(value: string, platform: Platform): UserName {
+  convertToJSValue(value: string): UserName {
     return UserName.fromPrimitives(value)
   }
 
-  getColumnType(prop: EntityProperty, platform: Platform) {
+  getColumnType() {
     return `text`
   }
 }
