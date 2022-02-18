@@ -1,6 +1,6 @@
-import { Kysely } from 'kysely'
+import { DatabaseConnection } from '../DatabaseConnection'
 
-export async function up(db: Kysely<any>): Promise<void> {
+export async function up(db: DatabaseConnection): Promise<void> {
   await db.schema
     .createTable('users')
     .addColumn('id', 'varchar(36)', (col) => col.primaryKey())
@@ -21,7 +21,7 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema.createIndex('contacts_user_id_index').on('contacts').column('user_id').execute()
 }
 
-export async function down(db: Kysely<any>): Promise<void> {
+export async function down(db: DatabaseConnection): Promise<void> {
   await db.schema.dropTable('contacts').execute()
   await db.schema.dropTable('users').execute()
 }

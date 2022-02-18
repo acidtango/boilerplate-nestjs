@@ -7,6 +7,7 @@ import { Nullable } from '../../../../shared/domain/utils/Nullable'
 import { UserContact } from '../../domain/UserContact'
 import { Inject } from '@nestjs/common'
 import {
+  contactDatabaseToPrimitives,
   contactPrimitivesToDatabase,
   ContactsTable,
 } from '../../../../database/schemas/ContactsTable'
@@ -21,7 +22,7 @@ type UserTableAggregation = UsersTable & { contacts: ContactsTable[] }
 
 export class UserRepositoryKysely implements UserRepository {
   private static toDomain = ({ contacts, ...user }: UserTableAggregation): User =>
-    User.fromPrimitives(userDatabaseToPrimitives(user, contacts))
+    User.fromPrimitives(userDatabaseToPrimitives(user, contacts.map(contactDatabaseToPrimitives)))
 
   constructor(@Inject(DATABASE_CONNECTION) private db: DatabaseConnection) {}
 
@@ -76,15 +77,19 @@ export class UserRepositoryKysely implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    await this.db.transaction().execute(async (tx) => {
-      const userPrimitives = user.toPrimitives()
-
-      await this.saveUser(tx, userPrimitives)
-      await this.saveContacts(tx, userPrimitives)
-    })
+    await this.db.transaction().execute(UserRepositoryKysely.save(user))
   }
 
-  private async saveUser(tx: DatabaseConnection, userPrimitives: UserPrimitives) {
+  private static save =
+    (user: User) =>
+    async (tx: DatabaseConnection): Promise<void> => {
+      const userPrimitives = user.toPrimitives()
+
+      await UserRepositoryKysely.saveUser(tx, userPrimitives)
+      await UserRepositoryKysely.saveContacts(tx, userPrimitives)
+    }
+
+  private static async saveUser(tx: DatabaseConnection, userPrimitives: UserPrimitives) {
     await tx
       .insertInto('users')
       .values(userPrimitivesToDatabase(userPrimitives))
@@ -92,7 +97,7 @@ export class UserRepositoryKysely implements UserRepository {
       .execute()
   }
 
-  private async saveContacts(tx: DatabaseConnection, { id, contacts }: UserPrimitives) {
+  private static async saveContacts(tx: DatabaseConnection, { id, contacts }: UserPrimitives) {
     await tx.deleteFrom('contacts').where('contacts.user_id', '=', id).execute()
 
     if (!contacts.length) {
