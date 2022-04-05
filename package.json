@@ -63,7 +63,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@mikro-orm/migrations": "4.5.10",
+    "@mikro-orm/migrations": "5.1.1",
     "@nestjs/cli": "8.2.4",
     "@nestjs/schematics": "8.0.8",
     "@nestjs/testing": "8.4.3",
@@ -80,7 +80,7 @@
     "@typescript-eslint/parser": "5.17.0",
     "eslint": "8.12.0",
     "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-airbnb-typescript": "16.1.4",
+    "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-import": "0.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.25.4",
