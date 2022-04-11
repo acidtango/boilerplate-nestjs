@@ -37,8 +37,8 @@ jobs:
           --health-retries 5
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2.1.7
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3.0.2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
@@ -67,7 +67,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
