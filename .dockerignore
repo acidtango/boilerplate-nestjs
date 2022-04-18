@@ -2,6 +2,7 @@
 !src
 !yarn.lock
 !package.json
+!nest-cli.json
 !tsconfig.json
 !tsconfig.build.json
 !docker/entrypoint.local.sh
