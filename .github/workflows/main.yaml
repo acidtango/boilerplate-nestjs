@@ -61,7 +61,7 @@ jobs:
           DB_DATABASE: develop
 
   docker-build:
-    needs: tests
+    needs: skip-draft
     name: Build Docker Container
     runs-on: ubuntu-latest
     timeout-minutes: 5
