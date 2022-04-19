@@ -33,6 +33,12 @@
       "groupName": "beta",
       "prPriority": 10,
       "automerge": false
+    },
+    {
+      "matchPackagePatterns": ["^typeorm", "^@mikro-orm"],
+      "groupName": "orm",
+      "prPriority": 5,
+      "automerge": false
     }
   ]
 }
