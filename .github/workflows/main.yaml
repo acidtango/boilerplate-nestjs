@@ -17,12 +17,34 @@ jobs:
       - name: success
         run: echo "is not a draft PR"
 
-  tests:
+  lint:
     needs: skip-draft
-    name: Lint & Test
+    name: Lint
     runs-on: ubuntu-latest
     container: node:lts
-    timeout-minutes: 5
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Typecheck
+        run: yarn typecheck
+      - name: Eslint
+        run: yarn lint:ci
+      - name: Prettier
+        run: yarn format:ci
+
+  tests:
+    needs: skip-draft
+    name: Test
+    runs-on: ubuntu-latest
+    container: node:lts
+    timeout-minutes: 10
     services:
       database:
         image: postgres:14.1-alpine
@@ -44,12 +66,6 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Typecheck
-        run: yarn typecheck
-      - name: Eslint
-        run: yarn lint:ci
-      - name: Prettier
-        run: yarn format:ci
       - name: Tests
         run: |
           yarn migration:run
