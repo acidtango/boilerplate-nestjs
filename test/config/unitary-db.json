@@ -5,7 +5,7 @@
   "testRegex": "\\.spec.ts$",
   "modulePathIgnorePatterns": ["integration\\.spec.ts$"],
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
+    "^.+\\.(t|j)s$": "@swc/jest"
   },
   "setupFiles": ["<rootDir>/test/config/setup-env-db.ts"],
   "setupFilesAfterEnv": ["<rootDir>/test/setup.ts", "<rootDir>/test/config/setup-db.ts"],
