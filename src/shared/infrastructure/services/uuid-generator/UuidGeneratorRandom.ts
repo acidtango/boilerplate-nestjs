@@ -1,8 +1,12 @@
-import { v4 } from 'uuid'
+import { randomUUID } from 'crypto'
 import { UuidGenerator } from '../../../domain/services/UuidGenerator'
 
 export class UuidGeneratorRandom implements UuidGenerator {
+  public static generate(): string {
+    return randomUUID()
+  }
+
   generate(): string {
-    return v4()
+    return UuidGeneratorRandom.generate()
   }
 }

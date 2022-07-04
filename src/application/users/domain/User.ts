@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { Contact } from './Contact'
+import { UserCreated } from './events/UserCreated'
 
 export type UserPrimitives = ReturnType<typeof User['toPrimitives']>
 
@@ -36,7 +37,11 @@ export class User extends AggregateRoot {
     lastName: string
     phone: string
   }) {
-    return new User(userId, name, lastName, phone, [])
+    const user = new User(userId, name, lastName, phone, [])
+
+    user.recordEvent(new UserCreated(userId, name, lastName, phone))
+
+    return user
   }
 
   constructor(

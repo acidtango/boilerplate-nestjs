@@ -5,10 +5,17 @@ import { UserContactsUpdater } from '../../application/users/use-cases/UserConta
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserFinder } from '../../application/users/use-cases/UserFinder'
 import { UsersController } from './UsersController'
+import { UserCreatedSubscriber } from '../../application/users/domain/events/UserCreatedSubscriber'
 
 @Module({
   imports: [UserRepositoryModule],
   controllers: [UsersController],
-  providers: [UserCreator, UserContactsUpdater, UserFinder, ContactsInCommonFetcher],
+  providers: [
+    UserCreator,
+    UserContactsUpdater,
+    UserFinder,
+    ContactsInCommonFetcher,
+    UserCreatedSubscriber,
+  ],
 })
 export class UsersModule {}

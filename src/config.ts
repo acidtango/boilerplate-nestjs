@@ -1,4 +1,6 @@
 // Please keep this alphabetically ordered.
+import { Connection } from 'amqp-ts'
+
 export const config = {
   db: {
     postgresql: {
@@ -17,6 +19,14 @@ export const config = {
     baseURL: process.env.NEUTRINO_API_BASE_URL || 'https://neutrinoapi.net',
     userId: process.env.NEUTRINO_API_USER_ID || '',
     apiKey: process.env.NEUTRINO_API_KEY || '',
+  },
+  eventBus: {
+    username: 'acid',
+    password: 'password',
+    hostname: 'localhost',
+    port: '5672',
+    exchange: 'DomainEvents',
+    queue: 'api-core',
   },
   testModeEnabled: process.env.NODE_ENV === 'test',
   runThirdPartyTests: process.env.RUN_THIRD_PARTY_TESTS === 'true',

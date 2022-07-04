@@ -9,6 +9,7 @@ import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-gene
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
 import { HealthModule } from './health/HealthModule'
 import { UsersModule } from './users/UsersModule'
+import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from './users/UsersModule'
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
+    EventBusModule,
     PhoneValidatorModule,
     UuidGeneratorModule,
     UsersModule,

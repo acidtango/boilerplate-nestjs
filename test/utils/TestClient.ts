@@ -9,6 +9,8 @@ import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneVal
 import { MICHAEL } from '../../src/shared/fixtures/users'
 import { DatabaseHealthIndicatorMikroOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorMikroOrm'
 import { AllDependencies } from './dependencies'
+import { EVENT_BUS_TOKEN } from '../../src/shared/domain/events/EventBus'
+import { EventBusFake } from '../../src/shared/infrastructure/events/EventBusFake'
 
 export class TestClient {
   private app!: Server
@@ -35,6 +37,8 @@ export class TestClient {
       .useValue(dependencies.databaseHealthIndicator)
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useValue(dependencies.phoneValidator)
+      .overrideProvider(EVENT_BUS_TOKEN)
+      .useClass(EventBusFake)
 
     if (!config.forceEnableORMRepositories) {
       // We need to change the repositories with the orm ones

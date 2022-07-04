@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
 import { UUID_GENERATOR_TOKEN } from '../../../domain/services/UuidGenerator'
-import { UuidGeneratorDeterministic } from './UuidGeneratorDeterministic'
+import { UuidGeneratorRandom } from './UuidGeneratorRandom'
 
 @Global()
 @Module({
@@ -8,7 +8,7 @@ import { UuidGeneratorDeterministic } from './UuidGeneratorDeterministic'
   providers: [
     {
       provide: UUID_GENERATOR_TOKEN,
-      useClass: UuidGeneratorDeterministic,
+      useClass: UuidGeneratorRandom,
     },
   ],
 })

@@ -8,6 +8,14 @@ services:
       POSTGRES_USER: acid
     ports:
       - "5432:5432"
+  queue:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: acid
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   api:
     build:
       context: .

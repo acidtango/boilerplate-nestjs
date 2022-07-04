@@ -9,12 +9,14 @@ import { InvalidPhoneError } from '../domain/errors/InvalidPhoneError'
 import { PhoneInUseError } from '../domain/errors/PhoneInUseError'
 import { User } from '../domain/User'
 import { UserRepository, USER_REPOSITORY_TOKEN } from '../domain/UserRepository'
+import { EVENT_BUS_TOKEN, EventBus } from '../../../shared/domain/events/EventBus'
 
 @Injectable()
 export class UserCreator extends UseCase {
   constructor(
     @Inject(PHONE_VALIDATOR_TOKEN) private phoneValidator: PhoneValidator,
-    @Inject(USER_REPOSITORY_TOKEN) private userRepository: UserRepository
+    @Inject(USER_REPOSITORY_TOKEN) private userRepository: UserRepository,
+    @Inject(EVENT_BUS_TOKEN) private eventBus: EventBus
   ) {
     super()
   }
@@ -24,6 +26,7 @@ export class UserCreator extends UseCase {
 
     const user = User.create({ userId, name, lastName, phone })
     await this.userRepository.save(user)
+    await this.eventBus.publish(user.pullDomainEvents())
 
     return user
   }
