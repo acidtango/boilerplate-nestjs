@@ -27,9 +27,9 @@ export class UserCreated extends DomainEvent {
 
   constructor(
     userId: UserId,
-    private name: string,
-    private lastName: string,
-    private phone: string
+    public readonly name: string,
+    public readonly lastName: string,
+    public readonly phone: string
   ) {
     super(UserCreated.eventName, userId)
   }

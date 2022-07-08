@@ -10,6 +10,7 @@ import { PhoneInUseError } from '../domain/errors/PhoneInUseError'
 import { User } from '../domain/User'
 import { UserRepository, USER_REPOSITORY_TOKEN } from '../domain/UserRepository'
 import { EVENT_BUS_TOKEN, EventBus } from '../../../shared/domain/events/EventBus'
+import { AdminId } from '../../../shared/domain/ids/AdminId'
 
 @Injectable()
 export class UserCreator extends UseCase {
@@ -21,12 +22,19 @@ export class UserCreator extends UseCase {
     super()
   }
 
-  async execute(userId: UserId, name: string, lastName: string, phone: string): Promise<User> {
+  async execute(
+    adminId: AdminId,
+    userId: UserId,
+    name: string,
+    lastName: string,
+    phone: string
+  ): Promise<User> {
     await this.validatePhone(phone)
 
     const user = User.create({ userId, name, lastName, phone })
     await this.userRepository.save(user)
-    await this.eventBus.publish(user.pullDomainEvents())
+
+    await this.eventBus.publishEventsOf({ aggregateRoot: user, executorId: adminId })
 
     return user
   }

@@ -1,5 +1,4 @@
 import { DomainEventMapper, SubscribersAndEvent } from './DomainEventMapper'
-import { UserCreatedSubscriber } from '../../../application/users/domain/events/UserCreatedSubscriber'
 import { UserCreated } from '../../../application/users/domain/events/UserCreated'
 import { DomainEventSubscriber } from '../../domain/events/DomainEventSubscriber'
 import { DomainEvent } from '../../domain/events/DomainEvent'

@@ -19,6 +19,7 @@ export const STUART_CONTACT = {
 }
 
 export const MICHAEL = {
+  uuid: 'dc835ae2-4399-46fd-a5fb-080f0ca793e1',
   name: MICHAEL_CONTACT.name,
   lastName: 'Phelps',
   phone: MICHAEL_CONTACT.phone,

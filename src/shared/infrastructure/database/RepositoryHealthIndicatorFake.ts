@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus'
-import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
+import { RepositoryHealthIndicator } from './RepositoryHealthIndicator'
 
 @Injectable()
-export class DatabaseHealthIndicatorFake extends HealthIndicator implements CustomHealthIndicator {
-  constructor(private throwError: boolean = false) {
+export class RepositoryHealthIndicatorFake
+  extends HealthIndicator
+  implements RepositoryHealthIndicator
+{
+  private throwError: boolean = false
+
+  constructor() {
     super()
   }
 
-  static withError(): DatabaseHealthIndicatorFake {
-    return new DatabaseHealthIndicatorFake(true)
+  forceThrowError() {
+    this.throwError = true
   }
 
   async checkHealth(key: string): Promise<HealthIndicatorResult> {

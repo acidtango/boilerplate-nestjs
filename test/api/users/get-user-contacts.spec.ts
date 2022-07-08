@@ -4,23 +4,22 @@ import { createClient } from '../../utils/createClient'
 
 describe(`GET /v1/users/:id/contacts`, () => {
   it('retrieves the user contacts', async () => {
-    const client = await createClient()
-    const { michael } = await client.createMichaelAndOliverWithJaneInCommonAndRegistered()
+    const { client, utils } = await createClient()
+    const { michael } = await utils.createMichaelAndOliverWithJaneInCommonAndRegistered()
 
-    const { body: contacts } = await client
-      .getUserContacts({ id: michael.id })
-      .expect(HttpStatus.OK)
-      .run()
+    const { body: contacts } = await client.getUserContacts({ id: michael.id }).run()
 
     expect(contacts).toEqual(MICHAEL.contacts)
   })
 
   it('throws a 404 error if the user does not exist', async () => {
-    const client = await createClient()
+    const { client } = await createClient()
 
-    const { body, status } = await client.getUserContacts({ id: UNKNOWN.id }).run()
+    const { body } = await client
+      .getUserContacts({ id: UNKNOWN.id })
+      .expect(HttpStatus.NOT_FOUND)
+      .run()
 
     expect(body.error).toEqual('USER_NOT_FOUND_ERROR')
-    expect(status).toEqual(HttpStatus.NOT_FOUND)
   })
 })

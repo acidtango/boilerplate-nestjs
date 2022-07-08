@@ -10,6 +10,7 @@ import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
 import { HealthModule } from './health/HealthModule'
 import { UsersModule } from './users/UsersModule'
 import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
+import { SMSClientModule } from '../shared/infrastructure/services/sms-client/SMSClientModule'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
     EventBusModule,
     PhoneValidatorModule,
     UuidGeneratorModule,
+    SMSClientModule,
     UsersModule,
     HealthModule,
   ],

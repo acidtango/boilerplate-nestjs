@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios'
 import { Global, Module } from '@nestjs/common'
 import { PHONE_VALIDATOR_TOKEN } from '../../../domain/services/PhoneValidator'
-import { PhoneValidatorNeutrino } from './PhoneValidatorNeutrino'
+import { PhoneValidatorFake } from './PhoneValidatorFake'
 
 @Global()
 @Module({
@@ -10,7 +10,7 @@ import { PhoneValidatorNeutrino } from './PhoneValidatorNeutrino'
   providers: [
     {
       provide: PHONE_VALIDATOR_TOKEN,
-      useClass: PhoneValidatorNeutrino,
+      useClass: PhoneValidatorFake,
     },
   ],
 })

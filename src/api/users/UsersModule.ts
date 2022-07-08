@@ -5,7 +5,7 @@ import { UserContactsUpdater } from '../../application/users/use-cases/UserConta
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserFinder } from '../../application/users/use-cases/UserFinder'
 import { UsersController } from './UsersController'
-import { UserCreatedSubscriber } from '../../application/users/domain/events/UserCreatedSubscriber'
+import { WelcomeEmailSender } from '../../application/users/use-cases/subscribers/WelcomeEmailSender'
 
 @Module({
   imports: [UserRepositoryModule],
@@ -15,7 +15,7 @@ import { UserCreatedSubscriber } from '../../application/users/domain/events/Use
     UserContactsUpdater,
     UserFinder,
     ContactsInCommonFetcher,
-    UserCreatedSubscriber,
+    WelcomeEmailSender,
   ],
 })
 export class UsersModule {}

@@ -2,12 +2,12 @@ import { MikroORM } from '@mikro-orm/core'
 import { PostgreSqlDriver } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
 import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus'
-import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
+import { RepositoryHealthIndicator } from './RepositoryHealthIndicator'
 
 @Injectable()
-export class DatabaseHealthIndicatorMikroOrm
+export class RepositoryHealthIndicatorMikroOrm
   extends HealthIndicator
-  implements CustomHealthIndicator
+  implements RepositoryHealthIndicator
 {
   constructor(private readonly orm: MikroORM<PostgreSqlDriver>) {
     super()

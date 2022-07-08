@@ -9,23 +9,27 @@ import {
 } from '../../src/shared/fixtures/users'
 import { TestClient } from './TestClient'
 
-export class TestClientUtils extends TestClient {
-  async createMichaelAndOliverWithJaneInCommonAndRegistered() {
-    const { body: michael } = await this.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
-    const { body: oliver } = await this.createUser(OLIVER).expect(HttpStatus.CREATED).run()
-    await this.createUser(JANE).expect(HttpStatus.CREATED).run()
+export class TestClientUtils {
+  constructor(private client: TestClient) {}
 
-    await this.updateUserContacts({
-      id: michael.id,
-      contacts: [JANE_CONTACT, OLIVER_CONTACT],
-    })
+  async createMichaelAndOliverWithJaneInCommonAndRegistered() {
+    const { body: michael } = await this.client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
+    const { body: oliver } = await this.client.createUser(OLIVER).expect(HttpStatus.CREATED).run()
+    await this.client.createUser(JANE).expect(HttpStatus.CREATED).run()
+
+    await this.client
+      .updateUserContacts({
+        id: michael.id,
+        contacts: [JANE_CONTACT, OLIVER_CONTACT],
+      })
       .expect(HttpStatus.CREATED)
       .run()
 
-    await this.updateUserContacts({
-      id: oliver.id,
-      contacts: [JANE_CONTACT, MICHAEL_CONTACT],
-    })
+    await this.client
+      .updateUserContacts({
+        id: oliver.id,
+        contacts: [JANE_CONTACT, MICHAEL_CONTACT],
+      })
       .expect(HttpStatus.CREATED)
       .run()
 
@@ -33,20 +37,22 @@ export class TestClientUtils extends TestClient {
   }
 
   async createMichaelAndOliverWithJaneInCommonButNotRegistered() {
-    const { body: michael } = await this.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
-    const { body: oliver } = await this.createUser(OLIVER).expect(HttpStatus.CREATED).run()
+    const { body: michael } = await this.client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
+    const { body: oliver } = await this.client.createUser(OLIVER).expect(HttpStatus.CREATED).run()
 
-    await this.updateUserContacts({
-      id: michael.id,
-      contacts: [JANE_CONTACT, OLIVER_CONTACT],
-    })
+    await this.client
+      .updateUserContacts({
+        id: michael.id,
+        contacts: [JANE_CONTACT, OLIVER_CONTACT],
+      })
       .expect(HttpStatus.CREATED)
       .run()
 
-    await this.updateUserContacts({
-      id: oliver.id,
-      contacts: [JANE_CONTACT, MICHAEL_CONTACT],
-    })
+    await this.client
+      .updateUserContacts({
+        id: oliver.id,
+        contacts: [JANE_CONTACT, MICHAEL_CONTACT],
+      })
       .expect(HttpStatus.CREATED)
       .run()
 

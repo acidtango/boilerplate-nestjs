@@ -1,3 +1,4 @@
+import { DomainId } from '../hex/DomainId'
 import { DomainEvent } from './DomainEvent'
 
 export abstract class DomainEventSubscriber<T extends DomainEvent> {
@@ -5,5 +6,5 @@ export abstract class DomainEventSubscriber<T extends DomainEvent> {
     return instance instanceof DomainEventSubscriber
   }
 
-  abstract on(domainEvent: T): Promise<void>
+  abstract on(domainEvent: T, executorId: DomainId): Promise<void>
 }

@@ -12,6 +12,7 @@ import { ContactsInCommonFetcher } from '../../application/users/use-cases/Conta
 import { UserContactsUpdater } from '../../application/users/use-cases/UserContactsUpdater'
 import { UserCreator } from '../../application/users/use-cases/UserCreator'
 import { UserFinder } from '../../application/users/use-cases/UserFinder'
+import { AdminId } from '../../shared/domain/ids/AdminId'
 import { UserId } from '../../shared/domain/ids/UserId'
 import { UuidGenerator, UUID_GENERATOR_TOKEN } from '../../shared/domain/services/UuidGenerator'
 import { ContactDto } from './dtos/ContactDto'
@@ -53,6 +54,7 @@ export class UsersController {
   @Post()
   async createUser(@Body() body: CreateUserDto): Promise<CreateUserResponseDto> {
     const user = await this.userCreator.execute(
+      new AdminId(this.uuidGenerator.generate()),
       new UserId(this.uuidGenerator.generate()),
       body.name,
       body.lastName,

@@ -1,12 +1,14 @@
 import { HttpStatus } from '@nestjs/common'
+import { SMS_CLIENT_TOKEN } from '../../../src/shared/domain/services/SMSClient'
 import { MICHAEL, OLIVER } from '../../../src/shared/fixtures/users'
+import { SMSClientFake } from '../../../src/shared/infrastructure/services/sms-client/SMSClientFake'
 import { createClient } from '../../utils/createClient'
 
 describe(`POST /v1/users`, () => {
   it('creates the user', async () => {
-    const client = await createClient()
+    const { client } = await createClient()
 
-    const { body } = await client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
+    const { body } = await client.createUser(MICHAEL).run()
 
     expect(body.id).toBeAnUuid()
     expect(body.name).toEqual(MICHAEL.name)
@@ -14,8 +16,17 @@ describe(`POST /v1/users`, () => {
     expect(body.phone).toEqual(MICHAEL.phone)
   })
 
+  it('sends a welcome sms to the user', async () => {
+    const { client } = await createClient()
+    const smsClient = client.get<SMSClientFake>(SMS_CLIENT_TOKEN)
+
+    await client.createUser(MICHAEL).run()
+
+    smsClient.expectToHaveBeenCalledWithPhone(MICHAEL.phone)
+  })
+
   it('fails to create the user if the phone number is invalid', async () => {
-    const client = await createClient()
+    const { client } = await createClient()
 
     await client
       .createUser({ ...MICHAEL, phone: 'invalid-phone' })
@@ -24,7 +35,7 @@ describe(`POST /v1/users`, () => {
   })
 
   it('fails to create the user if the phone is already in use by another user', async () => {
-    const client = await createClient()
+    const { client } = await createClient()
 
     await client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
     await client

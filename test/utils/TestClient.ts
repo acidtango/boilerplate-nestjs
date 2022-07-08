@@ -1,4 +1,4 @@
-import { INestApplication, VersioningType } from '@nestjs/common'
+import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
@@ -7,36 +7,21 @@ import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRe
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
-import { DatabaseHealthIndicatorMikroOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorMikroOrm'
-import { AllDependencies } from './dependencies'
 import { EVENT_BUS_TOKEN } from '../../src/shared/domain/events/EventBus'
 import { EventBusFake } from '../../src/shared/infrastructure/events/EventBusFake'
+import { RepositoryHealthIndicatorFake } from '../../src/shared/infrastructure/database/RepositoryHealthIndicatorFake'
+import { PhoneValidatorFake } from '../../src/shared/infrastructure/services/phone-validator/PhoneValidatorFake'
+import { UserRepositoryMemory } from '../../src/application/users/infrastructure/repositories/UserRepositoryMemory'
+import { REPOSITORY_HEALTH_INDICATOR_TOKEN } from '../../src/shared/infrastructure/database/RepositoryHealthIndicator'
 
 export class TestClient {
-  private app!: Server
-
-  private static apps: INestApplication[] = []
-
-  private static addAppInstance(app: INestApplication) {
-    this.apps.push(app)
-  }
-
-  public static async teardownApps() {
-    for await (const app of this.apps) {
-      app.close()
-    }
-  }
-
-  async initialize(dependencies: AllDependencies) {
-    // eslint-disable-next-line prefer-const
-    let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApiModule],
-    })
+  static async create() {
+    let testingModuleBuilder = Test.createTestingModule({ imports: [ApiModule] })
       // Here we override the necessary services
-      .overrideProvider(DatabaseHealthIndicatorMikroOrm)
-      .useValue(dependencies.databaseHealthIndicator)
+      .overrideProvider(REPOSITORY_HEALTH_INDICATOR_TOKEN)
+      .useClass(RepositoryHealthIndicatorFake)
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
-      .useValue(dependencies.phoneValidator)
+      .useClass(PhoneValidatorFake)
       .overrideProvider(EVENT_BUS_TOKEN)
       .useClass(EventBusFake)
 
@@ -44,46 +29,61 @@ export class TestClient {
       // We need to change the repositories with the orm ones
       testingModuleBuilder = testingModuleBuilder
         .overrideProvider(USER_REPOSITORY_TOKEN)
-        .useValue(dependencies.userRepository)
+        .useClass(UserRepositoryMemory)
     }
 
     const moduleFixture = await testingModuleBuilder.compile()
-    const nestApplication: INestApplication = moduleFixture.createNestApplication()
+    const nestApplication = moduleFixture.createNestApplication()
     nestApplication.enableVersioning({
       type: VersioningType.URI,
       prefix: config.apiVersioningPrefix,
     })
     await nestApplication.init()
 
-    TestClient.addAppInstance(nestApplication)
+    const server = nestApplication.getHttpServer()
 
-    this.app = nestApplication.getHttpServer()
+    return new TestClient(nestApplication, server)
+  }
+
+  constructor(private app: INestApplication, private server: Server) {}
+
+  get<T>(dependencyKey: string) {
+    return this.app.get<T>(dependencyKey)
   }
 
   health() {
-    return tepper(this.app).get('/health')
+    return tepper(this.server).get('/health')
   }
 
   createUser({ name = MICHAEL.name, lastName = MICHAEL.lastName, phone = MICHAEL.phone } = {}) {
-    return tepper(this.app).post('/api/v1/users').send({
-      name,
-      lastName,
-      phone,
-    })
+    return tepper(this.server)
+      .post('/api/v1/users')
+      .send({
+        name,
+        lastName,
+        phone,
+      })
+      .expect(HttpStatus.CREATED)
   }
 
   updateUserContacts({ id = '', contacts = MICHAEL.contacts } = {}) {
-    return tepper(this.app).post(`/api/v1/users/${id}/contacts`).send(contacts)
+    return tepper(this.server)
+      .post(`/api/v1/users/${id}/contacts`)
+      .expect(HttpStatus.CREATED)
+      .send(contacts)
   }
 
   getUserContacts({ id = '' }) {
-    return tepper(this.app).get(`/api/v1/users/${id}/contacts`)
+    return tepper(this.server).get(`/api/v1/users/${id}/contacts`).expect(HttpStatus.OK)
   }
 
   getCommonContacts(userId1: string, userId2: string) {
-    return tepper(this.app).get(`/api/v1/users/common-contacts`).withQuery({
-      userId1,
-      userId2,
-    })
+    return tepper(this.server)
+      .get(`/api/v1/users/common-contacts`)
+      .withQuery({
+        userId1,
+        userId2,
+      })
+      .expect(HttpStatus.OK)
   }
 }

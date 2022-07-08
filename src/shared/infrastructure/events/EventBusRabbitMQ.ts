@@ -1,12 +1,14 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { Connection, Exchange, Message, Queue } from 'amqp-ts'
-import { EventBus } from '../../domain/events/EventBus'
+import { EventBus, AggregateAndExecutor } from '../../domain/events/EventBus'
 import { DomainEvent } from '../../domain/events/DomainEvent'
 import { DomainEventName } from '../../domain/events/DomainEventName'
 import { DOMAIN_EVENT_MAPPER, DomainEventMapper } from './DomainEventMapper'
+import { DomainId } from '../../domain/hex/DomainId'
 
 type MessageContent = {
   data: {
+    executor_id: string
     type: DomainEventName
     occurred_at: Date
     id: string
@@ -35,17 +37,27 @@ export class EventBusRabbitMQ implements EventBus {
     await this.loadEventListeners()
   }
 
+  /**
+   * TODO: Move to module lifecycle
+   */
   async onApplicationShutdown() {
+    await this.stop()
+  }
+
+  async stop() {
     await this.connection.close()
   }
 
-  async publish(events: Array<DomainEvent>): Promise<void> {
+  async publishEventsOf({ aggregateRoot, executorId }: AggregateAndExecutor): Promise<void> {
+    const events = aggregateRoot.pullDomainEvents()
+
     for await (const event of events) {
       const content: MessageContent = {
         data: {
+          id: event.eventId.toPrimitives(),
+          executor_id: executorId.toPrimitives(),
           type: event.eventName,
           occurred_at: event.occurredAt,
-          id: event.eventId.toPrimitives(),
           attributes: event.toPrimitives(),
         },
         meta: {},
@@ -74,7 +86,7 @@ export class EventBusRabbitMQ implements EventBus {
 
     for await (const subscriber of subscribers) {
       const domainEvent = eventClass.fromPrimitives(event.data.attributes)
-      await subscriber.on(domainEvent)
+      await subscriber.on(domainEvent, new DomainId(event.data.executor_id))
     }
 
     message.ack()
