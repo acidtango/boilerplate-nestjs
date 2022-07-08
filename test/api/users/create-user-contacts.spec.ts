@@ -1,4 +1,3 @@
-import { HttpStatus } from '@nestjs/common'
 import { MICHAEL } from '../../../src/shared/fixtures/users'
 import { createClient } from '../../utils/createClient'
 

@@ -6,10 +6,13 @@ import { MICHAEL } from '../../fixtures/users'
 import { waitFor } from '../../../utils/waitFor'
 import { User } from '../../../application/users/domain/User'
 import { DomainId } from '../../domain/hex/DomainId'
+import { describeThirdParty } from '../../../../test/utils/describeThirdParty'
+import { SMSClientFake } from '../services/sms-client/SMSClientFake'
 
-describe('EventBusRabbitMQ', () => {
+describeThirdParty('EventBusRabbitMQ', () => {
   it('sends the event and calls the given subscriber', async () => {
-    const userCreatedSubscriber = new WelcomeEmailSender()
+    const smsClient = new SMSClientFake()
+    const userCreatedSubscriber = new WelcomeEmailSender(smsClient)
     jest.spyOn(userCreatedSubscriber, 'on')
     const domainEventMapper = new DomainEventMapperFake(userCreatedSubscriber)
     const eventBus = new EventBusRabbitMQ(domainEventMapper)
