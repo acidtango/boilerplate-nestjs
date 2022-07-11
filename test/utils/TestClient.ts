@@ -67,11 +67,5 @@ export class TestClient {
 
   async closeApp() {
     await this.app.close()
-    await new Promise<void>((resolve, reject) => {
-      this.server.close((error) => {
-        if (error) reject(error)
-        resolve()
-      })
-    })
   }
 }
