@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
 import { v4 } from 'uuid'
-import { Contact, ContactPrimitives } from '../../domain/Contact'
+import { ContactPrimitives } from '../../domain/Contact'
 import { UserEntity } from './UserEntity'
 
 @Entity({ name: 'contacts' })

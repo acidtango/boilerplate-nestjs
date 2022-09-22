@@ -21,12 +21,8 @@ describe('UserRepositoryTypeORM', () => {
   }, 15000)
 
   beforeEach(async () => {
-    await dropTables(orm)
-
     userRepository = new UserRepositoryTypeORM(orm)
   })
-
-  afterAll(() => orm.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()
