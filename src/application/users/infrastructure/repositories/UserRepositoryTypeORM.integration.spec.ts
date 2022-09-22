@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm'
 import { v4 as generateUuidV4 } from 'uuid'
-import { dropTables } from '../../../../../test/utils/DropTables'
 import { typeOrm } from '../../../../database/orm.config'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import {
@@ -23,6 +22,8 @@ describe('UserRepositoryTypeORM', () => {
   beforeEach(async () => {
     userRepository = new UserRepositoryTypeORM(orm)
   })
+
+  afterAll(() => orm.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()
