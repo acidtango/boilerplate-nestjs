@@ -1,22 +1,31 @@
-import { Options } from '@mikro-orm/core'
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import path from 'path'
+import { DataSource, DataSourceOptions } from 'typeorm'
 import { config } from '../config'
 
-const ormConfig: Options = {
-  type: 'postgresql',
+export const ormConfig: TypeOrmModuleOptions = {
+  type: 'postgres',
   host: config.db.postgresql.host,
-  cache: { enabled: false },
   port: config.db.postgresql.port,
-  user: config.db.postgresql.username,
+  username: config.db.postgresql.username,
   password: config.db.postgresql.password,
-  dbName: config.db.postgresql.database,
+  database: config.db.postgresql.database,
   entities: [path.resolve(__dirname, '../application/**/*Entity.{ts,js}')],
   migrations: {
-    path: path.resolve(__dirname, './migrations'),
+    path: path.resolve(__dirname, './migrations/*.ts'),
   },
-  metadataProvider: TsMorphMetadataProvider,
+  synchronize: false,
+  migrationsRun: false,
+  migrationsTableName: 'typeorm_migrations',
+}
+
+const dataSourceOptions: DataSourceOptions = { type: 'postgres', ...ormConfig }
+const typeOrmInstance = new DataSource(dataSourceOptions)
+
+export const typeOrm = {
+  instance: typeOrmInstance,
+  initialize: () => new DataSource(dataSourceOptions).initialize(),
 }
 
 // eslint-disable-next-line import/no-default-export
-export default ormConfig
+export default typeOrm.instance

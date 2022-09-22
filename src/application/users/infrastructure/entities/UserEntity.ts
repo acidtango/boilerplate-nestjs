@@ -1,57 +1,58 @@
-import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
-import { User, UserPrimitives } from '../../domain/User'
-// eslint-disable-next-line import/no-cycle
+import { Column, Entity, JoinTable, OneToMany, PrimaryColumn, Relation } from 'typeorm'
+import { User } from '../../domain/User'
 import { ContactEntity } from './ContactEntity'
 
-@Entity({ tableName: 'users' })
-@Unique({ properties: ['phone'] })
+@Entity({ name: 'users' })
 export class UserEntity {
-  @PrimaryKey({ length: 36 })
-  id: string
+  @PrimaryColumn({ type: 'uuid' })
+  id!: string
 
-  @Property()
-  name: string
+  @Column()
+  name!: string
 
-  @Property()
-  lastName: string
+  @Column()
+  lastName!: string
 
-  @Property()
-  phone: string
+  @Column({ unique: true })
+  phone!: string
 
-  @OneToMany(() => ContactEntity, (contact) => contact.user)
-  contacts = new Collection<ContactEntity>(this)
+  @OneToMany(() => ContactEntity, (contact) => contact.user, {
+    eager: true,
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  contacts!: Relation<ContactEntity>[]
 
-  constructor(p: UserPrimitives) {
-    this.id = p.id
-    this.name = p.name
-    this.lastName = p.lastName
-    this.phone = p.phone
+  updateEntity(user: User) {
+    const p = user.toPrimitives()
+
+    this.id = p.id || this.id
+    this.name = p.name || this.name
+    this.lastName = p.lastName || this.lastName
+    this.phone = p.phone || this.phone
+    this.contacts = p.contacts.map(ContactEntity.fromPrimitives) || this.contacts
   }
 
-  update({ id, name, lastName, phone, contacts }: Partial<UserPrimitives>) {
-    const updatedContacts = contacts?.map((contact) => new ContactEntity(contact, this))
-    this.id = id || this.id
-    this.name = name || this.name
-    this.lastName = lastName || this.lastName
-    this.phone = phone || this.phone
-    this.contacts = new Collection<ContactEntity>(this, updatedContacts)
+  toDomain(): User {
+    return User.fromPrimitives({
+      id: this.id,
+      name: this.name,
+      lastName: this.lastName,
+      phone: this.phone,
+      contacts: this.contacts.map(ContactEntity.toPrimitives),
+    })
   }
 
   static fromDomain(user: User) {
-    return new UserEntity(User.toPrimitives(user))
+    const entity = new UserEntity()
+
+    entity.updateEntity(user)
+
+    return entity
   }
 
-  static async toDomain(userEntity: UserEntity): Promise<User> {
-    const contacts = userEntity.contacts
-      .getItems()
-      .map((contact) => ({ name: contact.name, phone: contact.phone }))
-
-    return User.fromPrimitives({
-      id: userEntity.id,
-      name: userEntity.name,
-      lastName: userEntity.lastName,
-      phone: userEntity.phone,
-      contacts,
-    })
+  static toDomain(userEntity: UserEntity): User {
+    return userEntity.toDomain()
   }
 }

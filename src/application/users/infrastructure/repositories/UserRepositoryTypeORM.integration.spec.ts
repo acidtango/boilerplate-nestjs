@@ -1,7 +1,7 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { DataSource } from 'typeorm'
 import { v4 as generateUuidV4 } from 'uuid'
 import { dropTables } from '../../../../../test/utils/DropTables'
+import { typeOrm } from '../../../../database/orm.config'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import {
   JANE_CONTACT,
@@ -10,22 +10,23 @@ import {
   STUART_CONTACT,
 } from '../../../../shared/fixtures/users'
 import { UserBuilder } from '../../../../utils/UserBuilder'
-import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
+import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
-describe('UserRepositoryMikroORM', () => {
-  let orm: MikroORM<PostgreSqlDriver>
-  let userRepository: UserRepositoryMikroORM
+describe('UserRepositoryTypeORM', () => {
+  let orm: DataSource
+  let userRepository: UserRepositoryTypeORM
 
   beforeAll(async () => {
-    orm = await MikroORM.init()
+    orm = await typeOrm.initialize()
   }, 15000)
 
   beforeEach(async () => {
     await dropTables(orm)
-    userRepository = new UserRepositoryMikroORM(orm)
+
+    userRepository = new UserRepositoryTypeORM(orm)
   })
 
-  afterAll(() => orm.close())
+  afterAll(() => orm.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()

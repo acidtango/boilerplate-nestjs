@@ -1,12 +1,12 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { DataSource } from 'typeorm'
+import { typeOrm } from '../../src/database/orm.config'
 import { dropTables } from '../utils/DropTables'
 import { TestClient } from '../utils/TestClient'
 
-let orm: MikroORM<PostgreSqlDriver>
+let orm: DataSource
 
 beforeAll(async () => {
-  orm = await MikroORM.init()
+  orm = await typeOrm.initialize()
 }, 15000)
 
 beforeEach(async () => {
@@ -18,5 +18,5 @@ afterEach(async () => {
 })
 
 afterAll(async () => {
-  await orm.close()
+  await orm.destroy()
 })
