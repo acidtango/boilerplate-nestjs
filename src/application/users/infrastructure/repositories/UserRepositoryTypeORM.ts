@@ -9,8 +9,8 @@ import { UserEntity } from '../entities/UserEntity'
 export class UserRepositoryTypeORM implements UserRepository {
   private userRepository: Repository<UserEntity>
 
-  constructor(private readonly orm: DataSource) {
-    this.userRepository = this.orm.getRepository(UserEntity)
+  constructor(private readonly dataSource: DataSource) {
+    this.userRepository = this.dataSource.getRepository(UserEntity)
   }
 
   async save(user: User): Promise<void> {

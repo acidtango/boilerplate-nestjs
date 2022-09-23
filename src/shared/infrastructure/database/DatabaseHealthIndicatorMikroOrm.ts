@@ -8,12 +8,12 @@ export class DatabaseHealthIndicatorMikroOrm
   extends HealthIndicator
   implements CustomHealthIndicator
 {
-  constructor(private readonly orm: DataSource) {
+  constructor(private readonly dataSource: DataSource) {
     super()
   }
 
   checkHealth(key: string): HealthIndicatorResult {
-    const isConnected = this.orm.isInitialized
+    const isConnected = this.dataSource.isInitialized
     const result = this.getStatus(
       key,
       isConnected,

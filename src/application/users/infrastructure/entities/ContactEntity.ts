@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
 import { v4 } from 'uuid'
 import { ContactPrimitives } from '../../domain/Contact'
 import { UserEntity } from './UserEntity'
@@ -15,6 +15,7 @@ export class ContactEntity {
   phone!: string
 
   @ManyToOne(() => UserEntity, (user) => user.contacts, { orphanedRowAction: 'delete' })
+  @JoinColumn({ name: 'user_id' })
   user!: Relation<UserEntity>
 
   static toPrimitives(contactEntity: ContactEntity): ContactPrimitives {

@@ -10,7 +10,7 @@ export class UserEntity {
   @Column()
   name!: string
 
-  @Column()
+  @Column({ name: 'last_name' })
   lastName!: string
 
   @Column({ unique: true })
@@ -23,16 +23,6 @@ export class UserEntity {
   })
   contacts!: Relation<ContactEntity>[]
 
-  update(user: User) {
-    const p = user.toPrimitives()
-
-    this.id = p.id
-    this.name = p.name
-    this.lastName = p.lastName
-    this.phone = p.phone
-    this.contacts = p.contacts.map(ContactEntity.fromPrimitives)
-  }
-
   toDomain(): User {
     return User.fromPrimitives({
       id: this.id,
@@ -44,9 +34,14 @@ export class UserEntity {
   }
 
   static fromDomain(user: User) {
+    const p = user.toPrimitives()
     const entity = new UserEntity()
 
-    entity.update(user)
+    entity.id = p.id
+    entity.name = p.name
+    entity.lastName = p.lastName
+    entity.phone = p.phone
+    entity.contacts = p.contacts.map(ContactEntity.fromPrimitives)
 
     return entity
   }

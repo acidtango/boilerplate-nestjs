@@ -1,9 +1,8 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import path from 'path'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { config } from '../config'
 
-export const ormConfig: TypeOrmModuleOptions = {
+export const ormConfig: DataSourceOptions = {
   type: 'postgres',
   host: config.db.postgresql.host,
   port: config.db.postgresql.port,
@@ -19,12 +18,11 @@ export const ormConfig: TypeOrmModuleOptions = {
   migrationsTableName: 'typeorm_migrations',
 }
 
-const dataSourceOptions: DataSourceOptions = { type: 'postgres', ...ormConfig }
-const typeOrmInstance = new DataSource(dataSourceOptions)
+const typeOrmInstance = new DataSource(ormConfig)
 
 export const typeOrm = {
   instance: typeOrmInstance,
-  initialize: () => new DataSource(dataSourceOptions).initialize(),
+  initialize: () => new DataSource(ormConfig).initialize(),
 }
 
 // eslint-disable-next-line import/no-default-export

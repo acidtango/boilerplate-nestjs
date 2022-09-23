@@ -19,6 +19,7 @@ export class UserContactsUpdater extends UseCase {
     const user = await this.userFinder.findById(userId)
 
     user.updateContacts(contacts)
+
     await this.userRepository.save(user)
   }
 }

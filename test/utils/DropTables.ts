@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm'
 
-export const dropTables = async (orm: DataSource): Promise<void> => {
-  const tables = orm.entityMetadatas.map(({ tableName }) => tableName)
+export const dropTables = async (dataSource: DataSource): Promise<void> => {
+  const tables = dataSource.entityMetadatas.map(({ tableName }) => tableName)
 
   for await (const table of tables) {
-    await orm.manager.query(`DELETE FROM ${table};`)
+    await dataSource.manager.query(`DELETE FROM ${table};`)
   }
 }

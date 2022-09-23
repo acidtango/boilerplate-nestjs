@@ -12,18 +12,18 @@ import { UserBuilder } from '../../../../utils/UserBuilder'
 import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
 describe('UserRepositoryTypeORM', () => {
-  let orm: DataSource
+  let dataSource: DataSource
   let userRepository: UserRepositoryTypeORM
 
   beforeAll(async () => {
-    orm = await typeOrm.initialize()
+    dataSource = await typeOrm.initialize()
   }, 15000)
 
   beforeEach(async () => {
-    userRepository = new UserRepositoryTypeORM(orm)
+    userRepository = new UserRepositoryTypeORM(dataSource)
   })
 
-  afterAll(() => orm.destroy())
+  afterAll(() => dataSource.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()
