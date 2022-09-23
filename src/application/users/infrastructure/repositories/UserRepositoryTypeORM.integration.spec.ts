@@ -61,7 +61,7 @@ describe('UserRepositoryTypeORM', () => {
       .buildDomainObject()
 
     await userRepository.save(michael)
-    await userRepository.updateContacts(michaelWithNewContacts)
+    await userRepository.update(michaelWithNewContacts)
     const foundUser = await userRepository.findById(new UserId(michaelId))
 
     expect(foundUser).toEqual(michaelWithNewContacts)

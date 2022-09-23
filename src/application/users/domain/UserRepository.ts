@@ -8,5 +8,5 @@ export interface UserRepository {
   findById(userId: UserId): Promise<User | undefined>
   findByPhone(phone: string): Promise<User | undefined>
   filterRegisteredPhones(phones: string[]): Promise<string[]>
-  updateContacts(user: User): Promise<User>
+  update(user: User): Promise<User>
 }

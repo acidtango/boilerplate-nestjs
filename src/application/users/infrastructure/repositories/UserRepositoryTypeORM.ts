@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common'
 import { DataSource, In, Repository } from 'typeorm'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import { User } from '../../domain/User'
 import { UserRepository } from '../../domain/UserRepository'
 import { UserEntity } from '../entities/UserEntity'
 
-@Injectable()
 export class UserRepositoryTypeORM implements UserRepository {
   private userRepository: Repository<UserEntity>
 
@@ -18,7 +16,7 @@ export class UserRepositoryTypeORM implements UserRepository {
     const userEntity = UserEntity.fromDomain(user)
     const userExists = await this.userRepository.findOneBy({ id: userId })
 
-    if (userExists) throw Error('duplicated')
+    if (userExists) throw Error('Duplicated user')
 
     await this.userRepository.save(userEntity)
   }
@@ -57,10 +55,10 @@ export class UserRepositoryTypeORM implements UserRepository {
     return userEntity.map((user) => user.phone)
   }
 
-  async updateContacts(user: User): Promise<User> {
+  async update(user: User): Promise<User> {
     const userId = user.toPrimitives().id
     const foundUser = await this.userRepository.findOneByOrFail({ id: userId })
-    foundUser.updateEntity(user)
+    foundUser.update(user)
 
     await this.userRepository.save(foundUser)
 

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, OneToMany, PrimaryColumn, Relation } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryColumn, Relation } from 'typeorm'
 import { User } from '../../domain/User'
 import { ContactEntity } from './ContactEntity'
 
@@ -21,17 +21,16 @@ export class UserEntity {
     cascade: true,
     nullable: true,
   })
-  @JoinTable()
   contacts!: Relation<ContactEntity>[]
 
-  updateEntity(user: User) {
+  update(user: User) {
     const p = user.toPrimitives()
 
-    this.id = p.id || this.id
-    this.name = p.name || this.name
-    this.lastName = p.lastName || this.lastName
-    this.phone = p.phone || this.phone
-    this.contacts = p.contacts.map(ContactEntity.fromPrimitives) || this.contacts
+    this.id = p.id
+    this.name = p.name
+    this.lastName = p.lastName
+    this.phone = p.phone
+    this.contacts = p.contacts.map(ContactEntity.fromPrimitives)
   }
 
   toDomain(): User {
@@ -47,7 +46,7 @@ export class UserEntity {
   static fromDomain(user: User) {
     const entity = new UserEntity()
 
-    entity.updateEntity(user)
+    entity.update(user)
 
     return entity
   }

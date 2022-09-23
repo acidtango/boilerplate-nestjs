@@ -42,7 +42,7 @@ export class UserRepositoryMemory implements UserRepository {
     return phones.filter((phone) => registeredPhones.includes(phone))
   }
 
-  async updateContacts(user: User): Promise<User> {
+  async update(user: User): Promise<User> {
     await this.save(user)
     return user
   }
