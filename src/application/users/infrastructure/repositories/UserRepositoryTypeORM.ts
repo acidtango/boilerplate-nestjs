@@ -14,11 +14,7 @@ export class UserRepositoryTypeORM implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    const userId = user.toPrimitives().id
     const userEntity = UserEntity.fromDomain(user)
-    const userExists = await this.userRepository.findOneBy({ id: userId })
-
-    if (userExists) throw Error('Duplicated user')
 
     await this.userRepository.save(userEntity)
   }
@@ -55,15 +51,5 @@ export class UserRepositoryTypeORM implements UserRepository {
     })
 
     return userEntity.map((user) => user.phone)
-  }
-
-  async update(user: User): Promise<User> {
-    const userId = user.toPrimitives().id
-    const foundUser = await this.userRepository.findOneByOrFail({ id: userId })
-    foundUser.update(user)
-
-    await this.userRepository.save(foundUser)
-
-    return foundUser.toDomain()
   }
 }

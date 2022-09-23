@@ -35,15 +35,6 @@ describe('UserRepositoryTypeORM', () => {
     expect(foundUser).toEqual(user)
   })
 
-  it('fails to save an existing user', async () => {
-    const user = UserBuilder.buildDomainObject()
-
-    await userRepository.save(user)
-    const request = userRepository.save(user)
-
-    await expect(request).rejects.toThrowError()
-  })
-
   it('updates the user contacts, replacing the old ones', async () => {
     const oldContacts = [JANE_CONTACT, OLIVER_CONTACT]
     const newContacts = [STUART_CONTACT]
@@ -61,7 +52,7 @@ describe('UserRepositoryTypeORM', () => {
       .buildDomainObject()
 
     await userRepository.save(michael)
-    await userRepository.update(michaelWithNewContacts)
+    await userRepository.save(michaelWithNewContacts)
     const foundUser = await userRepository.findById(new UserId(michaelId))
 
     expect(foundUser).toEqual(michaelWithNewContacts)
