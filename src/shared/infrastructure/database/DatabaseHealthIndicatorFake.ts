@@ -12,7 +12,7 @@ export class DatabaseHealthIndicatorFake extends HealthIndicator implements Cust
     return new DatabaseHealthIndicatorFake(true)
   }
 
-  async checkHealth(key: string): Promise<HealthIndicatorResult> {
+  checkHealth(key: string): HealthIndicatorResult {
     const result = this.getStatus(
       key,
       !this.throwError,
