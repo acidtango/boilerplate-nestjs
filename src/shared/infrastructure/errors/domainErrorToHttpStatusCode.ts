@@ -6,4 +6,5 @@ export const domainErrorToHttpStatusCode: Record<DomainErrorCode, number> = {
   [DomainErrorCode.INVALID_PHONE_NUMBER]: HttpStatus.BAD_REQUEST,
   [DomainErrorCode.USER_NOT_FOUND_ERROR]: HttpStatus.NOT_FOUND,
   [DomainErrorCode.USER_PHONE_IN_USE]: HttpStatus.CONFLICT,
+  [DomainErrorCode.ENTITY_ALREADY_CREATED_ERROR]: HttpStatus.CONFLICT,
 }

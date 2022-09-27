@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource, In, Repository } from 'typeorm'
+import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
+import { DomainId } from '../../../../shared/domain/hex/DomainId'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import { User } from '../../domain/User'
 import { UserRepository } from '../../domain/UserRepository'
@@ -13,7 +15,17 @@ export class UserRepositoryTypeORM implements UserRepository {
     this.userRepository = this.dataSource.getRepository(UserEntity)
   }
 
-  async save(user: User): Promise<void> {
+  async create(user: User): Promise<void> {
+    const userEntity = UserEntity.fromDomain(user)
+    const found = await this.userRepository.findOneBy({ id: userEntity.id })
+
+    if (found)
+      throw new EntityAlreadyCreatedError(new DomainId(userEntity.id), user.constructor.name)
+
+    await this.userRepository.save(userEntity)
+  }
+
+  async update(user: User): Promise<void> {
     const userEntity = UserEntity.fromDomain(user)
 
     await this.userRepository.save(userEntity)

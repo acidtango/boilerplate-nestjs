@@ -1,7 +1,9 @@
 import { DataSource } from 'typeorm'
 import { v4 as generateUuidV4 } from 'uuid'
+import { dropTables } from '../../../../../test/utils/DropTables'
 import { typeOrm } from '../../../../database/orm.config'
 import { UserId } from '../../../../shared/domain/ids/UserId'
+import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
 import {
   JANE_CONTACT,
   MICHAEL,
@@ -20,6 +22,7 @@ describe('UserRepositoryTypeORM', () => {
   }, 15000)
 
   beforeEach(async () => {
+    await dropTables(dataSource)
     userRepository = new UserRepositoryTypeORM(dataSource)
   })
 
@@ -29,10 +32,19 @@ describe('UserRepositoryTypeORM', () => {
     const userId = generateUuidV4()
     const user = UserBuilder.withUserId(userId).buildDomainObject()
 
-    await userRepository.save(user)
+    await userRepository.create(user)
     const foundUser = await userRepository.findById(new UserId(userId))
 
     expect(foundUser).toEqual(user)
+  })
+
+  it('fails to save an existing user', async () => {
+    const user = UserBuilder.buildDomainObject()
+
+    await userRepository.create(user)
+    const request = userRepository.create(user)
+
+    await expect(request).rejects.toThrowError(EntityAlreadyCreatedError)
   })
 
   it('updates the user contacts, replacing the old ones', async () => {
@@ -51,8 +63,8 @@ describe('UserRepositoryTypeORM', () => {
       .withContacts(newContacts)
       .buildDomainObject()
 
-    await userRepository.save(michael)
-    await userRepository.save(michaelWithNewContacts)
+    await userRepository.create(michael)
+    await userRepository.update(michaelWithNewContacts)
     const foundUser = await userRepository.findById(new UserId(michaelId))
 
     expect(foundUser).toEqual(michaelWithNewContacts)
@@ -63,7 +75,7 @@ describe('UserRepositoryTypeORM', () => {
     const userPhone = '+34600111999'
     const user = UserBuilder.withUserId(userId).withPhone(userPhone).buildDomainObject()
 
-    await userRepository.save(user)
+    await userRepository.create(user)
     const foundUser = await userRepository.findByPhone(userPhone)
 
     expect(foundUser).toEqual(user)
@@ -76,8 +88,8 @@ describe('UserRepositoryTypeORM', () => {
     const firstUser = UserBuilder.withPhone(firstUserPhone).buildDomainObject()
     const secondUser = UserBuilder.withPhone(secondUserPhone).buildDomainObject()
 
-    await userRepository.save(firstUser)
-    await userRepository.save(secondUser)
+    await userRepository.create(firstUser)
+    await userRepository.create(secondUser)
 
     const foundRegisteredPhones = await userRepository.filterRegisteredPhones(phonesList)
 

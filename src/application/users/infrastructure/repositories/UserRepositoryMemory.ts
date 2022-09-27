@@ -7,7 +7,7 @@ import { UserRepository } from '../../domain/UserRepository'
 export class UserRepositoryMemory implements UserRepository {
   private users: UserPrimitives[] = []
 
-  async save(user: User): Promise<void> {
+  async create(user: User): Promise<void> {
     const userPrimitives = user.toPrimitives()
 
     const index = this.users.findIndex((u) => u.id === userPrimitives.id)
@@ -42,9 +42,8 @@ export class UserRepositoryMemory implements UserRepository {
     return phones.filter((phone) => registeredPhones.includes(phone))
   }
 
-  async update(user: User): Promise<User> {
-    await this.save(user)
-    return user
+  async update(user: User): Promise<void> {
+    await this.create(user)
   }
 
   private static sortContactPrimitives(userPrimitives: UserPrimitives): UserPrimitives {

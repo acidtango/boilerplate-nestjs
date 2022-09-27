@@ -20,6 +20,6 @@ export class UserContactsUpdater extends UseCase {
 
     user.updateContacts(contacts)
 
-    await this.userRepository.save(user)
+    await this.userRepository.update(user)
   }
 }

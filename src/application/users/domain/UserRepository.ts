@@ -4,7 +4,8 @@ import { User } from './User'
 export const USER_REPOSITORY_TOKEN = 'UserRepository'
 
 export interface UserRepository {
-  save(user: User): Promise<void>
+  create(user: User): Promise<void>
+  update(user: User): Promise<void>
   findById(userId: UserId): Promise<User | undefined>
   findByPhone(phone: string): Promise<User | undefined>
   filterRegisteredPhones(phones: string[]): Promise<string[]>
