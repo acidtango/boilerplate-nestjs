@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { DataSource, In, Repository } from 'typeorm'
+import { EntityManager, In, Repository } from 'typeorm'
 import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
 import { DomainId } from '../../../../shared/domain/hex/DomainId'
 import { UserId } from '../../../../shared/domain/ids/UserId'
@@ -11,8 +11,8 @@ import { UserEntity } from '../entities/UserEntity'
 export class UserRepositoryTypeORM implements UserRepository {
   private userRepository: Repository<UserEntity>
 
-  constructor(private readonly dataSource: DataSource) {
-    this.userRepository = this.dataSource.getRepository(UserEntity)
+  constructor(private readonly entityManager: EntityManager) {
+    this.userRepository = this.entityManager.getRepository(UserEntity)
   }
 
   async create(user: User): Promise<void> {
