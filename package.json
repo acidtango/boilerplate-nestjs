@@ -31,7 +31,7 @@
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
-    "node": "^16.13.0",
+    "node": "^18.12.1",
     "yarn": "~1.22.5"
   },
   "dependencies": {
