@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
 import { USER_REPOSITORY_TOKEN } from '../../domain/UserRepository'
-import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
+import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
 @Global()
 @Module({
@@ -8,7 +8,7 @@ import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
   providers: [
     {
       provide: USER_REPOSITORY_TOKEN,
-      useClass: UserRepositoryMikroORM,
+      useClass: UserRepositoryTypeORM,
     },
   ],
 })

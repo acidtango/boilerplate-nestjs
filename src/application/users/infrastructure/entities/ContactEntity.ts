@@ -1,26 +1,36 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
 import { v4 } from 'uuid'
 import { ContactPrimitives } from '../../domain/Contact'
-// eslint-disable-next-line import/no-cycle
 import { UserEntity } from './UserEntity'
 
-@Entity({ tableName: 'contacts' })
+@Entity({ name: 'contacts' })
 export class ContactEntity {
-  @PrimaryKey({ length: 36 })
+  @PrimaryColumn({ type: 'uuid' })
   id = v4()
 
-  @Property()
-  name: string
+  @Column()
+  name!: string
 
-  @Property()
-  phone: string
+  @Column()
+  phone!: string
 
-  @ManyToOne()
-  user!: UserEntity
+  @ManyToOne(() => UserEntity, (user) => user.contacts, { orphanedRowAction: 'delete' })
+  @JoinColumn({ name: 'user_id' })
+  user!: Relation<UserEntity>
 
-  constructor(p: ContactPrimitives, userEntity: UserEntity) {
-    this.name = p.name
-    this.phone = p.phone
-    this.user = userEntity
+  static toPrimitives(contactEntity: ContactEntity): ContactPrimitives {
+    return {
+      name: contactEntity.name,
+      phone: contactEntity.phone,
+    }
+  }
+
+  static fromPrimitives(contactPrimitives: ContactPrimitives): ContactEntity {
+    const entity = new ContactEntity()
+
+    entity.name = contactPrimitives.name
+    entity.phone = contactPrimitives.phone
+
+    return entity
   }
 }
