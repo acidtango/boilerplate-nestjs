@@ -21,7 +21,7 @@ docker-compose up
 # Stop and remove started containers, remove unused volumes and start new containers.
 docker-compose down && docker volume prune -f && docker-compose up --build
 
-# Remove all unused containers, networks, images (both dangling and unreferenced) and volumes. 
+# Remove all unused containers, networks, images (both dangling and unreferenced) and volumes.
 docker system prune --all --volumes
 ```
 
@@ -51,25 +51,27 @@ yarn run-checks
 ## 🩺 Health Check
 
 The health endpoint `GET /health` should be maintained for monitoring and alerting purposes. This endpoint returns an OK response if the API is running correctly and lists the status of dependencies. For instance, the health endpoint may need to check that:
+
 - database connection is established
 - indispensable microservices are reachable
 - external APIs are responding
 
 ## 🔑 Environment Variables
 
-Our environment variables are set in the `.env` file, which is present in the `.gitignore` file so it is never pushed to the repositories, you'll need to ask for the credentials to other team members. 
+Our environment variables are set in the `.env` file, which is present in the `.gitignore` file so it is never pushed to the repositories, you'll need to ask for the credentials to other team members.
 
 There are two rules to consider when working with environment variables:
+
 - They should not be used in the code directly. don't use the `process.env.ENV_VARIABLE` hack. Instead, use the configuration file: `src/config.ts`.
 - Remember to update the `.env.example` file whenever you add or remove any environment variables so other developers can keep track of the required variables.
 
 ## 📊 Database
 
-We are using [PostgreSQL](https://www.postgresql.org/) as our main database and [MikroORM](https://mikro-orm.io/) as our ORM.
+We are using [PostgreSQL](https://www.postgresql.org/) as our main database and [TypeORM](https://typeorm.io/) as our ORM.
 
 ### Migrations
 
-Configuration file `database/ormconfig.ts` is configured to use MikroORM's migrations.
+Configuration file `database/ormconfig.ts` is configured to use TypeORM's migrations.
 
 To generate a migration based on the entities modifications:
 
@@ -90,7 +92,6 @@ yarn migration:revert
 ```
 
 ## 📜 Swagger
-
 
 NestJS includes a Swagger module to programatically generate the API Swagger documentation following the [OpenApi Specification](https://swagger.io/specification/). For detailed usage instructions check the [NestJS documentation](https://docs.nestjs.com/recipes/swagger). We are using the plugin provided by NestJS to generate the documentation automatically with `nest-cli.json`.
 

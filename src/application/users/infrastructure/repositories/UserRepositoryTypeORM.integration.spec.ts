@@ -1,7 +1,7 @@
 import { v4 as generateUuidV4 } from 'uuid'
 import { describeIntegration } from '../../../../../test/utils/describeIntegration'
-import { UserId } from '../../../../shared/domain/ids/UserId'
 import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
+import { UserId } from '../../../../shared/domain/ids/UserId'
 import {
   JANE_CONTACT,
   MICHAEL,

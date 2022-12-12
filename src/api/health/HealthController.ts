@@ -1,14 +1,14 @@
 import { Controller, Get } from '@nestjs/common'
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HealthCheckResult, HealthCheckService } from '@nestjs/terminus'
-import { DatabaseHealthIndicatorMikroOrm } from '../../shared/infrastructure/database/DatabaseHealthIndicatorMikroOrm'
+import { DatabaseHealthIndicatorTypeOrm } from '../../shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
 
 @ApiTags('Health')
 @Controller('health')
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
-    private readonly db: DatabaseHealthIndicatorMikroOrm
+    private readonly db: DatabaseHealthIndicatorTypeOrm
   ) {}
 
   @ApiOperation({ summary: 'Check if the API is working fine' })

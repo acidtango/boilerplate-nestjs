@@ -6,6 +6,10 @@ on:
       - main
     types: [synchronize, opened, reopened, ready_for_review]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   skip-draft:
     name: skip draft

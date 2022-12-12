@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm'
 import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
 
 @Injectable()
-export class DatabaseHealthIndicatorMikroOrm
+export class DatabaseHealthIndicatorTypeOrm
   extends HealthIndicator
   implements CustomHealthIndicator
 {
