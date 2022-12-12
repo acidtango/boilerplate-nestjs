@@ -44,7 +44,7 @@
     "@nestjs/platform-express": "8.4.4",
     "@nestjs/swagger": "5.2.1",
     "@nestjs/terminus": "8.0.6",
-    "@nestjs/typeorm": "^9.0.1",
+    "@nestjs/typeorm": "8.1.4",
     "@swc/core": "1.2.206",
     "@swc/jest": "0.2.21",
     "class-transformer": "0.5.1",
@@ -58,7 +58,7 @@
     "rimraf": "3.0.2",
     "rxjs": "7.5.5",
     "swagger-ui-express": "4.3.0",
-    "typeorm": "^0.3.10",
+    "typeorm": "0.3.11",
     "uuid": "8.3.2"
   },
   "devDependencies": {
@@ -73,7 +73,6 @@
     "@types/pino-http": "5.8.1",
     "@types/supertest": "2.0.12",
     "@types/uuid": "8.3.4",
-    "@types/validator": "^13.7.6",
     "@typescript-eslint/eslint-plugin": "5.22.0",
     "@typescript-eslint/parser": "5.22.0",
     "eslint": "8.14.0",
