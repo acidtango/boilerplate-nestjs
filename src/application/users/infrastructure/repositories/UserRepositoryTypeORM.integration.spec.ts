@@ -1,5 +1,5 @@
 import { v4 as generateUuidV4 } from 'uuid'
-import { describeIntegration } from '../../../../../test/utils/describeIntegration'
+import { describeDatabase } from '../../../../../test/utils/describeDatabase'
 import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
 import { UserId } from '../../../../shared/domain/ids/UserId'
 import {
@@ -11,7 +11,7 @@ import {
 import { UserBuilder } from '../../../../utils/UserBuilder'
 import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
-describeIntegration('UserRepositoryTypeORM', ({ entityManager }) => {
+describeDatabase('UserRepositoryTypeORM', ({ entityManager }) => {
   let userRepository: UserRepositoryTypeORM
 
   beforeAll(async () => {

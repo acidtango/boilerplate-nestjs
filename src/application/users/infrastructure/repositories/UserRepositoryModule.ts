@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common'
-import { USER_REPOSITORY_TOKEN } from '../../domain/UserRepository'
+import { AppProvider } from '../../../../AppProvider'
 import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
 @Global()
 @Module({
-  exports: [USER_REPOSITORY_TOKEN],
+  exports: [AppProvider.USER_REPOSITORY],
   providers: [
     {
-      provide: USER_REPOSITORY_TOKEN,
+      provide: AppProvider.USER_REPOSITORY,
       useClass: UserRepositoryTypeORM,
     },
   ],

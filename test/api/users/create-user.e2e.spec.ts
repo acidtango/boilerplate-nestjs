@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import { MICHAEL, OLIVER } from '../../../src/shared/fixtures/users'
-import { createClient } from '../../utils/createClient'
+import { TestClient } from '../../utils/TestClient'
 
 describe(`POST /v1/users`, () => {
   it('creates the user', async () => {
-    const client = await createClient()
+    const client = await TestClient.create()
 
     const { body } = await client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
 
@@ -15,7 +15,7 @@ describe(`POST /v1/users`, () => {
   })
 
   it('fails to create the user if the phone number is invalid', async () => {
-    const client = await createClient()
+    const client = await TestClient.create()
 
     await client
       .createUser({ ...MICHAEL, phone: 'invalid-phone' })
@@ -24,7 +24,7 @@ describe(`POST /v1/users`, () => {
   })
 
   it('fails to create the user if the phone is already in use by another user', async () => {
-    const client = await createClient()
+    const client = await TestClient.create()
 
     await client.createUser(MICHAEL).expect(HttpStatus.CREATED).run()
     await client
