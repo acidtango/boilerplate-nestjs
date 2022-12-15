@@ -52,7 +52,7 @@ jobs:
     timeout-minutes: 10
     services:
       database:
-        image: postgres:14.1-alpine
+        image: postgres:14.6-alpine
         env:
           POSTGRES_USER: acid
           POSTGRES_PASSWORD: password
