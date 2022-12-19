@@ -2,12 +2,11 @@
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": "../..",
   "testEnvironment": "node",
-  "testRegex": "\\.integration.spec.ts$",
+  "testRegex": "\\.e2e.spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"
   },
-  "setupFiles": ["<rootDir>/test/setups/setup-env-db.ts"],
   "setupFilesAfterEnv": ["<rootDir>/test/setup.ts"],
   "testTimeout": 10000,
-  "maxWorkers": 1
+  "maxWorkers": 12
 }
