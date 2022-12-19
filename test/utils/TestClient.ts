@@ -18,14 +18,14 @@ import { TestClientUtils } from './TestClientUtils'
 export class TestClient {
   private server!: Server
 
-  private static app?: INestApplication
+  private static app: INestApplication
 
   public getProvider<T>(dependencyKey: string) {
-    return TestClient.app?.get<T>(dependencyKey)
+    return TestClient.app.get<T>(dependencyKey)
   }
 
   public static async tearDownApp() {
-    await TestClient.app?.close()
+    await TestClient.app.close()
   }
 
   public static async create() {
