@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common'
-import { MikroOrmModule } from '@mikro-orm/nestjs'
-import ormConfig from './orm.config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ormConfig } from './orm.config'
 
 @Module({})
 export class OrmSwitcherModule {
@@ -13,7 +13,7 @@ export class OrmSwitcherModule {
 
     return {
       module: OrmSwitcherModule,
-      imports: [MikroOrmModule.forRoot(ormConfig)],
+      imports: [TypeOrmModule.forRoot(ormConfig)],
     }
   }
 }

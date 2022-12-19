@@ -1,8 +1,9 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { DataSource } from 'typeorm'
 import { v4 as generateUuidV4 } from 'uuid'
 import { dropTables } from '../../../../../test/utils/DropTables'
+import { typeOrm } from '../../../../database/orm.config'
 import { UserId } from '../../../../shared/domain/ids/UserId'
+import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
 import {
   JANE_CONTACT,
   MICHAEL,
@@ -10,28 +11,28 @@ import {
   STUART_CONTACT,
 } from '../../../../shared/fixtures/users'
 import { UserBuilder } from '../../../../utils/UserBuilder'
-import { UserRepositoryMikroORM } from './UserRepositoryMikroORM'
+import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
-describe('UserRepositoryMikroORM', () => {
-  let orm: MikroORM<PostgreSqlDriver>
-  let userRepository: UserRepositoryMikroORM
+describe('UserRepositoryTypeORM', () => {
+  let dataSource: DataSource
+  let userRepository: UserRepositoryTypeORM
 
   beforeAll(async () => {
-    orm = await MikroORM.init()
+    dataSource = await typeOrm.initialize()
   }, 15000)
 
   beforeEach(async () => {
-    await dropTables(orm)
-    userRepository = new UserRepositoryMikroORM(orm)
+    await dropTables(dataSource)
+    userRepository = new UserRepositoryTypeORM(dataSource)
   })
 
-  afterAll(() => orm.close())
+  afterAll(() => dataSource.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()
     const user = UserBuilder.withUserId(userId).buildDomainObject()
 
-    await userRepository.save(user)
+    await userRepository.create(user)
     const foundUser = await userRepository.findById(new UserId(userId))
 
     expect(foundUser).toEqual(user)
@@ -40,10 +41,10 @@ describe('UserRepositoryMikroORM', () => {
   it('fails to save an existing user', async () => {
     const user = UserBuilder.buildDomainObject()
 
-    await userRepository.save(user)
-    const request = userRepository.save(user)
+    await userRepository.create(user)
+    const request = userRepository.create(user)
 
-    await expect(request).rejects.toThrowError()
+    await expect(request).rejects.toThrowError(EntityAlreadyCreatedError)
   })
 
   it('updates the user contacts, replacing the old ones', async () => {
@@ -62,8 +63,8 @@ describe('UserRepositoryMikroORM', () => {
       .withContacts(newContacts)
       .buildDomainObject()
 
-    await userRepository.save(michael)
-    await userRepository.updateContacts(michaelWithNewContacts)
+    await userRepository.create(michael)
+    await userRepository.update(michaelWithNewContacts)
     const foundUser = await userRepository.findById(new UserId(michaelId))
 
     expect(foundUser).toEqual(michaelWithNewContacts)
@@ -74,7 +75,7 @@ describe('UserRepositoryMikroORM', () => {
     const userPhone = '+34600111999'
     const user = UserBuilder.withUserId(userId).withPhone(userPhone).buildDomainObject()
 
-    await userRepository.save(user)
+    await userRepository.create(user)
     const foundUser = await userRepository.findByPhone(userPhone)
 
     expect(foundUser).toEqual(user)
@@ -87,8 +88,8 @@ describe('UserRepositoryMikroORM', () => {
     const firstUser = UserBuilder.withPhone(firstUserPhone).buildDomainObject()
     const secondUser = UserBuilder.withPhone(secondUserPhone).buildDomainObject()
 
-    await userRepository.save(firstUser)
-    await userRepository.save(secondUser)
+    await userRepository.create(firstUser)
+    await userRepository.create(secondUser)
 
     const foundRegisteredPhones = await userRepository.filterRegisteredPhones(phonesList)
 

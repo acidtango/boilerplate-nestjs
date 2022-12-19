@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import { MICHAEL, UNKNOWN } from '../../../src/shared/fixtures/users'
-import { createClient } from '../../utils/createClient'
+import { TestClient } from '../../utils/TestClient'
 
 describe(`GET /v1/users/:id/contacts`, () => {
   it('retrieves the user contacts', async () => {
-    const { client, utils } = await createClient()
+    const { client, utils } = await TestClient.create()
     const { michael } = await utils.createMichaelAndOliverWithJaneInCommonAndRegistered()
 
     const { body: contacts } = await client.getUserContacts({ id: michael.id }).run()
@@ -13,7 +13,7 @@ describe(`GET /v1/users/:id/contacts`, () => {
   })
 
   it('throws a 404 error if the user does not exist', async () => {
-    const { client } = await createClient()
+    const { client } = await TestClient.create()
 
     const { body } = await client
       .getUserContacts({ id: UNKNOWN.id })

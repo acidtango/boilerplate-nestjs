@@ -1,6 +1,3 @@
-// Please keep this alphabetically ordered.
-import { Connection } from 'amqp-ts'
-
 export const config = {
   db: {
     postgresql: {

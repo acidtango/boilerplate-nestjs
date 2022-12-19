@@ -32,7 +32,7 @@ export class UserCreator extends UseCase {
     await this.validatePhone(phone)
 
     const user = User.create({ userId, name, lastName, phone })
-    await this.userRepository.save(user)
+    await this.userRepository.create(user)
 
     await this.eventBus.publishEventsOf({ aggregateRoot: user, executorId: adminId })
 

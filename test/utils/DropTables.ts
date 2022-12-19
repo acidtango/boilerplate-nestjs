@@ -1,12 +1,9 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { DataSource } from 'typeorm'
 
-export const dropTables = async (orm: MikroORM<PostgreSqlDriver>): Promise<void> => {
-  const tables = ['contacts', 'users']
+export const dropTables = async (dataSource: DataSource): Promise<void> => {
+  const tables = dataSource.entityMetadatas.map(({ tableName }) => tableName)
 
   for await (const table of tables) {
-    await orm.em.execute(`DELETE FROM ${table};`)
+    await dataSource.manager.query(`DELETE FROM ${table};`)
   }
-
-  orm.em.clear()
 }

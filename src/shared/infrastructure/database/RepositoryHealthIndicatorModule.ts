@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
 import { REPOSITORY_HEALTH_INDICATOR_TOKEN } from './RepositoryHealthIndicator'
-import { RepositoryHealthIndicatorMikroOrm } from './RepositoryHealthIndicatorMikroOrm'
+import { RepositoryHealthIndicatorTypeOrm } from './RepositoryHealthIndicatorTypeOrm'
 
 @Global()
 @Module({
@@ -8,7 +8,7 @@ import { RepositoryHealthIndicatorMikroOrm } from './RepositoryHealthIndicatorMi
   providers: [
     {
       provide: REPOSITORY_HEALTH_INDICATOR_TOKEN,
-      useClass: RepositoryHealthIndicatorMikroOrm,
+      useClass: RepositoryHealthIndicatorTypeOrm,
     },
   ],
 })

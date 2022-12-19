@@ -1,20 +1,19 @@
-import { MikroORM } from '@mikro-orm/core'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
-import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus'
+import { HealthCheckError, HealthIndicator } from '@nestjs/terminus'
+import { DataSource } from 'typeorm'
 import { RepositoryHealthIndicator } from './RepositoryHealthIndicator'
 
 @Injectable()
-export class RepositoryHealthIndicatorMikroOrm
+export class RepositoryHealthIndicatorTypeOrm
   extends HealthIndicator
   implements RepositoryHealthIndicator
 {
-  constructor(private readonly orm: MikroORM<PostgreSqlDriver>) {
+  constructor(private readonly dataSource: DataSource) {
     super()
   }
 
-  async checkHealth(key: string): Promise<HealthIndicatorResult> {
-    const isConnected = await this.orm.isConnected()
+  async checkHealth(key: string) {
+    const isConnected = this.dataSource.isInitialized
     const result = this.getStatus(
       key,
       isConnected,

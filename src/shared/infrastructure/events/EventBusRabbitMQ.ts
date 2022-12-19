@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { Connection, Exchange, Message, Queue } from 'amqp-ts'
 import { EventBus, AggregateAndExecutor } from '../../domain/events/EventBus'
-import { DomainEvent } from '../../domain/events/DomainEvent'
 import { DomainEventName } from '../../domain/events/DomainEventName'
 import { DOMAIN_EVENT_MAPPER, DomainEventMapper } from './DomainEventMapper'
 import { DomainId } from '../../domain/hex/DomainId'

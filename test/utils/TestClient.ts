@@ -1,32 +1,72 @@
-import { HttpStatus, INestApplication } from '@nestjs/common'
+import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
+import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
+import { ApiModule } from '../../src/api/ApiModule'
+import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRepository'
+import { UserRepositoryMemory } from '../../src/application/users/infrastructure/repositories/UserRepositoryMemory'
+import { config } from '../../src/config'
+import { EVENT_BUS_TOKEN } from '../../src/shared/domain/events/EventBus'
+import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
-import { AppBuilder } from './AppBuilder'
+import { REPOSITORY_HEALTH_INDICATOR_TOKEN } from '../../src/shared/infrastructure/database/RepositoryHealthIndicator'
+import { RepositoryHealthIndicatorFake } from '../../src/shared/infrastructure/database/RepositoryHealthIndicatorFake'
+import { EventBusFake } from '../../src/shared/infrastructure/events/EventBusFake'
+import { PhoneValidatorFake } from '../../src/shared/infrastructure/services/phone-validator/PhoneValidatorFake'
+import { TestClientUtils } from './TestClientUtils'
 
 export class TestClient {
-  private static instances: TestClient[] = []
+  private server!: Server
 
-  public static async teardownApps() {
-    for (const instance of this.instances) {
-      await instance.closeApp()
+  private static app?: INestApplication
+
+  public getProvider<T>(dependencyKey: string) {
+    return TestClient.app?.get<T>(dependencyKey)
+  }
+
+  public static async tearDownApp() {
+    await TestClient.app?.close()
+  }
+
+  public static async create() {
+    const client = new TestClient()
+    const utils = new TestClientUtils(client)
+
+    await client.initialize()
+
+    return { client, utils }
+  }
+
+  private async initialize() {
+    // eslint-disable-next-line prefer-const
+    let testingModuleBuilder = Test.createTestingModule({
+      imports: [ApiModule],
+    })
+      // Here we override the necessary services
+      .overrideProvider(REPOSITORY_HEALTH_INDICATOR_TOKEN)
+      .useClass(RepositoryHealthIndicatorFake)
+      .overrideProvider(PHONE_VALIDATOR_TOKEN)
+      .useClass(PhoneValidatorFake)
+      .overrideProvider(EVENT_BUS_TOKEN)
+      .useClass(EventBusFake)
+
+    if (!config.forceEnableORMRepositories) {
+      // We need to change the repositories with the orm ones
+      testingModuleBuilder = testingModuleBuilder
+        .overrideProvider(USER_REPOSITORY_TOKEN)
+        .useClass(UserRepositoryMemory)
     }
 
-    this.instances = []
-  }
+    const moduleFixture = await testingModuleBuilder.compile()
+    const nestApplication: INestApplication = moduleFixture.createNestApplication()
+    nestApplication.enableVersioning({
+      type: VersioningType.URI,
+      prefix: config.apiVersioningPrefix,
+    })
+    await nestApplication.init()
 
-  static async create() {
-    const app = await AppBuilder.build()
-    const server = app.getHttpServer()
-    const testClient = new TestClient(app, server)
-    this.instances.push(testClient)
-    return testClient
-  }
-
-  constructor(private app: INestApplication, private server: Server) {}
-
-  get<T>(dependencyKey: string) {
-    return this.app.get<T>(dependencyKey)
+    TestClient.app = nestApplication
+    this.server = nestApplication.getHttpServer()
   }
 
   health() {
@@ -63,9 +103,5 @@ export class TestClient {
         userId2,
       })
       .expect(HttpStatus.OK)
-  }
-
-  async closeApp() {
-    await this.app.close()
   }
 }
