@@ -11,7 +11,7 @@ import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneVal
 import { MICHAEL } from '../../src/shared/fixtures/users'
 import { REPOSITORY_HEALTH_INDICATOR_TOKEN } from '../../src/shared/infrastructure/database/RepositoryHealthIndicator'
 import { RepositoryHealthIndicatorFake } from '../../src/shared/infrastructure/database/RepositoryHealthIndicatorFake'
-import { EventBusFake } from '../../src/shared/infrastructure/events/EventBusFake'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBusMemory'
 import { PhoneValidatorFake } from '../../src/shared/infrastructure/services/phone-validator/PhoneValidatorFake'
 import { TestClientUtils } from './TestClientUtils'
 
@@ -48,7 +48,7 @@ export class TestClient {
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useClass(PhoneValidatorFake)
       .overrideProvider(EVENT_BUS_TOKEN)
-      .useClass(EventBusFake)
+      .useClass(EventBusMemory)
 
     if (!config.forceEnableORMRepositories) {
       // We need to change the repositories with the orm ones

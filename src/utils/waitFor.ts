@@ -8,7 +8,7 @@ import { sleep } from './sleep'
  */
 export async function waitFor<T>(cb: () => Promise<T>) {
   let passedMs = 0
-  let error = new Error('Unknown') as any
+  let error = new Error('Unknown') as unknown
 
   while (passedMs < 1000) {
     try {

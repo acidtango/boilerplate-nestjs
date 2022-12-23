@@ -1,9 +1,10 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { Connection, Exchange, Message, Queue } from 'amqp-ts'
-import { EventBus, AggregateAndExecutor } from '../../domain/events/EventBus'
 import { DomainEventName } from '../../domain/events/DomainEventName'
-import { DOMAIN_EVENT_MAPPER, DomainEventMapper } from './DomainEventMapper'
+import { AggregateAndExecutor, EventBus } from '../../domain/events/EventBus'
+import { AggregateRoot } from '../../domain/hex/AggregateRoot'
 import { DomainId } from '../../domain/hex/DomainId'
+import { DomainEventMapper, DOMAIN_EVENT_MAPPER } from './DomainEventMapper'
 
 type MessageContent = {
   data: {
@@ -47,25 +48,23 @@ export class EventBusRabbitMQ implements EventBus {
     await this.connection.close()
   }
 
-  async publishEventsOf({ aggregateRoot, executorId }: AggregateAndExecutor): Promise<void> {
-    const events = aggregateRoot.pullDomainEvents()
-
-    for await (const event of events) {
-      const content: MessageContent = {
-        data: {
-          id: event.eventId.toPrimitives(),
-          executor_id: executorId.toPrimitives(),
-          type: event.eventName,
-          occurred_at: event.occurredAt,
-          attributes: event.toPrimitives(),
-        },
-        meta: {},
-      }
-
-      const message = new Message(content)
-      this.logger.log(`Event to be published: ${event.eventName}`)
-      await this.exchange.send(message)
-    }
+  async publishEventsOf(aggregateRoot: AggregateRoot): Promise<void> {
+    // const events = aggregateRoot.pullDomainEvents()
+    // events.map((event) => {
+    //   const content: MessageContent = {
+    //     data: {
+    //       id: event.eventId.toPrimitives(),
+    //       executor_id: executorId.toPrimitives(),
+    //       type: event.eventName,
+    //       occurred_at: event.occurredAt,
+    //       attributes: event.toPrimitives(),
+    //     },
+    //     meta: {},
+    //   }
+    //   const message = new Message(content)
+    //   this.logger.log(`Event to be published: ${event.eventName}`)
+    //   this.exchange.send(message)
+    // })
   }
 
   private async loadEventListeners() {
@@ -84,8 +83,8 @@ export class EventBusRabbitMQ implements EventBus {
     const { subscribers, eventClass } = subscribersAndEvent
 
     for await (const subscriber of subscribers) {
-      const domainEvent = eventClass.fromPrimitives(event.data.attributes)
-      await subscriber.on(domainEvent, new DomainId(event.data.executor_id))
+      // const domainEvent = eventClass.fromPrimitives(event.data.attributes)
+      // await subscriber.on(domainEvent, new DomainId(event.data.executor_id))
     }
 
     message.ack()

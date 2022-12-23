@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d db",
+    "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d db && docker-compose up -d queue",
     "initialize:db": "yarn containers:restart && sleep 4 && yarn migration:run",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\"",
     "format:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\"",

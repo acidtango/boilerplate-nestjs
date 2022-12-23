@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common'
 import { EVENT_BUS_TOKEN } from '../../domain/events/EventBus'
-import { EventBusRabbitMQ } from './EventBusRabbitMQ'
 import { DomainEventMapperModule } from './DomainEventMapperModule'
+import { EventBusMemory } from './EventBusMemory'
 
 @Global()
 @Module({
@@ -10,7 +10,7 @@ import { DomainEventMapperModule } from './DomainEventMapperModule'
   providers: [
     {
       provide: EVENT_BUS_TOKEN,
-      useClass: EventBusRabbitMQ,
+      useClass: EventBusMemory,
     },
   ],
 })

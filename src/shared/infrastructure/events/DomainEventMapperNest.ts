@@ -10,14 +10,14 @@ import { DomainEventMapper, SubscribersAndEvent } from './DomainEventMapper'
 export class DomainEventMapperNest implements DomainEventMapper {
   private readonly subscribers: Map<DomainEventName, Array<DomainEventSubscriber<DomainEvent>>>
 
-  private readonly classes: Map<DomainEventName, DomainEventClass>
+  private readonly eventClasses: Map<DomainEventName, DomainEventClass>
 
   constructor(
     private readonly reflector: Reflector,
     private readonly discoveryService: DiscoveryService
   ) {
     this.subscribers = new Map()
-    this.classes = new Map()
+    this.eventClasses = new Map()
   }
 
   onApplicationBootstrap() {
@@ -30,21 +30,21 @@ export class DomainEventMapperNest implements DomainEventMapper {
       .map((wrapper) => wrapper.instance)
       .filter(DomainEventSubscriber.isInstance)
 
-    for (const subscriber of subscribers) {
-      const { event } = this.reflector.get(
+    subscribers.forEach((subscriber) => {
+      const { event } = this.reflector.get<HandleEventMetadata>(
         EVENT_HANDLER_METADATA,
         subscriber.on
-      ) as HandleEventMetadata
+      )
 
       const previousSubscribers = this.subscribers.get(event.eventName) ?? []
       this.subscribers.set(event.eventName, previousSubscribers.concat(subscriber))
-      this.classes.set(event.eventName, event)
-    }
+      this.eventClasses.set(event.eventName, event)
+    })
   }
 
   getSubscribersAndEvent(eventName: DomainEventName): SubscribersAndEvent | undefined {
     const subscribers = this.subscribers.get(eventName)
-    const eventClass = this.classes.get(eventName)
+    const eventClass = this.eventClasses.get(eventName)
 
     if (!subscribers || !eventClass) return
 

@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { EventBus, EVENT_BUS_TOKEN } from '../../../shared/domain/events/EventBus'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { HumanActor } from '../../../shared/domain/HumanActor'
+import { AdminId } from '../../../shared/domain/ids/AdminId'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import {
   PhoneValidator,
@@ -9,8 +12,6 @@ import { InvalidPhoneError } from '../domain/errors/InvalidPhoneError'
 import { PhoneInUseError } from '../domain/errors/PhoneInUseError'
 import { User } from '../domain/User'
 import { UserRepository, USER_REPOSITORY_TOKEN } from '../domain/UserRepository'
-import { EVENT_BUS_TOKEN, EventBus } from '../../../shared/domain/events/EventBus'
-import { AdminId } from '../../../shared/domain/ids/AdminId'
 
 @Injectable()
 export class UserCreator extends UseCase {
@@ -31,10 +32,11 @@ export class UserCreator extends UseCase {
   ): Promise<User> {
     await this.validatePhone(phone)
 
-    const user = User.create({ userId, name, lastName, phone })
+    console.log(adminId)
+    const user = User.create({ userId, name, lastName, phone, actor: HumanActor.withId(adminId) })
     await this.userRepository.create(user)
 
-    await this.eventBus.publishEventsOf({ aggregateRoot: user, executorId: adminId })
+    await this.eventBus.publishEventsOf(user)
 
     return user
   }

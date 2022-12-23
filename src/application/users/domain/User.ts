@@ -1,3 +1,4 @@
+import { Actor } from '../../../shared/domain/Actor'
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { Contact } from './Contact'
@@ -31,15 +32,17 @@ export class User extends AggregateRoot {
     name,
     lastName,
     phone,
+    actor,
   }: {
     userId: UserId
     name: string
     lastName: string
     phone: string
+    actor: Actor
   }) {
     const user = new User(userId, name, lastName, phone, [])
 
-    user.recordEvent(new UserCreated(userId, name, lastName, phone))
+    user.recordEvent(new UserCreated(userId, name, lastName, phone, actor))
 
     return user
   }

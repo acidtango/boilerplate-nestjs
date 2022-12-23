@@ -9,7 +9,7 @@ export const ormConfig: DataSourceOptions = {
   username: config.db.postgresql.username,
   password: config.db.postgresql.password,
   database: config.db.postgresql.database,
-  entities: [path.resolve(__dirname, '../application/**/*Entity.{ts,js}')],
+  entities: [path.resolve(__dirname, '../**/**/*Entity.{ts,js}')],
   migrations: {
     path: path.resolve(__dirname, './migrations/*.ts'),
   },

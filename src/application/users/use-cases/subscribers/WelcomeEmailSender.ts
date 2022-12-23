@@ -1,9 +1,8 @@
-import { DomainEventSubscriber } from '../../../../shared/domain/events/DomainEventSubscriber'
-import { UserCreated } from '../../domain/events/UserCreated'
 import { Inject, Injectable } from '@nestjs/common'
+import { DomainEventSubscriber } from '../../../../shared/domain/events/DomainEventSubscriber'
 import { HandleEvent } from '../../../../shared/domain/events/HandleEvent'
-import { DomainId } from '../../../../shared/domain/hex/DomainId'
 import { SMSClient, SMS_CLIENT_TOKEN } from '../../../../shared/domain/services/SMSClient'
+import { UserCreated } from '../../domain/events/UserCreated'
 
 @Injectable()
 export class WelcomeEmailSender extends DomainEventSubscriber<UserCreated> {

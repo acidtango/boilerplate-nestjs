@@ -5,7 +5,7 @@ import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRe
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { EVENT_BUS_TOKEN } from '../../src/shared/domain/events/EventBus'
-import { EventBusFake } from '../../src/shared/infrastructure/events/EventBusFake'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBusMemory'
 import { RepositoryHealthIndicatorFake } from '../../src/shared/infrastructure/database/RepositoryHealthIndicatorFake'
 import { PhoneValidatorFake } from '../../src/shared/infrastructure/services/phone-validator/PhoneValidatorFake'
 import { UserRepositoryMemory } from '../../src/application/users/infrastructure/repositories/UserRepositoryMemory'
@@ -23,7 +23,7 @@ export class AppBuilder {
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useClass(PhoneValidatorFake)
       .overrideProvider(EVENT_BUS_TOKEN)
-      .useClass(EventBusFake)
+      .useClass(EventBusMemory)
   }
 
   private static overrideRepositories(module: TestingModuleBuilder) {
