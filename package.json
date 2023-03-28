@@ -36,8 +36,8 @@
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
-    "node": "^18.12.1",
-    "yarn": "~1.22.5"
+    "node": "^18.15.0",
+    "yarn": "~1.22.19"
   },
   "dependencies": {
     "@nestjs/axios": "2.0.0",
