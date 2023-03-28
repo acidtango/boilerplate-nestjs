@@ -2,7 +2,7 @@ import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { Contact } from './Contact'
 
-export type UserPrimitives = ReturnType<typeof User['toPrimitives']>
+export type UserPrimitives = ReturnType<(typeof User)['toPrimitives']>
 
 export class User extends AggregateRoot {
   static fromPrimitives(userPrimitives: UserPrimitives) {
