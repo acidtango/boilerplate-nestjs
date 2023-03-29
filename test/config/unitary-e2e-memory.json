@@ -2,11 +2,11 @@
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": "../..",
   "testEnvironment": "node",
-  "testRegex": "\\.e2e-spec.ts$",
+  "testRegex": ["\\.spec.ts$", "\\.e2e-spec.ts$"],
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"
   },
+  "setupFiles": [],
   "setupFilesAfterEnv": ["<rootDir>/test/setup.ts"],
-  "testTimeout": 10000,
-  "maxWorkers": 12
+  "testTimeout": 10000
 }
