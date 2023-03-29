@@ -26,6 +26,7 @@
     "test:watch": "jest --watch",
     "test:unitary": "jest -c test/config/unitary.json",
     "test:integration": "jest -c test/config/integration.json",
+    "test:integration:third-party": "jest -c test/config/integration-third-party.json",
     "test:e2e:memory": "jest --config ./test/config/e2e-memory.json",
     "test:e2e:db": "jest --config ./test/config/e2e-db.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli -d src/database/orm.config.ts",
