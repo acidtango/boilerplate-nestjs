@@ -36,7 +36,7 @@ export class TestClient {
     return client
   }
 
-  getProvider<T extends AppProvider>(provider: T): InstanceType<typeof TEST_PROVIDERS[T]> {
+  getProvider<T extends AppProvider>(provider: T): InstanceType<(typeof TEST_PROVIDERS)[T]> {
     return this.moduleRef.get(provider)
   }
 
