@@ -1,19 +1,22 @@
-import { HttpStatus } from '@nestjs/common'
 import { createClient } from '../../utils/createClient'
+import { CODEMOTION } from '../../../src/shared/fixtures/events'
+import { HttpStatus } from '@nestjs/common'
 
 describe('create event', () => {
   it('creates the user', async () => {
     const client = await createClient()
 
-    await client.createEvent().expect(HttpStatus.CREATED).run()
+    const { status } = await client.createEvent().run()
 
+    expect(status).toEqual(HttpStatus.CREATED)
     const { body: events } = await client.getEvents().run()
     expect(events).toHaveLength(1)
-    expect(events[0].id).toEqual(CODEMOTION.id)
-    expect(events[0].name).toEqual(CODEMOTION.name)
-    expect(events[0].dates.start).toEqual(CODEMOTION.startDate)
-    expect(events[0].dates.end).toEqual(CODEMOTION.endDate)
-    expect(events[0].proposalsDates.start).toEqual(CODEMOTION.proposalsStartDate)
-    expect(events[0].proposalsDates.deadline).toEqual(CODEMOTION.proposalsDeadlineDate)
+    const firstEvent = events[0]
+    expect(firstEvent.id).toEqual(CODEMOTION.id)
+    expect(firstEvent.name).toEqual(CODEMOTION.name)
+    expect(firstEvent.dateRange.start).toEqual(CODEMOTION.startDate)
+    expect(firstEvent.dateRange.end).toEqual(CODEMOTION.endDate)
+    expect(firstEvent.proposalsDateRange.start).toEqual(CODEMOTION.proposalsStartDate)
+    expect(firstEvent.proposalsDateRange.deadline).toEqual(CODEMOTION.proposalsDeadlineDate)
   })
 })

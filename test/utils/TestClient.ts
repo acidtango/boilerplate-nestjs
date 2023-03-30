@@ -1,4 +1,4 @@
-import { INestApplication, VersioningType } from '@nestjs/common'
+import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
@@ -9,6 +9,7 @@ import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneVal
 import { MICHAEL } from '../../src/shared/fixtures/users'
 import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
 import { AllDependencies } from './dependencies'
+import { CODEMOTION } from '../../src/shared/fixtures/events'
 
 export class TestClient {
   private app!: Server
@@ -81,5 +82,27 @@ export class TestClient {
       userId1,
       userId2,
     })
+  }
+
+  createEvent() {
+    return tepper(this.app)
+      .post('/api/v1/events')
+      .send({
+        id: CODEMOTION.id,
+        name: CODEMOTION.name,
+        dateRange: {
+          start: CODEMOTION.startDate,
+          end: CODEMOTION.endDate,
+        },
+        proposalsDateRange: {
+          start: CODEMOTION.proposalsStartDate,
+          deadline: CODEMOTION.proposalsDeadlineDate,
+        },
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  getEvents() {
+    return tepper(this.app).get('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 }
