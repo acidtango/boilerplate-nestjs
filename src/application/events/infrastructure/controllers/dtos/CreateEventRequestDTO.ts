@@ -9,5 +9,18 @@ type CreateEventRequestDTOParams = {
 }
 
 export class CreateEventRequestDTO {
-  constructor(params: CreateEventRequestDTOParams) {}
+  readonly id: string
+
+  readonly name: string
+
+  readonly dateRange: DateRangeRequestDTO
+
+  readonly proposalsDateRange: ProposalDateRangeRequestDTO
+
+  constructor(params: CreateEventRequestDTOParams) {
+    this.id = params.id
+    this.name = params.name
+    this.dateRange = params.dateRange
+    this.proposalsDateRange = params.proposalsDateRange
+  }
 }

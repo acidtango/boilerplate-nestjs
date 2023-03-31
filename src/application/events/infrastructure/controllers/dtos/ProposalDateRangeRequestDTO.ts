@@ -1,3 +1,10 @@
 export class ProposalDateRangeRequestDTO {
-  constructor(startDate: Date, deadline: Date) {}
+  readonly startDate: Date
+
+  readonly deadline: Date
+
+  constructor(startDate: Date, deadline: Date) {
+    this.startDate = startDate
+    this.deadline = deadline
+  }
 }
