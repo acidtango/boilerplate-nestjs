@@ -2,7 +2,7 @@ import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { EventDateRange } from '../../domain/EventDateRange'
 import { EventId } from '../../domain/EventId'
 import { EventName } from '../../domain/EventName'
-import { EventProposalDateRange } from '../../domain/EventProposalDateRange'
+import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
 import { CreateEvent } from '../../use-cases/CreateEvent'
 import { CreateEventEndpoint } from './CreateEventEndpoint'
 import { CreateEventRequestDTO } from './dtos/CreateEventRequestDTO'
@@ -32,7 +32,7 @@ describe('CreateEventEndpoint', () => {
         startDate: CODEMOTION.startDate,
         endDate: CODEMOTION.endDate,
       }),
-      proposalsDateRange: EventProposalDateRange.fromPrimitives({
+      proposalsDateRange: EventProposalsDateRange.fromPrimitives({
         startDate: CODEMOTION.proposalsStartDate,
         deadline: CODEMOTION.proposalsDeadlineDate,
       }),

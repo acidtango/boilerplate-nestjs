@@ -1,17 +1,17 @@
 import { CODEMOTION } from '../../../shared/fixtures/events'
-import { EventProposalDateRange } from './EventProposalDateRange'
+import { EventProposalsDateRange } from './EventProposalsDateRange'
 
-describe('EventProposalDateRange', () => {
+describe('EventProposalsDateRange', () => {
   it('is serializable', () => {
     const { proposalsStartDate, proposalsDeadlineDate } = CODEMOTION
 
-    const eventDateRange = EventProposalDateRange.fromPrimitives({
+    const proposalsDateRange = EventProposalsDateRange.fromPrimitives({
       startDate: proposalsStartDate,
       deadline: proposalsDeadlineDate,
     })
 
-    expect(eventDateRange).toBeInstanceOf(EventProposalDateRange)
-    expect(eventDateRange.toPrimitives()).toEqual({
+    expect(proposalsDateRange).toBeInstanceOf(EventProposalsDateRange)
+    expect(proposalsDateRange.toPrimitives()).toEqual({
       startDate: proposalsStartDate,
       deadline: proposalsDeadlineDate,
     })
