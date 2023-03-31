@@ -11,8 +11,8 @@ import { ProposalDateRangeRequestDTO } from './dtos/ProposalDateRangeRequestDTO'
 
 describe('CreateEventEndpoint', () => {
   it('transforms DTO into domain objects', async () => {
-    const endpoint = new CreateEventEndpoint()
     const createEventUseCase: CreateEvent = { execute: jest.fn() }
+    const endpoint = new CreateEventEndpoint(createEventUseCase)
     const createEventRequestDTO = new CreateEventRequestDTO({
       id: CODEMOTION.id,
       name: CODEMOTION.name,
