@@ -2,7 +2,7 @@ import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
-import { ApiModule } from '../../src/api/ApiModule'
+import { ApplicationModule } from '../../src/application/ApplicationModule'
 import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRepository'
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
@@ -29,7 +29,7 @@ export class TestClient {
   async initialize(dependencies: AllDependencies) {
     // eslint-disable-next-line prefer-const
     let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApiModule],
+      imports: [ApplicationModule],
     })
       // Here we override the necessary services
       .overrideProvider(DatabaseHealthIndicatorTypeOrm)
@@ -46,10 +46,8 @@ export class TestClient {
 
     const moduleFixture = await testingModuleBuilder.compile()
     const nestApplication: INestApplication = moduleFixture.createNestApplication()
-    nestApplication.enableVersioning({
-      type: VersioningType.URI,
-      prefix: config.apiVersioningPrefix,
-    })
+    nestApplication.setGlobalPrefix(config.apiPrefix)
+    nestApplication.enableVersioning({ type: VersioningType.URI })
     await nestApplication.init()
 
     TestClient.addAppInstance(nestApplication)

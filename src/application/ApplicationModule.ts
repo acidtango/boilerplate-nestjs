@@ -7,11 +7,13 @@ import { ApplicationShutdownService } from '../shared/infrastructure/services/Ap
 import { PhoneValidatorModule } from '../shared/infrastructure/services/phone-validator/PhoneValidatorModule'
 import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-generator/UuidGeneratorModule'
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
-import { HealthModule } from './health/HealthModule'
-import { UsersModule } from './users/UsersModule'
+import { HealthModule } from '../api/health/HealthModule'
+import { UsersModule } from '../api/users/UsersModule'
+import { EventsModule } from './events/EventsModule'
 
 @Module({
   imports: [
+    EventsModule,
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
@@ -34,4 +36,4 @@ import { UsersModule } from './users/UsersModule'
     ApplicationShutdownService,
   ],
 })
-export class ApiModule {}
+export class ApplicationModule {}

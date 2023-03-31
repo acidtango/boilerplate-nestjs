@@ -2,7 +2,7 @@ import { applyDecorators, HttpCode } from '@nestjs/common'
 import {
   ApiOperation,
   ApiResponse,
-  ApiResponseOptions,
+  ApiResponseMetadata,
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger'
@@ -10,13 +10,14 @@ import { Public } from './Public'
 
 export enum DocumentationTag {
   HEALTH = 'Health',
+  EVENTS = 'Events',
 }
 
 export type Options = {
-  tags: DocumentationTag[]
+  tag: DocumentationTag
   isPublic?: boolean
 }
-export type EndpointOptions = ApiResponseOptions & Options
+export type EndpointOptions = ApiResponseMetadata & Options
 
 export function Endpoint(options: EndpointOptions) {
   if (options.status && typeof options.status === 'number') {
@@ -25,7 +26,7 @@ export function Endpoint(options: EndpointOptions) {
       ApiOperation({ summary: description }),
       ApiResponse(remainingOptions),
       HttpCode(options.status),
-      ApiTags(...options.tags),
+      ApiTags(options.tag),
     ]
 
     if (isPublic) return applyDecorators(...decorators, Public())
@@ -33,5 +34,5 @@ export function Endpoint(options: EndpointOptions) {
     return applyDecorators(...decorators, ApiSecurity('basic-auth'))
   }
 
-  return applyDecorators(ApiResponse(options), ApiTags(...options.tags), ApiSecurity('basic-auth'))
+  return applyDecorators(ApiResponse(options), ApiTags(options.tag), ApiSecurity('basic-auth'))
 }

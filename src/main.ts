@@ -4,19 +4,17 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import morgan from 'morgan'
 import { Logger } from 'nestjs-pino'
-import { ApiModule } from './api/ApiModule'
+import { ApplicationModule } from './application/ApplicationModule'
 import { config } from './config'
 
 async function bootstrap() {
-  const app = await NestFactory.create(ApiModule)
+  const app = await NestFactory.create(ApplicationModule)
 
   // Starts listening for shutdown hooks
   app.enableShutdownHooks()
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-    prefix: config.apiVersioningPrefix,
-  })
+  app.setGlobalPrefix(config.apiPrefix)
+  app.enableVersioning({ type: VersioningType.URI })
 
   // Add Morgan for HTTP Logging
   const isHealthEndpoint = (req: IncomingMessage) => req.url === '/health'
