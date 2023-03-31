@@ -3,6 +3,7 @@ import { ProposalDateRangeRequestDTO } from './ProposalDateRangeRequestDTO'
 import { IsString, IsUUID, ValidateNested } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 import { CODEMOTION } from '../../../../../shared/fixtures/events'
+import { Type } from 'class-transformer'
 
 type CreateEventRequestDTOParams = {
   id: string
@@ -21,10 +22,13 @@ export class CreateEventRequestDTO {
   name!: string
 
   @ApiProperty()
+  @Type(() => DateRangeRequestDTO)
   @ValidateNested()
   dateRange!: DateRangeRequestDTO
 
   @ApiProperty()
+  @Type(() => ProposalDateRangeRequestDTO)
+  @ValidateNested()
   proposalsDateRange!: ProposalDateRangeRequestDTO
 
   static create(params: CreateEventRequestDTOParams) {

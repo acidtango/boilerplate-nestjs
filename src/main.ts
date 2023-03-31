@@ -21,8 +21,8 @@ async function bootstrap() {
 
   // Auto generated API documentation!!!
   const documentBuilder = new DocumentBuilder()
-    .setTitle('Bnext Challenge')
-    .setDescription('Bnext Challenge')
+    .setTitle('CodeTalk')
+    .setDescription('CodeTalk')
     .setVersion('1.0')
     .addBearerAuth()
   const options = documentBuilder.build()

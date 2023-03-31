@@ -27,7 +27,7 @@ import { EventsModule } from './events/EventsModule'
   providers: [
     {
       provide: APP_PIPE,
-      useClass: ValidationPipe,
+      useFactory: () => new ValidationPipe({ transform: true }),
     },
     {
       provide: APP_FILTER,
