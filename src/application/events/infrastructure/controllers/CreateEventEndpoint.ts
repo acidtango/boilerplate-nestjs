@@ -18,6 +18,10 @@ export class CreateEventEndpoint {
   })
   @Post()
   async execute(@Body() body: CreateEventRequestDTO) {
+    console.log(body.dateRange.startDate)
+    console.log(body.dateRange.startDate instanceof Date)
+    console.log(typeof body.dateRange.startDate)
+
     const id = EventId.fromPrimitives(body.id)
     const name = EventName.fromPrimitives(body.name)
     const dateRange = EventDateRange.fromPrimitives(body.dateRange)

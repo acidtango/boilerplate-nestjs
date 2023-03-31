@@ -1,5 +1,8 @@
 import { DateRangeRequestDTO } from './DateRangeRequestDTO'
 import { ProposalDateRangeRequestDTO } from './ProposalDateRangeRequestDTO'
+import { IsString, IsUUID, ValidateNested } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
+import { CODEMOTION } from '../../../../../shared/fixtures/events'
 
 type CreateEventRequestDTOParams = {
   id: string
@@ -9,18 +12,27 @@ type CreateEventRequestDTOParams = {
 }
 
 export class CreateEventRequestDTO {
-  readonly id: string
+  @ApiProperty({ example: CODEMOTION.id })
+  @IsUUID()
+  id!: string
 
-  readonly name: string
+  @ApiProperty({ example: CODEMOTION.name })
+  @IsString()
+  name!: string
 
-  readonly dateRange: DateRangeRequestDTO
+  @ApiProperty()
+  @ValidateNested()
+  dateRange!: DateRangeRequestDTO
 
-  readonly proposalsDateRange: ProposalDateRangeRequestDTO
+  @ApiProperty()
+  proposalsDateRange!: ProposalDateRangeRequestDTO
 
-  constructor(params: CreateEventRequestDTOParams) {
-    this.id = params.id
-    this.name = params.name
-    this.dateRange = params.dateRange
-    this.proposalsDateRange = params.proposalsDateRange
+  static create(params: CreateEventRequestDTOParams) {
+    const createEventRequestDTO = new CreateEventRequestDTO()
+    createEventRequestDTO.id = params.id
+    createEventRequestDTO.name = params.name
+    createEventRequestDTO.dateRange = params.dateRange
+    createEventRequestDTO.proposalsDateRange = params.proposalsDateRange
+    return createEventRequestDTO
   }
 }

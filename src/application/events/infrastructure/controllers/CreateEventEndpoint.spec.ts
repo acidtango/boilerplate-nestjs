@@ -13,11 +13,11 @@ describe('CreateEventEndpoint', () => {
   it('transforms DTO into domain objects', async () => {
     const createEventUseCase: CreateEvent = { execute: jest.fn() }
     const endpoint = new CreateEventEndpoint(createEventUseCase)
-    const createEventRequestDTO = new CreateEventRequestDTO({
+    const createEventRequestDTO = CreateEventRequestDTO.create({
       id: CODEMOTION.id,
       name: CODEMOTION.name,
-      dateRange: new DateRangeRequestDTO(CODEMOTION.startDate, CODEMOTION.endDate),
-      proposalsDateRange: new ProposalDateRangeRequestDTO(
+      dateRange: DateRangeRequestDTO.create(CODEMOTION.startDate, CODEMOTION.endDate),
+      proposalsDateRange: ProposalDateRangeRequestDTO.create(
         CODEMOTION.proposalsStartDate,
         CODEMOTION.proposalsDeadlineDate
       ),
