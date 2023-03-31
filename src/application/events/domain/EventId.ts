@@ -4,6 +4,6 @@ export class EventId extends DomainId {
   private static TOKEN = 'EventId'
 
   static fromPrimitives(id: string): EventId {
-    throw new Error('Method not implemented.')
+    return new EventId(id)
   }
 }
