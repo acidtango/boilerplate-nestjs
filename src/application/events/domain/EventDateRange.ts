@@ -1,6 +1,8 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { Primitives } from '../../../utils/Primitives'
 
-type EventDateRangePrimitives = ReturnType<(typeof EventDateRange)['toPrimitives']>
+type EventDateRangePrimitives = Primitives<EventDateRange>
+
 export class EventDateRange extends ValueObject {
   constructor(private readonly startDate: Date, private readonly endDate: Date) {
     super()
