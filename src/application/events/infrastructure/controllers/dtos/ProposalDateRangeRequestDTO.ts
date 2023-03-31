@@ -1,3 +1,3 @@
 export class ProposalDateRangeRequestDTO {
-  constructor(proposalsStartDate: string, proposalsDeadlineDate: string) {}
+  constructor(startDate: Date, deadline: Date) {}
 }

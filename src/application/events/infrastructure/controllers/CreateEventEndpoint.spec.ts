@@ -25,14 +25,17 @@ describe('CreateEventEndpoint', () => {
 
     await endpoint.execute(createEventRequestDTO)
 
-    expect(createEventUseCase).toHaveBeenCalledWith({
+    expect(createEventUseCase.execute).toHaveBeenCalledWith({
       id: EventId.fromPrimitives(CODEMOTION.id),
       name: EventName.fromPrimitives(CODEMOTION.name),
-      dateRange: EventDateRange.fromPrimitives(CODEMOTION.startDate, CODEMOTION.endDate),
-      proposalsDateRange: EventProposalDateRange.fromPrimitives(
-        CODEMOTION.proposalsStartDate,
-        CODEMOTION.proposalsDeadlineDate
-      ),
+      dateRange: EventDateRange.fromPrimitives({
+        startDate: CODEMOTION.startDate,
+        endDate: CODEMOTION.endDate,
+      }),
+      proposalsDateRange: EventProposalDateRange.fromPrimitives({
+        startDate: CODEMOTION.proposalsStartDate,
+        deadline: CODEMOTION.proposalsDeadlineDate,
+      }),
     })
   })
 })
