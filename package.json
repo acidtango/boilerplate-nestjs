@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "@nestjs/axios": "2.0.0",
-    "@nestjs/common": "9.3.12",
-    "@nestjs/core": "9.3.12",
-    "@nestjs/platform-express": "9.3.12",
+    "@nestjs/common": "9.4.0",
+    "@nestjs/core": "9.4.0",
+    "@nestjs/platform-express": "9.4.0",
     "@nestjs/swagger": "6.3.0",
     "@nestjs/terminus": "9.2.2",
     "@nestjs/typeorm": "9.0.1",
