@@ -68,7 +68,7 @@
   "devDependencies": {
     "@nestjs/cli": "9.3.0",
     "@nestjs/schematics": "9.1.0",
-    "@nestjs/testing": "9.3.12",
+    "@nestjs/testing": "9.4.0",
     "@shopify/eslint-plugin": "42.1.0",
     "@types/express": "4.17.17",
     "@types/jest": "29.5.0",
