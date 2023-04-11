@@ -3,7 +3,7 @@ import { EventDateRange } from '../domain/EventDateRange'
 import { EventId } from '../domain/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
-import { Event } from '../domain/Event'
+import { TalkEvent } from '../domain/TalkEvent'
 import { EventRepository } from '../domain/EventRepository'
 
 type CreateEventParams = {
@@ -19,6 +19,6 @@ export class CreateEvent extends UseCase {
   }
 
   async execute(params: CreateEventParams) {
-    await this.eventRepository.save(new Event())
+    await this.eventRepository.save(new TalkEvent())
   }
 }

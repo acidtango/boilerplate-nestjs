@@ -1,5 +1,5 @@
-import { Event } from './Event'
+import { TalkEvent } from './TalkEvent'
 
 export interface EventRepository {
-  save(event: Event): Promise<void>
+  save(event: TalkEvent): Promise<void>
 }
