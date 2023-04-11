@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsISO8601 } from 'class-validator'
 import { CODEMOTION } from '../../../../../shared/fixtures/events'
 
-export class DateRangeRequestDTO {
+export class DateRangeDTO {
   @ApiProperty({ example: CODEMOTION.startDate, format: 'date-time' })
   @IsISO8601()
   startDate!: string
@@ -12,7 +12,7 @@ export class DateRangeRequestDTO {
   endDate!: string
 
   static create(startDate: Date, endDate: Date) {
-    const dateRangeRequestDTO = new DateRangeRequestDTO()
+    const dateRangeRequestDTO = new DateRangeDTO()
     dateRangeRequestDTO.startDate = startDate.toISOString()
     dateRangeRequestDTO.endDate = endDate.toISOString()
     return dateRangeRequestDTO

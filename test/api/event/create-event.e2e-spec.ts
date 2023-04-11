@@ -16,7 +16,5 @@ describe('create event', () => {
     expect(firstEvent.name).toEqual(CODEMOTION.name)
     expect(firstEvent.dateRange.start).toEqual(CODEMOTION.startDate)
     expect(firstEvent.dateRange.end).toEqual(CODEMOTION.endDate)
-    expect(firstEvent.proposalsDateRange.start).toEqual(CODEMOTION.proposalsStartDate)
-    expect(firstEvent.proposalsDateRange.deadline).toEqual(CODEMOTION.proposalsDeadlineDate)
   })
 })

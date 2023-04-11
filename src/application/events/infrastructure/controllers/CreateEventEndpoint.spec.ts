@@ -6,18 +6,18 @@ import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
 import { CreateEvent } from '../../use-cases/CreateEvent'
 import { CreateEventEndpoint } from './CreateEventEndpoint'
 import { CreateEventRequestDTO } from './dtos/CreateEventRequestDTO'
-import { DateRangeRequestDTO } from './dtos/DateRangeRequestDTO'
-import { ProposalDateRangeRequestDTO } from './dtos/ProposalDateRangeRequestDTO'
+import { DateRangeDTO } from './dtos/DateRangeDTO'
+import { ProposalDateRangeDTO } from './dtos/ProposalDateRangeDTO'
 
 describe('CreateEventEndpoint', () => {
   it('transforms DTO into domain objects', async () => {
-    const createEventUseCase: CreateEvent = { execute: jest.fn() }
+    const createEventUseCase = { execute: jest.fn() } as unknown as CreateEvent
     const endpoint = new CreateEventEndpoint(createEventUseCase)
     const createEventRequestDTO = CreateEventRequestDTO.create({
       id: CODEMOTION.id,
       name: CODEMOTION.name,
-      dateRange: DateRangeRequestDTO.create(CODEMOTION.startDate, CODEMOTION.endDate),
-      proposalsDateRange: ProposalDateRangeRequestDTO.create(
+      dateRange: DateRangeDTO.create(CODEMOTION.startDate, CODEMOTION.endDate),
+      proposalsDateRange: ProposalDateRangeDTO.create(
         CODEMOTION.proposalsStartDate,
         CODEMOTION.proposalsDeadlineDate
       ),
