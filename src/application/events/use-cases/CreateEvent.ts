@@ -5,6 +5,8 @@ import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { TalkEvent } from '../domain/TalkEvent'
 import { EventRepository } from '../domain/EventRepository'
+import { Inject } from '@nestjs/common'
+import { AppProvider } from '../../AppProviders'
 
 type CreateEventParams = {
   id: EventId
@@ -14,7 +16,7 @@ type CreateEventParams = {
 }
 
 export class CreateEvent extends UseCase {
-  constructor(private eventRepository: EventRepository) {
+  constructor(@Inject(AppProvider.EVENT_REPOSITORY) private eventRepository: EventRepository) {
     super()
   }
 
