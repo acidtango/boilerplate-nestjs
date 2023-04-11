@@ -18,14 +18,16 @@ export class CreateEventEndpoint {
   })
   @Post()
   async execute(@Body() body: CreateEventRequestDTO) {
-    console.log(body.dateRange.startDate)
-    console.log(body.dateRange.startDate instanceof Date)
-    console.log(typeof body.dateRange.startDate)
-
     const id = EventId.fromPrimitives(body.id)
     const name = EventName.fromPrimitives(body.name)
-    const dateRange = EventDateRange.fromPrimitives(body.dateRange)
-    const proposalsDateRange = EventProposalsDateRange.fromPrimitives(body.proposalsDateRange)
+    const dateRange = EventDateRange.fromPrimitives({
+      startDate: new Date(body.dateRange.startDate),
+      endDate: new Date(body.dateRange.endDate),
+    })
+    const proposalsDateRange = EventProposalsDateRange.fromPrimitives({
+      startDate: new Date(body.proposalsDateRange.startDate),
+      deadline: new Date(body.proposalsDateRange.deadline),
+    })
 
     await this.createEvent.execute({ id, name, dateRange, proposalsDateRange })
   }

@@ -1,23 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Type } from 'class-transformer'
-import { IsDate } from 'class-validator'
+import { IsISO8601 } from 'class-validator'
 import { CODEMOTION } from '../../../../../shared/fixtures/events'
 
 export class ProposalDateRangeRequestDTO {
-  @ApiProperty({ example: CODEMOTION.proposalsStartDate })
-  @IsDate()
-  @Type(() => Date)
-  startDate!: Date
+  @ApiProperty({ example: CODEMOTION.proposalsStartDate, format: 'date-time' })
+  @IsISO8601()
+  startDate!: string
 
-  @ApiProperty({ example: CODEMOTION.proposalsDeadlineDate })
-  @IsDate()
-  @Type(() => Date)
-  deadline!: Date
+  @ApiProperty({ example: CODEMOTION.proposalsDeadlineDate, format: 'date-time' })
+  @IsISO8601()
+  deadline!: string
 
   static create(startDate: Date, deadline: Date) {
     const proposalDateRangeRequestDTO = new ProposalDateRangeRequestDTO()
-    proposalDateRangeRequestDTO.startDate = startDate
-    proposalDateRangeRequestDTO.deadline = deadline
+    proposalDateRangeRequestDTO.startDate = startDate.toISOString()
+    proposalDateRangeRequestDTO.deadline = deadline.toISOString()
     return proposalDateRangeRequestDTO
   }
 }

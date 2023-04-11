@@ -89,11 +89,11 @@ export class TestClient {
         id: CODEMOTION.id,
         name: CODEMOTION.name,
         dateRange: {
-          start: CODEMOTION.startDate,
-          end: CODEMOTION.endDate,
+          startDate: CODEMOTION.startDate,
+          endDate: CODEMOTION.endDate,
         },
         proposalsDateRange: {
-          start: CODEMOTION.proposalsStartDate,
+          startDate: CODEMOTION.proposalsStartDate,
           deadline: CODEMOTION.proposalsDeadlineDate,
         },
       })

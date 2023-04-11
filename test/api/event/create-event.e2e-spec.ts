@@ -3,7 +3,7 @@ import { CODEMOTION } from '../../../src/shared/fixtures/events'
 import { HttpStatus } from '@nestjs/common'
 
 describe('create event', () => {
-  it('creates the user', async () => {
+  it('can be created', async () => {
     const client = await createClient()
 
     const { status } = await client.createEvent().run()
