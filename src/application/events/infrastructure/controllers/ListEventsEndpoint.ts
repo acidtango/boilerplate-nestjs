@@ -1,5 +1,4 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common'
-import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { ListEvents } from '../../use-cases/ListEvents'
 import { EventResponseDTO } from './dtos/EventResponseDTO'
@@ -21,15 +20,15 @@ export class ListEventsEndpoint {
       const eventPrimitives = event.toPrimitives()
 
       return {
-        id: CODEMOTION.id,
-        name: CODEMOTION.name,
+        id: eventPrimitives.id,
+        name: eventPrimitives.name,
         dateRange: {
-          startDate: CODEMOTION.startDate.toISOString(),
-          endDate: CODEMOTION.endDate.toISOString(),
+          startDate: eventPrimitives.dateRange.startDate.toISOString(),
+          endDate: eventPrimitives.dateRange.endDate.toISOString(),
         },
         proposalsDateRange: {
-          startDate: CODEMOTION.proposalsStartDate.toISOString(),
-          deadline: CODEMOTION.proposalsDeadlineDate.toISOString(),
+          startDate: eventPrimitives.proposalsDateRange.startDate.toISOString(),
+          deadline: eventPrimitives.proposalsDateRange.deadline.toISOString(),
         },
       }
     })
