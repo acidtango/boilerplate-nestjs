@@ -5,7 +5,7 @@ import { EventId } from './EventId'
 import { EventName } from './EventName'
 import { EventProposalsDateRange } from './EventProposalsDateRange'
 
-type TalkEventPrimitives = Primitives<TalkEvent>
+export type TalkEventPrimitives = Primitives<TalkEvent>
 
 export class TalkEvent extends AggregateRoot {
   constructor(
@@ -33,5 +33,14 @@ export class TalkEvent extends AggregateRoot {
       dateRange: this.dateRange.toPrimitives(),
       proposalsDateRange: this.proposalsDateRange.toPrimitives(),
     }
+  }
+
+  static fromPrimitives(primitives: TalkEventPrimitives) {
+    return new TalkEvent(
+      EventId.fromPrimitives(primitives.id),
+      EventName.fromPrimitives(primitives.name),
+      EventDateRange.fromPrimitives(primitives.dateRange),
+      EventProposalsDateRange.fromPrimitives(primitives.proposalsDateRange)
+    )
   }
 }

@@ -1,10 +1,18 @@
 import { EventRepository } from './EventRepository'
-import { TalkEvent } from './TalkEvent'
+import { TalkEvent, TalkEventPrimitives } from './TalkEvent'
 
 export class EventRepositoryMemory implements EventRepository {
-  async save(talkEvent: TalkEvent): Promise<void> {}
+  private talkEvents: Map<string, TalkEventPrimitives> = new Map()
+
+  async save(talkEvent: TalkEvent): Promise<void> {
+    const talkEventPrimitives = talkEvent.toPrimitives()
+
+    this.talkEvents.set(talkEventPrimitives.id, talkEventPrimitives)
+  }
 
   async findAll(): Promise<TalkEvent[]> {
-    return []
+    const talkEventsPrimitives = [...this.talkEvents.values()]
+
+    return talkEventsPrimitives.map(TalkEvent.fromPrimitives)
   }
 }
