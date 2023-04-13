@@ -1,29 +1,17 @@
-import { CODEMOTION } from '../../../shared/fixtures/events'
-import { EventDateRange } from '../domain/EventDateRange'
-import { EventId } from '../domain/EventId'
-import { EventName } from '../domain/EventName'
-import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
-import { CreateEvent } from './CreateEvent'
 import { EventRepository } from '../domain/EventRepository'
 import { EventRepositoryMemory } from '../domain/EventRepositoryMemory'
+import { ListEvents } from './ListEvents'
+import { TalkEvent } from '../domain/TalkEvent'
 
 describe('ListEvents', () => {
-  it('returns all the events', () => {
+  it('returns all the events', async () => {
     const eventRepository: EventRepository = new EventRepositoryMemory()
-    jest.spyOn(eventRepository, 'save')
-    const createEventUseCase = new CreateEvent(eventRepository)
-    const params = {
-      id: new EventId(CODEMOTION.id),
-      name: new EventName(CODEMOTION.name),
-      dateRange: new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
-      proposalsDateRange: new EventProposalsDateRange(
-        CODEMOTION.proposalsStartDate,
-        CODEMOTION.proposalsDeadlineDate
-      ),
-    }
+    const events = [new TalkEvent()]
+    jest.spyOn(eventRepository, 'findAll').mockReturnValue(Promise.resolve(events))
+    const createEventUseCase = new ListEvents(eventRepository)
 
-    createEventUseCase.execute(params)
+    const talkEvents = await createEventUseCase.execute()
 
-    expect(eventRepository.save).toHaveBeenCalled()
+    expect(talkEvents).toEqual(events)
   })
 })
