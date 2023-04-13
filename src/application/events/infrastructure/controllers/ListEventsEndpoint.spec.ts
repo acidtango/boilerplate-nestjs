@@ -2,11 +2,10 @@ import { CANARIASJS, CODEMOTION } from '../../../../shared/fixtures/events'
 import { ListEvents } from '../../use-cases/ListEvents'
 import { EventResponseDTO } from './dtos/EventResponseDTO'
 import { ListEventsEndpoint } from './ListEventsEndpoint'
-import { TalkEvent } from '../../domain/TalkEvent'
-import { EventId } from '../../domain/EventId'
-import { EventName } from '../../domain/EventName'
-import { EventDateRange } from '../../domain/EventDateRange'
-import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
+import {
+  createCanariasJSEvent,
+  createCodemotionEvent,
+} from '../../../../../test/mother/TalkEventMother'
 
 describe('ListEventsEndpoint', () => {
   it('returns an empty array if there are no events', async () => {
@@ -22,21 +21,7 @@ describe('ListEventsEndpoint', () => {
 
   it('serializes one event', async () => {
     const listEventUseCase = {
-      execute: jest
-        .fn()
-        .mockReturnValue(
-          Promise.resolve([
-            new TalkEvent(
-              new EventId(CODEMOTION.id),
-              new EventName(CODEMOTION.name),
-              new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
-              new EventProposalsDateRange(
-                CODEMOTION.proposalsStartDate,
-                CODEMOTION.proposalsDeadlineDate
-              )
-            ),
-          ])
-        ),
+      execute: jest.fn().mockReturnValue(Promise.resolve([createCodemotionEvent()])),
     } as unknown as ListEvents
     const endpoint = new ListEventsEndpoint(listEventUseCase)
 
@@ -60,28 +45,7 @@ describe('ListEventsEndpoint', () => {
     const listEventUseCase = {
       execute: jest
         .fn()
-        .mockReturnValue(
-          Promise.resolve([
-            new TalkEvent(
-              new EventId(CODEMOTION.id),
-              new EventName(CODEMOTION.name),
-              new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
-              new EventProposalsDateRange(
-                CODEMOTION.proposalsStartDate,
-                CODEMOTION.proposalsDeadlineDate
-              )
-            ),
-            new TalkEvent(
-              new EventId(CANARIASJS.id),
-              new EventName(CANARIASJS.name),
-              new EventDateRange(CANARIASJS.startDate, CANARIASJS.endDate),
-              new EventProposalsDateRange(
-                CANARIASJS.proposalsStartDate,
-                CANARIASJS.proposalsDeadlineDate
-              )
-            ),
-          ])
-        ),
+        .mockReturnValue(Promise.resolve([createCodemotionEvent(), createCanariasJSEvent()])),
     } as unknown as ListEvents
     const endpoint = new ListEventsEndpoint(listEventUseCase)
 

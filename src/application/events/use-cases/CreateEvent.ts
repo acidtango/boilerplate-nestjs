@@ -21,6 +21,13 @@ export class CreateEvent extends UseCase {
   }
 
   async execute(params: CreateEventParams) {
-    await this.eventRepository.save(new TalkEvent())
+    const talkEvent = TalkEvent.create(
+      params.id,
+      params.name,
+      params.dateRange,
+      params.proposalsDateRange
+    )
+
+    await this.eventRepository.save(talkEvent)
   }
 }

@@ -17,6 +17,15 @@ export class TalkEvent extends AggregateRoot {
     super()
   }
 
+  static create(
+    id: EventId,
+    name: EventName,
+    dateRange: EventDateRange,
+    proposalsDateRange: EventProposalsDateRange
+  ) {
+    return new TalkEvent(id, name, dateRange, proposalsDateRange)
+  }
+
   toPrimitives() {
     return {
       id: this.eventId.toPrimitives(),
