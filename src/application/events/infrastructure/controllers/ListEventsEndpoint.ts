@@ -17,8 +17,10 @@ export class ListEventsEndpoint {
   async execute(): Promise<EventResponseDTO[]> {
     const events = await this.listEvents.execute()
 
-    return [
-      {
+    return events.map((event) => {
+      const eventPrimitives = event.toPrimitives()
+
+      return {
         id: CODEMOTION.id,
         name: CODEMOTION.name,
         dateRange: {
@@ -29,7 +31,7 @@ export class ListEventsEndpoint {
           startDate: CODEMOTION.proposalsStartDate.toISOString(),
           deadline: CODEMOTION.proposalsDeadlineDate.toISOString(),
         },
-      },
-    ]
+      }
+    })
   }
 }

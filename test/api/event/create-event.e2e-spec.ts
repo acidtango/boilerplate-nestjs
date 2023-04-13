@@ -14,7 +14,7 @@ describe('create event', () => {
     const firstEvent = events[0]
     expect(firstEvent.id).toEqual(CODEMOTION.id)
     expect(firstEvent.name).toEqual(CODEMOTION.name)
-    expect(firstEvent.dateRange.start).toEqual(CODEMOTION.startDate)
-    expect(firstEvent.dateRange.end).toEqual(CODEMOTION.endDate)
+    expect(firstEvent.dateRange.startDate).toEqual(CODEMOTION.startDate.toISOString())
+    expect(firstEvent.dateRange.endDate).toEqual(CODEMOTION.endDate.toISOString())
   })
 })

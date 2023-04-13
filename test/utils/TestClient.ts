@@ -10,6 +10,7 @@ import { MICHAEL } from '../../src/shared/fixtures/users'
 import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
 import { AllDependencies } from './dependencies'
 import { CODEMOTION } from '../../src/shared/fixtures/events'
+import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
 
 export class TestClient {
   private app!: Server
@@ -101,6 +102,6 @@ export class TestClient {
   }
 
   getEvents() {
-    return tepper(this.app).get('/api/v1/events').expectStatus(HttpStatus.OK)
+    return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 }
