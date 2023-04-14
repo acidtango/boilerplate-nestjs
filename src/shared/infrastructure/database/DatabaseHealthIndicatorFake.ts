@@ -4,23 +4,23 @@ import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
 
 @Injectable()
 export class DatabaseHealthIndicatorFake extends HealthIndicator implements CustomHealthIndicator {
-  constructor(private throwError: boolean = false) {
-    super()
-  }
+  private isConnected = true
 
-  static withError(): DatabaseHealthIndicatorFake {
-    return new DatabaseHealthIndicatorFake(true)
-  }
-
-  checkHealth(key: string): HealthIndicatorResult {
+  async checkHealth(key: string): Promise<HealthIndicatorResult> {
     const result = this.getStatus(
       key,
-      !this.throwError,
-      this.throwError ? { message: 'DatabaseHealthIndicatorFake mocked health error' } : undefined
+      this.isConnected,
+      !this.isConnected ? { message: 'Database connection is down' } : undefined
     )
-    if (this.throwError) {
-      throw new HealthCheckError('DatabaseHealthIndicatorFake mocked health error', result)
+
+    if (!this.isConnected) {
+      throw new HealthCheckError('Database connection is down', result)
     }
+
     return result
+  }
+
+  markAsDown() {
+    this.isConnected = false
   }
 }

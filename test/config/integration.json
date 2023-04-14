@@ -12,5 +12,5 @@
     "<rootDir>/test/setups/setup-env-integration.ts"
   ],
   "testTimeout": 10000,
-  "maxWorkers": 1
+  "maxWorkers": 12
 }

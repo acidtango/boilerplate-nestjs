@@ -1,9 +1,7 @@
-import { DataSource } from 'typeorm'
 import { v4 as generateUuidV4 } from 'uuid'
-import { dropTables } from '../../../../../test/utils/DropTables'
-import { typeOrm } from '../../../../database/orm.config'
-import { UserId } from '../../../../shared/domain/ids/UserId'
+import { describeDatabase } from '../../../../../test/utils/describeDatabase'
 import { EntityAlreadyCreatedError } from '../../../../shared/domain/errors/EntityAlreadyCreatedError'
+import { UserId } from '../../../../shared/domain/ids/UserId'
 import {
   JANE_CONTACT,
   MICHAEL,
@@ -13,20 +11,12 @@ import {
 import { UserBuilder } from '../../../../utils/UserBuilder'
 import { UserRepositoryTypeORM } from './UserRepositoryTypeORM'
 
-describe('UserRepositoryTypeORM', () => {
-  let dataSource: DataSource
+describeDatabase('UserRepositoryTypeORM', ({ entityManager }) => {
   let userRepository: UserRepositoryTypeORM
 
   beforeAll(async () => {
-    dataSource = await typeOrm.initialize()
-  }, 15000)
-
-  beforeEach(async () => {
-    await dropTables(dataSource)
-    userRepository = new UserRepositoryTypeORM(dataSource)
+    userRepository = new UserRepositoryTypeORM(await entityManager)
   })
-
-  afterAll(() => dataSource.destroy())
 
   it('saves the user correctly', async () => {
     const userId = generateUuidV4()

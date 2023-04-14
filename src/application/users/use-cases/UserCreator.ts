@@ -1,20 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { AppProvider } from '../../../AppProvider'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { UserId } from '../../../shared/domain/ids/UserId'
-import {
-  PhoneValidator,
-  PHONE_VALIDATOR_TOKEN,
-} from '../../../shared/domain/services/PhoneValidator'
+import { PhoneValidator } from '../../../shared/domain/services/PhoneValidator'
 import { InvalidPhoneError } from '../domain/errors/InvalidPhoneError'
 import { PhoneInUseError } from '../domain/errors/PhoneInUseError'
 import { User } from '../domain/User'
-import { UserRepository, USER_REPOSITORY_TOKEN } from '../domain/UserRepository'
+import { UserRepository } from '../domain/UserRepository'
 
 @Injectable()
 export class UserCreator extends UseCase {
   constructor(
-    @Inject(PHONE_VALIDATOR_TOKEN) private phoneValidator: PhoneValidator,
-    @Inject(USER_REPOSITORY_TOKEN) private userRepository: UserRepository
+    @Inject(AppProvider.PHONE_VALIDATOR) private phoneValidator: PhoneValidator,
+    @Inject(AppProvider.USER_REPOSITORY) private userRepository: UserRepository
   ) {
     super()
   }

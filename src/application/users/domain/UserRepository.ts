@@ -1,8 +1,6 @@
 import { UserId } from '../../../shared/domain/ids/UserId'
 import { User } from './User'
 
-export const USER_REPOSITORY_TOKEN = 'UserRepository'
-
 export interface UserRepository {
   create(user: User): Promise<void>
   update(user: User): Promise<void>
