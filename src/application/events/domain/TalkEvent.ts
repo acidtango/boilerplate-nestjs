@@ -26,15 +26,6 @@ export class TalkEvent extends AggregateRoot {
     return new TalkEvent(id, name, dateRange, proposalsDateRange)
   }
 
-  toPrimitives() {
-    return {
-      id: this.eventId.toPrimitives(),
-      name: this.name.toPrimitives(),
-      dateRange: this.dateRange.toPrimitives(),
-      proposalsDateRange: this.proposalsDateRange.toPrimitives(),
-    }
-  }
-
   static fromPrimitives(primitives: TalkEventPrimitives) {
     return new TalkEvent(
       EventId.fromPrimitives(primitives.id),
@@ -42,5 +33,14 @@ export class TalkEvent extends AggregateRoot {
       EventDateRange.fromPrimitives(primitives.dateRange),
       EventProposalsDateRange.fromPrimitives(primitives.proposalsDateRange)
     )
+  }
+
+  toPrimitives() {
+    return {
+      id: this.eventId.toPrimitives(),
+      name: this.name.toPrimitives(),
+      dateRange: this.dateRange.toPrimitives(),
+      proposalsDateRange: this.proposalsDateRange.toPrimitives(),
+    }
   }
 }
