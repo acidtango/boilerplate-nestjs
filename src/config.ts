@@ -12,7 +12,7 @@ export const config = {
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
-  apiVersioningPrefix: process.env.API_VERSIONING_PREFIX || 'api/v',
+  apiPrefix: process.env.API_PREFIX || 'api/',
   neutrinoApi: {
     baseURL: process.env.NEUTRINO_API_BASE_URL || 'https://neutrinoapi.net',
     userId: process.env.NEUTRINO_API_USER_ID || '',

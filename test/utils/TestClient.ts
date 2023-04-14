@@ -1,14 +1,16 @@
-import { INestApplication, VersioningType } from '@nestjs/common'
+import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
-import { ApiModule } from '../../src/api/ApiModule'
-import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRepository'
+import { ApplicationModule } from '../../src/application/ApplicationModule'
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
 import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
 import { AllDependencies } from './dependencies'
+import { CODEMOTION } from '../../src/shared/fixtures/events'
+import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
+import { AppProvider } from '../../src/application/AppProviders'
 
 export class TestClient {
   private app!: Server
@@ -28,7 +30,7 @@ export class TestClient {
   async initialize(dependencies: AllDependencies) {
     // eslint-disable-next-line prefer-const
     let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApiModule],
+      imports: [ApplicationModule],
     })
       // Here we override the necessary services
       .overrideProvider(DatabaseHealthIndicatorTypeOrm)
@@ -39,16 +41,14 @@ export class TestClient {
     if (!config.forceEnableORMRepositories) {
       // We need to change the repositories with the orm ones
       testingModuleBuilder = testingModuleBuilder
-        .overrideProvider(USER_REPOSITORY_TOKEN)
-        .useValue(dependencies.userRepository)
+        .overrideProvider(AppProvider.EVENT_REPOSITORY)
+        .useValue(dependencies.eventRepository)
     }
 
     const moduleFixture = await testingModuleBuilder.compile()
     const nestApplication: INestApplication = moduleFixture.createNestApplication()
-    nestApplication.enableVersioning({
-      type: VersioningType.URI,
-      prefix: config.apiVersioningPrefix,
-    })
+    nestApplication.setGlobalPrefix(config.apiPrefix)
+    nestApplication.enableVersioning({ type: VersioningType.URI })
     await nestApplication.init()
 
     TestClient.addAppInstance(nestApplication)
@@ -81,5 +81,27 @@ export class TestClient {
       userId1,
       userId2,
     })
+  }
+
+  createEvent() {
+    return tepper(this.app)
+      .post('/api/v1/events')
+      .send({
+        id: CODEMOTION.id,
+        name: CODEMOTION.name,
+        dateRange: {
+          startDate: CODEMOTION.startDate,
+          endDate: CODEMOTION.endDate,
+        },
+        proposalsDateRange: {
+          startDate: CODEMOTION.proposalsStartDate,
+          deadline: CODEMOTION.proposalsDeadlineDate,
+        },
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  getEvents() {
+    return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 }
