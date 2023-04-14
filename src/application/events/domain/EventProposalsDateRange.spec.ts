@@ -20,7 +20,9 @@ describe('EventProposalsDateRange', () => {
 
   it('fails if event start date is greater than end date', () => {
     expect(() => {
-      new EventProposalsDateRange(CODEMOTION.endDate, CODEMOTION.startDate)
-    }).toThrowError(new InvalidDateRangeError(CODEMOTION.endDate, CODEMOTION.startDate))
+      new EventProposalsDateRange(CODEMOTION.proposalsDeadlineDate, CODEMOTION.proposalsStartDate)
+    }).toThrowError(
+      new InvalidDateRangeError(CODEMOTION.proposalsDeadlineDate, CODEMOTION.proposalsStartDate)
+    )
   })
 })

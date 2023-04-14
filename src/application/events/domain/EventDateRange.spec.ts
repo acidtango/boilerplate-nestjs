@@ -1,5 +1,6 @@
 import { CODEMOTION } from '../../../shared/fixtures/events'
 import { EventDateRange } from './EventDateRange'
+import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
 
 describe('EventDateRange', () => {
   it('is serializable', () => {
@@ -9,5 +10,11 @@ describe('EventDateRange', () => {
 
     expect(eventDateRange).toBeInstanceOf(EventDateRange)
     expect(eventDateRange.toPrimitives()).toEqual({ startDate, endDate })
+  })
+
+  it('fails if event start date is greater than end date', () => {
+    expect(() => {
+      new EventDateRange(CODEMOTION.endDate, CODEMOTION.startDate)
+    }).toThrowError(new InvalidDateRangeError(CODEMOTION.endDate, CODEMOTION.startDate))
   })
 })

@@ -7,7 +7,9 @@ type EventProposalDateRangePrimitives = Primitives<EventProposalsDateRange>
 export class EventProposalsDateRange extends ValueObject {
   constructor(private readonly startDate: Date, private readonly deadline: Date) {
     super()
-    throw new InvalidDateRangeError(startDate, deadline)
+    if (startDate > deadline) {
+      throw new InvalidDateRangeError(startDate, deadline)
+    }
   }
 
   static fromPrimitives({
