@@ -11,6 +11,7 @@ import { Public } from './Public'
 export enum DocumentationTag {
   HEALTH = 'Health',
   EVENTS = 'Events',
+  SPEAKERS = 'Speakers',
 }
 
 export type Options = {

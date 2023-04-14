@@ -8,10 +8,12 @@ import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-gene
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
 import { HealthModule } from '../api/health/HealthModule'
 import { EventsModule } from './events/EventsModule'
+import { SpeakersModule } from './speakers/SpeakersModule'
 
 @Module({
   imports: [
     EventsModule,
+    SpeakersModule,
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
