@@ -1,11 +1,13 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
 import { Primitives } from '../../../utils/Primitives'
+import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
 
 type EventProposalDateRangePrimitives = Primitives<EventProposalsDateRange>
 
 export class EventProposalsDateRange extends ValueObject {
   constructor(private readonly startDate: Date, private readonly deadline: Date) {
     super()
+    throw new InvalidDateRangeError(startDate, deadline)
   }
 
   static fromPrimitives({

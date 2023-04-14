@@ -8,7 +8,7 @@ import { EventRepository } from '../domain/EventRepository'
 import { EventRepositoryMemory } from '../domain/EventRepositoryMemory'
 
 describe('CreateEvent', () => {
-  it('saves the event in the repository', () => {
+  it('saves the event in the repository', async () => {
     const eventRepository: EventRepository = new EventRepositoryMemory()
     jest.spyOn(eventRepository, 'save')
     const createEventUseCase = new CreateEvent(eventRepository)
@@ -22,7 +22,7 @@ describe('CreateEvent', () => {
       ),
     }
 
-    createEventUseCase.execute(params)
+    await createEventUseCase.execute(params)
 
     expect(eventRepository.save).toHaveBeenCalled()
   })
