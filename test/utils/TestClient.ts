@@ -3,7 +3,6 @@ import { Test } from '@nestjs/testing'
 import { Server } from 'http'
 import tepper from 'tepper'
 import { ApplicationModule } from '../../src/application/ApplicationModule'
-import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRepository'
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
@@ -11,6 +10,7 @@ import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/
 import { AllDependencies } from './dependencies'
 import { CODEMOTION } from '../../src/shared/fixtures/events'
 import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
+import { AppProvider } from '../../src/application/AppProviders'
 
 export class TestClient {
   private app!: Server
@@ -41,8 +41,8 @@ export class TestClient {
     if (!config.forceEnableORMRepositories) {
       // We need to change the repositories with the orm ones
       testingModuleBuilder = testingModuleBuilder
-        .overrideProvider(USER_REPOSITORY_TOKEN)
-        .useValue(dependencies.userRepository)
+        .overrideProvider(AppProvider.EVENT_REPOSITORY)
+        .useValue(dependencies.eventRepository)
     }
 
     const moduleFixture = await testingModuleBuilder.compile()

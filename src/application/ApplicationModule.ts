@@ -4,11 +4,9 @@ import { config } from '../config'
 import { OrmSwitcherModule } from '../database/OrmSwitcherModule'
 import { DomainErrorFilter } from '../shared/infrastructure/filters/DomainErrorFilter'
 import { ApplicationShutdownService } from '../shared/infrastructure/services/ApplicationShutdownService'
-import { PhoneValidatorModule } from '../shared/infrastructure/services/phone-validator/PhoneValidatorModule'
 import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-generator/UuidGeneratorModule'
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
 import { HealthModule } from '../api/health/HealthModule'
-import { UsersModule } from '../api/users/UsersModule'
 import { EventsModule } from './events/EventsModule'
 
 @Module({
@@ -18,9 +16,7 @@ import { EventsModule } from './events/EventsModule'
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
-    PhoneValidatorModule,
     UuidGeneratorModule,
-    UsersModule,
     HealthModule,
   ],
   controllers: [],
