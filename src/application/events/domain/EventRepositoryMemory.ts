@@ -1,5 +1,6 @@
 import { EventRepository } from './EventRepository'
 import { TalkEvent, TalkEventPrimitives } from './TalkEvent'
+import { EventId } from './EventId'
 
 export class EventRepositoryMemory implements EventRepository {
   private talkEvents: Map<string, TalkEventPrimitives> = new Map()
@@ -14,5 +15,9 @@ export class EventRepositoryMemory implements EventRepository {
     const talkEventsPrimitives = [...this.talkEvents.values()]
 
     return talkEventsPrimitives.map(TalkEvent.fromPrimitives)
+  }
+
+  async exists(id: EventId): Promise<boolean> {
+    return this.talkEvents.has(id.toPrimitives())
   }
 }

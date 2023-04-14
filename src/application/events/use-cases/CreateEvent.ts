@@ -7,8 +7,9 @@ import { TalkEvent } from '../domain/TalkEvent'
 import { EventRepository } from '../domain/EventRepository'
 import { Inject } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
+import { EventAlreadyCreatedError } from '../domain/errors/EventAlreadyCreatedError'
 
-type CreateEventParams = {
+export type CreateEventParams = {
   id: EventId
   name: EventName
   dateRange: EventDateRange
@@ -20,13 +21,12 @@ export class CreateEvent extends UseCase {
     super()
   }
 
-  async execute(params: CreateEventParams) {
-    const talkEvent = TalkEvent.create(
-      params.id,
-      params.name,
-      params.dateRange,
-      params.proposalsDateRange
-    )
+  async execute({ dateRange, id, name, proposalsDateRange }: CreateEventParams) {
+    if (await this.eventRepository.exists(id)) {
+      throw new EventAlreadyCreatedError(id)
+    }
+
+    const talkEvent = TalkEvent.create(id, name, dateRange, proposalsDateRange)
 
     await this.eventRepository.save(talkEvent)
   }
