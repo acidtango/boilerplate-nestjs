@@ -26,19 +26,12 @@ export class CreateSpeaker extends UseCase {
     super()
   }
 
-  async execute(params: CreateSpeakerParams) {
-    if (await this.speakerRepository.exists(params.id)) {
-      throw new SpeakerAlreadyCreatedError(params.id)
+  async execute({ age, email, id, language, name }: CreateSpeakerParams) {
+    if (await this.speakerRepository.exists(id)) {
+      throw new SpeakerAlreadyCreatedError(id)
     }
 
-    const speaker = new Speaker(
-      params.id,
-      params.name,
-      params.age,
-      params.language,
-      params.email,
-      false
-    )
+    const speaker = new Speaker(id, name, age, language, email, false)
 
     await this.speakerRepository.save(speaker)
   }
