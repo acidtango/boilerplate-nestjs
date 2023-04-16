@@ -1,28 +1,24 @@
-import { createJoyceLinSpeaker } from '../../../../test/mother/SpeakerMother'
+import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
 import { SpeakerId } from '../domain/SpeakerId'
-import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
-import { SpeakerRepository } from '../domain/SpeakerRepository'
-import { SpeakerRepositoryMemory } from '../infrastructure/repositories/SpeakerRepositoryMemory'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
+import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
 
 describe('GetSpeaker', () => {
   it('returns the speaker by id', async () => {
-    const expectedSpeakerId = new SpeakerId(JOYCE_LIN.id)
-    const expectedSpeaker = createJoyceLinSpeaker({ id: expectedSpeakerId })
-    const speakerRepository: SpeakerRepository = new SpeakerRepositoryMemory()
-    jest.spyOn(speakerRepository, 'findById').mockReturnValue(Promise.resolve(expectedSpeaker))
+    const expectedSpeakerId = createJoyceLinId()
+    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
     const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
     const speaker = await getSpeakerUseCase.execute(expectedSpeakerId)
 
+    const expectedSpeaker = createJoyceLinSpeaker({ id: expectedSpeakerId })
     expect(speaker).toEqual(expectedSpeaker)
   })
 
   it('fails if the speaker does not exist', async () => {
     const notExistentId = new SpeakerId('invalid-id')
-    const speakerRepository: SpeakerRepository = new SpeakerRepositoryMemory()
-    jest.spyOn(speakerRepository, 'findById').mockReturnValue(Promise.resolve(undefined))
+    const speakerRepository = SpeakerRepositoryFake.empty()
     const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
     const expectedError = new SpeakerNotFoundError(notExistentId)

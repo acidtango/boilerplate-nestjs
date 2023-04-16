@@ -2,49 +2,47 @@ import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { EmailAddress } from '../../shared/domain/EmailAddress'
 import { Language } from '../../shared/domain/Language'
 import { SpeakerAge } from '../domain/SpeakerAge'
-import { SpeakerId } from '../domain/SpeakerId'
 import { SpeakerName } from '../domain/SpeakerName'
-import { SpeakerRepositoryMemory } from '../infrastructure/repositories/SpeakerRepositoryMemory'
 import { CreateSpeaker, CreateSpeakerParams } from './CreateSpeaker'
+import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
+import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
+import { createJoyceLinId } from '../../../../test/mother/SpeakerMother'
 
 describe('CreateSpeaker', () => {
   it('saves the speaker in the repository', async () => {
-    const speakerRepository = new SpeakerRepositoryMemory()
-    jest.spyOn(speakerRepository, 'save')
-    const createEventUseCase = new CreateSpeaker(speakerRepository)
+    const speakerRepository = new SpeakerRepositoryFake()
+    const createSpeaker = new CreateSpeaker(speakerRepository)
     const params = generateCreateJoyceParams()
 
-    await createEventUseCase.execute(params)
+    await createSpeaker.execute(params)
 
-    expect(speakerRepository.save).toHaveBeenCalled()
+    speakerRepository.expectSaveToHaveBeenCalled()
   })
 
   it('has a non validated email', async () => {
-    const speakerRepository = new SpeakerRepositoryMemory()
-    jest.spyOn(speakerRepository, 'save')
-    const createEventUseCase = new CreateSpeaker(speakerRepository)
+    const speakerRepository = new SpeakerRepositoryFake()
+    const createSpeaker = new CreateSpeaker(speakerRepository)
     const params = generateCreateJoyceParams()
 
-    await createEventUseCase.execute(params)
+    await createSpeaker.execute(params)
 
-    expect(speakerRepository.save).toHaveBeenCalledWith()
+    const speaker = speakerRepository.getLatestSavedSpeaker()
+    expect(speaker.hasValidatedEmail()).toBe(false)
   })
 
-  // it('fails if event already exists', async () => {
-  //   const eventRepository = new EventRepositoryMemory()
-  //   jest.spyOn(eventRepository, 'exists').mockReturnValue(Promise.resolve(true))
-  //   const createEventUseCase = new CreateEvent(eventRepository)
-  //   const params = generateCreateCodemotionParams()
+  it('fails if event already exists', async () => {
+    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    const createSpeaker = new CreateSpeaker(speakerRepository)
+    const params = generateCreateJoyceParams()
 
-  //   await expect(createEventUseCase.execute(params)).rejects.toThrowError(
-  //     new EventAlreadyCreatedError(new EventId(CODEMOTION.id))
-  //   )
-  // })
+    const expectedError = new SpeakerAlreadyCreatedError(createJoyceLinId())
+    await expect(createSpeaker.execute(params)).rejects.toThrowError(expectedError)
+  })
 })
 
 function generateCreateJoyceParams(): CreateSpeakerParams {
   return {
-    id: new SpeakerId(JOYCE_LIN.id),
+    id: createJoyceLinId(),
     name: new SpeakerName(JOYCE_LIN.name),
     age: new SpeakerAge(JOYCE_LIN.age),
     email: new EmailAddress(JOYCE_LIN.email),

@@ -38,4 +38,8 @@ export class Speaker {
       isEmailValidated: this.isEmailValidated,
     }
   }
+
+  hasValidatedEmail() {
+    return false
+  }
 }

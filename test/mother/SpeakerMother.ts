@@ -5,7 +5,11 @@ import { HAKON_WIUM, JOYCE_LIN } from '../../src/shared/fixtures/speakers'
 import { EmailAddress } from '../../src/application/shared/domain/EmailAddress'
 import { Speaker } from '../../src/application/speakers/domain/Speaker'
 
-export function createJoyceLinSpeaker({ id = new SpeakerId(JOYCE_LIN.id) } = {}) {
+export function createJoyceLinId() {
+  return new SpeakerId(JOYCE_LIN.id)
+}
+
+export function createJoyceLinSpeaker({ id = createJoyceLinId() } = {}) {
   return new Speaker(
     id,
     new SpeakerName(JOYCE_LIN.name),
