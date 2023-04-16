@@ -1,5 +1,5 @@
 import { EventRepository } from '../domain/EventRepository'
-import { EventRepositoryMemory } from '../domain/EventRepositoryMemory'
+import { EventRepositoryMemory } from '../infrastructure/repositories/EventRepositoryMemory'
 import { ListEvents } from './ListEvents'
 import { createCodemotionEvent } from '../../../../test/mother/TalkEventMother'
 

@@ -4,7 +4,7 @@ import { EventId } from '../domain/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { CreateEvent, CreateEventParams } from './CreateEvent'
-import { EventRepositoryMemory } from '../domain/EventRepositoryMemory'
+import { EventRepositoryMemory } from '../infrastructure/repositories/EventRepositoryMemory'
 import { EventAlreadyCreatedError } from '../domain/errors/EventAlreadyCreatedError'
 
 describe('CreateEvent', () => {

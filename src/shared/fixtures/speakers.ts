@@ -7,3 +7,11 @@ export const JOYCE_LIN = {
   email: 'joyce-lin@gmail.com',
   age: 30,
 }
+
+export const HAKON_WIUM = {
+  id: 'c0f1e467-a382-4984-a1b0-7a760fc5270b',
+  name: 'Håkon Wium Lie',
+  language: Language.ENGLISH,
+  email: 'hakon-wium@gmail.com',
+  age: 57,
+}

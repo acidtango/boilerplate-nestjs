@@ -1,9 +1,21 @@
 import { Speaker } from '../domain/Speaker'
-import { createJoyceLinSpeaker } from '../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../domain/SpeakerId'
+import { SpeakerRepository } from '../domain/SpeakerRepository'
+import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
+import { Inject, Injectable } from '@nestjs/common'
+import { AppProvider } from '../../AppProviders'
 
+@Injectable()
 export class GetSpeaker {
+  constructor(
+    @Inject(AppProvider.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
+  ) {}
+
   async execute(speakerId: SpeakerId): Promise<Speaker> {
-    return createJoyceLinSpeaker()
+    const speaker = await this.speakerRepository.findById(speakerId)
+
+    if (!speaker) throw new SpeakerNotFoundError(speakerId)
+
+    return speaker
   }
 }
