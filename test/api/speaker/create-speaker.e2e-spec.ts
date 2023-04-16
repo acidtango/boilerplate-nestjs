@@ -9,7 +9,7 @@ describe('create speaker', () => {
     const { status } = await client.createSpeaker().run()
 
     expect(status).toEqual(HttpStatus.CREATED)
-    const { body: speaker } = await client.getSpeaker().debug().run()
+    const { body: speaker } = await client.getSpeaker().run()
     expect(speaker.id).toEqual(JOYCE_LIN.id)
     expect(speaker.name).toEqual(JOYCE_LIN.name)
     expect(speaker.age).toEqual(JOYCE_LIN.age)

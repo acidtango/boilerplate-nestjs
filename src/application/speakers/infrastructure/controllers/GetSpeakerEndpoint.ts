@@ -14,7 +14,7 @@ export class GetSpeakerEndpoint {
     status: HttpStatus.OK,
   })
   @Get()
-  async execute(@Param() id: string): Promise<SpeakerResponseDTO> {
+  async execute(@Param('id') id: string): Promise<SpeakerResponseDTO> {
     const speaker = await this.getSpeaker.execute(SpeakerId.fromPrimitives(id))
 
     const speakerPrimitives = speaker.toPrimitives()

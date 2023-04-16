@@ -10,7 +10,7 @@ import { SpeakerId } from '../domain/SpeakerId'
 
 describe('CreateSpeaker', () => {
   it('saves the speaker in the repository', async () => {
-    const speakerRepository = new SpeakerRepositoryFake()
+    const speakerRepository = SpeakerRepositoryFake.empty()
     const createSpeaker = new CreateSpeaker(speakerRepository)
     const params = generateCreateJoyceParams()
 
@@ -20,7 +20,7 @@ describe('CreateSpeaker', () => {
   })
 
   it('has a non validated email', async () => {
-    const speakerRepository = new SpeakerRepositoryFake()
+    const speakerRepository = SpeakerRepositoryFake.empty()
     const createSpeaker = new CreateSpeaker(speakerRepository)
     const params = generateCreateJoyceParams()
 
