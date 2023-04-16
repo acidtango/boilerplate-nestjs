@@ -1,5 +1,7 @@
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
+import { SpeakerId } from '../../domain/SpeakerId'
+import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 
 describe('SpeakerRepositoryMemory', () => {
   let speakerRepository: SpeakerRepositoryMemory
@@ -19,7 +21,7 @@ describe('SpeakerRepositoryMemory', () => {
   })
 
   it('checks if the speaker exists', async () => {
-    const speakerId = createJoyceLinId()
+    const speakerId = new SpeakerId(JOYCE_LIN.id)
     const speaker = createJoyceLinSpeaker({ id: speakerId })
     await speakerRepository.save(speaker)
 

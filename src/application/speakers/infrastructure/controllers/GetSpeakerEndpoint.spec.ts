@@ -1,7 +1,8 @@
 import { GetSpeakerEndpoint } from './GetSpeakerEndpoint'
 import { GetSpeaker } from '../../use-cases/GetSpeaker'
-import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
+import { createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
+import { SpeakerId } from '../../domain/SpeakerId'
 
 describe('ListEventsEndpoint', () => {
   it('calls the use case with the given id', () => {
@@ -12,7 +13,7 @@ describe('ListEventsEndpoint', () => {
 
     endpoint.execute(JOYCE_LIN.id)
 
-    expect(listEventUseCase.execute).toHaveBeenCalledWith(createJoyceLinId())
+    expect(listEventUseCase.execute).toHaveBeenCalledWith(new SpeakerId(JOYCE_LIN.id))
   })
 
   it('serializes the speaker if exists', async () => {
