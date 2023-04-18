@@ -17,6 +17,16 @@ export class Speaker {
     private isEmailValidated: boolean
   ) {}
 
+  static create(
+    id: SpeakerId,
+    name: SpeakerName,
+    age: SpeakerAge,
+    language: Language,
+    email: EmailAddress
+  ) {
+    new Speaker(id, name, age, language, email, false)
+  }
+
   static fromPrimitives(primitives: SpeakerPrimitives) {
     return new Speaker(
       SpeakerId.fromPrimitives(primitives.id),
