@@ -12,6 +12,7 @@ export enum DocumentationTag {
   HEALTH = 'Health',
   EVENTS = 'Events',
   SPEAKERS = 'Speakers',
+  TALKS = 'Talks',
 }
 
 export type Options = {

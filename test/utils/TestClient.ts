@@ -12,6 +12,7 @@ import { CODEMOTION } from '../../src/shared/fixtures/events'
 import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
 import { AppProvider } from '../../src/application/AppProviders'
 import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
+import { API_TALK } from '../../src/shared/fixtures/talks'
 
 export class TestClient {
   private app!: Server
@@ -84,11 +85,11 @@ export class TestClient {
     })
   }
 
-  createEvent() {
+  createEvent({ id = CODEMOTION.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/events')
       .send({
-        id: CODEMOTION.id,
+        id,
         name: CODEMOTION.name,
         dateRange: {
           startDate: CODEMOTION.startDate,
@@ -102,17 +103,34 @@ export class TestClient {
       .expectStatus(HttpStatus.CREATED)
   }
 
-  createSpeaker() {
+  createSpeaker({ id = JOYCE_LIN.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/speakers')
       .send({
-        id: JOYCE_LIN.id,
+        id,
         name: JOYCE_LIN.name,
         age: JOYCE_LIN.age,
         language: JOYCE_LIN.language,
         email: JOYCE_LIN.email,
       })
       .expectStatus(HttpStatus.CREATED)
+  }
+
+  createTalk({ id = API_TALK.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/talks')
+      .send({
+        id,
+        title: API_TALK.title,
+        description: API_TALK.description,
+        language: API_TALK.language,
+        cospeakers: API_TALK.cospeakers,
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  getTalk(id = API_TALK.id) {
+    return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
   }
 
   getSpeaker(id = JOYCE_LIN.id) {

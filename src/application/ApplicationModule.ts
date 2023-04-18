@@ -9,11 +9,13 @@ import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
 import { HealthModule } from '../api/health/HealthModule'
 import { EventsModule } from './events/EventsModule'
 import { SpeakersModule } from './speakers/SpeakersModule'
+import { TalksModule } from './talks/TalksModule'
 
 @Module({
   imports: [
     EventsModule,
     SpeakersModule,
+    TalksModule,
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
