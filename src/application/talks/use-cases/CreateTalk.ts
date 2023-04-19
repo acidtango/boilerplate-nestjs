@@ -7,6 +7,9 @@ import { TalkRepository } from '../domain/TalkRepository'
 import { Inject } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
 import { Talk } from '../domain/Talk'
+import { EventId } from '../../events/domain/EventId'
+import { SpeakerId } from '../../speakers/domain/SpeakerId'
+import { TalkStatus } from '../domain/TalkStatus'
 
 export type CreateTalkParams = {
   id: TalkId
@@ -14,6 +17,8 @@ export type CreateTalkParams = {
   description: TalkDescription
   cospeakers: string[]
   language: Language
+  eventId: EventId
+  speakerId: SpeakerId
 }
 
 export class CreateTalk extends UseCase {
@@ -24,7 +29,18 @@ export class CreateTalk extends UseCase {
   }
 
   async execute(params: CreateTalkParams) {
-    const talk = new Talk(params.id)
+    const { id, cospeakers, description, eventId, language, speakerId, title } = params
+
+    const talk = new Talk(
+      id,
+      title,
+      description,
+      language,
+      cospeakers,
+      TalkStatus.PROPOSAL,
+      speakerId,
+      eventId
+    )
 
     await this.talkRepository.save(talk)
   }

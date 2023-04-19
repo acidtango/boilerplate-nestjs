@@ -17,7 +17,7 @@ import { API_TALK } from '../../src/shared/fixtures/talks'
 export class TestClient {
   private app!: Server
 
-  private static apps: INestApplication[] = []
+  private static readonly apps: INestApplication[] = []
 
   private static addAppInstance(app: INestApplication) {
     this.apps.push(app)
@@ -125,6 +125,8 @@ export class TestClient {
         description: API_TALK.description,
         language: API_TALK.language,
         cospeakers: API_TALK.cospeakers,
+        speakerId: JOYCE_LIN.id,
+        eventId: CODEMOTION.id,
       })
       .expectStatus(HttpStatus.CREATED)
   }

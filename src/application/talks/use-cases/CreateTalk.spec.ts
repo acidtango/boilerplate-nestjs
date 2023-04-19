@@ -1,10 +1,14 @@
-import { CreateTalk, CreateTalkParams } from './CreateTalk'
-import { API_TALK } from '../../../shared/fixtures/talks'
-import { TalkId } from '../domain/TalkId'
-import { TalkTitle } from '../domain/TalkTitle'
-import { TalkDescription } from '../domain/TalkDescription'
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
+import { CODEMOTION } from '../../../shared/fixtures/events'
+import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
+import { API_TALK } from '../../../shared/fixtures/talks'
+import { EventId } from '../../events/domain/EventId'
+import { SpeakerId } from '../../speakers/domain/SpeakerId'
+import { TalkDescription } from '../domain/TalkDescription'
+import { TalkId } from '../domain/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
+import { TalkTitle } from '../domain/TalkTitle'
+import { CreateTalk, CreateTalkParams } from './CreateTalk'
 
 describe('CreateTalk', () => {
   it('creates the a proposal talk', async () => {
@@ -26,5 +30,7 @@ function generateCreateApiTalkParams(): CreateTalkParams {
     description: new TalkDescription(API_TALK.description),
     cospeakers: API_TALK.cospeakers,
     language: API_TALK.language,
+    eventId: new EventId(CODEMOTION.id),
+    speakerId: new SpeakerId(JOYCE_LIN.id),
   }
 }

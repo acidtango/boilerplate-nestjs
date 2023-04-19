@@ -1,4 +1,8 @@
+import { CODEMOTION } from '../../../../shared/fixtures/events'
+import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
+import { EventId } from '../../../events/domain/EventId'
+import { SpeakerId } from '../../../speakers/domain/SpeakerId'
 import { TalkDescription } from '../../domain/TalkDescription'
 import { TalkId } from '../../domain/TalkId'
 import { TalkTitle } from '../../domain/TalkTitle'
@@ -17,6 +21,8 @@ describe('CreateTalkEndpoint', () => {
       description: API_TALK.description,
       cospeakers: API_TALK.cospeakers,
       language: API_TALK.language,
+      eventId: CODEMOTION.id,
+      speakerId: JOYCE_LIN.id,
     })
 
     await endpoint.execute(createTalkDTO)
@@ -27,6 +33,8 @@ describe('CreateTalkEndpoint', () => {
       description: TalkDescription.fromPrimitives(API_TALK.description),
       cospeakers: API_TALK.cospeakers,
       language: API_TALK.language,
+      speakerId: SpeakerId.fromPrimitives(JOYCE_LIN.id),
+      eventId: EventId.fromPrimitives(CODEMOTION.id),
     })
   })
 })
