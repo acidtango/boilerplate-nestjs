@@ -24,6 +24,7 @@
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-empty-function": "warn",
     "@typescript-eslint/no-useless-constructor": "warn",
+    "@typescript-eslint/prefer-readonly": "warn",
     "import/no-extraneous-dependencies": [
       "error",
       {

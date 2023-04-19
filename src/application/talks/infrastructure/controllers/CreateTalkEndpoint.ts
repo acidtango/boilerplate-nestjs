@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
-import { CreateTalkUseCase } from '../../use-cases/CreateTalkUsecase'
+import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkRequestDTO } from './dtos/CreateTalkRequestDTO'
 import { TalkId } from '../../domain/TalkId'
 import { TalkTitle } from '../../domain/TalkTitle'
@@ -8,7 +8,7 @@ import { TalkDescription } from '../../domain/TalkDescription'
 
 @Controller('/v1/talks')
 export class CreateTalkEndpoint {
-  constructor(private readonly createTalk: CreateTalkUseCase) {}
+  constructor(private readonly createTalk: CreateTalk) {}
 
   @Endpoint({
     tag: DocumentationTag.TALKS,

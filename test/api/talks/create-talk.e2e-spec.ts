@@ -10,7 +10,7 @@ describe('create talk', () => {
     await client.createSpeaker({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
 
-    const { status } = await client.createTalk({ id: API_TALK.id }).run()
+    const { status } = await client.createTalk({ id: API_TALK.id }).debug().run()
 
     expect(status).toEqual(HttpStatus.CREATED)
     const { body: talk } = await client.getTalk(API_TALK.id).run()
