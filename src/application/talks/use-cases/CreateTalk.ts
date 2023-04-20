@@ -31,16 +31,7 @@ export class CreateTalk extends UseCase {
   async execute(params: CreateTalkParams) {
     const { id, cospeakers, description, eventId, language, speakerId, title } = params
 
-    const talk = new Talk(
-      id,
-      title,
-      description,
-      language,
-      cospeakers,
-      TalkStatus.PROPOSAL,
-      speakerId,
-      eventId
-    )
+    const talk = Talk.create(id, title, description, language, cospeakers, speakerId, eventId)
 
     await this.talkRepository.save(talk)
   }

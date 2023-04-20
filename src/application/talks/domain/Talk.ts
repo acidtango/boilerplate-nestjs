@@ -21,6 +21,27 @@ export class Talk {
     private readonly eventId: EventId
   ) {}
 
+  static create(
+    id: TalkId,
+    title: TalkTitle,
+    description: TalkDescription,
+    language: Language,
+    cospeakers: string[],
+    speakerId: SpeakerId,
+    eventId: EventId
+  ) {
+    return new Talk(
+      id,
+      title,
+      description,
+      language,
+      cospeakers,
+      TalkStatus.PROPOSAL,
+      speakerId,
+      eventId
+    )
+  }
+
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const { id, cospeakers, description, eventId, language, speakerId, status, title } =
       talkPrimitives
