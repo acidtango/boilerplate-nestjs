@@ -6,11 +6,12 @@ import { TalkDescription } from './TalkDescription'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
+import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk {
-  constructor(
+  private constructor(
     private readonly id: TalkId,
     private readonly title: TalkTitle,
     private readonly description: TalkDescription,
@@ -19,7 +20,9 @@ export class Talk {
     private readonly status: TalkStatus,
     private readonly speakerId: SpeakerId,
     private readonly eventId: EventId
-  ) {}
+  ) {
+    if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
+  }
 
   static create(
     id: TalkId,
@@ -58,8 +61,8 @@ export class Talk {
     )
   }
 
-  getStatus() {
-    return TalkStatus.PROPOSAL
+  hasStatus(status: TalkStatus) {
+    return true
   }
 
   toPrimitives() {

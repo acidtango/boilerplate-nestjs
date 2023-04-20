@@ -19,7 +19,7 @@ describe('CreateTalk', () => {
     await createTalk.execute(params)
 
     const talk = talkRepository.getLatestSavedTalk()
-    expect(talk.getStatus()).toBe(TalkStatus.PROPOSAL)
+    expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
   })
 })
 
