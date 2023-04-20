@@ -6,6 +6,10 @@ export class TalkRepositoryMemory implements TalkRepository {
   protected talks: Map<string, TalkPrimitives> = new Map()
 
   async save(talk: Talk) {
+    this.saveSync(talk)
+  }
+
+  protected saveSync(talk: Talk) {
     const talkPrimitives = talk.toPrimitives()
 
     this.talks.set(talkPrimitives.id, talkPrimitives)

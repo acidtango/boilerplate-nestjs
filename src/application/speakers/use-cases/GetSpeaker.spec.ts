@@ -17,7 +17,7 @@ describe('GetSpeaker', () => {
   })
 
   it('fails if the speaker does not exist', async () => {
-    const notExistentId = new SpeakerId('invalid-id')
+    const notExistentId = new SpeakerId('not-existent-id')
     const speakerRepository = SpeakerRepositoryFake.empty()
     const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
