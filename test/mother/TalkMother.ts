@@ -18,7 +18,7 @@ export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.co
     new TalkTitle(API_TALK.title),
     new TalkDescription(API_TALK.description),
     API_TALK.language,
-    cospeakers,
+    cospeakers.map(SpeakerId.fromPrimitives),
     new SpeakerId(JOYCE_LIN.id),
     new EventId(CODEMOTION.id)
   )

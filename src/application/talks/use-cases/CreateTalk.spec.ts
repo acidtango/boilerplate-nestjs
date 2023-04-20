@@ -28,7 +28,7 @@ function generateCreateApiTalkParams(): CreateTalkParams {
     id: new TalkId(API_TALK.id),
     title: new TalkTitle(API_TALK.title),
     description: new TalkDescription(API_TALK.description),
-    cospeakers: API_TALK.cospeakers,
+    cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
     language: API_TALK.language,
     eventId: new EventId(CODEMOTION.id),
     speakerId: new SpeakerId(JOYCE_LIN.id),

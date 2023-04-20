@@ -1,9 +1,9 @@
-import { Primitives } from '../../../utils/Primitives'
 import { EventId } from '../../../shared/domain/ids/EventId'
-import { Language } from '../../shared/domain/Language'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
-import { TalkDescription } from './TalkDescription'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { Primitives } from '../../../utils/Primitives'
+import { Language } from '../../shared/domain/Language'
+import { TalkDescription } from './TalkDescription'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
@@ -16,7 +16,7 @@ export class Talk {
     private readonly title: TalkTitle,
     private readonly description: TalkDescription,
     private readonly language: Language,
-    private readonly cospeakers: string[],
+    private readonly cospeakers: SpeakerId[],
     private readonly status: TalkStatus,
     private readonly speakerId: SpeakerId,
     private readonly eventId: EventId
@@ -29,7 +29,7 @@ export class Talk {
     title: TalkTitle,
     description: TalkDescription,
     language: Language,
-    cospeakers: string[],
+    cospeakers: SpeakerId[],
     speakerId: SpeakerId,
     eventId: EventId
   ) {
@@ -54,7 +54,7 @@ export class Talk {
       TalkTitle.fromPrimitives(title),
       TalkDescription.fromPrimitives(description),
       language,
-      cospeakers,
+      cospeakers.map(SpeakerId.fromPrimitives),
       status,
       SpeakerId.fromPrimitives(speakerId),
       EventId.fromPrimitives(eventId)
@@ -71,7 +71,7 @@ export class Talk {
       title: this.title.toPrimitives(),
       description: this.description.toPrimitives(),
       language: this.language,
-      cospeakers: this.cospeakers,
+      cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
       status: this.status,
       speakerId: this.speakerId.toPrimitives(),
       eventId: this.eventId.toPrimitives(),

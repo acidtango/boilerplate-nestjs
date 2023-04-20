@@ -1,21 +1,20 @@
-import { UseCase } from '../../../shared/domain/hex/UseCase'
-import { Language } from '../../shared/domain/Language'
-import { TalkDescription } from '../domain/TalkDescription'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
-import { TalkTitle } from '../domain/TalkTitle'
-import { TalkRepository } from '../domain/TalkRepository'
 import { Inject } from '@nestjs/common'
-import { AppProvider } from '../../AppProviders'
-import { Talk } from '../domain/Talk'
+import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
-import { TalkStatus } from '../domain/TalkStatus'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { AppProvider } from '../../AppProviders'
+import { Language } from '../../shared/domain/Language'
+import { Talk } from '../domain/Talk'
+import { TalkDescription } from '../domain/TalkDescription'
+import { TalkRepository } from '../domain/TalkRepository'
+import { TalkTitle } from '../domain/TalkTitle'
 
 export type CreateTalkParams = {
   id: TalkId
   title: TalkTitle
   description: TalkDescription
-  cospeakers: string[]
+  cospeakers: SpeakerId[]
   language: Language
   eventId: EventId
   speakerId: SpeakerId

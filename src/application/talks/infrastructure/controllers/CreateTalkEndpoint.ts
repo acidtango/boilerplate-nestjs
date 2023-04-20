@@ -23,7 +23,7 @@ export class CreateTalkEndpoint {
       id: TalkId.fromPrimitives(body.id),
       title: TalkTitle.fromPrimitives(body.title),
       description: TalkDescription.fromPrimitives(body.description),
-      cospeakers: body.cospeakers,
+      cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
       language: body.language,
       eventId: EventId.fromPrimitives(body.eventId),
       speakerId: SpeakerId.fromPrimitives(body.speakerId),
