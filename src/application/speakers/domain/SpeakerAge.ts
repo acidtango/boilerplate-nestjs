@@ -2,7 +2,7 @@ import { ValueObject } from '../../../shared/domain/hex/ValueObject'
 import { UnderageSpeakerError } from './errors/UnderageSpeakerError'
 
 export class SpeakerAge extends ValueObject {
-  constructor(private age: number) {
+  constructor(private readonly age: number) {
     super()
     this.ensureIsNotUnderAge()
   }

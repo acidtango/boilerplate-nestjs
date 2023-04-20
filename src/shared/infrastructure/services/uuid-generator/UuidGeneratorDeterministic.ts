@@ -1,7 +1,7 @@
 import { UuidGenerator } from '../../../domain/services/UuidGenerator'
 
 export class UuidGeneratorDeterministic implements UuidGenerator {
-  private static BASE_MOCKED_UUID = '5ca1ab1e-0000-4000-a000'
+  private static readonly BASE_MOCKED_UUID = '5ca1ab1e-0000-4000-a000'
 
   /**
    * @description Generates a deterministic UUID whose last part is the given number as input

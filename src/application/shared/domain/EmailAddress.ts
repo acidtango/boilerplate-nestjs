@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
 
 export class EmailAddress extends ValueObject {
-  constructor(private email: string) {
+  constructor(private readonly email: string) {
     super()
   }
 

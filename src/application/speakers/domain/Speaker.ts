@@ -9,12 +9,12 @@ export type SpeakerPrimitives = Primitives<Speaker>
 
 export class Speaker {
   constructor(
-    private id: SpeakerId,
-    private name: SpeakerName,
-    private age: SpeakerAge,
-    private language: Language,
-    private email: EmailAddress,
-    private isEmailValidated: boolean
+    private readonly id: SpeakerId,
+    private readonly name: SpeakerName,
+    private readonly age: SpeakerAge,
+    private readonly language: Language,
+    private readonly email: EmailAddress,
+    private readonly isEmailValidated: boolean
   ) {}
 
   static create(

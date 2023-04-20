@@ -4,7 +4,7 @@ import { CustomHealthIndicator } from '../services/CustomHealthIndicator'
 
 @Injectable()
 export class DatabaseHealthIndicatorFake extends HealthIndicator implements CustomHealthIndicator {
-  constructor(private throwError: boolean = false) {
+  constructor(private readonly throwError: boolean = false) {
     super()
   }
 

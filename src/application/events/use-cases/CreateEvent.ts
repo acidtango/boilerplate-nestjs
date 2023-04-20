@@ -17,7 +17,9 @@ export type CreateEventParams = {
 }
 
 export class CreateEvent extends UseCase {
-  constructor(@Inject(AppProvider.EVENT_REPOSITORY) private eventRepository: EventRepository) {
+  constructor(
+    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
+  ) {
     super()
   }
 

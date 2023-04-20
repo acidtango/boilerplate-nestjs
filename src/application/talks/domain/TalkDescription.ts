@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
 
 export class TalkDescription extends ValueObject {
-  constructor(private description: string) {
+  constructor(private readonly description: string) {
     super()
   }
 

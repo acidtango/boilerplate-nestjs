@@ -39,20 +39,7 @@
     "@shopify/typescript/prefer-singular-enums": "warn",
     "no-tabs": "warn",
     "arrow-body-style": "warn",
-    "max-len": [
-      "warn",
-      {
-        "code": 100, // Same line length than prettier
-        "tabWidth": 2, // Same than prettier
-        "ignorePattern": "import *",
-        "ignoreComments": true,
-        "ignoreTrailingComments": true,
-        "ignoreUrls": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true,
-        "ignoreRegExpLiterals": true
-      }
-    ],
+    "max-len": "off",
     "import/no-default-export": "warn"
   }
 }

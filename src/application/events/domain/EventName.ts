@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
 
 export class EventName extends ValueObject {
-  constructor(private name: string) {
+  constructor(private readonly name: string) {
     super()
   }
 

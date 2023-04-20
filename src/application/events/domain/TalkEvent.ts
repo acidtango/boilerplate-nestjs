@@ -9,10 +9,10 @@ export type TalkEventPrimitives = Primitives<TalkEvent>
 
 export class TalkEvent extends AggregateRoot {
   constructor(
-    private eventId: EventId,
-    private name: EventName,
-    private dateRange: EventDateRange,
-    private proposalsDateRange: EventProposalsDateRange
+    private readonly eventId: EventId,
+    private readonly name: EventName,
+    private readonly dateRange: EventDateRange,
+    private readonly proposalsDateRange: EventProposalsDateRange
   ) {
     super()
   }

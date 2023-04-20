@@ -5,5 +5,5 @@ export class UserId extends DomainId {
     return new UserId(id)
   }
 
-  private static TOKEN = 'UserId'
+  private static readonly TOKEN = 'UserId'
 }

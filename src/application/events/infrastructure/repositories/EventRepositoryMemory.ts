@@ -3,7 +3,7 @@ import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
 import { EventId } from '../../domain/EventId'
 
 export class EventRepositoryMemory implements EventRepository {
-  private talkEvents: Map<string, TalkEventPrimitives> = new Map()
+  private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()
 
   async save(talkEvent: TalkEvent): Promise<void> {
     const talkEventPrimitives = talkEvent.toPrimitives()

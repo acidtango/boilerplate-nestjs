@@ -3,7 +3,7 @@ export class DomainId {
     return id.id
   }
 
-  constructor(private id: string) {}
+  constructor(private readonly id: string) {}
 
   toPrimitives() {
     return DomainId.toPrimitives(this)
