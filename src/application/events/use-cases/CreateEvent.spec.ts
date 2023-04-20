@@ -1,6 +1,6 @@
 import { CODEMOTION } from '../../../shared/fixtures/events'
 import { EventDateRange } from '../domain/EventDateRange'
-import { EventId } from '../domain/EventId'
+import { EventId } from '../../../shared/domain/ids/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { CreateEvent, CreateEventParams } from './CreateEvent'

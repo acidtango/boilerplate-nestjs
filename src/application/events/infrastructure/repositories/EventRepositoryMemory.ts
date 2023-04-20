@@ -1,6 +1,6 @@
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
-import { EventId } from '../../domain/EventId'
+import { EventId } from '../../../../shared/domain/ids/EventId'
 
 export class EventRepositoryMemory implements EventRepository {
   private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()

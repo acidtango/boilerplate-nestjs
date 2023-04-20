@@ -1,14 +1,14 @@
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { Language } from '../../shared/domain/Language'
 import { TalkDescription } from '../domain/TalkDescription'
-import { TalkId } from '../domain/TalkId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkTitle } from '../domain/TalkTitle'
 import { TalkRepository } from '../domain/TalkRepository'
 import { Inject } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
 import { Talk } from '../domain/Talk'
-import { EventId } from '../../events/domain/EventId'
-import { SpeakerId } from '../../speakers/domain/SpeakerId'
+import { EventId } from '../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { TalkStatus } from '../domain/TalkStatus'
 
 export type CreateTalkParams = {

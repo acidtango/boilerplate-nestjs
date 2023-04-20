@@ -1,4 +1,4 @@
-import { DomainId } from '../../../shared/domain/hex/DomainId'
+import { DomainId } from '../hex/DomainId'
 
 export class EventId extends DomainId {
   private readonly TOKEN = 'EventId'

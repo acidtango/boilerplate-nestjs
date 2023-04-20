@@ -2,7 +2,7 @@ import { GetSpeakerEndpoint } from './GetSpeakerEndpoint'
 import { GetSpeaker } from '../../use-cases/GetSpeaker'
 import { createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
-import { SpeakerId } from '../../domain/SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 
 describe('ListEventsEndpoint', () => {
   it('calls the use case with the given id', () => {

@@ -1,5 +1,5 @@
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
-import { SpeakerId } from '../../domain/SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 
 export class SpeakerRepositoryMemory implements SpeakerRepository {

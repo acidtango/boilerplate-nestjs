@@ -1,7 +1,7 @@
-import { DomainId } from '../../../shared/domain/hex/DomainId'
+import { DomainId } from '../hex/DomainId'
 
 export class TalkId extends DomainId {
-  private static readonly TOKEN = 'TalkId'
+  private readonly TOKEN = 'TalkId'
 
   static fromPrimitives(id: string): TalkId {
     return new TalkId(id)

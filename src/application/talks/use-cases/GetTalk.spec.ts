@@ -1,7 +1,7 @@
 import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { GetTalk } from './GetTalk'
-import { TalkId } from '../domain/TalkId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('GetTalk', () => {

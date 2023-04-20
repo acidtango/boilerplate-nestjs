@@ -1,6 +1,6 @@
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { Talk } from '../domain/Talk'
-import { TalkId } from '../domain/TalkId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkRepository } from '../domain/TalkRepository'
 import { Inject } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'

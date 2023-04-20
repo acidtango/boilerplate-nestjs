@@ -1,6 +1,6 @@
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
-import { SpeakerId } from '../../domain/SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 
 describe('SpeakerRepositoryMemory', () => {

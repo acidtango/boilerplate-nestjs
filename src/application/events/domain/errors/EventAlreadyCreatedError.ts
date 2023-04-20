@@ -1,5 +1,5 @@
 import { AggregateAlreadyCreatedError } from '../../../../shared/domain/errors/AggregateAlreadyCreatedError'
-import { EventId } from '../EventId'
+import { EventId } from '../../../../shared/domain/ids/EventId'
 import { TalkEvent } from '../TalkEvent'
 
 export class EventAlreadyCreatedError extends AggregateAlreadyCreatedError {

@@ -1,9 +1,9 @@
 import { Primitives } from '../../../utils/Primitives'
-import { EventId } from '../../events/domain/EventId'
+import { EventId } from '../../../shared/domain/ids/EventId'
 import { Language } from '../../shared/domain/Language'
-import { SpeakerId } from '../../speakers/domain/SpeakerId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { TalkDescription } from './TalkDescription'
-import { TalkId } from './TalkId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
 

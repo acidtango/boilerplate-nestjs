@@ -2,7 +2,7 @@ import { createApiTalk } from '../../../../../test/mother/TalkMother'
 import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
-import { TalkId } from '../../domain/TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { GetTalk } from '../../use-cases/GetTalk'
 import { GetTalkEndpoint } from './GetTalkEndpoint'
 
