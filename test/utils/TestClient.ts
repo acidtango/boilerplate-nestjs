@@ -13,6 +13,7 @@ import { EventResponseDTO } from '../../src/application/events/infrastructure/co
 import { AppProvider } from '../../src/application/AppProviders'
 import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
 import { API_TALK } from '../../src/shared/fixtures/talks'
+import { FRAN } from '../../src/shared/fixtures/organizers'
 
 export class TestClient {
   private app!: Server
@@ -74,17 +75,6 @@ export class TestClient {
     return tepper(this.app).post(`/api/v1/users/${id}/contacts`).send(contacts)
   }
 
-  getUserContacts({ id = '' }) {
-    return tepper(this.app).get(`/api/v1/users/${id}/contacts`)
-  }
-
-  getCommonContacts(userId1: string, userId2: string) {
-    return tepper(this.app).get(`/api/v1/users/common-contacts`).withQuery({
-      userId1,
-      userId2,
-    })
-  }
-
   createEvent({ id = CODEMOTION.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/events')
@@ -141,5 +131,12 @@ export class TestClient {
 
   getEvents() {
     return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
+  }
+
+  assignReviewer({ id = API_TALK.id, reviewerId = FRAN.id }) {
+    return tepper(this.app)
+      .put<EventResponseDTO[]>(`/api/v1/talk/${id}/assignation`)
+      .send({ reviewerId })
+      .expectStatus(HttpStatus.OK)
   }
 }
