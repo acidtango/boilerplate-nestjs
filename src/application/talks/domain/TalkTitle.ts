@@ -1,17 +1,17 @@
 import { ValueObject } from '../../../shared/domain/hex/ValueObject'
-import { TitleTooLongError } from './errors/TitleTooLongError'
+import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 
 export class TalkTitle extends ValueObject {
   private static readonly MAX_LENGTH = 100
 
   constructor(private readonly title: string) {
     super()
-    this.ensureTitleIsNotTooLong()
+    this.ensureIsNotTooLong()
   }
 
-  private ensureTitleIsNotTooLong() {
+  private ensureIsNotTooLong() {
     if (this.title.length > TalkTitle.MAX_LENGTH) {
-      throw new TitleTooLongError()
+      throw new TalkTitleTooLongError()
     }
   }
 
