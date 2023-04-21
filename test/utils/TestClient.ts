@@ -135,7 +135,7 @@ export class TestClient {
 
   assignReviewer({ id = API_TALK.id, reviewerId = FRAN.id }) {
     return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talk/${id}/assignation`)
+      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
       .send({ reviewerId })
       .expectStatus(HttpStatus.OK)
   }
