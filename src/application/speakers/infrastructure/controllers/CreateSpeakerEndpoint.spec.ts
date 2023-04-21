@@ -1,7 +1,7 @@
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { EmailAddress } from '../../../shared/domain/EmailAddress'
 import { SpeakerAge } from '../../domain/SpeakerAge'
-import { SpeakerId } from '../../domain/SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { SpeakerName } from '../../domain/SpeakerName'
 import { CreateSpeaker } from '../../use-cases/CreateSpeaker'
 import { CreateSpeakerEndpoint } from './CreateSpeakerEndpoint'

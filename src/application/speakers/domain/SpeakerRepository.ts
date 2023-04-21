@@ -1,5 +1,5 @@
 import { Speaker } from './Speaker'
-import { SpeakerId } from './SpeakerId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 
 export interface SpeakerRepository {
   save(speaker: Speaker): Promise<void>

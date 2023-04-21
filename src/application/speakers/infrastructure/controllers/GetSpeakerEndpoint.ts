@@ -2,7 +2,7 @@ import { GetSpeaker } from '../../use-cases/GetSpeaker'
 import { SpeakerResponseDTO } from './dtos/SpeakerResponseDTO'
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
-import { SpeakerId } from '../../domain/SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {

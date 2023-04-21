@@ -1,6 +1,6 @@
 import { TalkRepository } from '../../domain/TalkRepository'
 import { Talk, TalkPrimitives } from '../../domain/Talk'
-import { TalkId } from '../../domain/TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 export class TalkRepositoryMemory implements TalkRepository {
   protected talks: Map<string, TalkPrimitives> = new Map()

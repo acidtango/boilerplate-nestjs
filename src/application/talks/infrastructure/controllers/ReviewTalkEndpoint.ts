@@ -3,7 +3,7 @@ import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoin
 import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
 import { OrganizerId } from '../../../../shared/domain/ids/OrganizerId'
-import { TalkId } from '../../domain/TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 @Controller('/v1/talks/:id/assignation')
 export class ReviewTalkEndpoint {

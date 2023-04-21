@@ -1,25 +1,49 @@
+import { EventId } from '../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { Primitives } from '../../../utils/Primitives'
-import { EventId } from '../../events/domain/EventId'
 import { Language } from '../../shared/domain/Language'
-import { SpeakerId } from '../../speakers/domain/SpeakerId'
 import { TalkDescription } from './TalkDescription'
-import { TalkId } from './TalkId'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
+import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk {
-  constructor(
+  private constructor(
     private readonly id: TalkId,
     private readonly title: TalkTitle,
     private readonly description: TalkDescription,
     private readonly language: Language,
-    private readonly cospeakers: string[],
+    private readonly cospeakers: SpeakerId[],
     private readonly status: TalkStatus,
     private readonly speakerId: SpeakerId,
     private readonly eventId: EventId
-  ) {}
+  ) {
+    if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
+  }
+
+  static create(
+    id: TalkId,
+    title: TalkTitle,
+    description: TalkDescription,
+    language: Language,
+    cospeakers: SpeakerId[],
+    speakerId: SpeakerId,
+    eventId: EventId
+  ) {
+    return new Talk(
+      id,
+      title,
+      description,
+      language,
+      cospeakers,
+      TalkStatus.PROPOSAL,
+      speakerId,
+      eventId
+    )
+  }
 
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const { id, cospeakers, description, eventId, language, speakerId, status, title } =
@@ -30,15 +54,15 @@ export class Talk {
       TalkTitle.fromPrimitives(title),
       TalkDescription.fromPrimitives(description),
       language,
-      cospeakers,
+      cospeakers.map(SpeakerId.fromPrimitives),
       status,
       SpeakerId.fromPrimitives(speakerId),
       EventId.fromPrimitives(eventId)
     )
   }
 
-  getStatus() {
-    return TalkStatus.PROPOSAL
+  hasStatus(status: TalkStatus) {
+    return true
   }
 
   toPrimitives() {
@@ -47,7 +71,7 @@ export class Talk {
       title: this.title.toPrimitives(),
       description: this.description.toPrimitives(),
       language: this.language,
-      cospeakers: this.cospeakers,
+      cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
       status: this.status,
       speakerId: this.speakerId.toPrimitives(),
       eventId: this.eventId.toPrimitives(),

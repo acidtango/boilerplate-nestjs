@@ -1,10 +1,10 @@
 import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
-import { EventId } from '../../../events/domain/EventId'
-import { SpeakerId } from '../../../speakers/domain/SpeakerId'
+import { EventId } from '../../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { TalkDescription } from '../../domain/TalkDescription'
-import { TalkId } from '../../domain/TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { TalkTitle } from '../../domain/TalkTitle'
 
 import { CreateTalk } from '../../use-cases/CreateTalk'

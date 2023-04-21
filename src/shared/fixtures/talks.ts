@@ -6,5 +6,5 @@ export const API_TALK = {
   description:
     'Learn about the popularity of API protocols and patterns over time, and see what’s coming up next in the future of APIs and API development.',
   language: Language.ENGLISH,
-  cospeakers: [],
+  cospeakers: [] as string[],
 }

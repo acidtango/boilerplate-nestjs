@@ -1,5 +1,5 @@
 import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { SpeakerId } from '../SpeakerId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
 
 export class SpeakerNotFoundError extends DomainError {

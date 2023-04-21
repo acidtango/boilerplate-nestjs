@@ -1,21 +1,20 @@
-import { UseCase } from '../../../shared/domain/hex/UseCase'
-import { Language } from '../../shared/domain/Language'
-import { TalkDescription } from '../domain/TalkDescription'
-import { TalkId } from '../domain/TalkId'
-import { TalkTitle } from '../domain/TalkTitle'
-import { TalkRepository } from '../domain/TalkRepository'
 import { Inject } from '@nestjs/common'
+import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { EventId } from '../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { AppProvider } from '../../AppProviders'
+import { Language } from '../../shared/domain/Language'
 import { Talk } from '../domain/Talk'
-import { EventId } from '../../events/domain/EventId'
-import { SpeakerId } from '../../speakers/domain/SpeakerId'
-import { TalkStatus } from '../domain/TalkStatus'
+import { TalkDescription } from '../domain/TalkDescription'
+import { TalkRepository } from '../domain/TalkRepository'
+import { TalkTitle } from '../domain/TalkTitle'
 
 export type CreateTalkParams = {
   id: TalkId
   title: TalkTitle
   description: TalkDescription
-  cospeakers: string[]
+  cospeakers: SpeakerId[]
   language: Language
   eventId: EventId
   speakerId: SpeakerId
@@ -29,16 +28,9 @@ export class CreateTalk extends UseCase {
   }
 
   async execute(params: CreateTalkParams) {
-    const talk = new Talk(
-      params.id,
-      params.title,
-      params.description,
-      params.language,
-      params.cospeakers,
-      TalkStatus.PROPOSAL,
-      params.speakerId,
-      params.eventId
-    )
+    const { id, cospeakers, description, eventId, language, speakerId, title } = params
+
+    const talk = Talk.create(id, title, description, language, cospeakers, speakerId, eventId)
 
     await this.talkRepository.save(talk)
   }

@@ -6,7 +6,7 @@ import { SpeakerName } from '../domain/SpeakerName'
 import { CreateSpeaker, CreateSpeakerParams } from './CreateSpeaker'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
-import { SpeakerId } from '../domain/SpeakerId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 
 describe('CreateSpeaker', () => {
   it('saves the speaker in the repository', async () => {

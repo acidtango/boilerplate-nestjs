@@ -1,5 +1,5 @@
 import { EventId } from './EventId'
-import { CODEMOTION } from '../../../shared/fixtures/events'
+import { CODEMOTION } from '../../fixtures/events'
 
 describe('EventId', () => {
   it('is serializable', () => {

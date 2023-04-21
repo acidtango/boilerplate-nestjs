@@ -2,10 +2,10 @@ import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { CODEMOTION } from '../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../shared/fixtures/talks'
-import { EventId } from '../../events/domain/EventId'
-import { SpeakerId } from '../../speakers/domain/SpeakerId'
+import { EventId } from '../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { TalkDescription } from '../domain/TalkDescription'
-import { TalkId } from '../domain/TalkId'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkTitle } from '../domain/TalkTitle'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
@@ -19,7 +19,7 @@ describe('CreateTalk', () => {
     await createTalk.execute(params)
 
     const talk = talkRepository.getLatestSavedTalk()
-    expect(talk.getStatus()).toBe(TalkStatus.PROPOSAL)
+    expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
   })
 })
 
@@ -28,7 +28,7 @@ function generateCreateApiTalkParams(): CreateTalkParams {
     id: new TalkId(API_TALK.id),
     title: new TalkTitle(API_TALK.title),
     description: new TalkDescription(API_TALK.description),
-    cospeakers: API_TALK.cospeakers,
+    cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
     language: API_TALK.language,
     eventId: new EventId(CODEMOTION.id),
     speakerId: new SpeakerId(JOYCE_LIN.id),

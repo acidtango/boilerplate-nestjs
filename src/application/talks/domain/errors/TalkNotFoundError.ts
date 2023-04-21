@@ -1,5 +1,5 @@
 import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { TalkId } from '../TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
 
 export class TalkNotFoundError extends DomainError {

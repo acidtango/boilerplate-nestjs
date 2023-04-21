@@ -1,4 +1,4 @@
-import { SpeakerId } from '../../src/application/speakers/domain/SpeakerId'
+import { SpeakerId } from '../../src/shared/domain/ids/SpeakerId'
 import { SpeakerName } from '../../src/application/speakers/domain/SpeakerName'
 import { SpeakerAge } from '../../src/application/speakers/domain/SpeakerAge'
 import { HAKON_WIUM, JOYCE_LIN } from '../../src/shared/fixtures/speakers'

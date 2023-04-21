@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { GetTalk } from '../../use-cases/GetTalk'
-import { TalkId } from '../../domain/TalkId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { TalkResponseDTO } from './dtos/TalkResponseDTO'
 
 @Controller('/v1/talks/:id')

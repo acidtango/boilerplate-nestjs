@@ -1,6 +1,6 @@
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
-import { SpeakerId } from '../domain/SpeakerId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
 

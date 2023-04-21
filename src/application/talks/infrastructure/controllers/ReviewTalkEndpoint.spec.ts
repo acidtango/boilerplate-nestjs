@@ -1,10 +1,10 @@
 import { API_TALK } from '../../../../shared/fixtures/talks'
-import { TalkId } from '../../domain/TalkId'
 import { ReviewTalkEndpoint } from './ReviewTalkEndpoint'
 import { FRAN } from '../../../../shared/fixtures/organizers'
 import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
 import { OrganizerId } from '../../../../shared/domain/ids/OrganizerId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 describe('ReviewTalkEndpoint', () => {
   it('transforms DTO into domain objects', async () => {

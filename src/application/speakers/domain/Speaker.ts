@@ -1,5 +1,5 @@
 import { SpeakerName } from './SpeakerName'
-import { SpeakerId } from './SpeakerId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { SpeakerAge } from './SpeakerAge'
 import { EmailAddress } from '../../shared/domain/EmailAddress'
 import { Language } from '../../shared/domain/Language'
