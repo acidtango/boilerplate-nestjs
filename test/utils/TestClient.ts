@@ -13,6 +13,8 @@ import { AppProvider } from '../../src/application/AppProviders'
 import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
 import { API_TALK } from '../../src/shared/fixtures/talks'
 import { FRAN } from '../../src/shared/fixtures/organizers'
+import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
+import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
 
 export class TestClient {
   private app!: Server
@@ -42,7 +44,9 @@ export class TestClient {
       // We need to change the repositories with the orm ones
       testingModuleBuilder = testingModuleBuilder
         .overrideProvider(AppProvider.EVENT_REPOSITORY)
-        .useValue(dependencies.eventRepository)
+        .useClass(EventRepositoryMemory)
+        .overrideProvider(AppProvider.TALK_REPOSITORY)
+        .useClass(TalkRepositoryMemory)
     }
 
     const moduleFixture = await testingModuleBuilder.compile()
