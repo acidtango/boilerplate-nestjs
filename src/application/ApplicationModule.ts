@@ -10,9 +10,11 @@ import { HealthModule } from '../api/health/HealthModule'
 import { EventsModule } from './events/EventsModule'
 import { SpeakersModule } from './speakers/SpeakersModule'
 import { TalksModule } from './talks/TalksModule'
+import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
 
 @Module({
   imports: [
+    EventBusModule,
     EventsModule,
     SpeakersModule,
     TalksModule,
