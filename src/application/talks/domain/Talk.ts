@@ -18,7 +18,6 @@ export class Talk {
     private readonly description: TalkDescription,
     private readonly language: Language,
     private readonly cospeakers: SpeakerId[],
-    private readonly status: TalkStatus,
     private readonly speakerId: SpeakerId,
     private readonly eventId: EventId,
     private reviewerId: OrganizerId | null
@@ -35,21 +34,11 @@ export class Talk {
     speakerId: SpeakerId,
     eventId: EventId
   ) {
-    return new Talk(
-      id,
-      title,
-      description,
-      language,
-      cospeakers,
-      TalkStatus.PROPOSAL,
-      speakerId,
-      eventId,
-      null
-    )
+    return new Talk(id, title, description, language, cospeakers, speakerId, eventId, null)
   }
 
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
-    const { id, cospeakers, description, eventId, language, speakerId, status, title, reviewerId } =
+    const { id, cospeakers, description, eventId, language, speakerId, title, reviewerId } =
       talkPrimitives
 
     return new Talk(
@@ -58,7 +47,6 @@ export class Talk {
       TalkDescription.fromPrimitives(description),
       language,
       cospeakers.map(SpeakerId.fromPrimitives),
-      status,
       SpeakerId.fromPrimitives(speakerId),
       EventId.fromPrimitives(eventId),
       reviewerId ? OrganizerId.fromPrimitives(reviewerId) : null
