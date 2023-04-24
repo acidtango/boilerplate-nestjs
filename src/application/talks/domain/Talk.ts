@@ -10,6 +10,7 @@ import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReached
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
+import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
 
 export type TalkPrimitives = Primitives<Talk>
 
@@ -67,6 +68,12 @@ export class Talk extends AggregateRoot {
 
   isGoingToBeReviewedBy(expectedReviewerId: OrganizerId) {
     return this.reviewerId?.equals(expectedReviewerId) ?? false
+  }
+
+  ensureTalkIsNotAlreadyBeingReviewed() {
+    if (this.hasStatus(TalkStatus.REVIEWING)) {
+      throw new TalkAlreadyBeingReviewed(this.id)
+    }
   }
 
   private getCurrentStatus() {

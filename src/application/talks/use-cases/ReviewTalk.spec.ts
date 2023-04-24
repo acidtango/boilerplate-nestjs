@@ -7,6 +7,7 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { EventBus } from '../../../shared/domain/hex/EventBus'
 import { EventBusNoop } from '../../../shared/infrastructure/events/EventBusNoop'
 import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
+import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
 
 describe('ReviewTalk', () => {
   let eventBus: EventBus
@@ -58,6 +59,26 @@ describe('ReviewTalk', () => {
       reviewTalk.execute({
         talkId: notExistentId,
         reviewerId: notImportantId,
+      })
+    ).rejects.toThrowError(expectedError)
+  })
+
+  it('fails if talk is already being reviewed', async () => {
+    const talkId = createApiTalkId()
+    const talk = createApiTalk({ id: talkId })
+    const talkRepository = TalkRepositoryFake.createWith(talk)
+    const reviewTalk = new ReviewTalk(eventBus, talkRepository)
+    const reviewerId = new OrganizerId(FRAN.id)
+    await reviewTalk.execute({
+      talkId,
+      reviewerId,
+    })
+
+    const expectedError = new TalkAlreadyBeingReviewed(talkId)
+    await expect(
+      reviewTalk.execute({
+        talkId,
+        reviewerId,
       })
     ).rejects.toThrowError(expectedError)
   })

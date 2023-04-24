@@ -27,6 +27,8 @@ export class ReviewTalk extends UseCase {
   async execute({ talkId, reviewerId }: ReviewTalkParams) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
+    talk.ensureTalkIsNotAlreadyBeingReviewed()
+
     talk.assignForReviewTo(reviewerId)
 
     await this.talkRepository.save(talk)
