@@ -1,5 +1,8 @@
 import { createApiTalk } from '../../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
+import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
+import { FRAN } from '../../../shared/fixtures/organizers'
+import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {
   it('fails if cospeakers are greater than 4', () => {
@@ -11,5 +14,42 @@ describe('Talk', () => {
     ]
 
     expect(() => createApiTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
+  })
+
+  it('is not assigned for review when created', () => {
+    const talk = createApiTalk()
+
+    const notExistentId = new OrganizerId('not-existent-id')
+    expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
+  })
+
+  it('has status PROPOSAL when created', () => {
+    const talk = createApiTalk()
+
+    expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
+  })
+
+  it('does not have status REVIEWING when created', () => {
+    const talk = createApiTalk()
+
+    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(false)
+  })
+
+  it('can be assigned to a reviewer', () => {
+    const talk = createApiTalk()
+    const reviewerId = new OrganizerId(FRAN.id)
+
+    talk.assignForReviewTo(reviewerId)
+
+    expect(talk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
+  })
+
+  it('has status REVIEWING when assigned to a reviewer', () => {
+    const talk = createApiTalk()
+    const reviewerId = new OrganizerId(FRAN.id)
+
+    talk.assignForReviewTo(reviewerId)
+
+    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(true)
   })
 })

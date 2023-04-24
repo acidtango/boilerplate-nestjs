@@ -7,6 +7,7 @@ import { TalkDescription } from './TalkDescription'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
+import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 
 export type TalkPrimitives = Primitives<Talk>
 
@@ -19,7 +20,8 @@ export class Talk {
     private readonly cospeakers: SpeakerId[],
     private readonly status: TalkStatus,
     private readonly speakerId: SpeakerId,
-    private readonly eventId: EventId
+    private readonly eventId: EventId,
+    private reviewerId: OrganizerId | null
   ) {
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
   }
@@ -41,12 +43,13 @@ export class Talk {
       cospeakers,
       TalkStatus.PROPOSAL,
       speakerId,
-      eventId
+      eventId,
+      null
     )
   }
 
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
-    const { id, cospeakers, description, eventId, language, speakerId, status, title } =
+    const { id, cospeakers, description, eventId, language, speakerId, status, title, reviewerId } =
       talkPrimitives
 
     return new Talk(
@@ -57,12 +60,25 @@ export class Talk {
       cospeakers.map(SpeakerId.fromPrimitives),
       status,
       SpeakerId.fromPrimitives(speakerId),
-      EventId.fromPrimitives(eventId)
+      EventId.fromPrimitives(eventId),
+      reviewerId ? OrganizerId.fromPrimitives(reviewerId) : null
     )
   }
 
-  hasStatus(status: TalkStatus) {
-    return true
+  hasStatus(expectedStatus: TalkStatus) {
+    return this.getCurrentStatus() === expectedStatus
+  }
+
+  assignForReviewTo(reviewerId: OrganizerId) {
+    this.reviewerId = reviewerId
+  }
+
+  isGoingToBeReviewedBy(expectedReviewerId: OrganizerId) {
+    return this.reviewerId?.equals(expectedReviewerId) ?? false
+  }
+
+  private getCurrentStatus() {
+    return this.reviewerId ? TalkStatus.REVIEWING : TalkStatus.PROPOSAL
   }
 
   toPrimitives() {
@@ -75,6 +91,7 @@ export class Talk {
       status: this.status,
       speakerId: this.speakerId.toPrimitives(),
       eventId: this.eventId.toPrimitives(),
+      reviewerId: this.reviewerId?.toPrimitives(),
     }
   }
 }

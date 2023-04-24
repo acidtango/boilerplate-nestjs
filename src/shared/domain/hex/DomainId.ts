@@ -5,6 +5,10 @@ export class DomainId {
 
   constructor(private readonly id: string) {}
 
+  equals(other: DomainId) {
+    return this.id === other.id
+  }
+
   toPrimitives() {
     return DomainId.toPrimitives(this)
   }

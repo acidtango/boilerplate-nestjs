@@ -1,14 +1,23 @@
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { TalkRepository } from '../domain/TalkRepository'
 
 export type CreateTalkParams = {
-  id: TalkId
+  talkId: TalkId
   reviewerId: OrganizerId
 }
 
 export class ReviewTalk extends UseCase {
-  async execute({ id, reviewerId }: CreateTalkParams) {
-    throw new Error('Unimplemented method ')
+  constructor(private readonly talkRepository: TalkRepository) {
+    super()
+  }
+
+  async execute({ talkId, reviewerId }: CreateTalkParams) {
+    const talk = await this.talkRepository.findById(talkId)
+
+    talk?.assignForReviewTo(reviewerId)
+
+    if (talk) await this.talkRepository.save(talk)
   }
 }

@@ -17,7 +17,7 @@ export class ReviewTalkEndpoint {
   @Put()
   async execute(@Param('id') id: string, { reviewerId }: ReviewTalkRequestDTO) {
     await this.reviewTalk.execute({
-      id: TalkId.fromPrimitives(id),
+      talkId: TalkId.fromPrimitives(id),
       reviewerId: OrganizerId.fromPrimitives(reviewerId),
     })
   }
