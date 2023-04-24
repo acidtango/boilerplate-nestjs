@@ -2,6 +2,7 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkRepository } from '../domain/TalkRepository'
+import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 export type CreateTalkParams = {
   talkId: TalkId
@@ -16,8 +17,12 @@ export class ReviewTalk extends UseCase {
   async execute({ talkId, reviewerId }: CreateTalkParams) {
     const talk = await this.talkRepository.findById(talkId)
 
-    talk?.assignForReviewTo(reviewerId)
+    if (!talk) {
+      throw new TalkNotFoundError(talkId)
+    }
 
-    if (talk) await this.talkRepository.save(talk)
+    talk.assignForReviewTo(reviewerId)
+
+    await this.talkRepository.save(talk)
   }
 }

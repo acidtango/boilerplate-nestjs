@@ -3,6 +3,7 @@ import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
 import { FRAN } from '../../../shared/fixtures/organizers'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
+import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('ReviewTalk', () => {
   it('assigns the talk to a reviewer', async () => {
@@ -19,5 +20,20 @@ describe('ReviewTalk', () => {
 
     const savedTalk = talkRepository.getLatestSavedTalk()
     expect(savedTalk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
+  })
+
+  it('fails if talk does not exist', async () => {
+    const notExistentId = createApiTalkId()
+    const talkRepository = TalkRepositoryFake.empty()
+    const reviewTalk = new ReviewTalk(talkRepository)
+    const notImportantId = new OrganizerId(FRAN.id)
+
+    const expectedError = new TalkNotFoundError(notExistentId)
+    await expect(() =>
+      reviewTalk.execute({
+        talkId: notExistentId,
+        reviewerId: notImportantId,
+      })
+    ).rejects.toThrowError(expectedError)
   })
 })
