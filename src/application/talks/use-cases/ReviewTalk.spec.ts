@@ -5,7 +5,7 @@ import { FRAN } from '../../../shared/fixtures/organizers'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 
 describe('ReviewTalk', () => {
-  it('works', async () => {
+  it('assigns the talk to a reviewer', async () => {
     const talkId = createApiTalkId()
     const talk = createApiTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
