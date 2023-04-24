@@ -5,6 +5,8 @@ import { TalkRepository } from '../domain/TalkRepository'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { Inject, Injectable } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
+import { EventBus } from '../../../shared/domain/hex/EventBus'
+import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
 
 export type ReviewTalkParams = {
   talkId: TalkId
@@ -14,6 +16,7 @@ export type ReviewTalkParams = {
 @Injectable()
 export class ReviewTalk extends UseCase {
   constructor(
+    @Inject(AppProvider.EVENT_BUS) private readonly eventBus: EventBus,
     @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
   ) {
     super()
@@ -27,6 +30,8 @@ export class ReviewTalk extends UseCase {
     }
 
     talk.assignForReviewTo(reviewerId)
+
+    await this.eventBus.publish(new TalkAssignedForReview(talkId, reviewerId))
 
     await this.talkRepository.save(talk)
   }
