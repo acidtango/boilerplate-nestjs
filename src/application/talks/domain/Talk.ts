@@ -8,10 +8,12 @@ import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
+import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
+import { TalkAssignedForReview } from './TalkAssignedForReview'
 
 export type TalkPrimitives = Primitives<Talk>
 
-export class Talk {
+export class Talk extends AggregateRoot {
   private constructor(
     private readonly id: TalkId,
     private readonly title: TalkTitle,
@@ -22,6 +24,7 @@ export class Talk {
     private readonly eventId: EventId,
     private reviewerId: OrganizerId | null
   ) {
+    super()
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
   }
 
@@ -59,6 +62,7 @@ export class Talk {
 
   assignForReviewTo(reviewerId: OrganizerId) {
     this.reviewerId = reviewerId
+    this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
   }
 
   isGoingToBeReviewedBy(expectedReviewerId: OrganizerId) {

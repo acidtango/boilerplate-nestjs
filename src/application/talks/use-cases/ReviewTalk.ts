@@ -6,7 +6,6 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { Inject, Injectable } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
 import { EventBus } from '../../../shared/domain/hex/EventBus'
-import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
 
 export type ReviewTalkParams = {
   talkId: TalkId
@@ -31,7 +30,7 @@ export class ReviewTalk extends UseCase {
 
     talk.assignForReviewTo(reviewerId)
 
-    await this.eventBus.publish(new TalkAssignedForReview(talkId, reviewerId))
+    await this.eventBus.publish(talk.pullDomainEvents())
 
     await this.talkRepository.save(talk)
   }

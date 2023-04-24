@@ -44,7 +44,7 @@ describe('ReviewTalk', () => {
       reviewerId,
     })
 
-    expect(eventBus.publish).toHaveBeenCalledWith(new TalkAssignedForReview(talkId, reviewerId))
+    expect(eventBus.publish).toHaveBeenCalledWith([new TalkAssignedForReview(talkId, reviewerId)])
   })
 
   it('fails if talk does not exist', async () => {
