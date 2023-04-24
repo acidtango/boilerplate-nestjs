@@ -1,16 +1,18 @@
-import { DataSource } from 'typeorm'
-import { typeOrm } from '../../src/database/orm.config'
-import { dropTables } from '../utils/DropTables'
 import { TestClient } from '../utils/TestClient'
+import { MongoModule } from '../../src/shared/infrastructure/database/MongoModule'
+import { MongoClient } from 'mongodb'
 
-let dataSource: DataSource
+let client: MongoClient
+let mongoModule: MongoModule
 
 beforeAll(async () => {
-  dataSource = await typeOrm.initialize()
+  client = MongoModule.createMongoClient()
+  mongoModule = new MongoModule(client)
+  await mongoModule.onModuleInit()
 }, 15000)
 
 beforeEach(async () => {
-  await dropTables(dataSource)
+  await client.db('develop').dropDatabase()
 })
 
 afterEach(async () => {
@@ -18,5 +20,5 @@ afterEach(async () => {
 })
 
 afterAll(async () => {
-  await dataSource.destroy()
+  await mongoModule.onModuleDestroy()
 })

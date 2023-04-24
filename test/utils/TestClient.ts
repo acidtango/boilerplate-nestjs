@@ -6,7 +6,6 @@ import { ApplicationModule } from '../../src/application/ApplicationModule'
 import { config } from '../../src/config'
 import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
 import { MICHAEL } from '../../src/shared/fixtures/users'
-import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
 import { AllDependencies } from './dependencies'
 import { CODEMOTION } from '../../src/shared/fixtures/events'
 import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
@@ -36,8 +35,6 @@ export class TestClient {
       imports: [ApplicationModule],
     })
       // Here we override the necessary services
-      .overrideProvider(DatabaseHealthIndicatorTypeOrm)
-      .useValue(dependencies.databaseHealthIndicator)
       .overrideProvider(PHONE_VALIDATOR_TOKEN)
       .useValue(dependencies.phoneValidator)
 

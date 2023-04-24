@@ -1,12 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common'
 import { APP_FILTER, APP_PIPE } from '@nestjs/core'
 import { config } from '../config'
-import { OrmSwitcherModule } from '../database/OrmSwitcherModule'
+import { OrmSwitcherModule } from '../shared/infrastructure/database/OrmSwitcherModule'
 import { DomainErrorFilter } from '../shared/infrastructure/filters/DomainErrorFilter'
 import { ApplicationShutdownService } from '../shared/infrastructure/services/ApplicationShutdownService'
 import { UuidGeneratorModule } from '../shared/infrastructure/services/uuid-generator/UuidGeneratorModule'
 import { LoggerSwitcherModule } from '../utils/LoggerSwitcher.module'
-import { HealthModule } from '../api/health/HealthModule'
 import { EventsModule } from './events/EventsModule'
 import { SpeakersModule } from './speakers/SpeakersModule'
 import { TalksModule } from './talks/TalksModule'
@@ -23,7 +22,6 @@ import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
     UuidGeneratorModule,
-    HealthModule,
   ],
   controllers: [],
   providers: [
