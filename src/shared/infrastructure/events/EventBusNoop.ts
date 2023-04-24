@@ -1,6 +1,6 @@
 import { EventBus } from '../../domain/hex/EventBus'
-import { DomainEvent } from '../../domain/events/DomainEvent'
 
 export class EventBusNoop implements EventBus {
-  async publish(domainEvents: DomainEvent[]): Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async publish(): Promise<void> {}
 }
