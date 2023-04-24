@@ -6,7 +6,7 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { Inject, Injectable } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
 
-export type CreateTalkParams = {
+export type ReviewTalkParams = {
   talkId: TalkId
   reviewerId: OrganizerId
 }
@@ -19,7 +19,7 @@ export class ReviewTalk extends UseCase {
     super()
   }
 
-  async execute({ talkId, reviewerId }: CreateTalkParams) {
+  async execute({ talkId, reviewerId }: ReviewTalkParams) {
     const talk = await this.talkRepository.findById(talkId)
 
     if (!talk) {

@@ -4,6 +4,7 @@ import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../../shared/fixtures/talks'
 import { Language } from '../../../../shared/domain/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
+import { FRAN } from '../../../../../shared/fixtures/organizers'
 
 type TalkReponseDTOParams = {
   id: string
@@ -14,6 +15,7 @@ type TalkReponseDTOParams = {
   status: TalkStatus
   speakerId: string
   eventId: string
+  reviewerId?: string
 }
 
 export class TalkResponseDTO {
@@ -41,6 +43,9 @@ export class TalkResponseDTO {
   @ApiProperty({ example: CODEMOTION.id })
   eventId!: string
 
+  @ApiProperty({ example: FRAN.id, required: false })
+  reviewerId?: string
+
   static create(params: TalkReponseDTOParams) {
     const talkResponseDTO = new TalkResponseDTO()
 
@@ -52,6 +57,7 @@ export class TalkResponseDTO {
     talkResponseDTO.status = params.status
     talkResponseDTO.speakerId = params.speakerId
     talkResponseDTO.eventId = params.eventId
+    talkResponseDTO.reviewerId = params.reviewerId
 
     return talkResponseDTO
   }

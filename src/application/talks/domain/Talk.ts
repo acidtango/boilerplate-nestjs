@@ -88,7 +88,7 @@ export class Talk {
       description: this.description.toPrimitives(),
       language: this.language,
       cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
-      status: this.status,
+      status: this.getCurrentStatus(),
       speakerId: this.speakerId.toPrimitives(),
       eventId: this.eventId.toPrimitives(),
       reviewerId: this.reviewerId?.toPrimitives(),
