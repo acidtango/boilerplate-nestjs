@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Param, Put } from '@nestjs/common'
+import { Controller, HttpStatus, Param, Put } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
@@ -15,10 +15,10 @@ export class ReviewTalkEndpoint {
     status: HttpStatus.OK,
   })
   @Put()
-  async execute(@Param('id') id: string, @Body() { reviewerId }: ReviewTalkRequestDTO) {
+  async execute(@Param('id') id: string, body: ReviewTalkRequestDTO) {
     await this.reviewTalk.execute({
       talkId: TalkId.fromPrimitives(id),
-      reviewerId: OrganizerId.fromPrimitives(reviewerId),
+      reviewerId: OrganizerId.fromPrimitives(body.reviewerId),
     })
   }
 }
