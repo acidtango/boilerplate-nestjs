@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feat/codetalk
+      - feat/plane-advancements
     types: [synchronize, opened, reopened, ready_for_review]
 
 concurrency:
