@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { CODEMOTION } from '../../../../../shared/fixtures/events'
+import { FRAN } from '../../../../../shared/fixtures/organizers'
 import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../../shared/fixtures/talks'
 import { Language } from '../../../../shared/domain/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
-import { FRAN } from '../../../../../shared/fixtures/organizers'
 
 type TalkReponseDTOParams = {
   id: string
@@ -16,6 +16,7 @@ type TalkReponseDTOParams = {
   speakerId: string
   eventId: string
   reviewerId?: string
+  isApproved?: boolean
 }
 
 export class TalkResponseDTO {
@@ -40,11 +41,14 @@ export class TalkResponseDTO {
   @ApiProperty({ example: JOYCE_LIN.id })
   speakerId!: string
 
+  @ApiProperty({ example: FRAN.id, nullable: true })
+  reviewerId?: string
+
+  @ApiProperty({ example: false, nullable: true })
+  isApproved?: boolean
+
   @ApiProperty({ example: CODEMOTION.id })
   eventId!: string
-
-  @ApiProperty({ example: FRAN.id, required: false })
-  reviewerId?: string
 
   static create(params: TalkReponseDTOParams) {
     const talkResponseDTO = new TalkResponseDTO()
@@ -58,6 +62,7 @@ export class TalkResponseDTO {
     talkResponseDTO.speakerId = params.speakerId
     talkResponseDTO.eventId = params.eventId
     talkResponseDTO.reviewerId = params.reviewerId
+    talkResponseDTO.isApproved = params.isApproved
 
     return talkResponseDTO
   }

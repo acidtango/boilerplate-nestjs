@@ -140,4 +140,11 @@ export class TestClient {
       .send({ reviewerId })
       .expectStatus(HttpStatus.OK)
   }
+
+  approveTalk({ id = API_TALK.id }) {
+    return tepper(this.app)
+      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
+
+      .expectStatus(HttpStatus.OK)
+  }
 }

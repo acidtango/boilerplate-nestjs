@@ -1,11 +1,11 @@
+import { Inject, Injectable } from '@nestjs/common'
+import { EventBus } from '../../../shared/domain/hex/EventBus'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
-import { TalkRepository } from '../domain/TalkRepository'
-import { Inject, Injectable } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
-import { EventBus } from '../../../shared/domain/hex/EventBus'
 import { TalkFinder } from '../domain/TalkFinder'
+import { TalkRepository } from '../domain/TalkRepository'
 
 export type ReviewTalkParams = {
   talkId: TalkId

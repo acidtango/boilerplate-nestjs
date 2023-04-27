@@ -1,8 +1,8 @@
 import { createApiTalk } from '../../../../../test/mother/TalkMother'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { GetTalk } from '../../use-cases/GetTalk'
 import { GetTalkEndpoint } from './GetTalkEndpoint'
 
@@ -34,5 +34,7 @@ describe('GetTalkEndpoint', () => {
     expect(talk.status).toEqual('PROPOSAL')
     expect(talk.speakerId).toEqual(JOYCE_LIN.id)
     expect(talk.eventId).toEqual(CODEMOTION.id)
+    expect(talk.reviewerId).toEqual(undefined)
+    expect(talk.isApproved).toEqual(undefined)
   })
 })

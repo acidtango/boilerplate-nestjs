@@ -1,18 +1,10 @@
-import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { Talk } from '../../src/application/talks/domain/Talk'
+import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { createApiTalk } from '../mother/TalkMother'
 
 export class TalkRepositoryFake extends TalkRepositoryMemory {
   static empty() {
     return new TalkRepositoryFake()
-  }
-
-  static createWithApiTalk() {
-    const talkRepository = TalkRepositoryFake.empty()
-
-    talkRepository.saveSync(createApiTalk())
-
-    return talkRepository
   }
 
   static createWith(talk: Talk) {
@@ -30,5 +22,13 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
     if (!lastTalk) throw new Error('No talk saved yet')
 
     return Talk.fromPrimitives(lastTalk)
+  }
+
+  static createWithApiTalk(): TalkRepositoryFake {
+    const talkRepository = TalkRepositoryFake.empty()
+
+    talkRepository.saveSync(createApiTalk())
+
+    return talkRepository
   }
 }
