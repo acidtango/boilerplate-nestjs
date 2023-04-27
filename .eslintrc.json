@@ -28,7 +28,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": ["**/*.test.ts", "**/*.spec.ts", "**/*.integration.spec.ts", "test/**/*"]
+        "devDependencies": ["**/*.test.ts", "**/*.spec.ts", "**/*.integration-spec.ts", "test/**/*"]
       }
     ],
     "@typescript-eslint/naming-convention": [

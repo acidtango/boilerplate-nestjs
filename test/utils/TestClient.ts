@@ -15,6 +15,7 @@ import { API_TALK } from '../../src/shared/fixtures/talks'
 import { FRAN } from '../../src/shared/fixtures/organizers'
 import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
+import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 
 export class TestClient {
   private app!: Server
@@ -47,6 +48,8 @@ export class TestClient {
         .useClass(EventRepositoryMemory)
         .overrideProvider(AppProvider.TALK_REPOSITORY)
         .useClass(TalkRepositoryMemory)
+        .overrideProvider(AppProvider.SPEAKER_REPOSITORY)
+        .useClass(SpeakerRepositoryMemory)
     }
 
     const moduleFixture = await testingModuleBuilder.compile()

@@ -1,13 +1,29 @@
-import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
+import { Test, TestingModule } from '@nestjs/testing'
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
+import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
+import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 
-describe('SpeakerRepositoryMemory', () => {
-  let speakerRepository: SpeakerRepositoryMemory
+describe('SpeakerRepositoryMongo', () => {
+  let module: TestingModule
+  let speakerRepository: SpeakerRepositoryMongo
 
-  beforeEach(() => {
-    speakerRepository = new SpeakerRepositoryMemory()
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
+      imports: [MongoModule],
+      providers: [SpeakerRepositoryMongo],
+    }).compile()
+
+    speakerRepository = module.get(SpeakerRepositoryMongo)
+  })
+
+  beforeEach(async () => {
+    await speakerRepository.reset()
+  })
+
+  afterAll(async () => {
+    await module.close()
   })
 
   it('saves the speaker', async () => {

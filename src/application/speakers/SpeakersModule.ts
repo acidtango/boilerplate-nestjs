@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { CreateSpeakerEndpoint } from './infrastructure/controllers/CreateSpeakerEndpoint'
-import { CreateSpeaker } from './use-cases/CreateSpeaker'
-import { GetSpeakerEndpoint } from './infrastructure/controllers/GetSpeakerEndpoint'
-import { GetSpeaker } from './use-cases/GetSpeaker'
 import { AppProvider } from '../AppProviders'
-import { SpeakerRepositoryMemory } from './infrastructure/repositories/SpeakerRepositoryMemory'
+import { CreateSpeakerEndpoint } from './infrastructure/controllers/CreateSpeakerEndpoint'
+import { GetSpeakerEndpoint } from './infrastructure/controllers/GetSpeakerEndpoint'
+import { SpeakerRepositoryMongo } from './infrastructure/repositories/SepakerRepositoryMongo'
+import { CreateSpeaker } from './use-cases/CreateSpeaker'
+import { GetSpeaker } from './use-cases/GetSpeaker'
 
 @Module({
   controllers: [CreateSpeakerEndpoint, GetSpeakerEndpoint],
@@ -13,7 +13,7 @@ import { SpeakerRepositoryMemory } from './infrastructure/repositories/SpeakerRe
     GetSpeaker,
     {
       provide: AppProvider.SPEAKER_REPOSITORY,
-      useClass: SpeakerRepositoryMemory,
+      useClass: SpeakerRepositoryMongo,
     },
   ],
 })
