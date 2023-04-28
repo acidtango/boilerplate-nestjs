@@ -3,6 +3,8 @@ import { createApiTalk, createApiTalkId } from '../../../../../test/mother/TalkM
 import { TalkRepositoryMongo } from './TalkRepositoryMongo'
 import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
 import { TalkRepositoryMemory } from './TalkRepositoryMemory'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { TalkRepository } from '../../domain/TalkRepository'
 
 describe('TalkRepository', () => {
   describe.each([
@@ -10,7 +12,7 @@ describe('TalkRepository', () => {
     [TalkRepositoryMemory.name, TalkRepositoryMemory],
   ])('%s', (name, repositoryClass) => {
     let module: TestingModule
-    let talkRepository: TalkRepositoryMongo | TalkRepositoryMemory
+    let talkRepository: TalkRepository & Reseteable
 
     beforeAll(async () => {
       module = await Test.createTestingModule({

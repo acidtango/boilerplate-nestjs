@@ -1,10 +1,8 @@
-import { AllDependencies } from './dependencies'
 import { TestClientUtils } from './TestClientUtils'
+import { TestApi } from './TestApi'
 
-export async function createClient({}: AllDependencies = {}) {
-  const client = new TestClientUtils()
-
-  await client.initialize({})
-
-  return client
+export async function createClient() {
+  const testApi = await TestApi.create()
+  await testApi.clearState()
+  return new TestClientUtils(testApi)
 }

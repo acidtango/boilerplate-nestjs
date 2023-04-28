@@ -1,4 +1,4 @@
-export const enum AppProvider {
+export enum AppProvider {
   EVENT_REPOSITORY = 'EVENT_REPOSITORY',
   SPEAKER_REPOSITORY = 'SPEAKER_REPOSITORY',
   TALK_REPOSITORY = 'TALK_REPOSITORY',

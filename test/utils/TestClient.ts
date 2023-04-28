@@ -1,82 +1,21 @@
-import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
-import { Test } from '@nestjs/testing'
-import { Server } from 'http'
+import { HttpStatus } from '@nestjs/common'
 import tepper from 'tepper'
-import { ApplicationModule } from '../../src/application/ApplicationModule'
-import { config } from '../../src/config'
-import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
-import { MICHAEL } from '../../src/shared/fixtures/users'
-import { AllDependencies } from './dependencies'
 import { CODEMOTION } from '../../src/shared/fixtures/events'
 import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { AppProvider } from '../../src/application/AppProviders'
 import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
 import { API_TALK } from '../../src/shared/fixtures/talks'
 import { FRAN } from '../../src/shared/fixtures/organizers'
-import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
-import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { TestApi } from './TestApi'
 
 export class TestClient {
-  private app!: Server
+  constructor(private readonly testApi: TestApi) {}
 
-  private static readonly apps: INestApplication[] = []
-
-  private static addAppInstance(app: INestApplication) {
-    this.apps.push(app)
-  }
-
-  public static async teardownApps() {
-    for await (const app of this.apps) {
-      app.close()
-    }
-  }
-
-  async initialize(dependencies: AllDependencies) {
-    // eslint-disable-next-line prefer-const
-    let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApplicationModule],
-    })
-      // Here we override the necessary services
-      .overrideProvider(PHONE_VALIDATOR_TOKEN)
-      .useValue(dependencies.phoneValidator)
-
-    if (!config.forceEnableORMRepositories) {
-      // We need to change the repositories with the orm ones
-      testingModuleBuilder = testingModuleBuilder
-        .overrideProvider(AppProvider.EVENT_REPOSITORY)
-        .useClass(EventRepositoryMemory)
-        .overrideProvider(AppProvider.TALK_REPOSITORY)
-        .useClass(TalkRepositoryMemory)
-        .overrideProvider(AppProvider.SPEAKER_REPOSITORY)
-        .useClass(SpeakerRepositoryMemory)
-    }
-
-    const moduleFixture = await testingModuleBuilder.compile()
-    const nestApplication: INestApplication = moduleFixture.createNestApplication()
-    nestApplication.setGlobalPrefix(config.apiPrefix)
-    nestApplication.enableVersioning({ type: VersioningType.URI })
-    await nestApplication.init()
-
-    TestClient.addAppInstance(nestApplication)
-
-    this.app = nestApplication.getHttpServer()
+  get app() {
+    return this.testApi.getApp()
   }
 
   health() {
     return tepper(this.app).get('/health')
-  }
-
-  createUser({ name = MICHAEL.name, lastName = MICHAEL.lastName, phone = MICHAEL.phone } = {}) {
-    return tepper(this.app).post('/api/v1/users').send({
-      name,
-      lastName,
-      phone,
-    })
-  }
-
-  updateUserContacts({ id = '', contacts = MICHAEL.contacts } = {}) {
-    return tepper(this.app).post(`/api/v1/users/${id}/contacts`).send(contacts)
   }
 
   createEvent({ id = CODEMOTION.id } = {}) {

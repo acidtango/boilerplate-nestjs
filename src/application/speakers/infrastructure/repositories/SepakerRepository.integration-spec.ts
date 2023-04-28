@@ -5,6 +5,8 @@ import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { SpeakerRepository } from '../../domain/SpeakerRepository'
 
 describe('SpeakerRepository', () => {
   describe.each([
@@ -12,7 +14,7 @@ describe('SpeakerRepository', () => {
     [SpeakerRepositoryMemory.name, SpeakerRepositoryMemory],
   ])('%s', (name, repositoryClass) => {
     let module: TestingModule
-    let speakerRepository: SpeakerRepositoryMongo | SpeakerRepositoryMemory
+    let speakerRepository: SpeakerRepository & Reseteable
 
     beforeAll(async () => {
       module = await Test.createTestingModule({

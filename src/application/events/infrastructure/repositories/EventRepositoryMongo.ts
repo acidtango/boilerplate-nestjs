@@ -4,9 +4,10 @@ import { config } from '../../../../config'
 import { EventId } from '../../../../shared/domain/ids/EventId'
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
-export class EventRepositoryMongo implements EventRepository {
+export class EventRepositoryMongo implements EventRepository, Reseteable {
   private readonly talkEvents: Collection<TalkEventPrimitives>
 
   constructor(private readonly client: MongoClient) {
@@ -27,9 +28,7 @@ export class EventRepositoryMongo implements EventRepository {
   }
 
   async exists(id: EventId): Promise<boolean> {
-    const exists = Boolean(await this.talkEvents.findOne({ id: id.toPrimitives() }))
-
-    return exists
+    return Boolean(await this.talkEvents.findOne({ id: id.toPrimitives() }))
   }
 
   async reset() {

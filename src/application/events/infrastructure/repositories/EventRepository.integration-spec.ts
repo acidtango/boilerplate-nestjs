@@ -7,6 +7,8 @@ import {
 import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
 import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { EventRepository } from '../../domain/EventRepository'
 
 describe('TalkEventRepository', () => {
   describe.each([
@@ -14,7 +16,7 @@ describe('TalkEventRepository', () => {
     [EventRepositoryMemory.name, EventRepositoryMemory],
   ])('%s', (name, repositoryClass) => {
     let module: TestingModule
-    let talkEventRepository: EventRepositoryMongo | EventRepositoryMemory
+    let talkEventRepository: EventRepository & Reseteable
 
     beforeAll(async () => {
       module = await Test.createTestingModule({

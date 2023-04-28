@@ -1,8 +1,9 @@
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
 import { EventId } from '../../../../shared/domain/ids/EventId'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
-export class EventRepositoryMemory implements EventRepository {
+export class EventRepositoryMemory implements EventRepository, Reseteable {
   private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()
 
   async save(talkEvent: TalkEvent): Promise<void> {

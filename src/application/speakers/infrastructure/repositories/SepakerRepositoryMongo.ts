@@ -4,9 +4,10 @@ import { config } from '../../../../config'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
+import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
-export class SpeakerRepositoryMongo implements SpeakerRepository {
+export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
   private readonly speakers: Collection<SpeakerPrimitives>
 
   constructor(private readonly client: MongoClient) {
@@ -15,9 +16,7 @@ export class SpeakerRepositoryMongo implements SpeakerRepository {
   }
 
   async exists(id: SpeakerId): Promise<boolean> {
-    const exists = Boolean(await this.speakers.findOne({ id: id.toPrimitives() }))
-
-    return exists
+    return Boolean(await this.speakers.findOne({ id: id.toPrimitives() }))
   }
 
   async save(speaker: Speaker) {

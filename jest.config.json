@@ -6,6 +6,7 @@
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"
   },
+  "setupFiles": [],
   "setupFilesAfterEnv": ["<rootDir>/test/setup.ts"],
   "testTimeout": 10000,
   "maxWorkers": 12
