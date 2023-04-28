@@ -24,4 +24,8 @@ export class TalkRepositoryMemory implements TalkRepository {
 
     return Talk.fromPrimitives(talkPrimitives)
   }
+
+  async reset() {
+    this.talks.clear()
+  }
 }

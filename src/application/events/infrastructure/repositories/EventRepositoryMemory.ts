@@ -20,4 +20,8 @@ export class EventRepositoryMemory implements EventRepository {
   async exists(id: EventId): Promise<boolean> {
     return this.talkEvents.has(id.toPrimitives())
   }
+
+  async reset() {
+    this.talkEvents.clear()
+  }
 }

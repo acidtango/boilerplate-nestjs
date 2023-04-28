@@ -22,4 +22,8 @@ export class SpeakerRepositoryMemory implements SpeakerRepository {
   async exists(id: SpeakerId): Promise<boolean> {
     return this.speakers.has(id.toPrimitives())
   }
+
+  async reset() {
+    this.speakers.clear()
+  }
 }

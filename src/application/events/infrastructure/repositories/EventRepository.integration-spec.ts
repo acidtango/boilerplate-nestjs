@@ -1,0 +1,58 @@
+import { Test, TestingModule } from '@nestjs/testing'
+import {
+  createCanariasJSEvent,
+  createCodemotionEvent,
+  createCodemotionEventId,
+} from '../../../../../test/mother/TalkEventMother'
+import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
+import { EventRepositoryMongo } from './EventRepositoryMongo'
+import { EventRepositoryMemory } from './EventRepositoryMemory'
+
+describe('TalkEventRepository', () => {
+  describe.each([
+    [EventRepositoryMongo.name, EventRepositoryMongo],
+    [EventRepositoryMemory.name, EventRepositoryMemory],
+  ])('%s', (name, repositoryClass) => {
+    let module: TestingModule
+    let talkEventRepository: EventRepositoryMongo | EventRepositoryMemory
+
+    beforeAll(async () => {
+      module = await Test.createTestingModule({
+        imports: [MongoModule],
+        providers: [repositoryClass],
+      }).compile()
+
+      talkEventRepository = module.get(repositoryClass)
+    })
+
+    beforeEach(async () => {
+      await talkEventRepository.reset()
+    })
+
+    afterAll(async () => {
+      await module.close()
+    })
+
+    it('saves the event', async () => {
+      const talkEventId = createCodemotionEventId()
+      const talkEvent = createCodemotionEvent({ id: talkEventId })
+
+      await talkEventRepository.save(talkEvent)
+
+      const result = await talkEventRepository.exists(talkEventId)
+      expect(result).toEqual(true)
+    })
+
+    it('retrieves all events', async () => {
+      const codemotionTalkEvent = createCodemotionEvent()
+      const canariasJSTalkEvent = createCanariasJSEvent()
+
+      await talkEventRepository.save(codemotionTalkEvent)
+      await talkEventRepository.save(canariasJSTalkEvent)
+
+      const allEvents = await talkEventRepository.findAll()
+
+      expect(allEvents).toHaveLength(2)
+    })
+  })
+})
