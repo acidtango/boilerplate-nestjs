@@ -1,5 +1,4 @@
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
@@ -12,16 +11,16 @@ export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable {
     this.speakers.set(speakerPrimitives.id, speakerPrimitives)
   }
 
-  async findById(id: SpeakerId): Promise<Speaker | undefined> {
-    const speakerPrimitives = this.speakers.get(id.toPrimitives())
+  async findById(id: string): Promise<Speaker | undefined> {
+    const speakerPrimitives = this.speakers.get(id)
 
     if (!speakerPrimitives) return undefined
 
     return Speaker.fromPrimitives(speakerPrimitives)
   }
 
-  async exists(id: SpeakerId): Promise<boolean> {
-    return this.speakers.has(id.toPrimitives())
+  async exists(id: string): Promise<boolean> {
+    return this.speakers.has(id)
   }
 
   async reset() {

@@ -6,7 +6,6 @@ import { SpeakerName } from '../domain/SpeakerName'
 import { CreateSpeaker, CreateSpeakerParams } from './CreateSpeaker'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 
 describe('CreateSpeaker', () => {
   it('saves the speaker in the repository', async () => {
@@ -35,14 +34,14 @@ describe('CreateSpeaker', () => {
     const createSpeaker = new CreateSpeaker(speakerRepository)
     const params = generateCreateJoyceParams()
 
-    const expectedError = new SpeakerAlreadyCreatedError(new SpeakerId(JOYCE_LIN.id))
+    const expectedError = new SpeakerAlreadyCreatedError(JOYCE_LIN.id)
     await expect(createSpeaker.execute(params)).rejects.toThrowError(expectedError)
   })
 })
 
 function generateCreateJoyceParams(): CreateSpeakerParams {
   return {
-    id: new SpeakerId(JOYCE_LIN.id),
+    id: JOYCE_LIN.id,
     name: new SpeakerName(JOYCE_LIN.name),
     age: new SpeakerAge(JOYCE_LIN.age),
     email: new EmailAddress(JOYCE_LIN.email),

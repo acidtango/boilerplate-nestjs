@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Collection, MongoClient } from 'mongodb'
 import { config } from '../../../../config'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
@@ -15,8 +14,8 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
     this.speakers = db.collection('speakers')
   }
 
-  async exists(id: SpeakerId): Promise<boolean> {
-    return Boolean(await this.speakers.findOne({ id: id.toPrimitives() }))
+  async exists(id: string): Promise<boolean> {
+    return Boolean(await this.speakers.findOne({ id: id }))
   }
 
   async save(speaker: Speaker) {
@@ -25,8 +24,8 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
     await this.speakers.updateOne({ id: primitives.id }, { $set: primitives }, { upsert: true })
   }
 
-  async findById(speakerId: SpeakerId): Promise<Speaker | undefined> {
-    const speakerPrimitives = await this.speakers.findOne({ id: speakerId.toPrimitives() })
+  async findById(speakerId: string): Promise<Speaker | undefined> {
+    const speakerPrimitives = await this.speakers.findOne({ id: speakerId })
 
     if (!speakerPrimitives) return undefined
 
