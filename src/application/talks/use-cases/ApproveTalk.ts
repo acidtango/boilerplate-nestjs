@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { AppProvider } from '../../AppProviders'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkFinder } from '../domain/TalkFinder'
@@ -16,7 +15,7 @@ export class ApproveTalk extends UseCase {
     this.talkFinder = new TalkFinder(talkRepository)
   }
 
-  async execute(talkId: TalkId) {
+  async execute(talkId: string) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
     talk.approve()

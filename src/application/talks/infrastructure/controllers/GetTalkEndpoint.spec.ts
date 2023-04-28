@@ -1,5 +1,4 @@
 import { createApiTalk } from '../../../../../test/mother/TalkMother'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
@@ -15,7 +14,7 @@ describe('GetTalkEndpoint', () => {
 
     endpoint.execute(API_TALK.id)
 
-    expect(getTalkUseCase.execute).toHaveBeenCalledWith(new TalkId(API_TALK.id))
+    expect(getTalkUseCase.execute).toHaveBeenCalledWith(API_TALK.id)
   })
 
   it('serializes the speaker if exists', async () => {

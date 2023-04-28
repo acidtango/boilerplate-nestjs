@@ -1,6 +1,5 @@
 import { DomainService } from '../../../shared/domain/hex/DomainService'
 import { TalkRepository } from './TalkRepository'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkNotFoundError } from './errors/TalkNotFoundError'
 
 export class TalkFinder extends DomainService {
@@ -8,7 +7,7 @@ export class TalkFinder extends DomainService {
     super()
   }
 
-  async findOrThrow(talkId: TalkId) {
+  async findOrThrow(talkId: string) {
     const talk = await this.talkRepository.findBy(talkId)
 
     if (!talk) {
