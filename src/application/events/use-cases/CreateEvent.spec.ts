@@ -1,6 +1,5 @@
 import { CODEMOTION } from '../../../shared/fixtures/events'
 import { EventDateRange } from '../domain/EventDateRange'
-import { EventId } from '../../../shared/domain/ids/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { CreateEvent, CreateEventParams } from './CreateEvent'
@@ -26,14 +25,14 @@ describe('CreateEvent', () => {
     const params = generateCreateCodemotionParams()
 
     await expect(createEventUseCase.execute(params)).rejects.toThrowError(
-      new EventAlreadyCreatedError(new EventId(CODEMOTION.id))
+      new EventAlreadyCreatedError(CODEMOTION.id)
     )
   })
 })
 
 function generateCreateCodemotionParams(): CreateEventParams {
   return {
-    id: new EventId(CODEMOTION.id),
+    id: CODEMOTION.id,
     name: new EventName(CODEMOTION.name),
     dateRange: new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
     proposalsDateRange: new EventProposalsDateRange(

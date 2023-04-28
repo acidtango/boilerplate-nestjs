@@ -1,9 +1,8 @@
 import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { EventId } from '../../../../shared/domain/ids/EventId'
 import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
 
 export class TalkEventNotFoundError extends DomainError {
-  constructor(eventId: EventId) {
+  constructor(eventId: string) {
     super(`Event with id ${eventId} not found`, DomainErrorCode.TALK_EVENT_NOT_FOUND)
   }
 }

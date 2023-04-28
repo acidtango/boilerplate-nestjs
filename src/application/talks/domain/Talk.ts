@@ -1,5 +1,4 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
-import { EventId } from '../../../shared/domain/ids/EventId'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
@@ -25,7 +24,7 @@ export class Talk extends AggregateRoot {
     private readonly language: Language,
     private readonly cospeakers: string[],
     private readonly speakerId: string,
-    private readonly eventId: EventId,
+    private readonly eventId: string,
     private reviewerId?: OrganizerId,
     private isApproved?: boolean
   ) {
@@ -46,7 +45,7 @@ export class Talk extends AggregateRoot {
     language: Language,
     cospeakers: string[],
     speakerId: string,
-    eventId: EventId
+    eventId: string
   ) {
     return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
   }
@@ -75,7 +74,7 @@ export class Talk extends AggregateRoot {
       language,
       cospeakers,
       speakerId,
-      EventId.fromPrimitives(eventId),
+      eventId,
       reviewerId ? OrganizerId.fromPrimitives(reviewerId) : undefined,
       typeof isApproved === 'boolean' ? isApproved : undefined
     )
@@ -126,7 +125,7 @@ export class Talk extends AggregateRoot {
       status: this.getCurrentStatus(),
       speakerId: this.speakerId,
       reviewerId: this.reviewerId?.toPrimitives(),
-      eventId: this.eventId.toPrimitives(),
+      eventId: this.eventId,
       isApproved: this.isApproved,
     }
   }

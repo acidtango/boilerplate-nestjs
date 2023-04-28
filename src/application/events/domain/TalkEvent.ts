@@ -1,7 +1,6 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { Primitives } from '../../../utils/Primitives'
 import { EventDateRange } from './EventDateRange'
-import { EventId } from '../../../shared/domain/ids/EventId'
 import { EventName } from './EventName'
 import { EventProposalsDateRange } from './EventProposalsDateRange'
 
@@ -9,7 +8,7 @@ export type TalkEventPrimitives = Primitives<TalkEvent>
 
 export class TalkEvent extends AggregateRoot {
   constructor(
-    private readonly eventId: EventId,
+    private readonly eventId: string,
     private readonly name: EventName,
     private readonly dateRange: EventDateRange,
     private readonly proposalsDateRange: EventProposalsDateRange
@@ -18,7 +17,7 @@ export class TalkEvent extends AggregateRoot {
   }
 
   static create(
-    id: EventId,
+    id: string,
     name: EventName,
     dateRange: EventDateRange,
     proposalsDateRange: EventProposalsDateRange
@@ -28,7 +27,7 @@ export class TalkEvent extends AggregateRoot {
 
   static fromPrimitives(primitives: TalkEventPrimitives) {
     return new TalkEvent(
-      EventId.fromPrimitives(primitives.id),
+      primitives.id,
       EventName.fromPrimitives(primitives.name),
       EventDateRange.fromPrimitives(primitives.dateRange),
       EventProposalsDateRange.fromPrimitives(primitives.proposalsDateRange)
@@ -37,7 +36,7 @@ export class TalkEvent extends AggregateRoot {
 
   toPrimitives() {
     return {
-      id: this.eventId.toPrimitives(),
+      id: this.eventId,
       name: this.name.toPrimitives(),
       dateRange: this.dateRange.toPrimitives(),
       proposalsDateRange: this.proposalsDateRange.toPrimitives(),

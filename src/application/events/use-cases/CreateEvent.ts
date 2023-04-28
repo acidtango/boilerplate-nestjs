@@ -1,6 +1,5 @@
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { EventDateRange } from '../domain/EventDateRange'
-import { EventId } from '../../../shared/domain/ids/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { TalkEvent } from '../domain/TalkEvent'
@@ -10,7 +9,7 @@ import { AppProvider } from '../../AppProviders'
 import { EventAlreadyCreatedError } from '../domain/errors/EventAlreadyCreatedError'
 
 export type CreateEventParams = {
-  id: EventId
+  id: string
   name: EventName
   dateRange: EventDateRange
   proposalsDateRange: EventProposalsDateRange

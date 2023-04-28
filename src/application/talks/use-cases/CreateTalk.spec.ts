@@ -2,7 +2,6 @@ import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { CODEMOTION } from '../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../shared/fixtures/talks'
-import { EventId } from '../../../shared/domain/ids/EventId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
@@ -30,7 +29,7 @@ describe('CreateTalk', () => {
     const params = generateCreateApiTalkParams()
 
     await expect(createTalk.execute(params)).rejects.toThrow(
-      new TalkEventNotFoundError(new EventId(CODEMOTION.id))
+      new TalkEventNotFoundError(CODEMOTION.id)
     )
   })
 })
@@ -42,7 +41,7 @@ function generateCreateApiTalkParams(): CreateTalkParams {
     description: API_TALK.description,
     cospeakers: API_TALK.cospeakers,
     language: API_TALK.language,
-    eventId: new EventId(CODEMOTION.id),
+    eventId: CODEMOTION.id,
     speakerId: JOYCE_LIN.id,
   }
 }
