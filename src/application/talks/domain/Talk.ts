@@ -85,8 +85,8 @@ export class Talk extends AggregateRoot {
     this.reviewerId = reviewerId
   }
 
-  isGoingToBeReviewedBy(expectedReviewerId: string) {
-    return this.reviewerId === expectedReviewerId
+  getReviewerId() {
+    return this.reviewerId
   }
 
   getCurrentStatus() {

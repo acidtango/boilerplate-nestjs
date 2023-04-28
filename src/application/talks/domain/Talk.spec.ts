@@ -20,7 +20,7 @@ describe('Talk', () => {
     const talk = createApiTalk()
 
     const notExistentId = 'not-existent-id'
-    expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
+    expect(talk.getReviewerId() === notExistentId).toBe(false)
   })
 
   it('has status PROPOSAL when created', () => {
@@ -45,7 +45,7 @@ describe('Talk', () => {
 
     talk.setReviewerId(reviewerId)
 
-    expect(talk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
+    expect(talk.getReviewerId() === reviewerId).toBe(true)
   })
 
   it('has status REVIEWING when assigned to a reviewer', () => {
