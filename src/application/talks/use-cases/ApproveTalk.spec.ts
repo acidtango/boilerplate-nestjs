@@ -17,10 +17,9 @@ describe('ApproveTalk', () => {
   })
 
   it('approves the talk if it is currently in REVIEWING', async () => {
-    const talkRepository = TalkRepositoryFake.createWithApiTalk()
     const talk = createApiTalk()
     talk.assignReviewer(new OrganizerId(FRAN.id))
-    talkRepository.save(talk)
+    const talkRepository = TalkRepositoryFake.createWith(talk)
     const approveTalk = new ApproveTalk(talkRepository)
 
     await approveTalk.execute(createApiTalkId())
