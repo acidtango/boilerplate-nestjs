@@ -16,7 +16,7 @@ describe('ApproveTalk', () => {
     await approveTalk.execute(createApiTalkId())
 
     const savedTalk = talkRepository.getLatestSavedTalk()
-    expect(savedTalk.hasStatus(TalkStatus.APPROVED)).toBe(true)
+    expect(savedTalk.getCurrentStatus() === TalkStatus.APPROVED).toBe(true)
   })
 
   it('fails if the talk is in PROPOSAL', async () => {

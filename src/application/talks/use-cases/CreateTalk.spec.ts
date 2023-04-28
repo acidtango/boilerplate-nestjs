@@ -19,7 +19,7 @@ describe('CreateTalk', () => {
     await createTalk.execute(params)
 
     const talk = talkRepository.getLatestSavedTalk()
-    expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
+    expect(talk.getCurrentStatus() === TalkStatus.PROPOSAL).toBe(true)
   })
 
   it('fails if eventId does not exists', async () => {

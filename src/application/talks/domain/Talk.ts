@@ -77,10 +77,6 @@ export class Talk extends AggregateRoot {
     )
   }
 
-  hasStatus(expectedStatus: TalkStatus) {
-    return this.getCurrentStatus() === expectedStatus
-  }
-
   getTalkId() {
     return this.id
   }
@@ -93,7 +89,7 @@ export class Talk extends AggregateRoot {
     return this.reviewerId === expectedReviewerId
   }
 
-  private getCurrentStatus() {
+  getCurrentStatus() {
     if (this.isApproved) return TalkStatus.APPROVED
     if (this.isApproved === false) return TalkStatus.REJECTED
     if (this.reviewerId) return TalkStatus.REVIEWING
@@ -102,7 +98,7 @@ export class Talk extends AggregateRoot {
   }
 
   approve() {
-    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError()
+    if (this.getCurrentStatus() === TalkStatus.PROPOSAL) throw new TalkCannotBeApprovedError()
 
     this.isApproved = true
   }
