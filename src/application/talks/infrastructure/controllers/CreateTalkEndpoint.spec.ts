@@ -3,7 +3,6 @@ import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
 import { EventId } from '../../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
-import { TalkDescription } from '../../domain/TalkDescription'
 import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 import { CreateTalk } from '../../use-cases/CreateTalk'
@@ -29,7 +28,7 @@ describe('CreateTalkEndpoint', () => {
     expect(createTalkUseCase.execute).toHaveBeenCalledWith({
       id: TalkId.fromPrimitives(API_TALK.id),
       title: API_TALK.title,
-      description: TalkDescription.fromPrimitives(API_TALK.description),
+      description: API_TALK.description,
       cospeakers: API_TALK.cospeakers,
       language: API_TALK.language,
       speakerId: SpeakerId.fromPrimitives(JOYCE_LIN.id),
