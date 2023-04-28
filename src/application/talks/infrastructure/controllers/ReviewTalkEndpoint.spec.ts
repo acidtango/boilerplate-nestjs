@@ -3,7 +3,6 @@ import { ReviewTalkEndpoint } from './ReviewTalkEndpoint'
 import { FRAN } from '../../../../shared/fixtures/organizers'
 import { ReviewTalk, ReviewTalkParams } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
-import { OrganizerId } from '../../../../shared/domain/ids/OrganizerId'
 
 describe('ReviewTalkEndpoint', () => {
   it('transforms DTO into domain objects', async () => {
@@ -17,7 +16,7 @@ describe('ReviewTalkEndpoint', () => {
 
     const expectedParams: ReviewTalkParams = {
       talkId: API_TALK.id,
-      reviewerId: OrganizerId.fromPrimitives(FRAN.id),
+      reviewerId: FRAN.id,
     }
     expect(reviewTalk.execute).toHaveBeenCalledWith(expectedParams)
   })

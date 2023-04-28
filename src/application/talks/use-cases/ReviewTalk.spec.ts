@@ -2,7 +2,6 @@ import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMoth
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
 import { FRAN } from '../../../shared/fixtures/organizers'
-import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { EventBus } from '../../../shared/domain/hex/EventBus'
 import { EventBusNoop } from '../../../shared/infrastructure/events/EventBusNoop'
@@ -21,7 +20,7 @@ describe('ReviewTalk', () => {
     const talk = createApiTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = FRAN.id
 
     await reviewTalk.execute({
       talkId,
@@ -38,7 +37,7 @@ describe('ReviewTalk', () => {
     const talkRepository = TalkRepositoryFake.createWith(talk)
     jest.spyOn(eventBus, 'publish')
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = FRAN.id
 
     await reviewTalk.execute({
       talkId,
@@ -52,7 +51,7 @@ describe('ReviewTalk', () => {
     const notExistentId = createApiTalkId()
     const talkRepository = TalkRepositoryFake.empty()
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const notImportantId = new OrganizerId(FRAN.id)
+    const notImportantId = FRAN.id
 
     const expectedError = new TalkNotFoundError(notExistentId)
     await expect(() =>
@@ -68,7 +67,7 @@ describe('ReviewTalk', () => {
     const talk = createApiTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = FRAN.id
     await reviewTalk.execute({
       talkId,
       reviewerId,
