@@ -21,12 +21,10 @@ export class MongoModule implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly client: MongoClient) {}
 
   async onModuleInit() {
-    console.log('[MongoModule] onModuleInit')
     await this.client.connect()
   }
 
   async onModuleDestroy() {
-    console.log('[MongoModule] onModuleDestroy')
     await this.client.close()
   }
 }
