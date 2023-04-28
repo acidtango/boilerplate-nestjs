@@ -4,6 +4,9 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { AppProvider } from '../../AppProviders'
 import { TalkFinder } from '../domain/TalkFinder'
 import { TalkRepository } from '../domain/TalkRepository'
+import { TalkStatus } from '../domain/TalkStatus'
+import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
+import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
 
 export type ReviewTalkParams = {
   talkId: string
@@ -25,9 +28,13 @@ export class ReviewTalk extends UseCase {
   async execute({ talkId, reviewerId }: ReviewTalkParams) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
-    talk.assignForReviewTo(reviewerId)
+    if (talk.hasStatus(TalkStatus.REVIEWING)) {
+      throw new TalkAlreadyBeingReviewed(talk.getTalkId())
+    }
+
+    talk.setReviewerId(reviewerId)
 
     await this.talkRepository.save(talk)
-    await this.eventBus.publish(talk.pullDomainEvents())
+    await this.eventBus.publish([new TalkAssignedForReview(talk.getTalkId(), reviewerId)])
   }
 }
