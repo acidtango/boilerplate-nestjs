@@ -1,6 +1,5 @@
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
-import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
@@ -10,7 +9,7 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 describe('ApproveTalk', () => {
   it('approves the talk', async () => {
     const talk = createApiTalk()
-    talk.assignReviewer(new OrganizerId(FRAN.id))
+    talk.assignReviewer(FRAN.id)
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const approveTalk = new ApproveTalk(talkRepository)
 

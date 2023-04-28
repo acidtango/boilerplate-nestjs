@@ -1,6 +1,5 @@
 import { createApiTalk } from '../../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
-import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
@@ -19,7 +18,7 @@ describe('Talk', () => {
   it('is not assigned for review when created', () => {
     const talk = createApiTalk()
 
-    const notExistentId = new OrganizerId('not-existent-id')
+    const notExistentId = 'not-existent-id'
     expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
   })
 
@@ -37,7 +36,7 @@ describe('Talk', () => {
 
   it('can be assigned to a reviewer', () => {
     const talk = createApiTalk()
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = FRAN.id
 
     talk.assignForReviewTo(reviewerId)
 
@@ -46,7 +45,7 @@ describe('Talk', () => {
 
   it('has status REVIEWING when assigned to a reviewer', () => {
     const talk = createApiTalk()
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = FRAN.id
 
     talk.assignForReviewTo(reviewerId)
 
