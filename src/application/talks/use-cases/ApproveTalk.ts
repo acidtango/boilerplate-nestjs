@@ -3,6 +3,8 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { AppProvider } from '../../AppProviders'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkFinder } from '../domain/TalkFinder'
+import { TalkStatus } from '../domain/TalkStatus'
+import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 
 @Injectable()
 export class ApproveTalk extends UseCase {
@@ -18,7 +20,9 @@ export class ApproveTalk extends UseCase {
   async execute(talkId: string) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
-    talk.approve()
+    if (talk.getCurrentStatus() === TalkStatus.PROPOSAL) throw new TalkCannotBeApprovedError()
+
+    talk.setIsApproved(true)
 
     await this.talkRepository.save(talk)
   }
