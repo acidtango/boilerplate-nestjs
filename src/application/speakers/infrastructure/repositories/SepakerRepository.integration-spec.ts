@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
@@ -44,7 +43,7 @@ describe('SpeakerRepository', () => {
     })
 
     it('checks if the speaker exists', async () => {
-      const speakerId = new SpeakerId(JOYCE_LIN.id)
+      const speakerId = JOYCE_LIN.id
       const speaker = createJoyceLinSpeaker({ id: speakerId })
       await speakerRepository.save(speaker)
 

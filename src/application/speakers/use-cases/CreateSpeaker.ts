@@ -5,13 +5,12 @@ import { EmailAddress } from '../../shared/domain/EmailAddress'
 import { Language } from '../../shared/domain/Language'
 import { Speaker } from '../domain/Speaker'
 import { SpeakerAge } from '../domain/SpeakerAge'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { SpeakerName } from '../domain/SpeakerName'
 import { SpeakerRepository } from '../domain/SpeakerRepository'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 
 export type CreateSpeakerParams = {
-  id: SpeakerId
+  id: string
   name: SpeakerName
   age: SpeakerAge
   language: Language

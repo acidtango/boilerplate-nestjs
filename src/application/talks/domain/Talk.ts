@@ -1,7 +1,6 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
@@ -24,8 +23,8 @@ export class Talk extends AggregateRoot {
     private readonly title: string,
     private readonly description: string,
     private readonly language: Language,
-    private readonly cospeakers: SpeakerId[],
-    private readonly speakerId: SpeakerId,
+    private readonly cospeakers: string[],
+    private readonly speakerId: string,
     private readonly eventId: EventId,
     private reviewerId?: OrganizerId,
     private isApproved?: boolean
@@ -45,8 +44,8 @@ export class Talk extends AggregateRoot {
     title: string,
     description: string,
     language: Language,
-    cospeakers: SpeakerId[],
-    speakerId: SpeakerId,
+    cospeakers: string[],
+    speakerId: string,
     eventId: EventId
   ) {
     return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
@@ -74,8 +73,8 @@ export class Talk extends AggregateRoot {
       title,
       description,
       language,
-      cospeakers.map(SpeakerId.fromPrimitives),
-      SpeakerId.fromPrimitives(speakerId),
+      cospeakers,
+      speakerId,
       EventId.fromPrimitives(eventId),
       reviewerId ? OrganizerId.fromPrimitives(reviewerId) : undefined,
       typeof isApproved === 'boolean' ? isApproved : undefined
@@ -123,9 +122,9 @@ export class Talk extends AggregateRoot {
       title: this.title,
       description: this.description,
       language: this.language,
-      cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
+      cospeakers: this.cospeakers,
       status: this.getCurrentStatus(),
-      speakerId: this.speakerId.toPrimitives(),
+      speakerId: this.speakerId,
       reviewerId: this.reviewerId?.toPrimitives(),
       eventId: this.eventId.toPrimitives(),
       isApproved: this.isApproved,

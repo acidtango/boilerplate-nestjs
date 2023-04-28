@@ -2,7 +2,6 @@ import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
 import { EventId } from '../../../../shared/domain/ids/EventId'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 
 import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkEndpoint } from './CreateTalkEndpoint'
@@ -30,7 +29,7 @@ describe('CreateTalkEndpoint', () => {
       description: API_TALK.description,
       cospeakers: API_TALK.cospeakers,
       language: API_TALK.language,
-      speakerId: SpeakerId.fromPrimitives(JOYCE_LIN.id),
+      speakerId: JOYCE_LIN.id,
       eventId: EventId.fromPrimitives(CODEMOTION.id),
     })
   })
