@@ -1,6 +1,5 @@
 import { Talk } from '../../src/application/talks/domain/Talk'
 import { TalkDescription } from '../../src/application/talks/domain/TalkDescription'
-import { TalkTitle } from '../../src/application/talks/domain/TalkTitle'
 import { EventId } from '../../src/shared/domain/ids/EventId'
 import { SpeakerId } from '../../src/shared/domain/ids/SpeakerId'
 import { TalkId } from '../../src/shared/domain/ids/TalkId'
@@ -15,7 +14,7 @@ export function createApiTalkId() {
 export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.cospeakers } = {}) {
   return Talk.create(
     id,
-    new TalkTitle(API_TALK.title),
+    API_TALK.title,
     new TalkDescription(API_TALK.description),
     API_TALK.language,
     cospeakers.map(SpeakerId.fromPrimitives),
