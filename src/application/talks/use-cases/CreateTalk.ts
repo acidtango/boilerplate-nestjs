@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
@@ -9,6 +9,8 @@ import { Talk } from '../domain/Talk'
 import { TalkDescription } from '../domain/TalkDescription'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkTitle } from '../domain/TalkTitle'
+import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
+import { EventRepository } from '../../events/domain/EventRepository'
 
 export type CreateTalkParams = {
   id: TalkId
@@ -20,23 +22,29 @@ export type CreateTalkParams = {
   speakerId: SpeakerId
 }
 
+@Injectable()
 export class CreateTalk extends UseCase {
   constructor(
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
+    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
+    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
   ) {
     super()
   }
 
-  async execute(params: CreateTalkParams) {
-    const talk = Talk.create(
-      params.id,
-      params.title,
-      params.description,
-      params.language,
-      params.cospeakers,
-      params.speakerId,
-      params.eventId
-    )
+  async execute({
+    cospeakers,
+    description,
+    eventId,
+    id,
+    language,
+    speakerId,
+    title,
+  }: CreateTalkParams) {
+    if (!(await this.eventRepository.exists(eventId))) {
+      throw new TalkEventNotFoundError(eventId)
+    }
+
+    const talk = Talk.create(id, title, description, language, cospeakers, speakerId, eventId)
 
     await this.talkRepository.save(talk)
   }

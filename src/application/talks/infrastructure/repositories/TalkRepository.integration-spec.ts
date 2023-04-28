@@ -35,14 +35,14 @@ describe('TalkRepository', () => {
 
       await talkRepository.save(talk)
 
-      const savedTalk = await talkRepository.findById(talkId)
+      const savedTalk = await talkRepository.findBy(talkId)
       expect(savedTalk).toEqual(talk)
     })
 
     it('findById returns undefined if not found', async () => {
       const notExistentId = createApiTalkId()
 
-      const notExistentTalk = await talkRepository.findById(notExistentId)
+      const notExistentTalk = await talkRepository.findBy(notExistentId)
 
       expect(notExistentTalk).toBeUndefined()
     })

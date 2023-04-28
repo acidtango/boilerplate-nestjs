@@ -9,7 +9,7 @@ export class TalkFinder extends DomainService {
   }
 
   async findOrThrow(talkId: TalkId) {
-    const talk = await this.talkRepository.findById(talkId)
+    const talk = await this.talkRepository.findBy(talkId)
 
     if (!talk) {
       throw new TalkNotFoundError(talkId)

@@ -5,18 +5,11 @@ import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { ApproveTalk } from './ApproveTalk'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('ApproveTalk', () => {
-  it('fails if the talk is in PROPOSAL', async () => {
-    const talkRepository = TalkRepositoryFake.createWithApiTalk()
-    const approveTalk = new ApproveTalk(talkRepository)
-
-    await expect(() => approveTalk.execute(createApiTalkId())).rejects.toThrowError(
-      new TalkCannotBeApprovedError()
-    )
-  })
-
-  it('approves the talk if it is currently in REVIEWING', async () => {
+  it('approves the talk', async () => {
     const talk = createApiTalk()
     talk.assignReviewer(new OrganizerId(FRAN.id))
     const talkRepository = TalkRepositoryFake.createWith(talk)
@@ -26,5 +19,23 @@ describe('ApproveTalk', () => {
 
     const savedTalk = talkRepository.getLatestSavedTalk()
     expect(savedTalk.hasStatus(TalkStatus.APPROVED)).toBe(true)
+  })
+
+  it('fails if the talk is in PROPOSAL', async () => {
+    const talkRepository = TalkRepositoryFake.createWithApiTalk()
+    const approveTalk = new ApproveTalk(talkRepository)
+
+    await expect(() => approveTalk.execute(createApiTalkId())).rejects.toThrowError(
+      new TalkCannotBeApprovedError()
+    )
+  })
+
+  it('fails if the talk does not exist', async () => {
+    const notExistentId = new TalkId('not-existent-id')
+    const talkRepository = TalkRepositoryFake.empty()
+    const expectedError = new TalkNotFoundError(notExistentId)
+    const approveTalk = new ApproveTalk(talkRepository)
+
+    await expect(() => approveTalk.execute(notExistentId)).rejects.toThrowError(expectedError)
   })
 })

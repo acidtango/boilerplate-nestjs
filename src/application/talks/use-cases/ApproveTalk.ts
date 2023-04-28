@@ -1,20 +1,23 @@
-import { Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { AppProvider } from '../../AppProviders'
 import { TalkRepository } from '../domain/TalkRepository'
+import { TalkFinder } from '../domain/TalkFinder'
 
+@Injectable()
 export class ApproveTalk extends UseCase {
+  private readonly talkFinder: TalkFinder
+
   constructor(
     @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
   ) {
     super()
+    this.talkFinder = new TalkFinder(talkRepository)
   }
 
   async execute(talkId: TalkId) {
-    const talk = await this.talkRepository.findById(talkId)
-
-    if (!talk) throw new Error('Not found')
+    const talk = await this.talkFinder.findOrThrow(talkId)
 
     talk.approve()
 

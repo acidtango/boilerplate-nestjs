@@ -17,7 +17,7 @@ export class TalkRepositoryMemory implements TalkRepository {
     this.talks.set(talkPrimitives.id, talkPrimitives)
   }
 
-  async findById(talkId: TalkId): Promise<Talk | undefined> {
+  async findBy(talkId: TalkId): Promise<Talk | undefined> {
     const talkPrimitives = this.talks.get(talkId.toPrimitives())
 
     if (!talkPrimitives) return undefined

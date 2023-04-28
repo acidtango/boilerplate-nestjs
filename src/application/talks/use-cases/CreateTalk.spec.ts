@@ -9,17 +9,33 @@ import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkTitle } from '../domain/TalkTitle'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
+import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
+import { createCodemotionEvent } from '../../../../test/mother/TalkEventMother'
+import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 
 describe('CreateTalk', () => {
   it('creates the a proposal talk', async () => {
     const talkRepository = TalkRepositoryFake.empty()
-    const createTalk = new CreateTalk(talkRepository)
+    const eventRepository = new EventRepositoryMemory()
+    await eventRepository.save(createCodemotionEvent())
+    const createTalk = new CreateTalk(talkRepository, eventRepository)
     const params = generateCreateApiTalkParams()
 
     await createTalk.execute(params)
 
     const talk = talkRepository.getLatestSavedTalk()
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
+  })
+
+  it('fails if eventId does not exists', async () => {
+    const talkRepository = TalkRepositoryFake.empty()
+    const eventRepository = new EventRepositoryMemory()
+    const createTalk = new CreateTalk(talkRepository, eventRepository)
+    const params = generateCreateApiTalkParams()
+
+    await expect(createTalk.execute(params)).rejects.toThrow(
+      new TalkEventNotFoundError(new EventId(CODEMOTION.id))
+    )
   })
 })
 

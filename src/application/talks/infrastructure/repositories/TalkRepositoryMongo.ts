@@ -20,7 +20,7 @@ export class TalkRepositoryMongo implements TalkRepository {
     await this.talks.updateOne({ id: primitives.id }, { $set: primitives }, { upsert: true })
   }
 
-  async findById(talkId: TalkId): Promise<Talk | undefined> {
+  async findBy(talkId: TalkId): Promise<Talk | undefined> {
     const talkPrimitives = await this.talks.findOne({ id: talkId.toPrimitives() })
 
     if (!talkPrimitives) return undefined
