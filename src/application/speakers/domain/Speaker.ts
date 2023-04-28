@@ -24,7 +24,7 @@ export class Speaker {
     language: Language,
     email: EmailAddress
   ) {
-    new Speaker(id, name, age, language, email, false)
+    return new Speaker(id, name, age, language, email, false)
   }
 
   static fromPrimitives(primitives: SpeakerPrimitives) {

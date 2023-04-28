@@ -31,7 +31,7 @@ export class CreateSpeaker extends UseCase {
       throw new SpeakerAlreadyCreatedError(id)
     }
 
-    const speaker = new Speaker(id, name, age, language, email, false)
+    const speaker = Speaker.create(id, name, age, language, email)
 
     await this.speakerRepository.save(speaker)
   }
