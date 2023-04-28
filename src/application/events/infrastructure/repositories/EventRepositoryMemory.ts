@@ -1,6 +1,5 @@
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
-import { EventId } from '../../../../shared/domain/ids/EventId'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 export class EventRepositoryMemory implements EventRepository, Reseteable {
@@ -18,8 +17,8 @@ export class EventRepositoryMemory implements EventRepository, Reseteable {
     return talkEventsPrimitives.map(TalkEvent.fromPrimitives)
   }
 
-  async exists(id: EventId): Promise<boolean> {
-    return this.talkEvents.has(id.toPrimitives())
+  async exists(id: string): Promise<boolean> {
+    return this.talkEvents.has(id)
   }
 
   async reset() {
