@@ -7,6 +7,7 @@ import { TalkRepository } from '../domain/TalkRepository'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
 import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
+import { Talk } from '../domain/Talk'
 
 export type ReviewTalkParams = {
   talkId: string
@@ -28,7 +29,7 @@ export class ReviewTalk extends UseCase {
   async execute({ talkId, reviewerId }: ReviewTalkParams) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
-    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
+    if (this.getCurrentStatus(talk) === TalkStatus.REVIEWING) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
@@ -36,5 +37,17 @@ export class ReviewTalk extends UseCase {
 
     await this.talkRepository.save(talk)
     await this.eventBus.publish([new TalkAssignedForReview(talk.getTalkId(), reviewerId)])
+  }
+
+  private getCurrentStatus(talk: Talk) {
+    if (talk.getIsApproved()) {
+      return TalkStatus.APPROVED
+    } else if (talk.getIsApproved() === false) {
+      return TalkStatus.REJECTED
+    } else if (talk.getReviewerId()) {
+      return TalkStatus.REVIEWING
+    } else {
+      return TalkStatus.PROPOSAL
+    }
   }
 }
