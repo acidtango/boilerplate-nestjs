@@ -2,7 +2,6 @@ import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
@@ -17,10 +16,11 @@ export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
   private static readonly MAX_TITLE_LENGTH = 100
+
   private static readonly MAX_DESCRIPTION_LENGTH = 300
 
   private constructor(
-    private readonly id: TalkId,
+    private readonly id: string,
     private readonly title: string,
     private readonly description: string,
     private readonly language: Language,
@@ -41,7 +41,7 @@ export class Talk extends AggregateRoot {
   }
 
   static create(
-    id: TalkId,
+    id: string,
     title: string,
     description: string,
     language: Language,
@@ -70,7 +70,7 @@ export class Talk extends AggregateRoot {
     } = talkPrimitives
 
     return new Talk(
-      TalkId.fromPrimitives(id),
+      id,
       title,
       description,
       language,
@@ -119,7 +119,7 @@ export class Talk extends AggregateRoot {
 
   toPrimitives() {
     return {
-      id: this.id.toPrimitives(),
+      id: this.id,
       title: this.title,
       description: this.description,
       language: this.language,

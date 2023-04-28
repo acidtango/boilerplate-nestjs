@@ -5,7 +5,6 @@ import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { ApproveTalk } from './ApproveTalk'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('ApproveTalk', () => {
@@ -31,7 +30,7 @@ describe('ApproveTalk', () => {
   })
 
   it('fails if the talk does not exist', async () => {
-    const notExistentId = new TalkId('not-existent-id')
+    const notExistentId = 'not-existent-id'
     const talkRepository = TalkRepositoryFake.empty()
     const expectedError = new TalkNotFoundError(notExistentId)
     const approveTalk = new ApproveTalk(talkRepository)

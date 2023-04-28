@@ -1,7 +1,6 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { GetTalk } from '../../use-cases/GetTalk'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { TalkResponseDTO } from './dtos/TalkResponseDTO'
 
 @Controller('/v1/talks/:id')
@@ -15,7 +14,7 @@ export class GetTalkEndpoint {
   })
   @Get()
   async execute(@Param('id') id: string): Promise<TalkResponseDTO> {
-    const talk = await this.getTalk.execute(new TalkId(id))
+    const talk = await this.getTalk.execute(id)
 
     return TalkResponseDTO.create(talk.toPrimitives())
   }

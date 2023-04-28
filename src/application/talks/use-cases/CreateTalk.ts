@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { AppProvider } from '../../AppProviders'
 import { Language } from '../../shared/domain/Language'
 import { Talk } from '../domain/Talk'
@@ -11,7 +10,7 @@ import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotF
 import { EventRepository } from '../../events/domain/EventRepository'
 
 export type CreateTalkParams = {
-  id: TalkId
+  id: string
   title: string
   description: string
   cospeakers: SpeakerId[]
