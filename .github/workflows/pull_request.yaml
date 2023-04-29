@@ -53,15 +53,18 @@ jobs:
     timeout-minutes: 10
     services:
       database:
-        image: mongo:6.0.5-jammy
+        image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: acid
           MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_DATABASE: develop
         options: >-
           --health-cmd mongo
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 27017:27017
     strategy:
       matrix:
         shard: [1]
