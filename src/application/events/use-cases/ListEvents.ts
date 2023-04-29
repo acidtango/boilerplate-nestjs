@@ -5,7 +5,9 @@ import { Inject } from '@nestjs/common'
 import { AppProvider } from '../../AppProviders'
 
 export class ListEvents extends UseCase {
-  constructor(@Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository) {
+  constructor(
+    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
+  ) {
     super()
   }
 
