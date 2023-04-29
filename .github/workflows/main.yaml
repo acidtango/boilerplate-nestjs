@@ -47,13 +47,12 @@ jobs:
     timeout-minutes: 10
     services:
       database:
-        image: postgres:14.7-alpine
+        image: mongo:6.0.5-jammy
         env:
-          POSTGRES_USER: acid
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: develop
+          MONGO_INITDB_ROOT_USERNAME: acid
+          MONGO_INITDB_ROOT_PASSWORD: password
         options: >-
-          --health-cmd pg_isready
+          --health-cmd mongo
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -71,7 +70,6 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Tests
         run: |
-          yarn migration:run
           yarn test:ci --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           DB_HOST: database
