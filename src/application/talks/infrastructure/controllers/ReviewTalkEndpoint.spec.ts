@@ -25,7 +25,7 @@ describe('ReviewTalkEndpoint', () => {
     await reviewTalk.execute(API_TALK.id, ReviewTalkRequestDTO.create({ reviewerId }))
 
     const savedTalk = talkRepository.getLatestSavedTalk()
-    expect(savedTalk.getReviewerId() === reviewerId).toBe(true)
+    expect(savedTalk.reviewerId === reviewerId).toBe(true)
   })
 
   it('event should be emitted', async () => {

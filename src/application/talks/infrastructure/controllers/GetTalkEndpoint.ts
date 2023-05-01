@@ -26,11 +26,11 @@ export class GetTalkEndpoint {
   }
 
   private getCurrentStatus(talk: Talk) {
-    if (talk.getIsApproved()) {
+    if (talk.isApproved) {
       return TalkStatus.APPROVED
-    } else if (talk.getIsApproved() === false) {
+    } else if (talk.isApproved === false) {
       return TalkStatus.REJECTED
-    } else if (talk.getReviewerId()) {
+    } else if (talk.reviewerId) {
       return TalkStatus.REVIEWING
     } else {
       return TalkStatus.PROPOSAL

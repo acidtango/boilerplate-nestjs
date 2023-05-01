@@ -31,21 +31,21 @@ export class ReviewTalkEndpoint {
     }
 
     if (this.getCurrentStatus(talk) === TalkStatus.REVIEWING) {
-      throw new TalkAlreadyBeingReviewed(talk.getTalkId())
+      throw new TalkAlreadyBeingReviewed(talk.id)
     }
 
-    talk.setReviewerId(body.reviewerId)
+    talk.reviewerId = body.reviewerId
 
     await this.talkRepository.save(talk)
-    await this.eventBus.publish([new TalkAssignedForReview(talk.getTalkId(), body.reviewerId)])
+    await this.eventBus.publish([new TalkAssignedForReview(talk.id, body.reviewerId)])
   }
 
   private getCurrentStatus(talk: Talk) {
-    if (talk.getIsApproved()) {
+    if (talk.isApproved) {
       return TalkStatus.APPROVED
-    } else if (talk.getIsApproved() === false) {
+    } else if (talk.isApproved === false) {
       return TalkStatus.REJECTED
-    } else if (talk.getReviewerId()) {
+    } else if (talk.reviewerId) {
       return TalkStatus.REVIEWING
     } else {
       return TalkStatus.PROPOSAL

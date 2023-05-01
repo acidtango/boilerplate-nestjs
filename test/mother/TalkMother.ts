@@ -8,7 +8,7 @@ export function createApiTalkId() {
 }
 
 export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.cospeakers } = {}) {
-  return Talk.create(
+  return new Talk(
     id,
     API_TALK.title,
     API_TALK.description,
