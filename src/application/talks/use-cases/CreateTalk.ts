@@ -51,7 +51,17 @@ export class CreateTalk extends UseCase {
       throw new TalkDescriptionTooLongError()
     }
 
-    const talk = new Talk(id, title, description, language, cospeakers, speakerId, eventId)
+    const talk: Talk = {
+      id: id,
+      title: title,
+      description: description,
+      language: language,
+      cospeakers: cospeakers,
+      speakerId: speakerId,
+      reviewerId: undefined,
+      eventId: eventId,
+      isApproved: undefined,
+    }
 
     await this.talkRepository.save(talk)
   }
