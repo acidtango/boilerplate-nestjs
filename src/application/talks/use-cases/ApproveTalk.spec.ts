@@ -1,13 +1,13 @@
-import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
-import { createApiTalkId } from '../../../../test/mother/TalkMother'
+import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { ApproveTalk } from './ApproveTalk'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
+import { createMongoClientMemory } from '../../shared/infrastructure/createMongoClientMemory'
 
 describe('ApproveTalk', () => {
   it('fails if the talk is in PROPOSAL', async () => {
-    const talkRepository = TalkRepositoryFake.createWithApiTalk()
-    const approveTalk = new ApproveTalk(talkRepository)
+    const mongoClient = createMongoClientMemory(createApiTalk())
+    const approveTalk = new ApproveTalk(mongoClient)
 
     await expect(() => approveTalk.execute(createApiTalkId())).rejects.toThrowError(
       new TalkCannotBeApprovedError()
@@ -16,9 +16,9 @@ describe('ApproveTalk', () => {
 
   it('fails if the talk does not exist', async () => {
     const notExistentId = 'not-existent-id'
-    const talkRepository = TalkRepositoryFake.empty()
+    const mongoClient = createMongoClientMemory()
     const expectedError = new TalkNotFoundError(notExistentId)
-    const approveTalk = new ApproveTalk(talkRepository)
+    const approveTalk = new ApproveTalk(mongoClient)
 
     await expect(() => approveTalk.execute(notExistentId)).rejects.toThrowError(expectedError)
   })

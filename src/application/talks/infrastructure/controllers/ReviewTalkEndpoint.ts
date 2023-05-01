@@ -3,19 +3,25 @@ import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoin
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
 import { AppProvider } from '../../../AppProviders'
 import { EventBus } from '../../../../shared/domain/hex/EventBus'
-import { TalkRepository } from '../../domain/TalkRepository'
 import { TalkNotFoundError } from '../../domain/errors/TalkNotFoundError'
 import { TalkStatus } from '../../domain/TalkStatus'
 import { TalkAlreadyBeingReviewed } from '../../domain/errors/TalkAlreadyBeingReviewed'
 import { TalkAssignedForReview } from '../../domain/TalkAssignedForReview'
 import { Talk } from '../../domain/Talk'
+import { Collection, MongoClient } from 'mongodb'
+import { config } from '../../../../config'
 
 @Controller('/v1/talks/:id/assignation')
 export class ReviewTalkEndpoint {
+  private readonly talks: Collection<Talk>
+
   constructor(
     @Inject(AppProvider.EVENT_BUS) private readonly eventBus: EventBus,
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
-  ) {}
+    private readonly client: MongoClient
+  ) {
+    const db = client.db(config.db.database)
+    this.talks = db.collection('talks')
+  }
 
   @Endpoint({
     tag: DocumentationTag.TALKS,
@@ -24,7 +30,7 @@ export class ReviewTalkEndpoint {
   })
   @Put()
   async execute(@Param('id') id: string, @Body() body: ReviewTalkRequestDTO) {
-    const talk = await this.talkRepository.findBy(id)
+    const talk = await this.talks.findOne({ id })
 
     if (!talk) {
       throw new TalkNotFoundError(id)
@@ -36,7 +42,7 @@ export class ReviewTalkEndpoint {
 
     talk.reviewerId = body.reviewerId
 
-    await this.talkRepository.save(talk)
+    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
     await this.eventBus.publish([new TalkAssignedForReview(talk.id, body.reviewerId)])
   }
 

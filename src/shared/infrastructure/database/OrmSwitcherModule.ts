@@ -1,5 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common'
 import { MongoModule } from './MongoModule'
+import { MongoMemoryModule } from './MongoMemoryModule'
 
 @Module({})
 export class OrmSwitcherModule {
@@ -7,6 +8,7 @@ export class OrmSwitcherModule {
     if (disable) {
       return {
         module: OrmSwitcherModule,
+        imports: [MongoMemoryModule],
       }
     }
 

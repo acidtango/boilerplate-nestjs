@@ -3,13 +3,14 @@ import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { AppProvider } from '../../AppProviders'
 import { Language } from '../../shared/domain/Language'
 import { Talk } from '../domain/Talk'
-import { TalkRepository } from '../domain/TalkRepository'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { EventRepository } from '../../events/domain/EventRepository'
 import { MaximumCospeakersReachedError } from '../domain/errors/MaximumCospeakersReachedError'
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '../../shared/constants'
 import { TalkTitleTooLongError } from '../domain/errors/TalkTitleTooLongError'
 import { TalkDescriptionTooLongError } from '../domain/errors/TalkDescriptionTooLongError'
+import { Collection, MongoClient } from 'mongodb'
+import { config } from '../../../config'
 
 export type CreateTalkParams = {
   id: string
@@ -23,11 +24,15 @@ export type CreateTalkParams = {
 
 @Injectable()
 export class CreateTalk extends UseCase {
+  private readonly talks: Collection<Talk>
+
   constructor(
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
-    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
+    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository,
+    private readonly client: MongoClient
   ) {
     super()
+    const db = client.db(config.db.database)
+    this.talks = db.collection('talks')
   }
 
   async execute({
@@ -63,6 +68,6 @@ export class CreateTalk extends UseCase {
       isApproved: undefined,
     }
 
-    await this.talkRepository.save(talk)
+    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
   }
 }
