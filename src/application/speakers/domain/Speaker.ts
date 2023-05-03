@@ -1,4 +1,5 @@
 import { SpeakerName } from './SpeakerName'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { SpeakerAge } from './SpeakerAge'
 import { EmailAddress } from '../../shared/domain/EmailAddress'
 import { Language } from '../../shared/domain/Language'
@@ -8,7 +9,7 @@ export type SpeakerPrimitives = Primitives<Speaker>
 
 export class Speaker {
   constructor(
-    private readonly id: string,
+    private readonly id: SpeakerId,
     private readonly name: SpeakerName,
     private readonly age: SpeakerAge,
     private readonly language: Language,
@@ -17,7 +18,7 @@ export class Speaker {
   ) {}
 
   static create(
-    id: string,
+    id: SpeakerId,
     name: SpeakerName,
     age: SpeakerAge,
     language: Language,
@@ -28,7 +29,7 @@ export class Speaker {
 
   static fromPrimitives(primitives: SpeakerPrimitives) {
     return new Speaker(
-      primitives.id,
+      SpeakerId.fromPrimitives(primitives.id),
       SpeakerName.fromPrimitives(primitives.name),
       SpeakerAge.fromPrimitives(primitives.age),
       primitives.language,
@@ -39,7 +40,7 @@ export class Speaker {
 
   toPrimitives() {
     return {
-      id: this.id,
+      id: this.id.toPrimitives(),
       name: this.name.toPrimitives(),
       age: this.age.toPrimitives(),
       language: this.language,

@@ -3,6 +3,7 @@ import { CODEMOTION } from '../../../shared/fixtures/events'
 import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../shared/fixtures/talks'
 import { EventId } from '../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
@@ -40,9 +41,9 @@ function generateCreateApiTalkParams(): CreateTalkParams {
     id: API_TALK.id,
     title: API_TALK.title,
     description: API_TALK.description,
-    cospeakers: API_TALK.cospeakers,
+    cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
     language: API_TALK.language,
     eventId: new EventId(CODEMOTION.id),
-    speakerId: JOYCE_LIN.id,
+    speakerId: new SpeakerId(JOYCE_LIN.id),
   }
 }

@@ -3,6 +3,7 @@ import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoin
 import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkRequestDTO } from './dtos/CreateTalkRequestDTO'
 import { EventId } from '../../../../shared/domain/ids/EventId'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 
 @Controller('/v1/talks')
 export class CreateTalkEndpoint {
@@ -19,10 +20,10 @@ export class CreateTalkEndpoint {
       id: body.id,
       title: body.title,
       description: body.description,
-      cospeakers: body.cospeakers,
+      cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
       language: body.language,
       eventId: EventId.fromPrimitives(body.eventId),
-      speakerId: body.speakerId,
+      speakerId: SpeakerId.fromPrimitives(body.speakerId),
     })
   }
 }

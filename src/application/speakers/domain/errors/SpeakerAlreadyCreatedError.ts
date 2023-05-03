@@ -1,9 +1,9 @@
 import { AggregateAlreadyCreatedError } from '../../../../shared/domain/errors/AggregateAlreadyCreatedError'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker } from '../Speaker'
-import { DomainId } from '../../../../shared/domain/hex/DomainId'
 
 export class SpeakerAlreadyCreatedError extends AggregateAlreadyCreatedError {
-  constructor(speakerId: string) {
-    super(new DomainId(speakerId), Speaker.name)
+  constructor(speakerId: SpeakerId) {
+    super(speakerId, Speaker.name)
   }
 }

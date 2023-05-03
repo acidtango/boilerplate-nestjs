@@ -2,6 +2,7 @@ import { GetSpeaker } from '../../use-cases/GetSpeaker'
 import { SpeakerResponseDTO } from './dtos/SpeakerResponseDTO'
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
+import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {
@@ -14,7 +15,7 @@ export class GetSpeakerEndpoint {
   })
   @Get()
   async execute(@Param('id') id: string): Promise<SpeakerResponseDTO> {
-    const speaker = await this.getSpeaker.execute(id)
+    const speaker = await this.getSpeaker.execute(SpeakerId.fromPrimitives(id))
 
     const speakerPrimitives = speaker.toPrimitives()
 

@@ -1,5 +1,6 @@
 import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
 
@@ -16,7 +17,7 @@ describe('GetSpeaker', () => {
   })
 
   it('fails if the speaker does not exist', async () => {
-    const notExistentId = 'not-existent-id'
+    const notExistentId = new SpeakerId('not-existent-id')
     const speakerRepository = SpeakerRepositoryFake.empty()
     const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
