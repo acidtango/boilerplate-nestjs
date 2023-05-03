@@ -3,6 +3,7 @@ import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
 import { TalkStatus } from './TalkStatus'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
+import { TalkCannotBeApprovedError } from './errors/TalkCannotBeApprovedError'
 import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
 
@@ -92,8 +93,10 @@ export class Talk extends AggregateRoot {
     return TalkStatus.PROPOSAL
   }
 
-  setIsApproved(approved: boolean) {
-    this.isApproved = approved
+  approve() {
+    if (this.getCurrentStatus() === TalkStatus.PROPOSAL) throw new TalkCannotBeApprovedError()
+
+    this.isApproved = true
   }
 
   toPrimitives() {
