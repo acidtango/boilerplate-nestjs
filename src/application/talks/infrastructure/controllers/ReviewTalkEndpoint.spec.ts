@@ -3,12 +3,12 @@ import { FRAN } from '../../../../shared/fixtures/organizers'
 import { EventBus } from '../../../../shared/domain/hex/EventBus'
 import { EventBusNoop } from '../../../../shared/infrastructure/events/EventBusNoop'
 import { createApiTalk, createApiTalkId } from '../../../../../test/mother/TalkMother'
+import { TalkRepositoryFake } from '../../../../../test/fakes/TalkRepositoryFake'
 import { TalkAssignedForReview } from '../../domain/TalkAssignedForReview'
 import { TalkNotFoundError } from '../../domain/errors/TalkNotFoundError'
 import { TalkAlreadyBeingReviewed } from '../../domain/errors/TalkAlreadyBeingReviewed'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
 import { API_TALK } from '../../../../shared/fixtures/talks'
-import { createMongoClientMemory } from '../../../shared/infrastructure/createMongoClientMemory'
 
 describe('ReviewTalkEndpoint', () => {
   let eventBus: EventBus
@@ -18,23 +18,21 @@ describe('ReviewTalkEndpoint', () => {
   })
 
   it('assigns the talk to a reviewer', async () => {
-    const mongoClient = createMongoClientMemory(createApiTalk())
-    const reviewTalk = new ReviewTalkEndpoint(eventBus, mongoClient)
+    const talkRepository = TalkRepositoryFake.createWithApiTalk()
+    const reviewTalk = new ReviewTalkEndpoint(eventBus, talkRepository)
     const reviewerId = FRAN.id
 
     await reviewTalk.execute(API_TALK.id, ReviewTalkRequestDTO.create({ reviewerId }))
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const savedTalk = mongoClient.getSaved()
+    const savedTalk = talkRepository.getLatestSavedTalk()
     expect(savedTalk.reviewerId === reviewerId).toBe(true)
   })
 
   it('event should be emitted', async () => {
     const talkId = createApiTalkId()
-    const mongoClient = createMongoClientMemory(createApiTalk())
+    const talkRepository = TalkRepositoryFake.createWithApiTalk()
     jest.spyOn(eventBus, 'publish')
-    const reviewTalk = new ReviewTalkEndpoint(eventBus, mongoClient)
+    const reviewTalk = new ReviewTalkEndpoint(eventBus, talkRepository)
     const reviewerId = FRAN.id
 
     await reviewTalk.execute(
@@ -49,8 +47,8 @@ describe('ReviewTalkEndpoint', () => {
 
   it('fails if talk does not exist', async () => {
     const notExistentId = API_TALK.id
-    const mongoClient = createMongoClientMemory()
-    const reviewTalk = new ReviewTalkEndpoint(eventBus, mongoClient)
+    const talkRepository = TalkRepositoryFake.empty()
+    const reviewTalk = new ReviewTalkEndpoint(eventBus, talkRepository)
     const notImportantId = FRAN.id
 
     const expectedError = new TalkNotFoundError(notExistentId)
@@ -61,8 +59,9 @@ describe('ReviewTalkEndpoint', () => {
 
   it('fails if talk is already being reviewed', async () => {
     const talkId = API_TALK.id
-    const mongoClient = createMongoClientMemory(createApiTalk())
-    const reviewTalk = new ReviewTalkEndpoint(eventBus, mongoClient)
+    const talk = createApiTalk({ id: talkId })
+    const talkRepository = TalkRepositoryFake.createWith(talk)
+    const reviewTalk = new ReviewTalkEndpoint(eventBus, talkRepository)
     const reviewerId = FRAN.id
     await reviewTalk.execute(
       talkId,

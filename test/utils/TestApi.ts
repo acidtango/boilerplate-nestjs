@@ -3,11 +3,11 @@ import { ApplicationModule } from '../../src/application/ApplicationModule'
 import { config } from '../../src/config'
 import { AppProvider } from '../../src/application/AppProviders'
 import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
+import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
 import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
-import { MongoClient } from 'mongodb'
 
 export class TestApi {
   private static instance: TestApi
@@ -56,6 +56,8 @@ export class TestApi {
     return testingModuleBuilder
       .overrideProvider(AppProvider.EVENT_REPOSITORY)
       .useClass(EventRepositoryMemory)
+      .overrideProvider(AppProvider.TALK_REPOSITORY)
+      .useClass(TalkRepositoryMemory)
       .overrideProvider(AppProvider.SPEAKER_REPOSITORY)
       .useClass(SpeakerRepositoryMemory)
   }
@@ -92,14 +94,6 @@ export class TestApi {
       .map((token) => this.getNestApplication().get(token))
       .filter(isReseteable)
       .map((dependency) => dependency.reset())
-
-    const mongoClient = this.getNestApplication().get(MongoClient)
-
-    if ('reset' in mongoClient) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      await mongoClient.reset()
-    }
 
     await Promise.all(promises)
   }

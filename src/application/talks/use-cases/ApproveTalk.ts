@@ -1,24 +1,22 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { AppProvider } from '../../AppProviders'
+import { TalkRepository } from '../domain/TalkRepository'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { Talk } from '../domain/Talk'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../config'
 
 @Injectable()
 export class ApproveTalk extends UseCase {
-  private readonly talks: Collection<Talk>
-
-  constructor(private readonly client: MongoClient) {
+  constructor(
+    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
+  ) {
     super()
-    const db = client.db(config.db.database)
-    this.talks = db.collection('talks')
   }
 
   async execute(talkId: string) {
-    const talk = await this.talks.findOne({ id: talkId })
+    const talk = await this.talkRepository.findBy(talkId)
 
     if (!talk) {
       throw new TalkNotFoundError(talkId)
@@ -28,7 +26,7 @@ export class ApproveTalk extends UseCase {
 
     talk.isApproved = true
 
-    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
+    await this.talkRepository.save(talk)
   }
 
   private getCurrentStatus(talk: Talk) {

@@ -6,9 +6,10 @@ import { ReviewTalkEndpoint } from './infrastructure/controllers/ReviewTalkEndpo
 import { CreateTalk } from './use-cases/CreateTalk'
 import { GetTalk } from './use-cases/GetTalk'
 import { ApproveTalk } from './use-cases/ApproveTalk'
+import { TalkRepositoryModule } from './infrastructure/repositories/TalkRepositoryModule'
 
 @Module({
-  imports: [],
+  imports: [TalkRepositoryModule],
   controllers: [CreateTalkEndpoint, GetTalkEndpoint, ReviewTalkEndpoint, ApproveTalkEndpoint],
   providers: [CreateTalk, GetTalk, ApproveTalk],
 })
