@@ -6,6 +6,7 @@ import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { AppProvider } from '../../AppProviders'
 import { Language } from '../../shared/domain/Language'
 import { Talk } from '../domain/Talk'
+import { TalkDescription } from '../domain/TalkDescription'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { EventRepository } from '../../events/domain/EventRepository'
@@ -13,7 +14,7 @@ import { EventRepository } from '../../events/domain/EventRepository'
 export type CreateTalkParams = {
   id: TalkId
   title: string
-  description: string
+  description: TalkDescription
   cospeakers: SpeakerId[]
   language: Language
   eventId: EventId

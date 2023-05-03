@@ -6,23 +6,22 @@ import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
+import { TalkDescription } from './TalkDescription'
 import { TalkStatus } from './TalkStatus'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
 import { TalkCannotBeApprovedError } from './errors/TalkCannotBeApprovedError'
 import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
-import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
   private static readonly MAX_TITLE_LENGTH = 100
-  private static readonly MAX_DESCRIPTION_LENGTH = 300
 
   private constructor(
     private readonly id: TalkId,
     private readonly title: string,
-    private readonly description: string,
+    private readonly description: TalkDescription,
     private readonly language: Language,
     private readonly cospeakers: SpeakerId[],
     private readonly speakerId: SpeakerId,
@@ -35,15 +34,12 @@ export class Talk extends AggregateRoot {
     if (this.title.length > Talk.MAX_TITLE_LENGTH) {
       throw new TalkTitleTooLongError()
     }
-    if (this.description.length > Talk.MAX_DESCRIPTION_LENGTH) {
-      throw new TalkDescriptionTooLongError()
-    }
   }
 
   static create(
     id: TalkId,
     title: string,
-    description: string,
+    description: TalkDescription,
     language: Language,
     cospeakers: SpeakerId[],
     speakerId: SpeakerId,
@@ -72,7 +68,7 @@ export class Talk extends AggregateRoot {
     return new Talk(
       TalkId.fromPrimitives(id),
       title,
-      description,
+      TalkDescription.fromPrimitives(description),
       language,
       cospeakers.map(SpeakerId.fromPrimitives),
       SpeakerId.fromPrimitives(speakerId),
@@ -121,7 +117,7 @@ export class Talk extends AggregateRoot {
     return {
       id: this.id.toPrimitives(),
       title: this.title,
-      description: this.description,
+      description: this.description.toPrimitives(),
       language: this.language,
       cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
       status: this.getCurrentStatus(),

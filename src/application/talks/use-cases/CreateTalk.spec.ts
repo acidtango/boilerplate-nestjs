@@ -4,6 +4,7 @@ import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../shared/fixtures/talks'
 import { EventId } from '../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
+import { TalkDescription } from '../domain/TalkDescription'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
@@ -41,7 +42,7 @@ function generateCreateApiTalkParams(): CreateTalkParams {
   return {
     id: new TalkId(API_TALK.id),
     title: API_TALK.title,
-    description: API_TALK.description,
+    description: new TalkDescription(API_TALK.description),
     cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
     language: API_TALK.language,
     eventId: new EventId(CODEMOTION.id),
