@@ -7,17 +7,14 @@ export function createApiTalkId() {
   return API_TALK.id
 }
 
-export function createApiTalk({
-  id = createApiTalkId(),
-  cospeakers = API_TALK.cospeakers,
-} = {}): Talk {
-  return {
-    id: id,
-    title: API_TALK.title,
-    description: API_TALK.description,
-    language: API_TALK.language,
+export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.cospeakers } = {}) {
+  return new Talk(
+    id,
+    API_TALK.title,
+    API_TALK.description,
+    API_TALK.language,
     cospeakers,
-    speakerId: JOYCE_LIN.id,
-    eventId: CODEMOTION.id,
-  }
+    JOYCE_LIN.id,
+    CODEMOTION.id
+  )
 }

@@ -1,34 +1,34 @@
 import { Collection, MongoClient } from 'mongodb'
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
-import { Talk } from '../../domain/Talk'
+import { Talk, TalkPrimitives } from '../../domain/Talk'
 import { config } from '../../../../config'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
 export class TalkRepositoryMongo implements TalkRepository, Reseteable {
-  private readonly talks: Collection<Talk>
+  private readonly talks: Collection<TalkPrimitives>
 
   constructor(private readonly client: MongoClient) {
     const db = client.db(config.db.database)
     this.talks = db.collection('talks')
   }
 
-  async reset() {
-    await this.talks.deleteMany()
+  async save(talk: Talk) {
+    const primitives = talk.toPrimitives()
+
+    await this.talks.updateOne({ id: primitives.id }, { $set: primitives }, { upsert: true })
   }
 
   async findBy(talkId: string): Promise<Talk | undefined> {
-    const document = await this.talks.findOne({ id: talkId })
+    const talkPrimitives = await this.talks.findOne({ id: talkId })
 
-    if (!document) return undefined
+    if (!talkPrimitives) return undefined
 
-    const { _id, ...talkPrimitives } = document
-
-    return talkPrimitives
+    return Talk.fromPrimitives(talkPrimitives)
   }
 
-  async save(talk: Talk): Promise<void> {
-    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
+  async reset() {
+    await this.talks.deleteMany()
   }
 }

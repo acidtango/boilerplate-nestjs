@@ -18,16 +18,9 @@ export class GetTalkEndpoint {
   async execute(@Param('id') id: string): Promise<TalkResponseDTO> {
     const talk = await this.getTalk.execute(id)
 
+    const params = talk.toPrimitives()
     return TalkResponseDTO.create({
-      id: talk.id,
-      title: talk.title,
-      description: talk.description,
-      language: talk.language,
-      cospeakers: talk.cospeakers,
-      speakerId: talk.speakerId,
-      eventId: talk.eventId,
-      reviewerId: talk.reviewerId,
-      isApproved: talk.isApproved,
+      ...params,
       status: this.getCurrentStatus(talk),
     })
   }

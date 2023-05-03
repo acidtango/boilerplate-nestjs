@@ -21,7 +21,7 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
 
     if (!lastTalk) throw new Error('No talk saved yet')
 
-    return lastTalk
+    return Talk.fromPrimitives(lastTalk)
   }
 
   static createWithApiTalk(): TalkRepositoryFake {

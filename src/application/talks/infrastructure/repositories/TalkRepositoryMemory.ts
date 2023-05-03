@@ -1,42 +1,28 @@
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
-import { Talk } from '../../domain/Talk'
+import { Talk, TalkPrimitives } from '../../domain/Talk'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
 export class TalkRepositoryMemory implements TalkRepository, Reseteable {
-  protected talks: Map<string, Talk> = new Map()
+  protected talks: Map<string, TalkPrimitives> = new Map()
+
+  async save(talk: Talk) {
+    this.saveSync(talk)
+  }
 
   protected saveSync(talk: Talk) {
-    this.talks.set(talk.id, {
-      id: talk.id,
-      title: talk.title,
-      description: talk.description,
-      language: talk.language,
-      cospeakers: talk.cospeakers,
-      speakerId: talk.speakerId,
-      reviewerId: talk.reviewerId,
-      eventId: talk.eventId,
-      isApproved: talk.isApproved,
-    })
+    const talkPrimitives = talk.toPrimitives()
+
+    this.talks.set(talkPrimitives.id, talkPrimitives)
   }
 
   async findBy(talkId: string): Promise<Talk | undefined> {
-    return this.talks.get(talkId)
-  }
+    const talkPrimitives = this.talks.get(talkId)
 
-  async save(talk: Talk): Promise<void> {
-    this.talks.set(talk.id, {
-      id: talk.id,
-      title: talk.title,
-      description: talk.description,
-      language: talk.language,
-      cospeakers: talk.cospeakers,
-      speakerId: talk.speakerId,
-      reviewerId: talk.reviewerId,
-      eventId: talk.eventId,
-      isApproved: talk.isApproved,
-    })
+    if (!talkPrimitives) return undefined
+
+    return Talk.fromPrimitives(talkPrimitives)
   }
 
   async reset() {
