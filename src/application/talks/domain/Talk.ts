@@ -1,8 +1,10 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
+import { TalkAssignedForReview } from './TalkAssignedForReview'
 import { TalkStatus } from './TalkStatus'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
+import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
 import { TalkCannotBeApprovedError } from './errors/TalkCannotBeApprovedError'
 import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
@@ -81,12 +83,21 @@ export class Talk extends AggregateRoot {
     return this.getCurrentStatus() === expectedStatus
   }
 
-  getTalkId() {
-    return this.id
+  assignForReviewTo(reviewerId: string) {
+    this.ensureTalkIsNotAlreadyBeingReviewed()
+
+    this.assignReviewer(reviewerId)
+    this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
   }
 
   isGoingToBeReviewedBy(expectedReviewerId: string) {
     return this.reviewerId === expectedReviewerId
+  }
+
+  ensureTalkIsNotAlreadyBeingReviewed() {
+    if (this.hasStatus(TalkStatus.REVIEWING)) {
+      throw new TalkAlreadyBeingReviewed(this.id)
+    }
   }
 
   private getCurrentStatus() {
@@ -105,7 +116,7 @@ export class Talk extends AggregateRoot {
 
   toPrimitives() {
     return {
-      id: this.getTalkId(),
+      id: this.id,
       title: this.title,
       description: this.description,
       language: this.language,

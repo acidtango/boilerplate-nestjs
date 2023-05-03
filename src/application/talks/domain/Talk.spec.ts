@@ -2,7 +2,6 @@ import { createApiTalk } from '../../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
-import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
 
 describe('Talk', () => {
   it('fails if cospeakers are greater than 4', () => {
@@ -39,11 +38,7 @@ describe('Talk', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (talk.hasStatus(TalkStatus.REVIEWING)) {
-      throw new TalkAlreadyBeingReviewed(talk.getTalkId())
-    }
-
-    talk.assignReviewer(reviewerId)
+    talk.assignForReviewTo(reviewerId)
 
     expect(talk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
   })
@@ -52,11 +47,7 @@ describe('Talk', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (talk.hasStatus(TalkStatus.REVIEWING)) {
-      throw new TalkAlreadyBeingReviewed(talk.getTalkId())
-    }
-
-    talk.assignReviewer(reviewerId)
+    talk.assignForReviewTo(reviewerId)
 
     expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(true)
   })
