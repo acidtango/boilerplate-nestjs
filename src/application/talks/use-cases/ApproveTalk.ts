@@ -24,17 +24,17 @@ export class ApproveTalk extends UseCase {
 
     if (this.getCurrentStatus(talk) === TalkStatus.PROPOSAL) throw new TalkCannotBeApprovedError()
 
-    talk.isApproved = true
+    talk.setIsApproved(true)
 
     await this.talkRepository.save(talk)
   }
 
   private getCurrentStatus(talk: Talk) {
-    if (talk.isApproved) {
+    if (talk.getIsApproved()) {
       return TalkStatus.APPROVED
-    } else if (talk.isApproved === false) {
+    } else if (talk.getIsApproved() === false) {
       return TalkStatus.REJECTED
-    } else if (talk.reviewerId) {
+    } else if (talk.getReviewerId()) {
       return TalkStatus.REVIEWING
     } else {
       return TalkStatus.PROPOSAL

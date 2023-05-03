@@ -1,22 +1,48 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
+import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
+import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
+import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
-  public constructor(
-    public readonly id: string,
-    public readonly title: string,
-    public readonly description: string,
-    public readonly language: Language,
-    public readonly cospeakers: string[],
-    public readonly speakerId: string,
-    public readonly eventId: string,
-    public reviewerId?: string,
-    public isApproved?: boolean
+  private static readonly MAX_TITLE_LENGTH = 100
+
+  private static readonly MAX_DESCRIPTION_LENGTH = 300
+
+  private constructor(
+    private readonly id: string,
+    private readonly title: string,
+    private readonly description: string,
+    private readonly language: Language,
+    private readonly cospeakers: string[],
+    private readonly speakerId: string,
+    private readonly eventId: string,
+    private reviewerId?: string,
+    private isApproved?: boolean
   ) {
     super()
+    if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
+    if (this.title.length > Talk.MAX_TITLE_LENGTH) {
+      throw new TalkTitleTooLongError()
+    }
+    if (this.description.length > Talk.MAX_DESCRIPTION_LENGTH) {
+      throw new TalkDescriptionTooLongError()
+    }
+  }
+
+  static create(
+    id: string,
+    title: string,
+    description: string,
+    language: Language,
+    cospeakers: string[],
+    speakerId: string,
+    eventId: string
+  ) {
+    return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
   }
 
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
@@ -44,9 +70,30 @@ export class Talk extends AggregateRoot {
       typeof isApproved === 'boolean' ? isApproved : undefined
     )
   }
+
+  getTalkId() {
+    return this.id
+  }
+
+  setReviewerId(reviewerId: string) {
+    this.reviewerId = reviewerId
+  }
+
+  getReviewerId() {
+    return this.reviewerId
+  }
+
+  getIsApproved() {
+    return this.isApproved
+  }
+
+  setIsApproved(approved: boolean) {
+    this.isApproved = approved
+  }
+
   toPrimitives() {
     return {
-      id: this.id,
+      id: this.getTalkId(),
       title: this.title,
       description: this.description,
       language: this.language,
