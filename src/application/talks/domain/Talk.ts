@@ -8,19 +8,17 @@ import { Language } from '../../shared/domain/Language'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
 import { TalkDescription } from './TalkDescription'
 import { TalkStatus } from './TalkStatus'
+import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
 import { TalkCannotBeApprovedError } from './errors/TalkCannotBeApprovedError'
-import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
-  private static readonly MAX_TITLE_LENGTH = 100
-
   private constructor(
     private readonly id: TalkId,
-    private readonly title: string,
+    private readonly title: TalkTitle,
     private readonly description: TalkDescription,
     private readonly language: Language,
     private readonly cospeakers: SpeakerId[],
@@ -31,14 +29,11 @@ export class Talk extends AggregateRoot {
   ) {
     super()
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
-    if (this.title.length > Talk.MAX_TITLE_LENGTH) {
-      throw new TalkTitleTooLongError()
-    }
   }
 
   static create(
     id: TalkId,
-    title: string,
+    title: TalkTitle,
     description: TalkDescription,
     language: Language,
     cospeakers: SpeakerId[],
@@ -67,7 +62,7 @@ export class Talk extends AggregateRoot {
 
     return new Talk(
       TalkId.fromPrimitives(id),
-      title,
+      TalkTitle.fromPrimitives(title),
       TalkDescription.fromPrimitives(description),
       language,
       cospeakers.map(SpeakerId.fromPrimitives),
@@ -116,7 +111,7 @@ export class Talk extends AggregateRoot {
   toPrimitives() {
     return {
       id: this.id.toPrimitives(),
-      title: this.title,
+      title: this.title.toPrimitives(),
       description: this.description.toPrimitives(),
       language: this.language,
       cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),

@@ -7,6 +7,7 @@ import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { TalkDescription } from '../domain/TalkDescription'
 import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
+import { TalkTitle } from '../domain/TalkTitle'
 import { CreateTalk, CreateTalkParams } from './CreateTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
 import { createCodemotionEvent } from '../../../../test/mother/TalkEventMother'
@@ -41,7 +42,7 @@ describe('CreateTalk', () => {
 function generateCreateApiTalkParams(): CreateTalkParams {
   return {
     id: new TalkId(API_TALK.id),
-    title: API_TALK.title,
+    title: new TalkTitle(API_TALK.title),
     description: new TalkDescription(API_TALK.description),
     cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
     language: API_TALK.language,

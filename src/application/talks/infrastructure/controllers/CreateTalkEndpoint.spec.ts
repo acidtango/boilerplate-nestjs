@@ -5,6 +5,7 @@ import { EventId } from '../../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { TalkDescription } from '../../domain/TalkDescription'
 import { TalkId } from '../../../../shared/domain/ids/TalkId'
+import { TalkTitle } from '../../domain/TalkTitle'
 
 import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkEndpoint } from './CreateTalkEndpoint'
@@ -28,7 +29,7 @@ describe('CreateTalkEndpoint', () => {
 
     expect(createTalkUseCase.execute).toHaveBeenCalledWith({
       id: TalkId.fromPrimitives(API_TALK.id),
-      title: API_TALK.title,
+      title: TalkTitle.fromPrimitives(API_TALK.title),
       description: TalkDescription.fromPrimitives(API_TALK.description),
       cospeakers: API_TALK.cospeakers,
       language: API_TALK.language,
