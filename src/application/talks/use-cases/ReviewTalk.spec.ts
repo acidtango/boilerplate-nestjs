@@ -28,7 +28,7 @@ describe('ReviewTalk', () => {
     })
 
     const savedTalk = talkRepository.getLatestSavedTalk()
-    expect(savedTalk.getReviewerId() === reviewerId).toBe(true)
+    expect(savedTalk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
   })
 
   it('event should be emitted', async () => {
