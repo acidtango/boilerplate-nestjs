@@ -1,5 +1,6 @@
 import { CODEMOTION } from '../../../../shared/fixtures/events'
 import { EventDateRange } from '../../domain/EventDateRange'
+import { EventId } from '../../../../shared/domain/ids/EventId'
 import { EventName } from '../../domain/EventName'
 import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
 import { CreateEvent } from '../../use-cases/CreateEvent'
@@ -25,7 +26,7 @@ describe('CreateEventEndpoint', () => {
     await endpoint.execute(createEventRequestDTO)
 
     expect(createEventUseCase.execute).toHaveBeenCalledWith({
-      id: CODEMOTION.id,
+      id: EventId.fromPrimitives(CODEMOTION.id),
       name: EventName.fromPrimitives(CODEMOTION.name),
       dateRange: EventDateRange.fromPrimitives({
         startDate: CODEMOTION.startDate,

@@ -1,4 +1,5 @@
 import { Talk } from '../../src/application/talks/domain/Talk'
+import { EventId } from '../../src/shared/domain/ids/EventId'
 import { CODEMOTION } from '../../src/shared/fixtures/events'
 import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
 import { API_TALK } from '../../src/shared/fixtures/talks'
@@ -15,6 +16,6 @@ export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.co
     API_TALK.language,
     cospeakers,
     JOYCE_LIN.id,
-    CODEMOTION.id
+    new EventId(CODEMOTION.id)
   )
 }

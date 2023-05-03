@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { EventId } from '../../../shared/domain/ids/EventId'
 import { AppProvider } from '../../AppProviders'
 import { Language } from '../../shared/domain/Language'
 import { Talk } from '../domain/Talk'
@@ -13,7 +14,7 @@ export type CreateTalkParams = {
   description: string
   cospeakers: string[]
   language: Language
-  eventId: string
+  eventId: EventId
   speakerId: string
 }
 
