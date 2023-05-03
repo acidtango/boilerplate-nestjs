@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
+import { TalkStatus } from './TalkStatus'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
@@ -83,8 +84,12 @@ export class Talk extends AggregateRoot {
     return this.reviewerId
   }
 
-  getIsApproved() {
-    return this.isApproved
+  getCurrentStatus() {
+    if (this.isApproved) return TalkStatus.APPROVED
+    if (this.isApproved === false) return TalkStatus.REJECTED
+    if (this.reviewerId) return TalkStatus.REVIEWING
+
+    return TalkStatus.PROPOSAL
   }
 
   setIsApproved(approved: boolean) {
@@ -98,6 +103,7 @@ export class Talk extends AggregateRoot {
       description: this.description,
       language: this.language,
       cospeakers: this.cospeakers,
+      status: this.getCurrentStatus(),
       speakerId: this.speakerId,
       reviewerId: this.reviewerId,
       eventId: this.eventId,

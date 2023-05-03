@@ -1,21 +1,8 @@
 import { createApiTalk } from '../../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
-import { Talk } from './Talk'
+import { FRAN } from '../../../shared/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 import { TalkAlreadyBeingReviewed } from './errors/TalkAlreadyBeingReviewed'
-import { FRAN } from '../../../shared/fixtures/organizers'
-
-function getCurrentStatus(talk: Talk) {
-  if (talk.getIsApproved()) {
-    return TalkStatus.APPROVED
-  } else if (talk.getIsApproved() === false) {
-    return TalkStatus.REJECTED
-  } else if (talk.getReviewerId()) {
-    return TalkStatus.REVIEWING
-  } else {
-    return TalkStatus.PROPOSAL
-  }
-}
 
 describe('Talk', () => {
   it('fails if cospeakers are greater than 4', () => {
@@ -39,20 +26,20 @@ describe('Talk', () => {
   it('has status PROPOSAL when created', () => {
     const talk = createApiTalk()
 
-    expect(getCurrentStatus(talk) === TalkStatus.PROPOSAL).toBe(true)
+    expect(talk.getCurrentStatus() === TalkStatus.PROPOSAL).toBe(true)
   })
 
   it('does not have status REVIEWING when created', () => {
     const talk = createApiTalk()
 
-    expect(getCurrentStatus(talk) === TalkStatus.REVIEWING).toBe(false)
+    expect(talk.getCurrentStatus() === TalkStatus.REVIEWING).toBe(false)
   })
 
   it('can be assigned to a reviewer', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (getCurrentStatus(talk) === TalkStatus.REVIEWING) {
+    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
@@ -65,12 +52,12 @@ describe('Talk', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (getCurrentStatus(talk) === TalkStatus.REVIEWING) {
+    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
     talk.setReviewerId(reviewerId)
 
-    expect(getCurrentStatus(talk) === TalkStatus.REVIEWING).toBe(true)
+    expect(talk.getCurrentStatus() === TalkStatus.REVIEWING).toBe(true)
   })
 })
