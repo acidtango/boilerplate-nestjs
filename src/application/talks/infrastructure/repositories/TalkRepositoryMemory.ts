@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
 import { Talk, TalkPrimitives } from '../../domain/Talk'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
@@ -17,8 +18,8 @@ export class TalkRepositoryMemory implements TalkRepository, Reseteable {
     this.talks.set(talkPrimitives.id, talkPrimitives)
   }
 
-  async findBy(talkId: string): Promise<Talk | undefined> {
-    const talkPrimitives = this.talks.get(talkId)
+  async findBy(talkId: TalkId): Promise<Talk | undefined> {
+    const talkPrimitives = this.talks.get(talkId.toPrimitives())
 
     if (!talkPrimitives) return undefined
 

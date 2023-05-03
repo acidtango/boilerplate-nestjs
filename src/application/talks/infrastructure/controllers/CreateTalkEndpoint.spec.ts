@@ -3,6 +3,7 @@ import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { API_TALK } from '../../../../shared/fixtures/talks'
 import { EventId } from '../../../../shared/domain/ids/EventId'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkEndpoint } from './CreateTalkEndpoint'
@@ -25,7 +26,7 @@ describe('CreateTalkEndpoint', () => {
     await endpoint.execute(createTalkDTO)
 
     expect(createTalkUseCase.execute).toHaveBeenCalledWith({
-      id: API_TALK.id,
+      id: TalkId.fromPrimitives(API_TALK.id),
       title: API_TALK.title,
       description: API_TALK.description,
       cospeakers: API_TALK.cospeakers,

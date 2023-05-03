@@ -1,6 +1,7 @@
 import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { GetTalk } from './GetTalk'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('GetTalk', () => {
@@ -16,7 +17,7 @@ describe('GetTalk', () => {
   })
 
   it('fails if the talk does not exist', async () => {
-    const notExistentId = 'not-existent-id'
+    const notExistentId = new TalkId('not-existent-id')
     const talkRepository = TalkRepositoryFake.empty()
     const getSpeakerUseCase = new GetTalk(talkRepository)
 

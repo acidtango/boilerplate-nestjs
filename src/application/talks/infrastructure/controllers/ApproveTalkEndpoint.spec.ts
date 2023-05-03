@@ -1,3 +1,4 @@
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { API_TALK } from '../../../../shared/fixtures/talks'
 import { ApproveTalk } from '../../use-cases/ApproveTalk'
 import { ApproveTalkEndpoint } from './ApproveTalkEndpoint'
@@ -9,6 +10,6 @@ describe('ApproveTalkEndpoint', () => {
 
     await endpoint.execute(API_TALK.id)
 
-    expect(approveTalk.execute).toHaveBeenCalledWith(API_TALK.id)
+    expect(approveTalk.execute).toHaveBeenCalledWith(TalkId.fromPrimitives(API_TALK.id))
   })
 })

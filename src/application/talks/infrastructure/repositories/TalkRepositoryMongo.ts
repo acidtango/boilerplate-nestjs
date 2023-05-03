@@ -2,6 +2,7 @@ import { Collection, MongoClient } from 'mongodb'
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
 import { Talk, TalkPrimitives } from '../../domain/Talk'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { config } from '../../../../config'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
 
@@ -20,8 +21,8 @@ export class TalkRepositoryMongo implements TalkRepository, Reseteable {
     await this.talks.updateOne({ id: primitives.id }, { $set: primitives }, { upsert: true })
   }
 
-  async findBy(talkId: string): Promise<Talk | undefined> {
-    const talkPrimitives = await this.talks.findOne({ id: talkId })
+  async findBy(talkId: TalkId): Promise<Talk | undefined> {
+    const talkPrimitives = await this.talks.findOne({ id: talkId.toPrimitives() })
 
     if (!talkPrimitives) return undefined
 
