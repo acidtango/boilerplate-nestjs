@@ -46,6 +46,10 @@ export class Talk extends AggregateRoot {
     return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
   }
 
+  assignReviewer(id: string) {
+    this.reviewerId = id
+  }
+
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const {
       id,
@@ -74,10 +78,6 @@ export class Talk extends AggregateRoot {
 
   getTalkId() {
     return this.id
-  }
-
-  setReviewerId(reviewerId: string) {
-    this.reviewerId = reviewerId
   }
 
   getReviewerId() {

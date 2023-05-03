@@ -43,7 +43,7 @@ describe('Talk', () => {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
-    talk.setReviewerId(reviewerId)
+    talk.assignReviewer(reviewerId)
 
     expect(talk.getReviewerId() === reviewerId).toBe(true)
   })
@@ -56,7 +56,7 @@ describe('Talk', () => {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
-    talk.setReviewerId(reviewerId)
+    talk.assignReviewer(reviewerId)
 
     expect(talk.getCurrentStatus() === TalkStatus.REVIEWING).toBe(true)
   })

@@ -32,7 +32,7 @@ export class ReviewTalk extends UseCase {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
-    talk.setReviewerId(reviewerId)
+    talk.assignReviewer(reviewerId)
 
     await this.talkRepository.save(talk)
     await this.eventBus.publish([new TalkAssignedForReview(talk.getTalkId(), reviewerId)])

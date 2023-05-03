@@ -9,7 +9,7 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 describe('ApproveTalk', () => {
   it('approves the talk', async () => {
     const talk = createApiTalk()
-    talk.setReviewerId(FRAN.id)
+    talk.assignReviewer(FRAN.id)
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const approveTalk = new ApproveTalk(talkRepository)
 
