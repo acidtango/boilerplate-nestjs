@@ -28,7 +28,7 @@ export class ReviewTalk extends UseCase {
   async execute({ talkId, reviewerId }: ReviewTalkParams) {
     const talk = await this.talkFinder.findOrThrow(talkId)
 
-    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
+    if (talk.hasStatus(TalkStatus.REVIEWING)) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 

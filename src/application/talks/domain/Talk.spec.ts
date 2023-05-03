@@ -26,20 +26,20 @@ describe('Talk', () => {
   it('has status PROPOSAL when created', () => {
     const talk = createApiTalk()
 
-    expect(talk.getCurrentStatus() === TalkStatus.PROPOSAL).toBe(true)
+    expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
   })
 
   it('does not have status REVIEWING when created', () => {
     const talk = createApiTalk()
 
-    expect(talk.getCurrentStatus() === TalkStatus.REVIEWING).toBe(false)
+    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(false)
   })
 
   it('can be assigned to a reviewer', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
+    if (talk.hasStatus(TalkStatus.REVIEWING)) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
@@ -52,12 +52,12 @@ describe('Talk', () => {
     const talk = createApiTalk()
     const reviewerId = FRAN.id
 
-    if (talk.getCurrentStatus() === TalkStatus.REVIEWING) {
+    if (talk.hasStatus(TalkStatus.REVIEWING)) {
       throw new TalkAlreadyBeingReviewed(talk.getTalkId())
     }
 
     talk.assignReviewer(reviewerId)
 
-    expect(talk.getCurrentStatus() === TalkStatus.REVIEWING).toBe(true)
+    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(true)
   })
 })
