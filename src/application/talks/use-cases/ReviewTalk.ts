@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { EventBus } from '../../../shared/domain/hex/EventBus'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { AppProvider } from '../../AppProviders'
 import { TalkFinder } from '../domain/TalkFinder'
 import { TalkRepository } from '../domain/TalkRepository'
 
 export type ReviewTalkParams = {
   talkId: string
-  reviewerId: string
+  reviewerId: OrganizerId
 }
 
 @Injectable()

@@ -1,4 +1,5 @@
 import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
+import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
 import { Primitives } from '../../../utils/Primitives'
 import { Language } from '../../shared/domain/Language'
 import { TalkAssignedForReview } from './TalkAssignedForReview'
@@ -24,7 +25,7 @@ export class Talk extends AggregateRoot {
     private readonly cospeakers: string[],
     private readonly speakerId: string,
     private readonly eventId: string,
-    private reviewerId?: string,
+    private reviewerId?: OrganizerId,
     private isApproved?: boolean
   ) {
     super()
@@ -49,7 +50,7 @@ export class Talk extends AggregateRoot {
     return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
   }
 
-  assignReviewer(id: string) {
+  assignReviewer(id: OrganizerId) {
     this.reviewerId = id
   }
 
@@ -74,7 +75,7 @@ export class Talk extends AggregateRoot {
       cospeakers,
       speakerId,
       eventId,
-      reviewerId ? reviewerId : undefined,
+      reviewerId ? OrganizerId.fromPrimitives(reviewerId) : undefined,
       typeof isApproved === 'boolean' ? isApproved : undefined
     )
   }
@@ -83,15 +84,15 @@ export class Talk extends AggregateRoot {
     return this.getCurrentStatus() === expectedStatus
   }
 
-  assignForReviewTo(reviewerId: string) {
+  assignForReviewTo(reviewerId: OrganizerId) {
     this.ensureTalkIsNotAlreadyBeingReviewed()
 
     this.assignReviewer(reviewerId)
     this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
   }
 
-  isGoingToBeReviewedBy(expectedReviewerId: string) {
-    return this.reviewerId === expectedReviewerId
+  isGoingToBeReviewedBy(expectedReviewerId: OrganizerId) {
+    return this.reviewerId?.equals(expectedReviewerId) ?? false
   }
 
   ensureTalkIsNotAlreadyBeingReviewed() {
@@ -123,7 +124,7 @@ export class Talk extends AggregateRoot {
       cospeakers: this.cospeakers,
       status: this.getCurrentStatus(),
       speakerId: this.speakerId,
-      reviewerId: this.reviewerId,
+      reviewerId: this.reviewerId?.toPrimitives(),
       eventId: this.eventId,
       isApproved: this.isApproved,
     }
