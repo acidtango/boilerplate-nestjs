@@ -1,6 +1,7 @@
 import { Controller, HttpStatus, Param, Put } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { ApproveTalk } from '../../use-cases/ApproveTalk'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 
 @Controller('/v1/talks/:id/approve')
 export class ApproveTalkEndpoint {
@@ -13,6 +14,6 @@ export class ApproveTalkEndpoint {
   })
   @Put()
   async execute(@Param('id') id: string) {
-    await this.approveTalk.execute(id)
+    await this.approveTalk.execute(TalkId.fromPrimitives(id))
   }
 }

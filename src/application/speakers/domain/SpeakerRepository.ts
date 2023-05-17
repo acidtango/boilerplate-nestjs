@@ -1,7 +1,8 @@
 import { Speaker } from './Speaker'
+import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 
 export interface SpeakerRepository {
   save(speaker: Speaker): Promise<void>
-  findById(id: string): Promise<Speaker | undefined>
-  exists(id: string): Promise<boolean>
+  findById(id: SpeakerId): Promise<Speaker | undefined>
+  exists(id: SpeakerId): Promise<boolean>
 }

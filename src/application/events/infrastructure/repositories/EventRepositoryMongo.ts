@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Collection, MongoClient } from 'mongodb'
 import { config } from '../../../../config'
+import { EventId } from '../../../../shared/domain/ids/EventId'
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
@@ -26,8 +27,8 @@ export class EventRepositoryMongo implements EventRepository, Reseteable {
     return talkEventsPrimitives.map(TalkEvent.fromPrimitives)
   }
 
-  async exists(id: string): Promise<boolean> {
-    return Boolean(await this.talkEvents.findOne({ id: id }))
+  async exists(id: EventId): Promise<boolean> {
+    return Boolean(await this.talkEvents.findOne({ id: id.toPrimitives() }))
   }
 
   async reset() {

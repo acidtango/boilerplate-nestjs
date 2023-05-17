@@ -1,13 +1,14 @@
 import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
+import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { GetTalk } from './GetTalk'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { createMongoClientMemory } from '../../shared/infrastructure/createMongoClientMemory'
 
 describe('GetTalk', () => {
   it('returns the talk by id', async () => {
     const expectedTalkId = createApiTalkId()
-    const mongoClient = createMongoClientMemory(createApiTalk())
-    const getTalk = new GetTalk(mongoClient)
+    const talkRepository = TalkRepositoryFake.createWithApiTalk()
+    const getTalk = new GetTalk(talkRepository)
 
     const speaker = await getTalk.execute(expectedTalkId)
 
@@ -16,9 +17,9 @@ describe('GetTalk', () => {
   })
 
   it('fails if the talk does not exist', async () => {
-    const notExistentId = 'not-existent-id'
-    const mongoClient = createMongoClientMemory()
-    const getSpeakerUseCase = new GetTalk(mongoClient)
+    const notExistentId = new TalkId('not-existent-id')
+    const talkRepository = TalkRepositoryFake.empty()
+    const getSpeakerUseCase = new GetTalk(talkRepository)
 
     const expectedError = new TalkNotFoundError(notExistentId)
     await expect(getSpeakerUseCase.execute(notExistentId)).rejects.toThrowError(expectedError)

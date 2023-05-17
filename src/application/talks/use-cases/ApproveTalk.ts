@@ -1,45 +1,26 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../../shared/domain/hex/UseCase'
-import { TalkStatus } from '../domain/TalkStatus'
-import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
-import { Talk } from '../domain/Talk'
-import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../config'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { AppProvider } from '../../AppProviders'
+import { TalkRepository } from '../domain/TalkRepository'
+import { TalkFinder } from '../domain/TalkFinder'
 
 @Injectable()
 export class ApproveTalk extends UseCase {
-  private readonly talks: Collection<Talk>
+  private readonly talkFinder: TalkFinder
 
-  constructor(private readonly client: MongoClient) {
+  constructor(
+    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
+  ) {
     super()
-    const db = client.db(config.db.database)
-    this.talks = db.collection('talks')
+    this.talkFinder = new TalkFinder(talkRepository)
   }
 
-  async execute(talkId: string) {
-    const talk = await this.talks.findOne({ id: talkId })
+  async execute(talkId: TalkId) {
+    const talk = await this.talkFinder.findOrThrow(talkId)
 
-    if (!talk) {
-      throw new TalkNotFoundError(talkId)
-    }
+    talk.approve()
 
-    if (this.getCurrentStatus(talk) === TalkStatus.PROPOSAL) throw new TalkCannotBeApprovedError()
-
-    talk.isApproved = true
-
-    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
-  }
-
-  private getCurrentStatus(talk: Talk) {
-    if (talk.isApproved) {
-      return TalkStatus.APPROVED
-    } else if (talk.isApproved === false) {
-      return TalkStatus.REJECTED
-    } else if (talk.reviewerId) {
-      return TalkStatus.REVIEWING
-    } else {
-      return TalkStatus.PROPOSAL
-    }
+    await this.talkRepository.save(talk)
   }
 }

@@ -1,27 +1,21 @@
 import { UseCase } from '../../../shared/domain/hex/UseCase'
 import { Talk } from '../domain/Talk'
-import { Injectable } from '@nestjs/common'
-import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../config'
+import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { TalkRepository } from '../domain/TalkRepository'
+import { Inject, Injectable } from '@nestjs/common'
+import { AppProvider } from '../../AppProviders'
+import { TalkFinder } from '../domain/TalkFinder'
 
 @Injectable()
 export class GetTalk extends UseCase {
-  private readonly talks: Collection<Talk>
+  private readonly talkFinder: TalkFinder
 
-  constructor(private readonly client: MongoClient) {
+  constructor(@Inject(AppProvider.TALK_REPOSITORY) talkRepository: TalkRepository) {
     super()
-    const db = client.db(config.db.database)
-    this.talks = db.collection('talks')
+    this.talkFinder = new TalkFinder(talkRepository)
   }
 
-  async execute(talkId: string): Promise<Talk> {
-    const talk = await this.talks.findOne({ id: talkId })
-
-    if (!talk) {
-      throw new TalkNotFoundError(talkId)
-    }
-
-    return talk
+  async execute(talkId: TalkId): Promise<Talk> {
+    return this.talkFinder.findOrThrow(talkId)
   }
 }

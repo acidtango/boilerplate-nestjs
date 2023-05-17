@@ -1,6 +1,7 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { EventDateRange } from '../../domain/EventDateRange'
+import { EventId } from '../../../../shared/domain/ids/EventId'
 import { EventName } from '../../domain/EventName'
 import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
 import { CreateEvent } from '../../use-cases/CreateEvent'
@@ -17,7 +18,7 @@ export class CreateEventEndpoint {
   })
   @Post()
   async execute(@Body() body: CreateEventRequestDTO) {
-    const id = body.id
+    const id = EventId.fromPrimitives(body.id)
     const name = EventName.fromPrimitives(body.name)
     const dateRange = EventDateRange.fromPrimitives({
       startDate: new Date(body.dateRange.startDate),

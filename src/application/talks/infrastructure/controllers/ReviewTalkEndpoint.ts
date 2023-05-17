@@ -1,27 +1,13 @@
-import { Body, Controller, HttpStatus, Inject, Param, Put } from '@nestjs/common'
+import { Body, Controller, HttpStatus, Param, Put } from '@nestjs/common'
+import { OrganizerId } from '../../../../shared/domain/ids/OrganizerId'
+import { TalkId } from '../../../../shared/domain/ids/TalkId'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
+import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
-import { AppProvider } from '../../../AppProviders'
-import { EventBus } from '../../../../shared/domain/hex/EventBus'
-import { TalkNotFoundError } from '../../domain/errors/TalkNotFoundError'
-import { TalkStatus } from '../../domain/TalkStatus'
-import { TalkAlreadyBeingReviewed } from '../../domain/errors/TalkAlreadyBeingReviewed'
-import { TalkAssignedForReview } from '../../domain/TalkAssignedForReview'
-import { Talk } from '../../domain/Talk'
-import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../../config'
 
 @Controller('/v1/talks/:id/assignation')
 export class ReviewTalkEndpoint {
-  private readonly talks: Collection<Talk>
-
-  constructor(
-    @Inject(AppProvider.EVENT_BUS) private readonly eventBus: EventBus,
-    private readonly client: MongoClient
-  ) {
-    const db = client.db(config.db.database)
-    this.talks = db.collection('talks')
-  }
+  constructor(private readonly reviewTalk: ReviewTalk) {}
 
   @Endpoint({
     tag: DocumentationTag.TALKS,
@@ -30,31 +16,9 @@ export class ReviewTalkEndpoint {
   })
   @Put()
   async execute(@Param('id') id: string, @Body() body: ReviewTalkRequestDTO) {
-    const talk = await this.talks.findOne({ id })
-
-    if (!talk) {
-      throw new TalkNotFoundError(id)
-    }
-
-    if (this.getCurrentStatus(talk) === TalkStatus.REVIEWING) {
-      throw new TalkAlreadyBeingReviewed(talk.id)
-    }
-
-    talk.reviewerId = body.reviewerId
-
-    await this.talks.updateOne({ id: talk.id }, { $set: talk }, { upsert: true })
-    await this.eventBus.publish([new TalkAssignedForReview(talk.id, body.reviewerId)])
-  }
-
-  private getCurrentStatus(talk: Talk) {
-    if (talk.isApproved) {
-      return TalkStatus.APPROVED
-    } else if (talk.isApproved === false) {
-      return TalkStatus.REJECTED
-    } else if (talk.reviewerId) {
-      return TalkStatus.REVIEWING
-    } else {
-      return TalkStatus.PROPOSAL
-    }
+    await this.reviewTalk.execute({
+      talkId: TalkId.fromPrimitives(id),
+      reviewerId: OrganizerId.fromPrimitives(body.reviewerId),
+    })
   }
 }
