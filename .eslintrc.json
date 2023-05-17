@@ -16,15 +16,19 @@
   "rules": {
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
     "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/lines-between-class-members": "warn",
     "class-methods-use-this": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-useless-constructor": "warn",
+    "@typescript-eslint/prefer-readonly": "warn",
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": ["**/*.test.ts", "**/*.spec.ts", "**/*.integration.spec.ts", "test/**/*"]
+        "devDependencies": ["**/*.test.ts", "**/*.spec.ts", "**/*.integration-spec.ts", "test/**/*"]
       }
     ],
     "@typescript-eslint/naming-convention": [
@@ -35,20 +39,7 @@
     "@shopify/typescript/prefer-singular-enums": "warn",
     "no-tabs": "warn",
     "arrow-body-style": "warn",
-    "max-len": [
-      "warn",
-      {
-        "code": 100, // Same line length than prettier
-        "tabWidth": 2, // Same than prettier
-        "ignorePattern": "import *",
-        "ignoreComments": true,
-        "ignoreTrailingComments": true,
-        "ignoreUrls": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true,
-        "ignoreRegExpLiterals": true
-      }
-    ],
+    "max-len": "off",
     "import/no-default-export": "warn"
   }
 }

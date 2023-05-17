@@ -1,13 +1,12 @@
 version: "3.7"
 services:
   db:
-    image: postgres:14.7-alpine
+    image: mongo:6.0.5-jammy
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: develop
-      POSTGRES_USER: acid
+      MONGO_INITDB_ROOT_USERNAME: acid
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - "5432:5432"
+      - "27017:27017"
   api:
     build:
       context: .

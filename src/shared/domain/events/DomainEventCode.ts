@@ -1,0 +1,3 @@
+export enum DomainEventCode {
+  TALK_ASSIGNED_FOR_REVIEW = 'TALK_ASSIGNED_FOR_REVIEW',
+}

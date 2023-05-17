@@ -1,85 +1,92 @@
-import { INestApplication, VersioningType } from '@nestjs/common'
-import { Test } from '@nestjs/testing'
-import { Server } from 'http'
+import { HttpStatus } from '@nestjs/common'
 import tepper from 'tepper'
-import { ApiModule } from '../../src/api/ApiModule'
-import { USER_REPOSITORY_TOKEN } from '../../src/application/users/domain/UserRepository'
-import { config } from '../../src/config'
-import { PHONE_VALIDATOR_TOKEN } from '../../src/shared/domain/services/PhoneValidator'
-import { MICHAEL } from '../../src/shared/fixtures/users'
-import { DatabaseHealthIndicatorTypeOrm } from '../../src/shared/infrastructure/database/DatabaseHealthIndicatorTypeOrm'
-import { AllDependencies } from './dependencies'
+import { CODEMOTION } from '../../src/shared/fixtures/events'
+import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
+import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
+import { API_TALK } from '../../src/shared/fixtures/talks'
+import { FRAN } from '../../src/shared/fixtures/organizers'
+import { TestApi } from './TestApi'
 
 export class TestClient {
-  private app!: Server
+  constructor(private readonly testApi: TestApi) {}
 
-  private static apps: INestApplication[] = []
-
-  private static addAppInstance(app: INestApplication) {
-    this.apps.push(app)
-  }
-
-  public static async teardownApps() {
-    for await (const app of this.apps) {
-      app.close()
-    }
-  }
-
-  async initialize(dependencies: AllDependencies) {
-    // eslint-disable-next-line prefer-const
-    let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApiModule],
-    })
-      // Here we override the necessary services
-      .overrideProvider(DatabaseHealthIndicatorTypeOrm)
-      .useValue(dependencies.databaseHealthIndicator)
-      .overrideProvider(PHONE_VALIDATOR_TOKEN)
-      .useValue(dependencies.phoneValidator)
-
-    if (!config.forceEnableORMRepositories) {
-      // We need to change the repositories with the orm ones
-      testingModuleBuilder = testingModuleBuilder
-        .overrideProvider(USER_REPOSITORY_TOKEN)
-        .useValue(dependencies.userRepository)
-    }
-
-    const moduleFixture = await testingModuleBuilder.compile()
-    const nestApplication: INestApplication = moduleFixture.createNestApplication()
-    nestApplication.enableVersioning({
-      type: VersioningType.URI,
-      prefix: config.apiVersioningPrefix,
-    })
-    await nestApplication.init()
-
-    TestClient.addAppInstance(nestApplication)
-
-    this.app = nestApplication.getHttpServer()
+  get app() {
+    return this.testApi.getApp()
   }
 
   health() {
     return tepper(this.app).get('/health')
   }
 
-  createUser({ name = MICHAEL.name, lastName = MICHAEL.lastName, phone = MICHAEL.phone } = {}) {
-    return tepper(this.app).post('/api/v1/users').send({
-      name,
-      lastName,
-      phone,
-    })
+  createEvent({ id = CODEMOTION.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/events')
+      .send({
+        id,
+        name: CODEMOTION.name,
+        dateRange: {
+          startDate: CODEMOTION.startDate,
+          endDate: CODEMOTION.endDate,
+        },
+        proposalsDateRange: {
+          startDate: CODEMOTION.proposalsStartDate,
+          deadline: CODEMOTION.proposalsDeadlineDate,
+        },
+      })
+      .expectStatus(HttpStatus.CREATED)
   }
 
-  updateUserContacts({ id = '', contacts = MICHAEL.contacts } = {}) {
-    return tepper(this.app).post(`/api/v1/users/${id}/contacts`).send(contacts)
+  createSpeaker({ id = JOYCE_LIN.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/speakers')
+      .send({
+        id,
+        name: JOYCE_LIN.name,
+        age: JOYCE_LIN.age,
+        language: JOYCE_LIN.language,
+        email: JOYCE_LIN.email,
+      })
+      .expectStatus(HttpStatus.CREATED)
   }
 
-  getUserContacts({ id = '' }) {
-    return tepper(this.app).get(`/api/v1/users/${id}/contacts`)
+  createTalk({ id = API_TALK.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/talks')
+      .send({
+        id,
+        title: API_TALK.title,
+        description: API_TALK.description,
+        language: API_TALK.language,
+        cospeakers: API_TALK.cospeakers,
+        speakerId: JOYCE_LIN.id,
+        eventId: CODEMOTION.id,
+      })
+      .expectStatus(HttpStatus.CREATED)
   }
 
-  getCommonContacts(userId1: string, userId2: string) {
-    return tepper(this.app).get(`/api/v1/users/common-contacts`).withQuery({
-      userId1,
-      userId2,
-    })
+  getTalk(id = API_TALK.id) {
+    return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
+  }
+
+  getSpeaker(id = JOYCE_LIN.id) {
+    return tepper(this.app).get(`/api/v1/speakers/${id}`).expectStatus(HttpStatus.OK)
+  }
+
+  getEvents() {
+    return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
+  }
+
+  assignReviewer({ id = API_TALK.id, reviewerId = FRAN.id }) {
+    return tepper(this.app)
+      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
+      .send({ reviewerId })
+      .expectStatus(HttpStatus.OK)
+  }
+
+  approveTalk({ id = API_TALK.id }) {
+    return tepper(this.app)
+      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
+
+      .expectStatus(HttpStatus.OK)
   }
 }

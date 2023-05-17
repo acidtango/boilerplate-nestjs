@@ -1,6 +1,6 @@
-import { UserRepositoryMemory } from '../../src/application/users/infrastructure/repositories/UserRepositoryMemory'
 import { PhoneValidator } from '../../src/shared/domain/services/PhoneValidator'
 import { CustomHealthIndicator } from '../../src/shared/infrastructure/services/CustomHealthIndicator'
+import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
 
 type Dependencies = {
   databaseHealthIndicator?: CustomHealthIndicator
@@ -8,7 +8,7 @@ type Dependencies = {
 }
 
 type Repositories = {
-  userRepository?: UserRepositoryMemory
+  eventRepository?: EventRepositoryMemory
 }
 
 export type AllDependencies = Dependencies & Repositories
