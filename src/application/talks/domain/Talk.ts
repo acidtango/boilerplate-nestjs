@@ -80,7 +80,7 @@ export class Talk extends AggregateRoot {
   assignForReviewTo(reviewerId: OrganizerId) {
     this.ensureTalkIsNotAlreadyBeingReviewed()
 
-    this.reviewerId = reviewerId
+    this.assignReviewer(reviewerId)
     this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
   }
 
