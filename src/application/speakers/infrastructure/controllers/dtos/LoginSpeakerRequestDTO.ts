@@ -19,8 +19,8 @@ export class LoginSpeakerRequestDTO {
   static create(params: LoginSpeakerRequestDTOParams) {
     const createEventRequestDTO = new LoginSpeakerRequestDTO()
 
-    // createEventRequestDTO.email = params.email
-    // createEventRequestDTO.password = params.password
+    createEventRequestDTO.email = params.email
+    createEventRequestDTO.password = params.password
 
     return createEventRequestDTO
   }

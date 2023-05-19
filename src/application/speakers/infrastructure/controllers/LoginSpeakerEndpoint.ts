@@ -1,11 +1,13 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
-import { CreateSpeaker } from '../../use-cases/CreateSpeaker'
 import { LoginSpeakerRequestDTO } from './dtos/LoginSpeakerRequestDTO'
+import { LoginSpeaker } from '../../use-cases/LoginSpeaker'
+import { EmailAddress } from '../../../shared/domain/EmailAddress'
+import { PlainPassword } from '../../../shared/domain/PlainPassword'
 
 @Controller('/v1/speakers/login')
 export class LoginSpeakerEndpoint {
-  constructor(private readonly createSpeaker: CreateSpeaker) {}
+  constructor(private readonly createSpeaker: LoginSpeaker) {}
 
   @Endpoint({
     tag: DocumentationTag.SPEAKERS,
@@ -14,13 +16,9 @@ export class LoginSpeakerEndpoint {
   })
   @Post()
   async execute(@Body() body: LoginSpeakerRequestDTO) {
-    // const id = SpeakerId.fromPrimitives(body.id)
-    // const name = SpeakerName.fromPrimitives(body.name)
-    // const age = SpeakerAge.fromPrimitives(body.age)
-    // const language = body.language
-    // const email = EmailAddress.fromPrimitives(body.email)
-    //
-    // await this.createSpeaker.execute({ id, name, age, language, email })
-    throw new Error('Unimplemented method login controller')
+    const email = EmailAddress.fromPrimitives(body.email)
+    const password = PlainPassword.fromPrimitives(body.password)
+
+    await this.createSpeaker.execute({ email, password })
   }
 }

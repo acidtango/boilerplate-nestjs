@@ -8,6 +8,7 @@ import { GetSpeaker } from './use-cases/GetSpeaker'
 import { RegisterSpeakerEndpoint } from './infrastructure/controllers/RegisterSpeakerEndpoint'
 import { LoginSpeakerEndpoint } from './infrastructure/controllers/LoginSpeakerEndpoint'
 import { RegisterSpeaker } from './use-cases/RegisterSpeaker'
+import { LoginSpeaker } from './use-cases/LoginSpeaker'
 
 @Module({
   controllers: [
@@ -20,6 +21,7 @@ import { RegisterSpeaker } from './use-cases/RegisterSpeaker'
     CreateSpeaker,
     GetSpeaker,
     RegisterSpeaker,
+    LoginSpeaker,
     {
       provide: AppProvider.SPEAKER_REPOSITORY,
       useClass: SpeakerRepositoryMongo,
