@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
 import { AppProvider } from '../../../../application/AppProviders'
-import { CryptoFixed } from './CryptoFixed'
+import { CryptoNode } from './CryptoNode'
 
 @Global()
 @Module({
@@ -8,7 +8,7 @@ import { CryptoFixed } from './CryptoFixed'
   providers: [
     {
       provide: AppProvider.CRYPTO,
-      useClass: CryptoFixed,
+      useClass: CryptoNode,
     },
   ],
 })
