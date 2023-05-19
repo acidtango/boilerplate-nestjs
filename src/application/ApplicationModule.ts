@@ -10,6 +10,8 @@ import { EventsModule } from './events/EventsModule'
 import { SpeakersModule } from './speakers/SpeakersModule'
 import { TalksModule } from './talks/TalksModule'
 import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
+import { ClockModule } from '../shared/infrastructure/services/clock/ClockModule'
+import { CryptoModule } from '../shared/infrastructure/services/crypto/CryptoModule'
 
 @Module({
   imports: [
@@ -17,11 +19,13 @@ import { EventBusModule } from '../shared/infrastructure/events/EventBusModule'
     EventsModule,
     SpeakersModule,
     TalksModule,
+    CryptoModule,
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     OrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
     UuidGeneratorModule,
+    ClockModule,
   ],
   controllers: [],
   providers: [

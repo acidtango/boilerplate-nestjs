@@ -14,6 +14,10 @@ export class TestClient {
     return this.testApi.getApp()
   }
 
+  getClock() {
+    return this.testApi.getClock()
+  }
+
   health() {
     return tepper(this.app).get('/health')
   }
@@ -32,6 +36,27 @@ export class TestClient {
           startDate: CODEMOTION.proposalsStartDate,
           deadline: CODEMOTION.proposalsDeadlineDate,
         },
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  registerSpeaker({ id = JOYCE_LIN.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/speakers/registration')
+      .send({
+        id,
+        email: JOYCE_LIN.email,
+        password: JOYCE_LIN.password,
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  loginSpeaker() {
+    return tepper(this.app)
+      .post('/api/v1/speakers/login')
+      .send({
+        email: JOYCE_LIN.email,
+        password: JOYCE_LIN.password,
       })
       .expectStatus(HttpStatus.CREATED)
   }

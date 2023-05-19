@@ -5,6 +5,7 @@ export const JOYCE_LIN = {
   name: 'Joyce Lin',
   language: Language.ENGLISH,
   email: 'joyce-lin@gmail.com',
+  password: 'helloWorld123',
   age: 30,
 }
 
@@ -14,4 +15,13 @@ export const HAKON_WIUM = {
   language: Language.ENGLISH,
   email: 'hakon-wium@gmail.com',
   age: 57,
+  password: 'cssRules123',
+}
+
+export const NOT_IMPORTANT_SPEAKER = {
+  id: '2fee65ff-d811-4501-8d8a-c6f45ad2e245',
+  name: 'No one',
+  language: Language.ENGLISH,
+  email: 'noone@example.com',
+  age: 25,
 }

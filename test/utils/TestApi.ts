@@ -8,6 +8,7 @@ import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastr
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
 import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
+import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
 
 export class TestApi {
   private static instance: TestApi
@@ -79,6 +80,10 @@ export class TestApi {
     }
 
     return this.app
+  }
+
+  public getClock() {
+    return this.getNestApplication().get<ClockFake>(AppProvider.CLOCK)
   }
 
   private getNestApplication() {

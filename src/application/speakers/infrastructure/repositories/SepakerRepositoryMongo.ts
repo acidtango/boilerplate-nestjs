@@ -5,6 +5,7 @@ import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
 import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { EmailAddress } from '../../../shared/domain/EmailAddress'
 
 @Injectable()
 export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
@@ -31,6 +32,12 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
     if (!speakerPrimitives) return undefined
 
     return Speaker.fromPrimitives(speakerPrimitives)
+  }
+
+  async existsWith(email: EmailAddress): Promise<boolean> {
+    const speakerPrimitives = await this.speakers.findOne({ email: email.toPrimitives() })
+
+    return Boolean(speakerPrimitives)
   }
 
   async reset() {

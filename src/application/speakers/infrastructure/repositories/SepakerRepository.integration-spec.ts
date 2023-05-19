@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { createJoyceLinId, createJoyceLinSpeaker } from '../../../../../test/mother/SpeakerMother'
+import {
+  createJoyceLinEmail,
+  createJoyceLinId,
+  createJoyceLinSpeaker,
+} from '../../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
 import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
 import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
@@ -51,6 +55,26 @@ describe('SpeakerRepository', () => {
       const exists = await speakerRepository.exists(speakerId)
 
       expect(exists).toBe(true)
+    })
+
+    describe('existsWith', () => {
+      it('it returns false if does not exists', async () => {
+        const email = createJoyceLinEmail()
+
+        const exists = await speakerRepository.existsWith(email)
+
+        expect(exists).toBe(false)
+      })
+
+      it('checks if the speaker with an email already exists', async () => {
+        const email = createJoyceLinEmail()
+        const speaker = createJoyceLinSpeaker({ email })
+        await speakerRepository.save(speaker)
+
+        const exists = await speakerRepository.existsWith(email)
+
+        expect(exists).toBe(true)
+      })
     })
   })
 })
