@@ -7,4 +7,5 @@ export interface SpeakerRepository {
   findById(id: SpeakerId): Promise<Speaker | undefined>
   exists(id: SpeakerId): Promise<boolean>
   existsWith(email: EmailAddress): Promise<boolean>
+  findBy(email: EmailAddress): Promise<Speaker | undefined>
 }

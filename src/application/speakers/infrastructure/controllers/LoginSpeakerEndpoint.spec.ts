@@ -22,4 +22,20 @@ describe('LoginSpeakerEndpoint', () => {
     }
     expect(loginSpeaker.execute).toHaveBeenCalledWith(expectedParams)
   })
+
+  it('returns the access token', async () => {
+    const accessToken = 'access-token'
+    const loginSpeaker = {
+      execute: jest.fn().mockReturnValue(accessToken),
+    } as unknown as LoginSpeaker
+    const endpoint = new LoginSpeakerEndpoint(loginSpeaker)
+    const notImportantParams = LoginSpeakerRequestDTO.create({
+      email: JOYCE_LIN.email,
+      password: JOYCE_LIN.password,
+    })
+
+    const body = await endpoint.execute(notImportantParams)
+
+    expect(body.accessToken).toBe(accessToken)
+  })
 })

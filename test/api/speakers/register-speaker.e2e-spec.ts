@@ -9,7 +9,7 @@ describe('register speaker', () => {
 
     await client.registerSpeaker().run()
 
-    const { status } = await client.loginSpeaker().debug().run()
+    const { status } = await client.loginSpeaker().run()
     expect(status).toBe(HttpStatus.OK)
   })
 
@@ -17,9 +17,9 @@ describe('register speaker', () => {
     const client = await createClient()
     await client.registerSpeaker().run()
     const clock = client.getClock()
-    const expectedIat = clock.nowInSeconds()
-    const oneDayInSeconds = 60 * 60 * 24
-    const expectedExp = expectedIat + oneDayInSeconds
+    const now = clock.now()
+    const expectedIat = now.toSeconds()
+    const expectedExp = now.addDays(1).toSeconds()
 
     const { body } = await client.loginSpeaker().run()
 

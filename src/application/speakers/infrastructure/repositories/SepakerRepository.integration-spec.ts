@@ -57,8 +57,28 @@ describe('SpeakerRepository', () => {
       expect(exists).toBe(true)
     })
 
+    describe('findBy email', () => {
+      it('returns undefined if does not exists', async () => {
+        const email = createJoyceLinEmail()
+
+        const speaker = await speakerRepository.findBy(email)
+
+        expect(speaker).toBeUndefined()
+      })
+
+      it('returns the speaker if exists', async () => {
+        const email = createJoyceLinEmail()
+        const speaker = createJoyceLinSpeaker({ email })
+        await speakerRepository.save(speaker)
+
+        const savedSpeaker = await speakerRepository.findBy(email)
+
+        expect(savedSpeaker).toEqual(speaker)
+      })
+    })
+
     describe('existsWith', () => {
-      it('it returns false if does not exists', async () => {
+      it('returns false if does not exists', async () => {
         const email = createJoyceLinEmail()
 
         const exists = await speakerRepository.existsWith(email)

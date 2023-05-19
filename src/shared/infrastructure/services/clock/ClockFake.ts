@@ -1,13 +1,12 @@
 import { Clock } from '../../../domain/services/Clock'
+import { Instant } from '../../../../application/shared/domain/Instant'
 
 export class ClockFake implements Clock {
   public static now = new Date('2023-05-17T14:30:00.000Z')
 
-  now(): Date {
-    return ClockFake.now
-  }
+  public static tomorrow = new Date('2023-05-18T14:30:00.000Z')
 
-  nowInSeconds(): number {
-    return this.now().getTime() / 1000
+  now(): Instant {
+    return new Instant(ClockFake.now)
   }
 }

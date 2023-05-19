@@ -17,7 +17,9 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
   }
 
   async exists(id: SpeakerId): Promise<boolean> {
-    return Boolean(await this.speakers.findOne({ id: id.toPrimitives() }))
+    const count = await this.speakers.countDocuments({ id: id.toPrimitives() })
+
+    return count > 0
   }
 
   async save(speaker: Speaker) {
@@ -35,9 +37,17 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
   }
 
   async existsWith(email: EmailAddress): Promise<boolean> {
+    const count = await this.speakers.countDocuments({ email: email.toPrimitives() })
+
+    return count > 0
+  }
+
+  async findBy(email: EmailAddress): Promise<Speaker | undefined> {
     const speakerPrimitives = await this.speakers.findOne({ email: email.toPrimitives() })
 
-    return Boolean(speakerPrimitives)
+    if (!speakerPrimitives) return undefined
+
+    return Speaker.fromPrimitives(speakerPrimitives)
   }
 
   async reset() {

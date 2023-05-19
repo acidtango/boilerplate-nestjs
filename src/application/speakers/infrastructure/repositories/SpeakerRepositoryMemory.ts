@@ -26,7 +26,15 @@ export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable {
   }
 
   async existsWith(email: EmailAddress): Promise<boolean> {
-    return this.asArray().some((s) => s.email === email.toPrimitives())
+    return Boolean(await this.findBy(email))
+  }
+
+  async findBy(email: EmailAddress): Promise<Speaker | undefined> {
+    const speakerPrimitives = this.asArray().find((s) => s.email === email.toPrimitives())
+
+    if (!speakerPrimitives) return undefined
+
+    return Speaker.fromPrimitives(speakerPrimitives)
   }
 
   private asArray() {

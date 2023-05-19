@@ -14,4 +14,5 @@ export const domainErrorToHttpStatusCode: Record<DomainErrorCode, number> = {
   [DomainErrorCode.TALK_TITLE_TOO_LONG]: HttpStatus.BAD_REQUEST,
   [DomainErrorCode.UNDERAGE_SPEAKER]: HttpStatus.BAD_REQUEST,
   [DomainErrorCode.SPEAKER_EMAIL_ALREADY_USED]: HttpStatus.BAD_REQUEST,
+  [DomainErrorCode.INVALID_LOGIN_CREDENTIALS]: HttpStatus.UNAUTHORIZED,
 }

@@ -93,4 +93,12 @@ export class Speaker extends AggregateRoot {
   hasValidatedEmail() {
     return false
   }
+
+  getIdString() {
+    return this.id.toString()
+  }
+
+  doesNotHaveMatching(password: PlainPassword) {
+    return !this.has(password)
+  }
 }

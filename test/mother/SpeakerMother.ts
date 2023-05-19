@@ -23,8 +23,20 @@ export function joyceLinPassword() {
   return new PlainPassword(JOYCE_LIN.password)
 }
 
+export function createHakonEmail() {
+  return new EmailAddress(HAKON_WIUM.email)
+}
+
 export function createJoyceLinEmail() {
   return new EmailAddress(JOYCE_LIN.email)
+}
+
+export function createJoyceLinPassword() {
+  return new PlainPassword(JOYCE_LIN.password)
+}
+
+export function createNotImportantPassword() {
+  return new PlainPassword(NOT_IMPORTANT_SPEAKER.password)
 }
 
 export function createJoyceLinSpeaker({
@@ -37,8 +49,10 @@ export function createJoyceLinSpeaker({
     new SpeakerAge(JOYCE_LIN.age),
     JOYCE_LIN.language,
     email,
-    new HashedPassword(''),
-    '',
+    new HashedPassword(
+      'b83fc3c0cb5cf813b220d30737777cf38beb4c4edc9d63a77a54f387edffc14980e5fe527b56b69e1e13f5930e5231196d22126220c72312a4bd00300454d18b'
+    ),
+    'salt',
     true
   )
 }

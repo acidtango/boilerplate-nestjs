@@ -58,7 +58,7 @@ export class TestClient {
         email: JOYCE_LIN.email,
         password: JOYCE_LIN.password,
       })
-      .expectStatus(HttpStatus.CREATED)
+      .expectStatus(HttpStatus.OK)
   }
 
   createSpeaker({ id = JOYCE_LIN.id } = {}) {

@@ -24,4 +24,5 @@ export const NOT_IMPORTANT_SPEAKER = {
   language: Language.ENGLISH,
   email: 'noone@example.com',
   age: 25,
+  password: 'not important',
 }
