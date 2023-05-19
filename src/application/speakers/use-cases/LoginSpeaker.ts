@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { EmailAddress } from '../../shared/domain/EmailAddress'
 import { PlainPassword } from '../../shared/domain/PlainPassword'
 import { SpeakerRepository } from '../domain/SpeakerRepository'
@@ -42,9 +42,12 @@ export class LoginSpeaker {
     const tomorrow = now.addDays(1)
     const tomorrowInSeconds = tomorrow.toSeconds()
 
-    return jwt.sign(
-      { iat: nowInSeconds, sub: speaker.getIdString(), exp: tomorrowInSeconds },
-      'ilovecats'
-    )
+    const payload: JwtPayload = {
+      iat: nowInSeconds,
+      sub: speaker.getIdString(),
+      exp: tomorrowInSeconds,
+    }
+
+    return jwt.sign(payload, 'ilovecats')
   }
 }

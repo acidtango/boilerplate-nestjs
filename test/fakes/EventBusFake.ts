@@ -2,7 +2,7 @@ import { DomainEvent } from '../../src/shared/domain/events/DomainEvent'
 import { EventBus } from '../../src/shared/domain/hex/EventBus'
 
 export class EventBusNoopFake implements EventBus {
-  private events: DomainEvent[] = []
+  private readonly events: DomainEvent[] = []
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
     for (const domainEvent of domainEvents) {

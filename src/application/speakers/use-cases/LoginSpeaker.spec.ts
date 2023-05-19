@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { ClockFake } from '../../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
@@ -26,7 +26,7 @@ describe('LoginSpeaker', () => {
       password: createJoyceLinPassword(),
     })
 
-    const content = jwt.decode(accessToken) as { [key: string]: any }
+    const content = jwt.decode(accessToken) as JwtPayload
     expect(content.sub).toEqual(JOYCE_LIN.id)
     expect(content.iat).toEqual(expectedIat)
     expect(content.exp).toEqual(expectedExp)

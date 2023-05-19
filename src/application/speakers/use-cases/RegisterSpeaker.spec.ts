@@ -1,6 +1,5 @@
 import { HAKON_WIUM, JOYCE_LIN } from '../../../shared/fixtures/speakers'
 import { EmailAddress } from '../../shared/domain/EmailAddress'
-import { CreateSpeaker } from './CreateSpeaker'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
 import { RegisterSpeaker, RegisterSpeakerParams } from './RegisterSpeaker'
@@ -12,7 +11,7 @@ import { SpeakerRegistered } from '../domain/events/SpeakerRegistered'
 import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 
-describe('CreateSpeaker', () => {
+describe('RegisterSpeaker', () => {
   let crypto: CryptoFixed
   let speakerRepository: SpeakerRepositoryFake
   let eventBus: EventBusNoopFake
