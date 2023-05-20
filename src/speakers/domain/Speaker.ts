@@ -14,9 +14,9 @@ export type SpeakerPrimitives = Primitives<Speaker>
 export class Speaker extends AggregateRoot {
   constructor(
     private readonly id: SpeakerId,
-    private readonly name: SpeakerName,
-    private readonly age: SpeakerAge,
-    private readonly language: Language,
+    private name: SpeakerName,
+    private age: SpeakerAge,
+    private language: Language,
     private readonly email: EmailAddress,
     private readonly password: HashedPassword,
     private readonly salt: string,
@@ -59,7 +59,23 @@ export class Speaker extends AggregateRoot {
     return speaker
   }
 
-  has(plainPassword: PlainPassword) {
+  has(value: PlainPassword | SpeakerName | SpeakerAge | Language) {
+    if (value instanceof PlainPassword) {
+      return this.hasPassword(value)
+    }
+
+    if (value instanceof SpeakerName) {
+      return this.name.equalsTo(value)
+    }
+
+    if (value instanceof SpeakerAge) {
+      return this.age.equalsTo(value)
+    }
+
+    return this.language === value
+  }
+
+  private hasPassword(plainPassword: PlainPassword) {
     const hash = plainPassword.toHashed(this.salt)
     return this.password.equalsTo(hash)
   }
@@ -100,5 +116,11 @@ export class Speaker extends AggregateRoot {
 
   doesNotHaveMatching(password: PlainPassword) {
     return !this.has(password)
+  }
+
+  updateProfile(name: SpeakerName, age: SpeakerAge, language: Language) {
+    this.name = name
+    this.age = age
+    this.language = language
   }
 }

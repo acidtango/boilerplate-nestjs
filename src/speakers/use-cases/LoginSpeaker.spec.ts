@@ -6,7 +6,7 @@ import {
   createHakonEmail,
   createJoyceLinEmail,
   createJoyceLinPassword,
-  createNotImportantPassword,
+  notImportantPassword,
 } from '../../../test/mother/SpeakerMother'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
@@ -55,7 +55,7 @@ describe('LoginSpeaker', () => {
 
     const result = loginSpeaker.execute({
       email: createHakonEmail(),
-      password: createNotImportantPassword(),
+      password: notImportantPassword(),
     })
 
     await expect(result).rejects.toEqual(new InvalidCredentialsError())

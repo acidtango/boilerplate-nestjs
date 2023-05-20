@@ -9,6 +9,8 @@ import { RegisterSpeakerEndpoint } from './infrastructure/controllers/RegisterSp
 import { LoginSpeakerEndpoint } from './infrastructure/controllers/LoginSpeakerEndpoint'
 import { RegisterSpeaker } from './use-cases/RegisterSpeaker'
 import { LoginSpeaker } from './use-cases/LoginSpeaker'
+import { UpdateSpeakerProfileEndpoint } from './infrastructure/controllers/UpdateSpeakerProfileEndpoint'
+import { UpdateSpeakerProfile } from './use-cases/UpdateSpeakerProfile'
 
 @Module({
   controllers: [
@@ -16,12 +18,14 @@ import { LoginSpeaker } from './use-cases/LoginSpeaker'
     LoginSpeakerEndpoint,
     CreateSpeakerEndpoint,
     GetSpeakerEndpoint,
+    UpdateSpeakerProfileEndpoint,
   ],
   providers: [
     CreateSpeaker,
     GetSpeaker,
     RegisterSpeaker,
     LoginSpeaker,
+    UpdateSpeakerProfile,
     {
       provide: Token.SPEAKER_REPOSITORY,
       useClass: SpeakerRepositoryMongo,

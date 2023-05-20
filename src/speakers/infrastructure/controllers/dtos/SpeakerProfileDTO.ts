@@ -15,7 +15,7 @@ export class SpeakerProfileDTO {
 
   @ApiProperty({ example: JOYCE_LIN.language, type: Language })
   @IsEnum(Language)
-  language!: string
+  language!: Language
 
   static create(params: SpeakerProfileDTO) {
     const speakerProfileDTO = new SpeakerProfileDTO()

@@ -39,7 +39,7 @@ export function createJoyceLinPassword() {
   return new PlainPassword(JOYCE_LIN.password)
 }
 
-export function createNotImportantPassword() {
+export function notImportantPassword() {
   return new PlainPassword(NOT_IMPORTANT_SPEAKER.password)
 }
 

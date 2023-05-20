@@ -7,7 +7,7 @@ describe('fill speaker profile', () => {
     await client.registerSpeaker().run()
     const { body } = await client.loginSpeaker().run()
 
-    // await client.updateProfile({ jwt: body.accessToken }).run()
+    await client.updateProfile({ jwt: body.accessToken }).debug().run()
 
     const { body: speaker } = await client.getSpeaker({ jwt: body.accessToken }).run()
 
