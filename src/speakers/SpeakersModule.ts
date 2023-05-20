@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common'
 import { Token } from '../shared/domain/services/Token'
-import { CreateSpeakerEndpoint } from './infrastructure/controllers/CreateSpeakerEndpoint'
 import { GetSpeakerEndpoint } from './infrastructure/controllers/GetSpeakerEndpoint'
 import { SpeakerRepositoryMongo } from './infrastructure/repositories/SepakerRepositoryMongo'
-import { CreateSpeaker } from './use-cases/CreateSpeaker'
 import { GetSpeaker } from './use-cases/GetSpeaker'
 import { RegisterSpeakerEndpoint } from './infrastructure/controllers/RegisterSpeakerEndpoint'
 import { LoginSpeakerEndpoint } from './infrastructure/controllers/LoginSpeakerEndpoint'
@@ -16,12 +14,10 @@ import { UpdateSpeakerProfile } from './use-cases/UpdateSpeakerProfile'
   controllers: [
     RegisterSpeakerEndpoint,
     LoginSpeakerEndpoint,
-    CreateSpeakerEndpoint,
     GetSpeakerEndpoint,
     UpdateSpeakerProfileEndpoint,
   ],
   providers: [
-    CreateSpeaker,
     GetSpeaker,
     RegisterSpeaker,
     LoginSpeaker,

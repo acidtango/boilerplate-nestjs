@@ -7,7 +7,7 @@ import { createClient } from '../../utils/createClient'
 describe('create talk', () => {
   it('can be created', async () => {
     const client = await createClient()
-    await client.createSpeaker({ id: JOYCE_LIN.id }).run()
+    await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
 
     const { status } = await client.createTalk({ id: API_TALK.id }).run()

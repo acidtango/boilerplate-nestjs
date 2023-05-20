@@ -26,16 +26,6 @@ export class Speaker extends AggregateRoot {
     super()
   }
 
-  static create(
-    id: SpeakerId,
-    name: SpeakerName,
-    age: SpeakerAge,
-    language: Language,
-    email: EmailAddress
-  ) {
-    return new Speaker(id, name, age, language, email, new HashedPassword(''), '', false)
-  }
-
   static register(
     id: SpeakerId,
     email: EmailAddress,
@@ -105,10 +95,6 @@ export class Speaker extends AggregateRoot {
       salt: this.salt,
       isEmailValidated: this.isEmailValidated,
     }
-  }
-
-  hasValidatedEmail() {
-    return false
   }
 
   getIdString() {

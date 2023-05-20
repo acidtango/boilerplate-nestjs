@@ -61,19 +61,6 @@ export class TestClient {
       .expectStatus(HttpStatus.OK)
   }
 
-  createSpeaker({ id = JOYCE_LIN.id } = {}) {
-    return tepper(this.app)
-      .post('/api/v1/speakers')
-      .send({
-        id,
-        name: JOYCE_LIN.name,
-        age: JOYCE_LIN.age,
-        language: JOYCE_LIN.language,
-        email: JOYCE_LIN.email,
-      })
-      .expectStatus(HttpStatus.CREATED)
-  }
-
   createTalk({ id = API_TALK.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/talks')

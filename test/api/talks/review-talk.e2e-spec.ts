@@ -8,7 +8,7 @@ import { FRAN } from '../../../src/shared/infrastructure/fixtures/organizers'
 describe('talk can be reviewed', () => {
   it('can be created', async () => {
     const client = await createClient()
-    await client.createSpeaker({ id: JOYCE_LIN.id }).run()
+    await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
     await client.createTalk({ id: API_TALK.id }).run()
 
