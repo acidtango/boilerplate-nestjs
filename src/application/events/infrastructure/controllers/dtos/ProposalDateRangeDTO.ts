@@ -10,11 +10,4 @@ export class ProposalDateRangeDTO {
   @ApiProperty({ example: CODEMOTION.proposalsDeadlineDate, format: 'date-time' })
   @IsISO8601()
   deadline!: string
-
-  static create(startDate: Date, deadline: Date) {
-    const proposalDateRangeRequestDTO = new ProposalDateRangeDTO()
-    proposalDateRangeRequestDTO.startDate = startDate.toISOString()
-    proposalDateRangeRequestDTO.deadline = deadline.toISOString()
-    return proposalDateRangeRequestDTO
-  }
 }

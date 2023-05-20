@@ -10,11 +10,4 @@ export class DateRangeDTO {
   @ApiProperty({ example: CODEMOTION.endDate, format: 'date-time' })
   @IsISO8601()
   endDate!: string
-
-  static create(startDate: Date, endDate: Date) {
-    const dateRangeRequestDTO = new DateRangeDTO()
-    dateRangeRequestDTO.startDate = startDate.toISOString()
-    dateRangeRequestDTO.endDate = endDate.toISOString()
-    return dateRangeRequestDTO
-  }
 }

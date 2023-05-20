@@ -3,14 +3,6 @@ import { IsEnum, IsNumber, IsString, IsUUID } from 'class-validator'
 import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
 import { Language } from '../../../../shared/domain/Language'
 
-type CreateSpeakerRequestDTOParams = {
-  id: string
-  name: string
-  age: number
-  language: Language
-  email: string
-}
-
 export class CreateSpeakerRequestDTO {
   @ApiProperty({ example: JOYCE_LIN.id })
   @IsUUID()
@@ -30,16 +22,4 @@ export class CreateSpeakerRequestDTO {
 
   @ApiProperty({ example: JOYCE_LIN.email })
   email!: string
-
-  static create(params: CreateSpeakerRequestDTOParams) {
-    const createEventRequestDTO = new CreateSpeakerRequestDTO()
-
-    createEventRequestDTO.id = params.id
-    createEventRequestDTO.name = params.name
-    createEventRequestDTO.age = params.age
-    createEventRequestDTO.email = params.email
-    createEventRequestDTO.language = params.language
-
-    return createEventRequestDTO
-  }
 }

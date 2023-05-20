@@ -6,19 +6,6 @@ import { API_TALK } from '../../../../../shared/fixtures/talks'
 import { Language } from '../../../../shared/domain/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
 
-type TalkReponseDTOParams = {
-  id: string
-  title: string
-  description: string
-  language: Language
-  cospeakers: string[]
-  status: TalkStatus
-  speakerId: string
-  eventId: string
-  reviewerId?: string
-  isApproved?: boolean
-}
-
 export class TalkResponseDTO {
   @ApiProperty({ example: API_TALK.id })
   id!: string
@@ -50,7 +37,7 @@ export class TalkResponseDTO {
   @ApiProperty({ example: CODEMOTION.id })
   eventId!: string
 
-  static create(params: TalkReponseDTOParams) {
+  static create(params: TalkResponseDTO) {
     const talkResponseDTO = new TalkResponseDTO()
 
     talkResponseDTO.id = params.id
