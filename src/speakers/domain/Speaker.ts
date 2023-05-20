@@ -8,6 +8,7 @@ import { AggregateRoot } from '../../shared/domain/models/hex/AggregateRoot'
 import { HashedPassword } from '../../shared/domain/models/HashedPassword'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRegistered } from './events/SpeakerRegistered'
+import { SpeakerProfileUpdated } from './events/SpeakerProfileUpdated'
 
 export type SpeakerPrimitives = Primitives<Speaker>
 
@@ -122,5 +123,7 @@ export class Speaker extends AggregateRoot {
     this.name = name
     this.age = age
     this.language = language
+
+    this.recordEvent(new SpeakerProfileUpdated(this.id))
   }
 }

@@ -23,6 +23,18 @@ export function notImportantEmail() {
   return new EmailAddress(NOT_IMPORTANT_SPEAKER.email)
 }
 
+export function notImportantName() {
+  return new SpeakerName(NOT_IMPORTANT_SPEAKER.name)
+}
+
+export function notImportantAge() {
+  return new SpeakerAge(NOT_IMPORTANT_SPEAKER.age)
+}
+
+export function notImportantLanguage() {
+  return NOT_IMPORTANT_SPEAKER.language
+}
+
 export function joyceLinPassword() {
   return new PlainPassword(JOYCE_LIN.password)
 }
@@ -43,6 +55,25 @@ export function notImportantPassword() {
   return new PlainPassword(NOT_IMPORTANT_SPEAKER.password)
 }
 
+export function exampleSalt() {
+  return 'salt'
+}
+
+export function createJoyceLinSpeakerWithoutProfile({
+  id = createJoyceLinId(),
+  email = createJoyceLinEmail(),
+} = {}) {
+  return Speaker.register(
+    createJoyceLinId(),
+    createJoyceLinEmail(),
+    joyceLinPassword(),
+    exampleSalt()
+  )
+}
+
+/**
+ * @deprecated use other factories
+ */
 export function createJoyceLinSpeaker({
   id = createJoyceLinId(),
   email = createJoyceLinEmail(),
@@ -56,7 +87,7 @@ export function createJoyceLinSpeaker({
     new HashedPassword(
       'b83fc3c0cb5cf813b220d30737777cf38beb4c4edc9d63a77a54f387edffc14980e5fe527b56b69e1e13f5930e5231196d22126220c72312a4bd00300454d18b'
     ),
-    'salt',
+    exampleSalt(),
     true
   )
 }

@@ -1,5 +1,5 @@
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
-import { createJoyceLinSpeaker } from '../mother/SpeakerMother'
+import { createJoyceLinSpeaker, createJoyceLinSpeakerWithoutProfile } from '../mother/SpeakerMother'
 import { Speaker } from '../../src/speakers/domain/Speaker'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
@@ -12,6 +12,16 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   static createWithJoyceLin(): SpeakerRepositoryFake {
     const speakerRepository = new SpeakerRepositoryFake()
     const speaker = createJoyceLinSpeaker()
+
+    const speakerPrimitives = speaker.toPrimitives()
+    speakerRepository.speakers.set(speakerPrimitives.id, speakerPrimitives)
+
+    return speakerRepository
+  }
+
+  static createWithJoyceLinWithoutProfile(): SpeakerRepositoryFake {
+    const speakerRepository = new SpeakerRepositoryFake()
+    const speaker = createJoyceLinSpeakerWithoutProfile()
 
     const speakerPrimitives = speaker.toPrimitives()
     speakerRepository.speakers.set(speakerPrimitives.id, speakerPrimitives)

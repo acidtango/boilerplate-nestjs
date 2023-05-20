@@ -2,10 +2,17 @@ import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { EventBusNoopFake } from '../../../test/fakes/EventBusFake'
-import { UpdateSpeakerProfile, UpdateSpeakerProfileParams } from './UpdateSpeakerProfile'
+import { UpdateSpeakerProfile } from './UpdateSpeakerProfile'
 import { SpeakerName } from '../domain/SpeakerName'
 import { SpeakerAge } from '../domain/SpeakerAge'
 import { Language } from '../../shared/domain/models/Language'
+import {
+  notImportantAge,
+  notImportantLanguage,
+  notImportantName,
+} from '../../../test/mother/SpeakerMother'
+import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
+import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated'
 
 describe('UpdateSpeakerProfile', () => {
   let speakerRepository: SpeakerRepositoryFake
@@ -13,7 +20,7 @@ describe('UpdateSpeakerProfile', () => {
   let updateSpeakerProfile: UpdateSpeakerProfile
 
   beforeEach(() => {
-    speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    speakerRepository = SpeakerRepositoryFake.createWithJoyceLinWithoutProfile()
     eventBus = new EventBusNoopFake()
     updateSpeakerProfile = new UpdateSpeakerProfile(speakerRepository, eventBus)
   })
@@ -23,18 +30,46 @@ describe('UpdateSpeakerProfile', () => {
     const name = new SpeakerName(JOYCE_LIN.name)
     const age = new SpeakerAge(JOYCE_LIN.age)
     const language = Language.ENGLISH
-    const params: UpdateSpeakerProfileParams = {
+
+    await updateSpeakerProfile.execute({
       id: speakerId,
       name,
       age,
       language,
-    }
-
-    await updateSpeakerProfile.execute(params)
+    })
 
     const speaker = speakerRepository.getLatestSavedSpeaker()
     expect(speaker.has(name)).toBe(true)
     expect(speaker.has(age)).toBe(true)
     expect(speaker.has(language)).toBe(true)
+  })
+
+  it('emits a domain event', async () => {
+    const speakerId = new SpeakerId(JOYCE_LIN.id)
+    const name = new SpeakerName(JOYCE_LIN.name)
+    const age = new SpeakerAge(JOYCE_LIN.age)
+    const language = Language.ENGLISH
+
+    await updateSpeakerProfile.execute({
+      id: speakerId,
+      name,
+      age,
+      language,
+    })
+
+    eventBus.expectLastEventToBe(new SpeakerProfileUpdated(speakerId))
+  })
+
+  it('fails if speaker does not exists', async () => {
+    const speakerId = new SpeakerId('not-existing-id')
+
+    const result = updateSpeakerProfile.execute({
+      id: speakerId,
+      name: notImportantName(),
+      age: notImportantAge(),
+      language: notImportantLanguage(),
+    })
+
+    await expect(result).rejects.toThrow(new SpeakerNotFoundError(speakerId))
   })
 })
