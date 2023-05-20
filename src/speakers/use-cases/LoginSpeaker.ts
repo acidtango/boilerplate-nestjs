@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRepository } from '../domain/SpeakerRepository'
@@ -7,6 +7,8 @@ import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsErro
 import { Speaker } from '../domain/Speaker'
 import { Inject, Injectable } from '@nestjs/common'
 import { Token } from '../../shared/domain/services/Token'
+import { JwtPayload } from '../../auth/domain/JwtPayload'
+import { Role } from '../../shared/domain/models/Role'
 
 export type LoginSpeakerParams = {
   email: EmailAddress
@@ -46,6 +48,7 @@ export class LoginSpeaker {
       iat: nowInSeconds,
       sub: speaker.getIdString(),
       exp: tomorrowInSeconds,
+      role: Role.SPEAKER,
     }
 
     return jwt.sign(payload, 'ilovecats')

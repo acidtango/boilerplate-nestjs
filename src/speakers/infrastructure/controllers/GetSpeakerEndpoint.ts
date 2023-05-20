@@ -3,6 +3,9 @@ import { SpeakerResponseDTO } from './dtos/SpeakerResponseDTO'
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
+import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
+import { JOYCE_LIN } from '../../../shared/infrastructure/fixtures/speakers'
+import { Role } from '../../../shared/domain/models/Role'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {
@@ -12,6 +15,7 @@ export class GetSpeakerEndpoint {
     tag: DocumentationTag.SPEAKERS,
     description: 'Get speaker',
     status: HttpStatus.OK,
+    roles: [Role.SPEAKER],
   })
   @Get()
   async execute(@Param('id') id: string): Promise<SpeakerResponseDTO> {
@@ -19,6 +23,18 @@ export class GetSpeakerEndpoint {
 
     const speakerPrimitives = speaker.toPrimitives()
 
-    return SpeakerResponseDTO.create(speakerPrimitives)
+    return SpeakerResponseDTO.create({
+      id: speakerPrimitives.id,
+      name: speakerPrimitives.name,
+      age: speakerPrimitives.age,
+      language: speakerPrimitives.language,
+      email: speakerPrimitives.email,
+      isEmailValidated: speakerPrimitives.isEmailValidated,
+      profile: SpeakerProfileDTO.create({
+        name: JOYCE_LIN.name,
+        age: JOYCE_LIN.age,
+        language: JOYCE_LIN.language,
+      }),
+    })
   }
 }

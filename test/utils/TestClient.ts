@@ -93,8 +93,8 @@ export class TestClient {
     return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
   }
 
-  getSpeaker(id = JOYCE_LIN.id) {
-    return tepper(this.app).get(`/api/v1/speakers/${id}`).expectStatus(HttpStatus.OK)
+  getSpeaker({ id = JOYCE_LIN.id, jwt = '' } = {}) {
+    return tepper(this.app).get(`/api/v1/speakers/${id}`).authWith(jwt).expectStatus(HttpStatus.OK)
   }
 
   getEvents() {
