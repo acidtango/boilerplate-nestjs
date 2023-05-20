@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import tepper from 'tepper'
-import { CODEMOTION } from '../../src/application/shared/infrastructure/fixtures/events'
-import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { JOYCE_LIN } from '../../src/application/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../src/application/shared/infrastructure/fixtures/talks'
-import { FRAN } from '../../src/application/shared/infrastructure/fixtures/organizers'
+import { CODEMOTION } from '../../src/codetalk/shared/infrastructure/fixtures/events'
+import { EventResponseDTO } from '../../src/codetalk/events/infrastructure/controllers/dtos/EventResponseDTO'
+import { JOYCE_LIN } from '../../src/codetalk/shared/infrastructure/fixtures/speakers'
+import { API_TALK } from '../../src/codetalk/shared/infrastructure/fixtures/talks'
+import { FRAN } from '../../src/codetalk/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
 export class TestClient {

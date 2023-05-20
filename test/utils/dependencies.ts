@@ -1,6 +1,6 @@
-import { PhoneValidator } from '../../src/application/shared/domain/services/PhoneValidator'
-import { CustomHealthIndicator } from '../../src/application/shared/infrastructure/services/CustomHealthIndicator'
-import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
+import { PhoneValidator } from '../../src/codetalk/shared/domain/services/PhoneValidator'
+import { CustomHealthIndicator } from '../../src/codetalk/shared/infrastructure/services/CustomHealthIndicator'
+import { EventRepositoryMemory } from '../../src/codetalk/events/infrastructure/repositories/EventRepositoryMemory'
 
 type Dependencies = {
   databaseHealthIndicator?: CustomHealthIndicator

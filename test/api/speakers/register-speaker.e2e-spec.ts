@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { createClient } from '../../utils/createClient'
 import { HttpStatus } from '@nestjs/common'
-import { JOYCE_LIN } from '../../../src/application/shared/infrastructure/fixtures/speakers'
+import { JOYCE_LIN } from '../../../src/codetalk/shared/infrastructure/fixtures/speakers'
 
 describe('register speaker', () => {
   it('registers the user and then can login', async () => {

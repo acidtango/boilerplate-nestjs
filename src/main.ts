@@ -3,7 +3,7 @@ import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import morgan from 'morgan'
-import { ApplicationModule } from './application/ApplicationModule'
+import { ApplicationModule } from './codetalk/ApplicationModule'
 import { config } from './config'
 
 async function bootstrap() {

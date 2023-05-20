@@ -1,15 +1,15 @@
-import { SpeakerId } from '../../src/application/shared/domain/models/ids/SpeakerId'
-import { SpeakerName } from '../../src/application/speakers/domain/SpeakerName'
-import { SpeakerAge } from '../../src/application/speakers/domain/SpeakerAge'
+import { SpeakerId } from '../../src/codetalk/shared/domain/models/ids/SpeakerId'
+import { SpeakerName } from '../../src/codetalk/speakers/domain/SpeakerName'
+import { SpeakerAge } from '../../src/codetalk/speakers/domain/SpeakerAge'
 import {
   HAKON_WIUM,
   JOYCE_LIN,
   NOT_IMPORTANT_SPEAKER,
-} from '../../src/application/shared/infrastructure/fixtures/speakers'
-import { EmailAddress } from '../../src/application/shared/domain/models/EmailAddress'
-import { Speaker } from '../../src/application/speakers/domain/Speaker'
-import { HashedPassword } from '../../src/application/shared/domain/models/HashedPassword'
-import { PlainPassword } from '../../src/application/shared/domain/models/PlainPassword'
+} from '../../src/codetalk/shared/infrastructure/fixtures/speakers'
+import { EmailAddress } from '../../src/codetalk/shared/domain/models/EmailAddress'
+import { Speaker } from '../../src/codetalk/speakers/domain/Speaker'
+import { HashedPassword } from '../../src/codetalk/shared/domain/models/HashedPassword'
+import { PlainPassword } from '../../src/codetalk/shared/domain/models/PlainPassword'
 
 export function createJoyceLinId() {
   return new SpeakerId(JOYCE_LIN.id)

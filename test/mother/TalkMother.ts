@@ -1,12 +1,12 @@
-import { Talk } from '../../src/application/talks/domain/Talk'
-import { TalkDescription } from '../../src/application/talks/domain/TalkDescription'
-import { TalkTitle } from '../../src/application/talks/domain/TalkTitle'
-import { EventId } from '../../src/application/shared/domain/models/ids/EventId'
-import { SpeakerId } from '../../src/application/shared/domain/models/ids/SpeakerId'
-import { TalkId } from '../../src/application/shared/domain/models/ids/TalkId'
-import { CODEMOTION } from '../../src/application/shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../src/application/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../src/application/shared/infrastructure/fixtures/talks'
+import { Talk } from '../../src/codetalk/talks/domain/Talk'
+import { TalkDescription } from '../../src/codetalk/talks/domain/TalkDescription'
+import { TalkTitle } from '../../src/codetalk/talks/domain/TalkTitle'
+import { EventId } from '../../src/codetalk/shared/domain/models/ids/EventId'
+import { SpeakerId } from '../../src/codetalk/shared/domain/models/ids/SpeakerId'
+import { TalkId } from '../../src/codetalk/shared/domain/models/ids/TalkId'
+import { CODEMOTION } from '../../src/codetalk/shared/infrastructure/fixtures/events'
+import { JOYCE_LIN } from '../../src/codetalk/shared/infrastructure/fixtures/speakers'
+import { API_TALK } from '../../src/codetalk/shared/infrastructure/fixtures/talks'
 
 export function createApiTalkId() {
   return new TalkId(API_TALK.id)
