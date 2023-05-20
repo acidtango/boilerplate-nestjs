@@ -1,6 +1,6 @@
-import { SpeakerRepositoryMemory } from '../../src/codetalk/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { createJoyceLinSpeaker } from '../mother/SpeakerMother'
-import { Speaker } from '../../src/codetalk/speakers/domain/Speaker'
+import { Speaker } from '../../src/speakers/domain/Speaker'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   private saveHasBeenCalled = false

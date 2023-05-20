@@ -1,9 +1,9 @@
 import { HttpStatus } from '@nestjs/common'
-import { CODEMOTION } from '../../../src/codetalk/shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../../src/codetalk/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../../src/codetalk/shared/infrastructure/fixtures/talks'
+import { CODEMOTION } from '../../../src/shared/infrastructure/fixtures/events'
+import { JOYCE_LIN } from '../../../src/shared/infrastructure/fixtures/speakers'
+import { API_TALK } from '../../../src/shared/infrastructure/fixtures/talks'
 import { createClient } from '../../utils/createClient'
-import { FRAN } from '../../../src/codetalk/shared/infrastructure/fixtures/organizers'
+import { FRAN } from '../../../src/shared/infrastructure/fixtures/organizers'
 
 describe('talk can be approved or rejected', () => {
   it('can approve the talk', async () => {

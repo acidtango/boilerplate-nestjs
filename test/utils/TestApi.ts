@@ -1,14 +1,14 @@
 import { Test, TestingModuleBuilder } from '@nestjs/testing'
-import { ApplicationModule } from '../../src/codetalk/ApplicationModule'
-import { config } from '../../src/config'
-import { AppProvider } from '../../src/codetalk/AppProviders'
-import { EventRepositoryMemory } from '../../src/codetalk/events/infrastructure/repositories/EventRepositoryMemory'
-import { TalkRepositoryMemory } from '../../src/codetalk/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { SpeakerRepositoryMemory } from '../../src/codetalk/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { ApplicationModule } from '../../src/ApplicationModule'
+import { config } from '../../src/shared/infrastructure/config'
+import { AppProvider } from '../../src/AppProviders'
+import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory'
+import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
-import { isReseteable } from '../../src/codetalk/shared/infrastructure/repositories/Reseteable'
-import { ClockFake } from '../../src/codetalk/shared/infrastructure/services/clock/ClockFake'
+import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
+import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
 
 export class TestApi {
   private static instance: TestApi

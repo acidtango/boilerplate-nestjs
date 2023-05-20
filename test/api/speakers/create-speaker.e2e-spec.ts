@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import { JOYCE_LIN } from '../../../src/codetalk/shared/infrastructure/fixtures/speakers'
+import { JOYCE_LIN } from '../../../src/shared/infrastructure/fixtures/speakers'
 import { createClient } from '../../utils/createClient'
 
 describe('create speaker', () => {

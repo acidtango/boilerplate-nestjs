@@ -1,9 +1,9 @@
-import { TalkEvent } from '../../src/codetalk/events/domain/TalkEvent'
-import { EventId } from '../../src/codetalk/shared/domain/models/ids/EventId'
-import { CANARIASJS, CODEMOTION } from '../../src/codetalk/shared/infrastructure/fixtures/events'
-import { EventName } from '../../src/codetalk/events/domain/EventName'
-import { EventDateRange } from '../../src/codetalk/events/domain/EventDateRange'
-import { EventProposalsDateRange } from '../../src/codetalk/events/domain/EventProposalsDateRange'
+import { TalkEvent } from '../../src/events/domain/TalkEvent'
+import { EventId } from '../../src/shared/domain/models/ids/EventId'
+import { CANARIASJS, CODEMOTION } from '../../src/shared/infrastructure/fixtures/events'
+import { EventName } from '../../src/events/domain/EventName'
+import { EventDateRange } from '../../src/events/domain/EventDateRange'
+import { EventProposalsDateRange } from '../../src/events/domain/EventProposalsDateRange'
 
 export function createCodemotionEventId() {
   return new EventId(CODEMOTION.id)

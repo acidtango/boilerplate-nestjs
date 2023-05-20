@@ -3,8 +3,8 @@ import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import morgan from 'morgan'
-import { ApplicationModule } from './codetalk/ApplicationModule'
-import { config } from './config'
+import { ApplicationModule } from './ApplicationModule'
+import { config } from './shared/infrastructure/config'
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule)
