@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
 import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
@@ -11,6 +11,8 @@ import {
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
+import { JwtPayload } from '../../auth/domain/JwtPayload'
+import { Role } from '../../shared/domain/models/Role'
 
 describe('LoginSpeaker', () => {
   it('returns an access token if credentials are valid', async () => {
@@ -30,6 +32,7 @@ describe('LoginSpeaker', () => {
     expect(content.sub).toEqual(JOYCE_LIN.id)
     expect(content.iat).toEqual(expectedIat)
     expect(content.exp).toEqual(expectedExp)
+    expect(content.role).toEqual(Role.SPEAKER)
   })
 
   it('fails if password is incorrect', async () => {
