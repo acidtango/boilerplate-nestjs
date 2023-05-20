@@ -1,6 +1,6 @@
-import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { createJoyceLinSpeaker } from '../mother/SpeakerMother'
-import { Speaker } from '../../src/application/speakers/domain/Speaker'
+import { Speaker } from '../../src/speakers/domain/Speaker'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   private saveHasBeenCalled = false

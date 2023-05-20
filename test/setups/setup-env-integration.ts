@@ -1,4 +1,4 @@
-import { config } from '../../src/config'
+import { config } from '../../src/shared/infrastructure/config'
 
 const skip = global.describe.skip
 const describe = global.describe

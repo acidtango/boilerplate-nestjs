@@ -1,10 +1,10 @@
-import { AppProvider } from '../../../application/AppProviders'
+import { Token } from '../../domain/services/Token'
 import { EventBusNoop } from './EventBusNoop'
 import { Global, Module } from '@nestjs/common'
 
 @Global()
 @Module({
-  providers: [{ provide: AppProvider.EVENT_BUS, useClass: EventBusNoop }],
-  exports: [AppProvider.EVENT_BUS],
+  providers: [{ provide: Token.EVENT_BUS, useClass: EventBusNoop }],
+  exports: [Token.EVENT_BUS],
 })
 export class EventBusModule {}

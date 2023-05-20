@@ -48,7 +48,6 @@ lerna-debug.log*
 # Miscellaneous
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
 npm-debug.log
 testem.log
@@ -63,7 +62,6 @@ testem.log
 /e2e/*.map
 
 # System Files
-.DS_Store
 Thumbs.db
 
 # Mock API

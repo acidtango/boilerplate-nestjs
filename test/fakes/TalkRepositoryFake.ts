@@ -1,5 +1,5 @@
-import { Talk } from '../../src/application/talks/domain/Talk'
-import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
+import { Talk } from '../../src/talks/domain/Talk'
+import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { createApiTalk } from '../mother/TalkMother'
 
 export class TalkRepositoryFake extends TalkRepositoryMemory {

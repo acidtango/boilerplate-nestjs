@@ -1,5 +1,5 @@
 import { createClient } from '../../utils/createClient'
-import { CODEMOTION } from '../../../src/shared/fixtures/events'
+import { CODEMOTION } from '../../../src/shared/infrastructure/fixtures/events'
 import { HttpStatus } from '@nestjs/common'
 
 describe('create event', () => {

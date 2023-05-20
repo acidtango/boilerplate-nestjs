@@ -1,13 +1,14 @@
 import { Test, TestingModuleBuilder } from '@nestjs/testing'
-import { ApplicationModule } from '../../src/application/ApplicationModule'
-import { config } from '../../src/config'
-import { AppProvider } from '../../src/application/AppProviders'
-import { EventRepositoryMemory } from '../../src/application/events/infrastructure/repositories/EventRepositoryMemory'
-import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { MainModule } from '../../src/MainModule'
+import { config } from '../../src/shared/infrastructure/config'
+import { Token } from '../../src/shared/domain/services/Token'
+import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory'
+import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
 import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
+import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
 
 export class TestApi {
   private static instance: TestApi
@@ -41,7 +42,7 @@ export class TestApi {
 
   private createRootModule() {
     let testingModuleBuilder = Test.createTestingModule({
-      imports: [ApplicationModule],
+      imports: [MainModule],
     })
 
     testingModuleBuilder = this.useThirdPartyMocks(testingModuleBuilder)
@@ -54,11 +55,11 @@ export class TestApi {
 
   private useMemoryRepositories(testingModuleBuilder: TestingModuleBuilder) {
     return testingModuleBuilder
-      .overrideProvider(AppProvider.EVENT_REPOSITORY)
+      .overrideProvider(Token.EVENT_REPOSITORY)
       .useClass(EventRepositoryMemory)
-      .overrideProvider(AppProvider.TALK_REPOSITORY)
+      .overrideProvider(Token.TALK_REPOSITORY)
       .useClass(TalkRepositoryMemory)
-      .overrideProvider(AppProvider.SPEAKER_REPOSITORY)
+      .overrideProvider(Token.SPEAKER_REPOSITORY)
       .useClass(SpeakerRepositoryMemory)
   }
 
@@ -81,6 +82,10 @@ export class TestApi {
     return this.app
   }
 
+  public getClock() {
+    return this.getNestApplication().get<ClockFake>(Token.CLOCK)
+  }
+
   private getNestApplication() {
     if (!this.nestApplication) {
       throw new Error('TestApi not initialized')
@@ -90,7 +95,7 @@ export class TestApi {
   }
 
   async clearState() {
-    const promises = Object.values(AppProvider)
+    const promises = Object.values(Token)
       .map((token) => this.getNestApplication().get(token))
       .filter(isReseteable)
       .map((dependency) => dependency.reset())

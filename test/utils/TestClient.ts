@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import tepper from 'tepper'
-import { CODEMOTION } from '../../src/shared/fixtures/events'
-import { EventResponseDTO } from '../../src/application/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { JOYCE_LIN } from '../../src/shared/fixtures/speakers'
-import { API_TALK } from '../../src/shared/fixtures/talks'
-import { FRAN } from '../../src/shared/fixtures/organizers'
+import { CODEMOTION } from '../../src/shared/infrastructure/fixtures/events'
+import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
+import { JOYCE_LIN } from '../../src/shared/infrastructure/fixtures/speakers'
+import { API_TALK } from '../../src/shared/infrastructure/fixtures/talks'
+import { FRAN } from '../../src/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
 export class TestClient {
@@ -12,6 +12,10 @@ export class TestClient {
 
   get app() {
     return this.testApi.getApp()
+  }
+
+  getClock() {
+    return this.testApi.getClock()
   }
 
   health() {
@@ -34,6 +38,27 @@ export class TestClient {
         },
       })
       .expectStatus(HttpStatus.CREATED)
+  }
+
+  registerSpeaker({ id = JOYCE_LIN.id } = {}) {
+    return tepper(this.app)
+      .post('/api/v1/speakers/registration')
+      .send({
+        id,
+        email: JOYCE_LIN.email,
+        password: JOYCE_LIN.password,
+      })
+      .expectStatus(HttpStatus.CREATED)
+  }
+
+  loginSpeaker() {
+    return tepper(this.app)
+      .post('/api/v1/speakers/login')
+      .send({
+        email: JOYCE_LIN.email,
+        password: JOYCE_LIN.password,
+      })
+      .expectStatus(HttpStatus.OK)
   }
 
   createSpeaker({ id = JOYCE_LIN.id } = {}) {
