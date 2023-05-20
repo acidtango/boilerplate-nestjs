@@ -1,12 +1,12 @@
-import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
-import { EmailAddress } from '../../shared/domain/EmailAddress'
-import { Language } from '../../shared/domain/Language'
+import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { EmailAddress } from '../../shared/domain/models/EmailAddress'
+import { Language } from '../../shared/domain/models/Language'
 import { SpeakerAge } from '../domain/SpeakerAge'
 import { SpeakerName } from '../domain/SpeakerName'
 import { CreateSpeaker, CreateSpeakerParams } from './CreateSpeaker'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 
 describe('CreateSpeaker', () => {
   it('saves the speaker in the repository', async () => {

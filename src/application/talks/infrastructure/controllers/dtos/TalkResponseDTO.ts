@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { CODEMOTION } from '../../../../../shared/fixtures/events'
-import { FRAN } from '../../../../../shared/fixtures/organizers'
-import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
-import { API_TALK } from '../../../../../shared/fixtures/talks'
-import { Language } from '../../../../shared/domain/Language'
+import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
+import { FRAN } from '../../../../shared/infrastructure/fixtures/organizers'
+import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
+import { API_TALK } from '../../../../shared/infrastructure/fixtures/talks'
+import { Language } from '../../../../shared/domain/models/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
 
 export class TalkResponseDTO {

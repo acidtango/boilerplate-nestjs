@@ -4,12 +4,12 @@ import {
   createJoyceLinId,
   createJoyceLinSpeaker,
 } from '../../../../../test/mother/SpeakerMother'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
-import { JOYCE_LIN } from '../../../../shared/fixtures/speakers'
-import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
+import { JOYCE_LIN } from '../../../shared/infrastructure/fixtures/speakers'
+import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
 
 describe('SpeakerRepository', () => {

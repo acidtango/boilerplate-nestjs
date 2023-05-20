@@ -2,9 +2,9 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { RegisterSpeakerRequestDTO } from './dtos/RegisterSpeakerRequestDTO'
 import { RegisterSpeaker } from '../../use-cases/RegisterSpeaker'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
-import { EmailAddress } from '../../../shared/domain/EmailAddress'
-import { PlainPassword } from '../../../shared/domain/PlainPassword'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
 
 @Controller('/v1/speakers/registration')
 export class RegisterSpeakerEndpoint {

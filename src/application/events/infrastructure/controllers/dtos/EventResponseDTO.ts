@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { CODEMOTION } from '../../../../../shared/fixtures/events'
+import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
 import { DateRangeDTO } from './DateRangeDTO'
 import { ProposalDateRangeDTO } from './ProposalDateRangeDTO'
 

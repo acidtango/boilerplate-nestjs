@@ -1,4 +1,4 @@
-import { CODEMOTION } from '../../../shared/fixtures/events'
+import { CODEMOTION } from '../../shared/infrastructure/fixtures/events'
 import { EventProposalsDateRange } from './EventProposalsDateRange'
 import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
 

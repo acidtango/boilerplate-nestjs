@@ -7,8 +7,8 @@ import { TalkRepositoryMemory } from '../../src/application/talks/infrastructure
 import { SpeakerRepositoryMemory } from '../../src/application/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
-import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
-import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
+import { isReseteable } from '../../src/application/shared/infrastructure/repositories/Reseteable'
+import { ClockFake } from '../../src/application/shared/infrastructure/services/clock/ClockFake'
 
 export class TestApi {
   private static instance: TestApi

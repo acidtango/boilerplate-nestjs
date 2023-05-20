@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsString, IsUUID } from 'class-validator'
-import { API_TALK } from '../../../../../shared/fixtures/talks'
-import { Language } from '../../../../shared/domain/Language'
-import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
-import { CODEMOTION } from '../../../../../shared/fixtures/events'
+import { API_TALK } from '../../../../shared/infrastructure/fixtures/talks'
+import { Language } from '../../../../shared/domain/models/Language'
+import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
+import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
 
 export class CreateTalkRequestDTO {
   @ApiProperty({ example: API_TALK.id })

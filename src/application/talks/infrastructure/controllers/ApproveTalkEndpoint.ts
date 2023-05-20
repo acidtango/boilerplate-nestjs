@@ -1,7 +1,7 @@
 import { Controller, HttpStatus, Param, Put } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { ApproveTalk } from '../../use-cases/ApproveTalk'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 
 @Controller('/v1/talks/:id/approve')
 export class ApproveTalkEndpoint {

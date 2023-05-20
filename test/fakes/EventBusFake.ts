@@ -1,5 +1,5 @@
-import { DomainEvent } from '../../src/shared/domain/events/DomainEvent'
-import { EventBus } from '../../src/shared/domain/hex/EventBus'
+import { DomainEvent } from '../../src/application/shared/domain/events/DomainEvent'
+import { EventBus } from '../../src/application/shared/domain/models/hex/EventBus'
 
 export class EventBusNoopFake implements EventBus {
   private readonly events: DomainEvent[] = []

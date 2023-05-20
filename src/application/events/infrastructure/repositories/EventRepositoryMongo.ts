@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { Collection, MongoClient } from 'mongodb'
 import { config } from '../../../../config'
-import { EventId } from '../../../../shared/domain/ids/EventId'
+import { EventId } from '../../../shared/domain/models/ids/EventId'
 import { EventRepository } from '../../domain/EventRepository'
 import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
 export class EventRepositoryMongo implements EventRepository, Reseteable {

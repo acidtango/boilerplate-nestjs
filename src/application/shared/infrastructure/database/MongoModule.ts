@@ -1,6 +1,6 @@
 import { Global, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { MongoClient } from 'mongodb'
-import { config } from '../../../config'
+import { config } from '../../../../config'
 
 @Global()
 @Module({

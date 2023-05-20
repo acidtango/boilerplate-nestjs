@@ -1,11 +1,15 @@
-import { SpeakerId } from '../../src/shared/domain/ids/SpeakerId'
+import { SpeakerId } from '../../src/application/shared/domain/models/ids/SpeakerId'
 import { SpeakerName } from '../../src/application/speakers/domain/SpeakerName'
 import { SpeakerAge } from '../../src/application/speakers/domain/SpeakerAge'
-import { HAKON_WIUM, JOYCE_LIN, NOT_IMPORTANT_SPEAKER } from '../../src/shared/fixtures/speakers'
-import { EmailAddress } from '../../src/application/shared/domain/EmailAddress'
+import {
+  HAKON_WIUM,
+  JOYCE_LIN,
+  NOT_IMPORTANT_SPEAKER,
+} from '../../src/application/shared/infrastructure/fixtures/speakers'
+import { EmailAddress } from '../../src/application/shared/domain/models/EmailAddress'
 import { Speaker } from '../../src/application/speakers/domain/Speaker'
-import { HashedPassword } from '../../src/application/shared/domain/HashedPassword'
-import { PlainPassword } from '../../src/application/shared/domain/PlainPassword'
+import { HashedPassword } from '../../src/application/shared/domain/models/HashedPassword'
+import { PlainPassword } from '../../src/application/shared/domain/models/PlainPassword'
 
 export function createJoyceLinId() {
   return new SpeakerId(JOYCE_LIN.id)

@@ -1,4 +1,4 @@
-import { CODEMOTION } from '../../../shared/fixtures/events'
+import { CODEMOTION } from '../../shared/infrastructure/fixtures/events'
 import { EventName } from './EventName'
 
 describe('EventName', () => {

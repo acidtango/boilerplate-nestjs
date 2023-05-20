@@ -1,6 +1,6 @@
 import { TalkEvent } from '../../src/application/events/domain/TalkEvent'
-import { EventId } from '../../src/shared/domain/ids/EventId'
-import { CANARIASJS, CODEMOTION } from '../../src/shared/fixtures/events'
+import { EventId } from '../../src/application/shared/domain/models/ids/EventId'
+import { CANARIASJS, CODEMOTION } from '../../src/application/shared/infrastructure/fixtures/events'
 import { EventName } from '../../src/application/events/domain/EventName'
 import { EventDateRange } from '../../src/application/events/domain/EventDateRange'
 import { EventProposalsDateRange } from '../../src/application/events/domain/EventProposalsDateRange'

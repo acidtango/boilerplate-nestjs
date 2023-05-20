@@ -1,12 +1,12 @@
 import { SpeakerName } from './SpeakerName'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { SpeakerAge } from './SpeakerAge'
-import { EmailAddress } from '../../shared/domain/EmailAddress'
-import { Language } from '../../shared/domain/Language'
+import { EmailAddress } from '../../shared/domain/models/EmailAddress'
+import { Language } from '../../shared/domain/models/Language'
 import { Primitives } from '../../../utils/Primitives'
-import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
-import { HashedPassword } from '../../shared/domain/HashedPassword'
-import { PlainPassword } from '../../shared/domain/PlainPassword'
+import { AggregateRoot } from '../../shared/domain/models/hex/AggregateRoot'
+import { HashedPassword } from '../../shared/domain/models/HashedPassword'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRegistered } from './events/SpeakerRegistered'
 
 export type SpeakerPrimitives = Primitives<Speaker>

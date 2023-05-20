@@ -2,8 +2,8 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { LoginSpeakerRequestDTO } from './dtos/LoginSpeakerRequestDTO'
 import { LoginSpeaker } from '../../use-cases/LoginSpeaker'
-import { EmailAddress } from '../../../shared/domain/EmailAddress'
-import { PlainPassword } from '../../../shared/domain/PlainPassword'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
 import { LoginSpeakerResponseDTO } from './dtos/LoginSpeakerResponseDTO'
 
 @Controller('/v1/speakers/login')

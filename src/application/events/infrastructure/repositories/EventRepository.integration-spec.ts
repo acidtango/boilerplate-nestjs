@@ -4,10 +4,10 @@ import {
   createCodemotionEvent,
   createCodemotionEventId,
 } from '../../../../../test/mother/TalkEventMother'
-import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
+import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { EventRepository } from '../../domain/EventRepository'
 
 describe('TalkEventRepository', () => {

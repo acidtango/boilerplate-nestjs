@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
 import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
 
 export class TalkTitle extends ValueObject {

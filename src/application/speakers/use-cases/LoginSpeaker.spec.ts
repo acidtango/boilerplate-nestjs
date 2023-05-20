@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
-import { JOYCE_LIN } from '../../../shared/fixtures/speakers'
-import { ClockFake } from '../../../shared/infrastructure/services/clock/ClockFake'
+import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
 import {
   createHakonEmail,
@@ -9,7 +9,7 @@ import {
   createNotImportantPassword,
 } from '../../../../test/mother/SpeakerMother'
 import { SpeakerRepositoryFake } from '../../../../test/fakes/SpeakerRepositoryFake'
-import { PlainPassword } from '../../shared/domain/PlainPassword'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
 
 describe('LoginSpeaker', () => {

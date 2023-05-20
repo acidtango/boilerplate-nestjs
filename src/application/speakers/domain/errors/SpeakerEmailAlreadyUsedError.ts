@@ -1,6 +1,6 @@
-import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { EmailAddress } from '../../../shared/domain/EmailAddress'
-import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
+import { DomainError } from '../../../shared/domain/errors/DomainError'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import { DomainErrorCode } from '../../../shared/domain/errors/DomainErrorCode'
 
 export class SpeakerEmailAlreadyUsedError extends DomainError {
   constructor(email: EmailAddress) {

@@ -1,5 +1,5 @@
 import * as crypto from 'crypto'
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from './hex/ValueObject'
 
 export class HashedPassword extends ValueObject {
   constructor(private readonly hash: string) {

@@ -1,5 +1,5 @@
-import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
+import { DomainError } from '../../../shared/domain/errors/DomainError'
+import { DomainErrorCode } from '../../../shared/domain/errors/DomainErrorCode'
 
 export class TalkTitleTooLongError extends DomainError {
   constructor() {

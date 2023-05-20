@@ -1,4 +1,4 @@
-import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { TalkEvent } from '../domain/TalkEvent'
 import { EventRepository } from '../domain/EventRepository'
 import { Inject } from '@nestjs/common'

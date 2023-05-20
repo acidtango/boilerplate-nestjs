@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
 import { UnderageSpeakerError } from './errors/UnderageSpeakerError'
 
 export class SpeakerAge extends ValueObject {

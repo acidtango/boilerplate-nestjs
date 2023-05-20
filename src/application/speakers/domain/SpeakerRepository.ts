@@ -1,6 +1,6 @@
 import { Speaker } from './Speaker'
-import { SpeakerId } from '../../../shared/domain/ids/SpeakerId'
-import { EmailAddress } from '../../shared/domain/EmailAddress'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
+import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 
 export interface SpeakerRepository {
   save(speaker: Speaker): Promise<void>

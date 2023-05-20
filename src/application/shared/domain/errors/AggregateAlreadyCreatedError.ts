@@ -1,4 +1,4 @@
-import { DomainId } from '../hex/DomainId'
+import { DomainId } from '../models/hex/DomainId'
 import { DomainError } from './DomainError'
 import { DomainErrorCode } from './DomainErrorCode'
 

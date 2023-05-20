@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from './hex/ValueObject'
 import { HashedPassword } from './HashedPassword'
 import * as crypto from 'crypto'
 

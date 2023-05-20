@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common'
-import { AppProvider } from '../../../../application/AppProviders'
+import { AppProvider } from '../../../../AppProviders'
 import { CryptoNode } from './CryptoNode'
 
 @Global()

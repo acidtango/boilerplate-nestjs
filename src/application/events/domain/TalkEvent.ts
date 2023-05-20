@@ -1,7 +1,7 @@
-import { AggregateRoot } from '../../../shared/domain/hex/AggregateRoot'
+import { AggregateRoot } from '../../shared/domain/models/hex/AggregateRoot'
 import { Primitives } from '../../../utils/Primitives'
 import { EventDateRange } from './EventDateRange'
-import { EventId } from '../../../shared/domain/ids/EventId'
+import { EventId } from '../../shared/domain/models/ids/EventId'
 import { EventName } from './EventName'
 import { EventProposalsDateRange } from './EventProposalsDateRange'
 

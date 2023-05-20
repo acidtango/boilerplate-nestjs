@@ -1,5 +1,5 @@
 import { Clock } from '../../../domain/services/Clock'
-import { Instant } from '../../../../application/shared/domain/Instant'
+import { Instant } from '../../../domain/models/Instant'
 
 export class ClockFake implements Clock {
   public static now = new Date('2023-05-17T14:30:00.000Z')

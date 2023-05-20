@@ -1,4 +1,4 @@
-import { AppProvider } from '../../../application/AppProviders'
+import { AppProvider } from '../../../AppProviders'
 import { EventBusNoop } from './EventBusNoop'
 import { Global, Module } from '@nestjs/common'
 

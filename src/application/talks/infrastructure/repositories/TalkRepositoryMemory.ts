@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
 import { Talk, TalkPrimitives } from '../../domain/Talk'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
 export class TalkRepositoryMemory implements TalkRepository, Reseteable {

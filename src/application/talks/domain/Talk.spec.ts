@@ -1,7 +1,7 @@
 import { createApiTalk } from '../../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
-import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
-import { FRAN } from '../../../shared/fixtures/organizers'
+import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
+import { FRAN } from '../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {

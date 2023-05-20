@@ -1,6 +1,6 @@
-import { DomainError } from '../../../../shared/domain/errors/DomainError'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
-import { DomainErrorCode } from '../../../../shared/domain/errors/DomainErrorCode'
+import { DomainError } from '../../../shared/domain/errors/DomainError'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
+import { DomainErrorCode } from '../../../shared/domain/errors/DomainErrorCode'
 
 export class SpeakerNotFoundError extends DomainError {
   constructor(notExistentId: SpeakerId) {

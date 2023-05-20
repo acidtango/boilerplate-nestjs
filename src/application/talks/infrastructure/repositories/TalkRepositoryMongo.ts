@@ -2,9 +2,9 @@ import { Collection, MongoClient } from 'mongodb'
 import { Injectable } from '@nestjs/common'
 import { TalkRepository } from '../../domain/TalkRepository'
 import { Talk, TalkPrimitives } from '../../domain/Talk'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 import { config } from '../../../../config'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 
 @Injectable()
 export class TalkRepositoryMongo implements TalkRepository, Reseteable {

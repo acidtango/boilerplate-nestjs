@@ -1,7 +1,7 @@
 import { Speaker } from './Speaker'
 import { notImportantEmail, notImportantSpeakerId } from '../../../../test/mother/SpeakerMother'
-import { HAKON_WIUM, JOYCE_LIN } from '../../../shared/fixtures/speakers'
-import { PlainPassword } from '../../shared/domain/PlainPassword'
+import { HAKON_WIUM, JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 
 describe('Speaker', () => {
   it('can check if the password is correct', () => {

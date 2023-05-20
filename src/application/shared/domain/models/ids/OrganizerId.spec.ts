@@ -1,6 +1,6 @@
 import { OrganizerId } from './OrganizerId'
-import { FRAN } from '../../fixtures/organizers'
-import { JOYCE_LIN } from '../../fixtures/speakers'
+import { FRAN } from '../../../infrastructure/fixtures/organizers'
+import { JOYCE_LIN } from '../../../infrastructure/fixtures/speakers'
 
 describe('OrganizerId', () => {
   it('same ids can be compared', () => {

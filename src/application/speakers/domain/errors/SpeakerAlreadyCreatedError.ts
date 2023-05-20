@@ -1,5 +1,5 @@
-import { AggregateAlreadyCreatedError } from '../../../../shared/domain/errors/AggregateAlreadyCreatedError'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
+import { AggregateAlreadyCreatedError } from '../../../shared/domain/errors/AggregateAlreadyCreatedError'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { Speaker } from '../Speaker'
 
 export class SpeakerAlreadyCreatedError extends AggregateAlreadyCreatedError {

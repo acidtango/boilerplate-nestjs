@@ -2,11 +2,11 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { CreateTalk } from '../../use-cases/CreateTalk'
 import { CreateTalkRequestDTO } from './dtos/CreateTalkRequestDTO'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 import { TalkTitle } from '../../domain/TalkTitle'
 import { TalkDescription } from '../../domain/TalkDescription'
-import { EventId } from '../../../../shared/domain/ids/EventId'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
+import { EventId } from '../../../shared/domain/models/ids/EventId'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 
 @Controller('/v1/talks')
 export class CreateTalkEndpoint {

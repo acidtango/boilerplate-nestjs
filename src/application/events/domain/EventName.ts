@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
 
 export class EventName extends ValueObject {
   constructor(private readonly name: string) {

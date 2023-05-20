@@ -1,6 +1,6 @@
-import { UseCase } from '../../../shared/domain/hex/UseCase'
+import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { EventDateRange } from '../domain/EventDateRange'
-import { EventId } from '../../../shared/domain/ids/EventId'
+import { EventId } from '../../shared/domain/models/ids/EventId'
 import { EventName } from '../domain/EventName'
 import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
 import { TalkEvent } from '../domain/TalkEvent'

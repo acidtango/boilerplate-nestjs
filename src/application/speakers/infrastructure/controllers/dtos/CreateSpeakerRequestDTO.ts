@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsNumber, IsString, IsUUID } from 'class-validator'
-import { JOYCE_LIN } from '../../../../../shared/fixtures/speakers'
-import { Language } from '../../../../shared/domain/Language'
+import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
+import { Language } from '../../../../shared/domain/models/Language'
 
 export class CreateSpeakerRequestDTO {
   @ApiProperty({ example: JOYCE_LIN.id })

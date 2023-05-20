@@ -1,11 +1,11 @@
 import { TalkRepositoryFake } from '../../../../test/fakes/TalkRepositoryFake'
 import { createApiTalk, createApiTalkId } from '../../../../test/mother/TalkMother'
-import { OrganizerId } from '../../../shared/domain/ids/OrganizerId'
-import { FRAN } from '../../../shared/fixtures/organizers'
+import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
+import { FRAN } from '../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { ApproveTalk } from './ApproveTalk'
-import { TalkId } from '../../../shared/domain/ids/TalkId'
+import { TalkId } from '../../shared/domain/models/ids/TalkId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('ApproveTalk', () => {

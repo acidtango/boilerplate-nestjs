@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { createApiTalk, createApiTalkId } from '../../../../../test/mother/TalkMother'
 import { TalkRepositoryMongo } from './TalkRepositoryMongo'
-import { MongoModule } from '../../../../shared/infrastructure/database/MongoModule'
+import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { TalkRepositoryMemory } from './TalkRepositoryMemory'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { TalkRepository } from '../../domain/TalkRepository'
 
 describe('TalkRepository', () => {

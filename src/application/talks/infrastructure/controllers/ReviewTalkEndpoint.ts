@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Param, Put } from '@nestjs/common'
-import { OrganizerId } from '../../../../shared/domain/ids/OrganizerId'
-import { TalkId } from '../../../../shared/domain/ids/TalkId'
+import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 import { DocumentationTag, Endpoint } from '../../../../utils/decorators/Endpoint'
 import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'

@@ -1,5 +1,5 @@
 import { TalkEvent } from './TalkEvent'
-import { EventId } from '../../../shared/domain/ids/EventId'
+import { EventId } from '../../shared/domain/models/ids/EventId'
 
 export interface EventRepository {
   save(event: TalkEvent): Promise<void>

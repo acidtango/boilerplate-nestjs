@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { Collection, MongoClient } from 'mongodb'
 import { config } from '../../../../config'
-import { SpeakerId } from '../../../../shared/domain/ids/SpeakerId'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
-import { Reseteable } from '../../../../shared/infrastructure/repositories/Reseteable'
-import { EmailAddress } from '../../../shared/domain/EmailAddress'
+import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
 
 @Injectable()
 export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {

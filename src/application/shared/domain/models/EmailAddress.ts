@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/hex/ValueObject'
+import { ValueObject } from './hex/ValueObject'
 
 export class EmailAddress extends ValueObject {
   constructor(private readonly email: string) {

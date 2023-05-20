@@ -1,5 +1,5 @@
 import { Instant } from './Instant'
-import { ClockFake } from '../../../shared/infrastructure/services/clock/ClockFake'
+import { ClockFake } from '../../infrastructure/services/clock/ClockFake'
 
 describe('Instant', () => {
   it('saves a given date', () => {
