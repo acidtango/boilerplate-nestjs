@@ -12,7 +12,7 @@ import { TalkTitle } from '../domain/TalkTitle'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { EventRepository } from '../../events/domain/EventRepository'
 
-export type CreateTalkParams = {
+export type ProposeTalkParams = {
   id: TalkId
   title: TalkTitle
   description: TalkDescription
@@ -23,7 +23,7 @@ export type CreateTalkParams = {
 }
 
 @Injectable()
-export class CreateTalk extends UseCase {
+export class ProposeTalk extends UseCase {
   constructor(
     @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
     @Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
@@ -39,7 +39,7 @@ export class CreateTalk extends UseCase {
     language,
     speakerId,
     title,
-  }: CreateTalkParams) {
+  }: ProposeTalkParams) {
     if (!(await this.eventRepository.exists(eventId))) {
       throw new TalkEventNotFoundError(eventId)
     }

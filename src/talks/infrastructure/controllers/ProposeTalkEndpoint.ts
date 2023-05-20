@@ -1,7 +1,7 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { CreateTalk } from '../../use-cases/CreateTalk'
-import { CreateTalkRequestDTO } from './dtos/CreateTalkRequestDTO'
+import { ProposeTalk } from '../../use-cases/ProposeTalk'
+import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 import { TalkTitle } from '../../domain/TalkTitle'
 import { TalkDescription } from '../../domain/TalkDescription'
@@ -9,8 +9,8 @@ import { EventId } from '../../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 
 @Controller('/v1/talks')
-export class CreateTalkEndpoint {
-  constructor(private readonly createTalk: CreateTalk) {}
+export class ProposeTalkEndpoint {
+  constructor(private readonly proposeTalk: ProposeTalk) {}
 
   @Endpoint({
     tag: DocumentationTag.TALKS,
@@ -18,8 +18,8 @@ export class CreateTalkEndpoint {
     status: HttpStatus.CREATED,
   })
   @Post()
-  async execute(@Body() body: CreateTalkRequestDTO) {
-    await this.createTalk.execute({
+  async execute(@Body() body: ProposeTalkRequestDTO) {
+    await this.proposeTalk.execute({
       id: TalkId.fromPrimitives(body.id),
       title: TalkTitle.fromPrimitives(body.title),
       description: TalkDescription.fromPrimitives(body.description),

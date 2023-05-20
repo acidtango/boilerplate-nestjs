@@ -61,7 +61,7 @@ export class TestClient {
       .expectStatus(HttpStatus.OK)
   }
 
-  createTalk({ id = API_TALK.id } = {}) {
+  proposeTalk({ id = API_TALK.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/talks')
       .send({

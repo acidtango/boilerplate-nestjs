@@ -10,7 +10,7 @@ describe('talk can be reviewed', () => {
     const client = await createClient()
     await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
-    await client.createTalk({ id: API_TALK.id }).run()
+    await client.proposeTalk({ id: API_TALK.id }).run()
 
     const { status } = await client.assignReviewer({ id: API_TALK.id, reviewerId: FRAN.id }).run()
 

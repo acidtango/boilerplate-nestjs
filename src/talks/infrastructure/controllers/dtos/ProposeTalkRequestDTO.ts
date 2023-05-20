@@ -5,7 +5,7 @@ import { Language } from '../../../../shared/domain/models/Language'
 import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
 import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
 
-export class CreateTalkRequestDTO {
+export class ProposeTalkRequestDTO {
   @ApiProperty({ example: API_TALK.id })
   @IsUUID()
   id!: string

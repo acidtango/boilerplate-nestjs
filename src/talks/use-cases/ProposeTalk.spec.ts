@@ -8,20 +8,20 @@ import { TalkDescription } from '../domain/TalkDescription'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
 import { TalkStatus } from '../domain/TalkStatus'
 import { TalkTitle } from '../domain/TalkTitle'
-import { CreateTalk, CreateTalkParams } from './CreateTalk'
+import { ProposeTalk, ProposeTalkParams } from './ProposeTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
 import { createCodemotionEvent } from '../../../test/mother/TalkEventMother'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 
-describe('CreateTalk', () => {
+describe('ProposeTalk', () => {
   it('creates the a proposal talk', async () => {
     const talkRepository = TalkRepositoryFake.empty()
     const eventRepository = new EventRepositoryMemory()
     await eventRepository.save(createCodemotionEvent())
-    const createTalk = new CreateTalk(talkRepository, eventRepository)
+    const proposeTalk = new ProposeTalk(talkRepository, eventRepository)
     const params = generateCreateApiTalkParams()
 
-    await createTalk.execute(params)
+    await proposeTalk.execute(params)
 
     const talk = talkRepository.getLatestSavedTalk()
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
@@ -30,16 +30,16 @@ describe('CreateTalk', () => {
   it('fails if eventId does not exists', async () => {
     const talkRepository = TalkRepositoryFake.empty()
     const eventRepository = new EventRepositoryMemory()
-    const createTalk = new CreateTalk(talkRepository, eventRepository)
+    const proposeTalk = new ProposeTalk(talkRepository, eventRepository)
     const params = generateCreateApiTalkParams()
 
-    await expect(createTalk.execute(params)).rejects.toThrow(
-      new TalkEventNotFoundError(new EventId(CODEMOTION.id))
-    )
+    const result = proposeTalk.execute(params)
+
+    await expect(result).rejects.toThrow(new TalkEventNotFoundError(new EventId(CODEMOTION.id)))
   })
 })
 
-function generateCreateApiTalkParams(): CreateTalkParams {
+function generateCreateApiTalkParams(): ProposeTalkParams {
   return {
     id: new TalkId(API_TALK.id),
     title: new TalkTitle(API_TALK.title),
