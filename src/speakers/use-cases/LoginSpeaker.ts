@@ -6,7 +6,7 @@ import { Clock } from '../../shared/domain/services/Clock'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
 import { Speaker } from '../domain/Speaker'
 import { Inject, Injectable } from '@nestjs/common'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 
 export type LoginSpeakerParams = {
   email: EmailAddress
@@ -16,9 +16,9 @@ export type LoginSpeakerParams = {
 @Injectable()
 export class LoginSpeaker {
   constructor(
-    @Inject(AppProvider.SPEAKER_REPOSITORY)
+    @Inject(Token.SPEAKER_REPOSITORY)
     private readonly speakerRepository: SpeakerRepository,
-    @Inject(AppProvider.CLOCK)
+    @Inject(Token.CLOCK)
     private readonly clock: Clock
   ) {}
 

@@ -1,7 +1,7 @@
 import { Module, ValidationPipe } from '@nestjs/common'
 import { APP_FILTER, APP_PIPE } from '@nestjs/core'
 import { config } from './shared/infrastructure/config'
-import { OrmSwitcherModule } from './shared/infrastructure/database/OrmSwitcherModule'
+import { DatabaseSwitcherModule } from './shared/infrastructure/database/DatabaseSwitcherModule'
 import { DomainErrorFilter } from './shared/infrastructure/filters/DomainErrorFilter'
 import { ApplicationShutdownService } from './shared/infrastructure/services/ApplicationShutdownService'
 import { UuidGeneratorModule } from './shared/infrastructure/services/uuid-generator/UuidGeneratorModule'
@@ -15,17 +15,20 @@ import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModu
 
 @Module({
   imports: [
-    EventBusModule,
+    // Application modules
     EventsModule,
     SpeakersModule,
     TalksModule,
+    // Services modules
+    EventBusModule,
     CryptoModule,
-    LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
-    OrmSwitcherModule.init({
-      disable: config.testModeEnabled && !config.forceEnableORMRepositories,
-    }),
     UuidGeneratorModule,
     ClockModule,
+    // Infrastructure modules
+    LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
+    DatabaseSwitcherModule.init({
+      disable: config.testModeEnabled && !config.forceEnableORMRepositories,
+    }),
   ],
   controllers: [],
   providers: [
@@ -40,4 +43,4 @@ import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModu
     ApplicationShutdownService,
   ],
 })
-export class ApplicationModule {}
+export class MainModule {}

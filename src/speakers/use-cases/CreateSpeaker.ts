@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../shared/domain/models/hex/UseCase'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 import { Language } from '../../shared/domain/models/Language'
 import { Speaker } from '../domain/Speaker'
@@ -21,7 +21,7 @@ export type CreateSpeakerParams = {
 @Injectable()
 export class CreateSpeaker extends UseCase {
   constructor(
-    @Inject(AppProvider.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
+    @Inject(Token.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
   ) {
     super()
   }

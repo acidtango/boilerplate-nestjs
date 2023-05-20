@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common'
-import { AppProvider } from '../../../../AppProviders'
+import { Token } from '../../../domain/services/Token'
 import { CryptoNode } from './CryptoNode'
 
 @Global()
 @Module({
-  exports: [AppProvider.CRYPTO],
+  exports: [Token.CRYPTO],
   providers: [
     {
-      provide: AppProvider.CRYPTO,
+      provide: Token.CRYPTO,
       useClass: CryptoNode,
     },
   ],

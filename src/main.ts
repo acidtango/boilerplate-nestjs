@@ -3,11 +3,11 @@ import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import morgan from 'morgan'
-import { ApplicationModule } from './ApplicationModule'
+import { MainModule } from './MainModule'
 import { config } from './shared/infrastructure/config'
 
 async function bootstrap() {
-  const app = await NestFactory.create(ApplicationModule)
+  const app = await NestFactory.create(MainModule)
 
   // Starts listening for shutdown hooks
   app.enableShutdownHooks()

@@ -2,16 +2,16 @@ import { DynamicModule, Module } from '@nestjs/common'
 import { MongoModule } from './MongoModule'
 
 @Module({})
-export class OrmSwitcherModule {
+export class DatabaseSwitcherModule {
   static init({ disable }: { disable: boolean }): DynamicModule {
     if (disable) {
       return {
-        module: OrmSwitcherModule,
+        module: DatabaseSwitcherModule,
       }
     }
 
     return {
-      module: OrmSwitcherModule,
+      module: DatabaseSwitcherModule,
       imports: [MongoModule],
     }
   }

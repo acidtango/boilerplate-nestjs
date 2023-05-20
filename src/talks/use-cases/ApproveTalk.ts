@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkFinder } from '../domain/TalkFinder'
 
@@ -9,9 +9,7 @@ import { TalkFinder } from '../domain/TalkFinder'
 export class ApproveTalk extends UseCase {
   private readonly talkFinder: TalkFinder
 
-  constructor(
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
-  ) {
+  constructor(@Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository) {
     super()
     this.talkFinder = new TalkFinder(talkRepository)
   }

@@ -3,7 +3,7 @@ import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { EventId } from '../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 import { Language } from '../../shared/domain/models/Language'
 import { Talk } from '../domain/Talk'
 import { TalkDescription } from '../domain/TalkDescription'
@@ -25,8 +25,8 @@ export type CreateTalkParams = {
 @Injectable()
 export class CreateTalk extends UseCase {
   constructor(
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
-    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
+    @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
+    @Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
   ) {
     super()
   }

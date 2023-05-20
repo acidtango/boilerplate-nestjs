@@ -2,12 +2,10 @@ import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { TalkEvent } from '../domain/TalkEvent'
 import { EventRepository } from '../domain/EventRepository'
 import { Inject } from '@nestjs/common'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 
 export class ListEvents extends UseCase {
-  constructor(
-    @Inject(AppProvider.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
-  ) {
+  constructor(@Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository) {
     super()
   }
 

@@ -3,7 +3,7 @@ import { EventBus } from '../../shared/domain/models/hex/EventBus'
 import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 import { TalkFinder } from '../domain/TalkFinder'
 import { TalkRepository } from '../domain/TalkRepository'
 
@@ -17,8 +17,8 @@ export class ReviewTalk extends UseCase {
   private readonly talkFinder: TalkFinder
 
   constructor(
-    @Inject(AppProvider.EVENT_BUS) private readonly eventBus: EventBus,
-    @Inject(AppProvider.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
+    @Inject(Token.EVENT_BUS) private readonly eventBus: EventBus,
+    @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
   ) {
     super()
     this.talkFinder = new TalkFinder(talkRepository)

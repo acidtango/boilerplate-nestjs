@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { AppProvider } from '../AppProviders'
+import { Token } from '../shared/domain/services/Token'
 import { CreateSpeakerEndpoint } from './infrastructure/controllers/CreateSpeakerEndpoint'
 import { GetSpeakerEndpoint } from './infrastructure/controllers/GetSpeakerEndpoint'
 import { SpeakerRepositoryMongo } from './infrastructure/repositories/SepakerRepositoryMongo'
@@ -23,7 +23,7 @@ import { LoginSpeaker } from './use-cases/LoginSpeaker'
     RegisterSpeaker,
     LoginSpeaker,
     {
-      provide: AppProvider.SPEAKER_REPOSITORY,
+      provide: Token.SPEAKER_REPOSITORY,
       useClass: SpeakerRepositoryMongo,
     },
   ],

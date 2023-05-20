@@ -3,12 +3,12 @@ import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { SpeakerRepository } from '../domain/SpeakerRepository'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { Inject, Injectable } from '@nestjs/common'
-import { AppProvider } from '../../AppProviders'
+import { Token } from '../../shared/domain/services/Token'
 
 @Injectable()
 export class GetSpeaker {
   constructor(
-    @Inject(AppProvider.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
+    @Inject(Token.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
   ) {}
 
   async execute(speakerId: SpeakerId): Promise<Speaker> {
