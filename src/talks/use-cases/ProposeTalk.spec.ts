@@ -35,7 +35,7 @@ describe('ProposeTalk', () => {
 
   it('creates the a proposal talk', async () => {
     const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const params = generateCreateApiTalkParams({})
+    const params = generateCreateApiTalkParams()
 
     await proposeTalk.execute(params)
 
