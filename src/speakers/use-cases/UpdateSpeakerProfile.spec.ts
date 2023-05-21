@@ -20,7 +20,7 @@ describe('UpdateSpeakerProfile', () => {
   let updateSpeakerProfile: UpdateSpeakerProfile
 
   beforeEach(() => {
-    speakerRepository = SpeakerRepositoryFake.createWithJoyceLinWithoutProfile()
+    speakerRepository = SpeakerRepositoryFake.createWithConchaWithoutProfile()
     eventBus = new EventBusNoopFake()
     updateSpeakerProfile = new UpdateSpeakerProfile(speakerRepository, eventBus)
   })

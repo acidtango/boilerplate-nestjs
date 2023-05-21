@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import {
   conchaEmail,
   conchaId,
-  conchaSpeaker_DEPRECATED,
+  conchaSpeakerWithProfile,
 } from '../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
@@ -39,7 +39,7 @@ describe('SpeakerRepository', () => {
 
     it('saves the speaker', async () => {
       const speakerId = conchaId()
-      const speaker = conchaSpeaker_DEPRECATED({ id: speakerId })
+      const speaker = conchaSpeakerWithProfile({ id: speakerId })
 
       await speakerRepository.save(speaker)
 
@@ -49,7 +49,7 @@ describe('SpeakerRepository', () => {
 
     it('checks if the speaker exists', async () => {
       const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
-      const speaker = conchaSpeaker_DEPRECATED({ id: speakerId })
+      const speaker = conchaSpeakerWithProfile({ id: speakerId })
       await speakerRepository.save(speaker)
 
       const exists = await speakerRepository.exists(speakerId)
@@ -68,7 +68,7 @@ describe('SpeakerRepository', () => {
 
       it('returns the speaker if exists', async () => {
         const email = conchaEmail()
-        const speaker = conchaSpeaker_DEPRECATED({ email })
+        const speaker = conchaSpeakerWithProfile({ email })
         await speakerRepository.save(speaker)
 
         const savedSpeaker = await speakerRepository.findBy(email)
@@ -88,7 +88,7 @@ describe('SpeakerRepository', () => {
 
       it('checks if the speaker with an email already exists', async () => {
         const email = conchaEmail()
-        const speaker = conchaSpeaker_DEPRECATED({ email })
+        const speaker = conchaSpeakerWithProfile({ email })
         await speakerRepository.save(speaker)
 
         const exists = await speakerRepository.existsWith(email)

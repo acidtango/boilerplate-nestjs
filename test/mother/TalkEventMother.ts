@@ -1,6 +1,6 @@
 import { TalkEvent } from '../../src/events/domain/TalkEvent'
 import { EventId } from '../../src/shared/domain/models/ids/EventId'
-import { CODEMOTION_2, JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
+import { CODEMOTION, JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
 import { EventName } from '../../src/events/domain/EventName'
 import { EventDateRange } from '../../src/events/domain/EventDateRange'
 import { EventProposalsDateRange } from '../../src/events/domain/EventProposalsDateRange'
@@ -10,7 +10,7 @@ export function jsdayId() {
 }
 
 export function jsdayEvent({ id = jsdayId() } = {}) {
-  return new TalkEvent(
+  return TalkEvent.create(
     id,
     new EventName(JSDAY_CANARIAS.name),
     new EventDateRange(JSDAY_CANARIAS.startDate, JSDAY_CANARIAS.endDate),
@@ -22,10 +22,10 @@ export function jsdayEvent({ id = jsdayId() } = {}) {
 }
 
 export function codemotionEvent() {
-  return new TalkEvent(
-    new EventId(CODEMOTION_2.id),
-    new EventName(CODEMOTION_2.name),
-    new EventDateRange(CODEMOTION_2.startDate, CODEMOTION_2.endDate),
-    new EventProposalsDateRange(CODEMOTION_2.proposalsStartDate, CODEMOTION_2.proposalsDeadlineDate)
+  return TalkEvent.create(
+    new EventId(CODEMOTION.id),
+    new EventName(CODEMOTION.name),
+    new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
+    new EventProposalsDateRange(CODEMOTION.proposalsStartDate, CODEMOTION.proposalsDeadlineDate)
   )
 }

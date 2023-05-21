@@ -8,8 +8,8 @@ import {
 } from '../../src/shared/infrastructure/fixtures/speakers'
 import { EmailAddress } from '../../src/shared/domain/models/EmailAddress'
 import { Speaker } from '../../src/speakers/domain/Speaker'
-import { HashedPassword } from '../../src/shared/domain/models/HashedPassword'
 import { PlainPassword } from '../../src/shared/domain/models/PlainPassword'
+import { AggregateRoot } from '../../src/shared/domain/models/hex/AggregateRoot'
 
 export function conchaId() {
   return new SpeakerId(CONCHA_ASENSIO.id)
@@ -55,7 +55,7 @@ export function exampleSalt() {
   return 'salt'
 }
 
-export function conchaSpeakerWithProfile() {
+export function conchaSpeakerWithProfile({ id = conchaId(), email = conchaEmail() } = {}) {
   const speaker = conchaSpeakerWithoutProfile()
 
   speaker.updateProfile(
@@ -64,27 +64,16 @@ export function conchaSpeakerWithProfile() {
     CONCHA_ASENSIO.language
   )
 
-  return speaker
+  return flushDomainEvents(speaker)
 }
 
 export function conchaSpeakerWithoutProfile() {
-  return Speaker.register(conchaId(), conchaEmail(), conchaPassword(), exampleSalt())
+  const speaker = Speaker.register(conchaId(), conchaEmail(), conchaPassword(), exampleSalt())
+  return flushDomainEvents(speaker)
 }
 
-/**
- * @deprecated use other factories
- */
-export function conchaSpeaker_DEPRECATED({ id = conchaId(), email = conchaEmail() } = {}) {
-  return new Speaker(
-    id,
-    new SpeakerName(CONCHA_ASENSIO.name),
-    new SpeakerAge(CONCHA_ASENSIO.age),
-    CONCHA_ASENSIO.language,
-    email,
-    new HashedPassword(
-      'd1384113f686c185232b76d7d419e4ebbfb123f607023f94936c762b3d45234ee32cf88d45a110a4024ca8abcdee3bba6e97f9cf1b3d6b9270a95250c28be432'
-    ),
-    exampleSalt(),
-    true
-  )
+function flushDomainEvents<T extends AggregateRoot>(aggregate: T) {
+  // pull domain events in order to flush them
+  aggregate.pullDomainEvents()
+  return aggregate
 }

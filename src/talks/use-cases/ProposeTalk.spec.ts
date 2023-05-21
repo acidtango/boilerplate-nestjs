@@ -1,5 +1,5 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
-import { CODEMOTION_2, JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
+import { CODEMOTION, JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../shared/infrastructure/fixtures/talks'
 import { EventId } from '../../shared/domain/models/ids/EventId'
@@ -45,7 +45,7 @@ describe('ProposeTalk', () => {
 
   it('fails if eventId does not exists', async () => {
     const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const notExistingEventId = new EventId(CODEMOTION_2.id)
+    const notExistingEventId = new EventId(CODEMOTION.id)
     const params = generateCreateApiTalkParams({ eventId: notExistingEventId })
 
     const result = proposeTalk.execute(params)

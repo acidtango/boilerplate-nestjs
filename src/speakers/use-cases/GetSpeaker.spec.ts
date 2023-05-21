@@ -1,4 +1,4 @@
-import { conchaId, conchaSpeaker_DEPRECATED } from '../../../test/mother/SpeakerMother'
+import { conchaId } from '../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
@@ -7,12 +7,12 @@ import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake
 describe('GetSpeaker', () => {
   it('returns the speaker by id', async () => {
     const expectedSpeakerId = conchaId()
-    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
     const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
     const speaker = await getSpeakerUseCase.execute(expectedSpeakerId)
 
-    const expectedSpeaker = conchaSpeaker_DEPRECATED({ id: expectedSpeakerId })
+    const expectedSpeaker = speakerRepository.getLatestSavedSpeaker()
     expect(speaker).toEqual(expectedSpeaker)
   })
 

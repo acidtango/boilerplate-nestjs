@@ -20,7 +20,7 @@ describe('LoginSpeaker', () => {
     const now = clock.now()
     const expectedIat = now.toSeconds()
     const expectedExp = now.addDays(1).toSeconds()
-    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const accessToken = await loginSpeaker.execute({
@@ -37,7 +37,7 @@ describe('LoginSpeaker', () => {
 
   it('fails if password is incorrect', async () => {
     const clock = new ClockFake()
-    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const result = loginSpeaker.execute({
@@ -50,7 +50,7 @@ describe('LoginSpeaker', () => {
 
   it('fails if email is not found', async () => {
     const clock = new ClockFake()
-    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
+    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const result = loginSpeaker.execute({

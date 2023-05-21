@@ -7,7 +7,7 @@ export const JSDAY_CANARIAS = {
   proposalsDeadlineDate: new Date('2023-01-15T23:00:00.000Z'),
 }
 
-export const CODEMOTION_2 = {
+export const CODEMOTION = {
   id: '7c66ffd7-436c-4dcf-ad61-89eea95f79d0',
   name: 'Codemotion',
   startDate: new Date('2023-05-09T08:00:00.000Z'),
