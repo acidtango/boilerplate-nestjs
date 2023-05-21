@@ -5,7 +5,7 @@ import { MongoModule } from '../../../shared/infrastructure/database/MongoModule
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
-import { SpeakerRepository } from '../../domain/SpeakerRepository'
+import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
 import { conchaEmail, conchaId, conchaSpeaker } from '../../../../test/mother/SpeakerMother/Concha'
 
 describe('SpeakerRepository', () => {

@@ -1,4 +1,4 @@
-import { Talk } from '../../src/talks/domain/Talk'
+import { Talk } from '../../src/talks/domain/models/Talk'
 import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { juniorXpId, juniorXpTalk } from '../mother/TalkMother/JuniorXp'
 

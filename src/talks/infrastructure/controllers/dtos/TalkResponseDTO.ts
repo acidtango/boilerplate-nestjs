@@ -4,7 +4,7 @@ import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
-import { TalkStatus } from '../../../domain/TalkStatus'
+import { TalkStatus } from '../../../domain/models/TalkStatus'
 
 export class TalkResponseDTO {
   @ApiProperty({ example: JUNIOR_XP.id })

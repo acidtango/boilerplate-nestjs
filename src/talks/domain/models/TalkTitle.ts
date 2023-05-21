@@ -1,5 +1,5 @@
-import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
-import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
+import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
+import { TalkTitleTooLongError } from '../errors/TalkTitleTooLongError'
 
 export class TalkTitle extends ValueObject {
   private static readonly MAX_LENGTH = 100

@@ -2,8 +2,8 @@ import { NOT_IMPORTANT_SPEAKER } from '../../../src/shared/infrastructure/fixtur
 import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword'
 import { EmailAddress } from '../../../src/shared/domain/models/EmailAddress'
 import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId'
-import { SpeakerName } from '../../../src/speakers/domain/SpeakerName'
-import { SpeakerAge } from '../../../src/speakers/domain/SpeakerAge'
+import { SpeakerName } from '../../../src/speakers/domain/models/SpeakerName'
+import { SpeakerAge } from '../../../src/speakers/domain/models/SpeakerAge'
 
 export function notImportantSpeakerId() {
   return new SpeakerId(NOT_IMPORTANT_SPEAKER.id)

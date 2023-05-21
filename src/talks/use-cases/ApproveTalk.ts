@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
 import { Token } from '../../shared/domain/services/Token'
-import { TalkRepository } from '../domain/TalkRepository'
-import { TalkFinder } from '../domain/TalkFinder'
+import { TalkRepository } from '../domain/repositories/TalkRepository'
+import { TalkFinder } from '../domain/services/TalkFinder'
 
 @Injectable()
 export class ApproveTalk extends UseCase {

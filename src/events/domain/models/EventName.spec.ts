@@ -1,4 +1,4 @@
-import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../../shared/infrastructure/fixtures/events'
 import { EventName } from './EventName'
 
 describe('EventName', () => {

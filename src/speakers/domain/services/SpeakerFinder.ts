@@ -1,4 +1,4 @@
-import { SpeakerRepository } from '../SpeakerRepository'
+import { SpeakerRepository } from '../repositories/SpeakerRepository'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../errors/SpeakerNotFoundError'
 import { DomainService } from '../../../shared/domain/models/hex/DomainService'

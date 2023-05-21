@@ -3,8 +3,8 @@ import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decor
 import { ProposeTalk } from '../../use-cases/ProposeTalk'
 import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { TalkTitle } from '../../domain/TalkTitle'
-import { TalkDescription } from '../../domain/TalkDescription'
+import { TalkTitle } from '../../domain/models/TalkTitle'
+import { TalkDescription } from '../../domain/models/TalkDescription'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 

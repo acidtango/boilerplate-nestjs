@@ -1,5 +1,5 @@
 import { SpeakerAge } from './SpeakerAge'
-import { UnderageSpeakerError } from './errors/UnderageSpeakerError'
+import { UnderageSpeakerError } from '../errors/UnderageSpeakerError'
 
 describe('SpeakerAge', () => {
   it('does not fail if user is not under-age', () => {

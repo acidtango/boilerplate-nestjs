@@ -1,7 +1,7 @@
-import { DomainService } from '../../shared/domain/models/hex/DomainService'
-import { TalkRepository } from './TalkRepository'
-import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { TalkNotFoundError } from './errors/TalkNotFoundError'
+import { DomainService } from '../../../shared/domain/models/hex/DomainService'
+import { TalkRepository } from '../repositories/TalkRepository'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId'
+import { TalkNotFoundError } from '../errors/TalkNotFoundError'
 
 export class TalkFinder extends DomainService {
   constructor(private readonly talkRepository: TalkRepository) {

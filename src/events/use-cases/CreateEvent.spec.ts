@@ -1,37 +1,41 @@
 import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
-import { EventDateRange } from '../domain/EventDateRange'
+import { EventDateRange } from '../domain/models/EventDateRange'
 import { EventId } from '../../shared/domain/models/ids/EventId'
-import { EventName } from '../domain/EventName'
-import { EventProposalsDateRange } from '../domain/EventProposalsDateRange'
+import { EventName } from '../domain/models/EventName'
+import { EventProposalsDateRange } from '../domain/models/EventProposalsDateRange'
 import { CreateEvent, CreateEventParams } from './CreateEvent'
-import { EventRepositoryMemory } from '../infrastructure/repositories/EventRepositoryMemory'
 import { EventAlreadyCreatedError } from '../domain/errors/EventAlreadyCreatedError'
+import { EventRepositoryFake } from '../../../test/fakes/EventRepositoryFake'
+import { jsdayEvent, jsdayId } from '../../../test/mother/EventMother/JsDay'
 
 describe('CreateEvent', () => {
+  let eventRepository: EventRepositoryFake
+  let createEventUseCase: CreateEvent
+
+  beforeEach(() => {
+    eventRepository = EventRepositoryFake.empty()
+    createEventUseCase = new CreateEvent(eventRepository)
+  })
+
   it('saves the event in the repository', async () => {
-    const eventRepository = new EventRepositoryMemory()
-    jest.spyOn(eventRepository, 'save')
-    const createEventUseCase = new CreateEvent(eventRepository)
-    const params = generateCreateCodemotionParams()
+    const params = createJsdayParams()
 
     await createEventUseCase.execute(params)
 
-    expect(eventRepository.save).toHaveBeenCalled()
+    eventRepository.expectSaveToHaveBeenCalled()
   })
 
   it('fails if event already exists', async () => {
-    const eventRepository = new EventRepositoryMemory()
-    jest.spyOn(eventRepository, 'exists').mockReturnValue(Promise.resolve(true))
-    const createEventUseCase = new CreateEvent(eventRepository)
-    const params = generateCreateCodemotionParams()
+    await eventRepository.save(jsdayEvent())
+    const params = createJsdayParams()
 
-    await expect(createEventUseCase.execute(params)).rejects.toThrowError(
-      new EventAlreadyCreatedError(new EventId(JSDAY_CANARIAS.id))
-    )
+    const result = createEventUseCase.execute(params)
+
+    await expect(result).rejects.toThrowError(new EventAlreadyCreatedError(jsdayId()))
   })
 })
 
-function generateCreateCodemotionParams(): CreateEventParams {
+function createJsdayParams(): CreateEventParams {
   return {
     id: new EventId(JSDAY_CANARIAS.id),
     name: new EventName(JSDAY_CANARIAS.name),

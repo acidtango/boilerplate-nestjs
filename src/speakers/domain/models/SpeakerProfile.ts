@@ -1,7 +1,7 @@
 import { SpeakerName } from './SpeakerName'
 import { SpeakerAge } from './SpeakerAge'
-import { Language } from '../../shared/domain/models/Language'
-import { Primitives } from '../../shared/domain/models/hex/Primitives'
+import { Language } from '../../../shared/domain/models/Language'
+import { Primitives } from '../../../shared/domain/models/hex/Primitives'
 
 export type SpeakerProfilePrimitives = Primitives<SpeakerProfile>
 

@@ -1,15 +1,17 @@
-import { CONCHA_ASENSIO, JORGE_AGUIAR } from '../../shared/infrastructure/fixtures/speakers'
-import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { RegisterSpeaker, RegisterSpeakerParams } from './RegisterSpeaker'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { CryptoFixed } from '../../shared/infrastructure/services/crypto/CryptoFixed'
 import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { SpeakerRegistered } from '../domain/events/SpeakerRegistered'
 import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
-import { conchaId, conchaPassword } from '../../../test/mother/SpeakerMother/Concha'
+import {
+  conchaEmail,
+  conchaId,
+  conchaPassword,
+  conchaSpeaker,
+} from '../../../test/mother/SpeakerMother/Concha'
+import { jorgeEmail, jorgeId, jorgePassword } from '../../../test/mother/SpeakerMother/Jorge'
 
 describe('RegisterSpeaker', () => {
   let speakerRepository: SpeakerRepositoryFake
@@ -41,8 +43,8 @@ describe('RegisterSpeaker', () => {
   })
 
   it('fails if already registered', async () => {
+    await speakerRepository.save(conchaSpeaker())
     const params = registerConchaParams()
-    await registerSpeaker.execute(params)
 
     const result = registerSpeaker.execute(params)
 
@@ -50,11 +52,10 @@ describe('RegisterSpeaker', () => {
   })
 
   it('fails if exists an speaker with same id', async () => {
-    const conchaParams = registerConchaParams()
-    await registerSpeaker.execute(conchaParams)
-    const jorgeParams = registerJorgeParams({ id: CONCHA_ASENSIO.id })
+    await speakerRepository.save(conchaSpeaker())
+    const params = registerJorgeParams({ id: conchaId() })
 
-    const result = registerSpeaker.execute(jorgeParams)
+    const result = registerSpeaker.execute(params)
 
     await expect(result).rejects.toEqual(new SpeakerAlreadyCreatedError(conchaId()))
   })
@@ -62,16 +63,16 @@ describe('RegisterSpeaker', () => {
 
 function registerConchaParams(): RegisterSpeakerParams {
   return {
-    id: new SpeakerId(CONCHA_ASENSIO.id),
-    email: new EmailAddress(CONCHA_ASENSIO.email),
-    password: new PlainPassword(CONCHA_ASENSIO.password),
+    id: conchaId(),
+    email: conchaEmail(),
+    password: conchaPassword(),
   }
 }
 
-function registerJorgeParams({ id = JORGE_AGUIAR.id }): RegisterSpeakerParams {
+function registerJorgeParams({ id = jorgeId() }): RegisterSpeakerParams {
   return {
-    id: new SpeakerId(id),
-    email: new EmailAddress(JORGE_AGUIAR.email),
-    password: new PlainPassword(JORGE_AGUIAR.password),
+    id,
+    email: jorgeEmail(),
+    password: jorgePassword(),
   }
 }

@@ -3,8 +3,8 @@ import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decor
 import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
 import { UpdateSpeakerProfile } from '../../use-cases/UpdateSpeakerProfile'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { SpeakerName } from '../../domain/SpeakerName'
-import { SpeakerAge } from '../../domain/SpeakerAge'
+import { SpeakerName } from '../../domain/models/SpeakerName'
+import { SpeakerAge } from '../../domain/models/SpeakerAge'
 
 @Controller('/v1/speakers/:id/profile')
 export class UpdateSpeakerProfileEndpoint {

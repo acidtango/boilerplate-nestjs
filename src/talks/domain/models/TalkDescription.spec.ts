@@ -1,5 +1,5 @@
 import { TalkDescription } from './TalkDescription'
-import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
+import { TalkDescriptionTooLongError } from '../errors/TalkDescriptionTooLongError'
 
 describe('TalkDescription', () => {
   it('fails if has more than 300 characters', () => {

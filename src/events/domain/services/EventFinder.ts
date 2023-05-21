@@ -1,5 +1,5 @@
 import { DomainService } from '../../../shared/domain/models/hex/DomainService'
-import { EventRepository } from '../EventRepository'
+import { EventRepository } from '../repositories/EventRepository'
 import { TalkEventNotFoundError } from '../errors/TalkEventNotFoundError'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
 

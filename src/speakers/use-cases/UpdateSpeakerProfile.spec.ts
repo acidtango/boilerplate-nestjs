@@ -1,11 +1,7 @@
-import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { UpdateSpeakerProfile } from './UpdateSpeakerProfile'
-import { SpeakerName } from '../domain/SpeakerName'
-import { SpeakerAge } from '../domain/SpeakerAge'
-import { Language } from '../../shared/domain/models/Language'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated'
 import {
@@ -13,6 +9,12 @@ import {
   notImportantLanguage,
   notImportantName,
 } from '../../../test/mother/SpeakerMother/NotImportant'
+import {
+  conchaAge,
+  conchaId,
+  conchaLanguage,
+  conchaName,
+} from '../../../test/mother/SpeakerMother/Concha'
 
 describe('UpdateSpeakerProfile', () => {
   let speakerRepository: SpeakerRepositoryFake
@@ -26,10 +28,10 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('saves the speaker in the repository with the profile', async () => {
-    const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
-    const name = new SpeakerName(CONCHA_ASENSIO.name)
-    const age = new SpeakerAge(CONCHA_ASENSIO.age)
-    const language = Language.ENGLISH
+    const speakerId = conchaId()
+    const name = conchaName()
+    const age = conchaAge()
+    const language = conchaLanguage()
 
     await updateSpeakerProfile.execute({
       id: speakerId,
@@ -45,10 +47,10 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('emits a domain event', async () => {
-    const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
-    const name = new SpeakerName(CONCHA_ASENSIO.name)
-    const age = new SpeakerAge(CONCHA_ASENSIO.age)
-    const language = Language.ENGLISH
+    const speakerId = conchaId()
+    const name = conchaName()
+    const age = conchaAge()
+    const language = conchaLanguage()
 
     await updateSpeakerProfile.execute({
       id: speakerId,
@@ -61,7 +63,7 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('fails if speaker does not exists', async () => {
-    const speakerId = new SpeakerId('not-existing-id')
+    const speakerId = new SpeakerId('non-existing-id')
 
     const result = updateSpeakerProfile.execute({
       id: speakerId,
