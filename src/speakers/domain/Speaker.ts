@@ -10,21 +10,20 @@ import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRegistered } from './events/SpeakerRegistered'
 import { SpeakerProfileUpdated } from './events/SpeakerProfileUpdated'
 import { ProfileNotFilledError } from './errors/ProfileNotFilledError'
+import { SpeakerProfile } from './SpeakerProfile'
 
 export type SpeakerPrimitives = Primitives<Speaker>
 
 export class Speaker extends AggregateRoot {
-  constructor(
-    private readonly id: SpeakerId,
-    private name: SpeakerName,
-    private age: SpeakerAge,
-    private language: Language,
-    private readonly email: EmailAddress,
-    private readonly password: HashedPassword,
-    private readonly salt: string,
-    private readonly isEmailValidated: boolean
-  ) {
-    super()
+  static fromPrimitives(primitives: SpeakerPrimitives) {
+    return new Speaker(
+      SpeakerId.fromPrimitives(primitives.id),
+      EmailAddress.fromPrimitives(primitives.email),
+      HashedPassword.fromPrimitives(primitives.password),
+      primitives.salt,
+      primitives.isEmailValidated,
+      primitives.profile ? SpeakerProfile.fromPrimitives(primitives.profile) : undefined
+    )
   }
 
   static register(
@@ -35,20 +34,22 @@ export class Speaker extends AggregateRoot {
   ): Speaker {
     const hash = password.toHashed(salt)
 
-    const speaker = new Speaker(
-      id,
-      SpeakerName.fromPrimitives(''),
-      SpeakerAge.fromPrimitives(18),
-      Language.ENGLISH,
-      email,
-      hash,
-      salt,
-      false
-    )
+    const speaker = new Speaker(id, email, hash, salt, false)
 
     speaker.recordEvent(new SpeakerRegistered(id))
 
     return speaker
+  }
+
+  constructor(
+    private readonly id: SpeakerId,
+    private readonly email: EmailAddress,
+    private readonly password: HashedPassword,
+    private readonly salt: string,
+    private readonly isEmailValidated: boolean,
+    private profile?: SpeakerProfile
+  ) {
+    super()
   }
 
   has(value: PlainPassword | SpeakerName | SpeakerAge | Language) {
@@ -56,46 +57,12 @@ export class Speaker extends AggregateRoot {
       return this.hasPassword(value)
     }
 
-    if (value instanceof SpeakerName) {
-      return this.name.equalsTo(value)
-    }
-
-    if (value instanceof SpeakerAge) {
-      return this.age.equalsTo(value)
-    }
-
-    return this.language === value
+    return this.profile?.has(value) ?? false
   }
 
   private hasPassword(plainPassword: PlainPassword) {
     const hash = plainPassword.toHashed(this.salt)
     return this.password.equalsTo(hash)
-  }
-
-  static fromPrimitives(primitives: SpeakerPrimitives) {
-    return new Speaker(
-      SpeakerId.fromPrimitives(primitives.id),
-      SpeakerName.fromPrimitives(primitives.name),
-      SpeakerAge.fromPrimitives(primitives.age),
-      primitives.language,
-      EmailAddress.fromPrimitives(primitives.email),
-      HashedPassword.fromPrimitives(primitives.password),
-      primitives.salt,
-      primitives.isEmailValidated
-    )
-  }
-
-  toPrimitives() {
-    return {
-      id: this.id.toPrimitives(),
-      name: this.name.toPrimitives(),
-      age: this.age.toPrimitives(),
-      language: this.language,
-      email: this.email.toPrimitives(),
-      password: this.password.toPrimitives(),
-      salt: this.salt,
-      isEmailValidated: this.isEmailValidated,
-    }
   }
 
   getIdString() {
@@ -107,24 +74,29 @@ export class Speaker extends AggregateRoot {
   }
 
   updateProfile(name: SpeakerName, age: SpeakerAge, language: Language) {
-    this.name = name
-    this.age = age
-    this.language = language
+    this.profile = new SpeakerProfile(name, age, language)
 
     this.recordEvent(new SpeakerProfileUpdated(this.id))
   }
 
   hasProfile() {
-    return !this.name.equalsTo(new SpeakerName(''))
-  }
-
-  getId() {
-    return this.id
+    return Boolean(this.profile)
   }
 
   ensureHasProfileFilled() {
     if (!this.hasProfile()) {
-      throw new ProfileNotFilledError(this.getId())
+      throw new ProfileNotFilledError(this.id)
+    }
+  }
+
+  toPrimitives() {
+    return {
+      id: this.id.toPrimitives(),
+      email: this.email.toPrimitives(),
+      password: this.password.toPrimitives(),
+      salt: this.salt,
+      isEmailValidated: this.isEmailValidated,
+      profile: this.profile?.toPrimitives(),
     }
   }
 }

@@ -25,14 +25,22 @@ export function conchaSpeakerWithoutProfile({ id = conchaId(), email = conchaEma
   return flushDomainEvents(speaker)
 }
 
+export function conchaName() {
+  return new SpeakerName(CONCHA_ASENSIO.name)
+}
+
+export function conchaAge() {
+  return new SpeakerAge(CONCHA_ASENSIO.age)
+}
+
+export function conchaLanguage() {
+  return CONCHA_ASENSIO.language
+}
+
 export function conchaSpeaker({ id = conchaId(), email = conchaEmail() } = {}) {
   const speaker = conchaSpeakerWithoutProfile({ id, email })
 
-  speaker.updateProfile(
-    new SpeakerName(CONCHA_ASENSIO.name),
-    new SpeakerAge(CONCHA_ASENSIO.age),
-    CONCHA_ASENSIO.language
-  )
+  speaker.updateProfile(conchaName(), conchaAge(), conchaLanguage())
 
   return flushDomainEvents(speaker)
 }
