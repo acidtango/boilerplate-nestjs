@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common'
 import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../../src/shared/infrastructure/fixtures/talks'
+import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks'
 import { createClient } from '../../utils/createClient'
 
 describe('create talk', () => {
@@ -11,15 +11,15 @@ describe('create talk', () => {
     await client.updateProfile({ id: CONCHA_ASENSIO.id }).run()
     await client.createEvent({ id: JSDAY_CANARIAS.id }).run()
 
-    const { status } = await client.proposeTalk({ id: API_TALK.id }).run()
+    const { status } = await client.proposeTalk({ id: JUNIOR_XP.id }).run()
 
     expect(status).toEqual(HttpStatus.CREATED)
-    const { body: talk } = await client.getTalk(API_TALK.id).run()
-    expect(talk.id).toEqual(API_TALK.id)
-    expect(talk.title).toEqual(API_TALK.title)
-    expect(talk.description).toEqual(API_TALK.description)
-    expect(talk.language).toEqual(API_TALK.language)
-    expect(talk.cospeakers).toEqual(API_TALK.cospeakers)
+    const { body: talk } = await client.getTalk(JUNIOR_XP.id).run()
+    expect(talk.id).toEqual(JUNIOR_XP.id)
+    expect(talk.title).toEqual(JUNIOR_XP.title)
+    expect(talk.description).toEqual(JUNIOR_XP.description)
+    expect(talk.language).toEqual(JUNIOR_XP.language)
+    expect(talk.cospeakers).toEqual(JUNIOR_XP.cospeakers)
     expect(talk.status).toEqual('PROPOSAL')
     expect(talk.speakerId).toEqual(CONCHA_ASENSIO.id)
     expect(talk.eventId).toEqual(JSDAY_CANARIAS.id)

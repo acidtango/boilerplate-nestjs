@@ -5,11 +5,11 @@ import { EventName } from '../../src/events/domain/EventName'
 import { EventDateRange } from '../../src/events/domain/EventDateRange'
 import { EventProposalsDateRange } from '../../src/events/domain/EventProposalsDateRange'
 
-export function createCodemotionEventId() {
+export function jsdayId() {
   return new EventId(JSDAY_CANARIAS.id)
 }
 
-export function createCodemotionEvent({ id = createCodemotionEventId() } = {}) {
+export function jsdayEvent({ id = jsdayId() } = {}) {
   return new TalkEvent(
     id,
     new EventName(JSDAY_CANARIAS.name),
@@ -21,7 +21,7 @@ export function createCodemotionEvent({ id = createCodemotionEventId() } = {}) {
   )
 }
 
-export function createCanariasJSEvent() {
+export function codemotionEvent() {
   return new TalkEvent(
     new EventId(CODEMOTION_2.id),
     new EventName(CODEMOTION_2.name),

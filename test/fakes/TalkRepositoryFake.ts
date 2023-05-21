@@ -1,6 +1,6 @@
 import { Talk } from '../../src/talks/domain/Talk'
 import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { createApiTalk } from '../mother/TalkMother'
+import { juniorXpTalk } from '../mother/TalkMother'
 
 export class TalkRepositoryFake extends TalkRepositoryMemory {
   static empty() {
@@ -27,7 +27,7 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
   static createWithApiTalk(): TalkRepositoryFake {
     const talkRepository = TalkRepositoryFake.empty()
 
-    talkRepository.saveSync(createApiTalk())
+    talkRepository.saveSync(juniorXpTalk())
 
     return talkRepository
   }

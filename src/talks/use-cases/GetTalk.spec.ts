@@ -1,4 +1,4 @@
-import { createApiTalk, createApiTalkId } from '../../../test/mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../../../test/mother/TalkMother'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { GetTalk } from './GetTalk'
 import { TalkId } from '../../shared/domain/models/ids/TalkId'
@@ -6,13 +6,13 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('GetTalk', () => {
   it('returns the talk by id', async () => {
-    const expectedTalkId = createApiTalkId()
+    const expectedTalkId = juniorXpId()
     const talkRepository = TalkRepositoryFake.createWithApiTalk()
     const getTalk = new GetTalk(talkRepository)
 
     const speaker = await getTalk.execute(expectedTalkId)
 
-    const expectedSpeaker = createApiTalk({ id: expectedTalkId })
+    const expectedSpeaker = juniorXpTalk({ id: expectedTalkId })
     expect(speaker).toEqual(expectedSpeaker)
   })
 

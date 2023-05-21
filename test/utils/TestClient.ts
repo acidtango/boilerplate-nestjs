@@ -3,7 +3,7 @@ import tepper from 'tepper'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
 import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
 import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../src/shared/infrastructure/fixtures/talks'
+import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks'
 import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
@@ -61,22 +61,22 @@ export class TestClient {
       .expectStatus(HttpStatus.OK)
   }
 
-  proposeTalk({ id = API_TALK.id } = {}) {
+  proposeTalk({ id = JUNIOR_XP.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/talks')
       .send({
         id,
-        title: API_TALK.title,
-        description: API_TALK.description,
-        language: API_TALK.language,
-        cospeakers: API_TALK.cospeakers,
+        title: JUNIOR_XP.title,
+        description: JUNIOR_XP.description,
+        language: JUNIOR_XP.language,
+        cospeakers: JUNIOR_XP.cospeakers,
         speakerId: CONCHA_ASENSIO.id,
         eventId: JSDAY_CANARIAS.id,
       })
       .expectStatus(HttpStatus.CREATED)
   }
 
-  getTalk(id = API_TALK.id) {
+  getTalk(id = JUNIOR_XP.id) {
     return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
   }
 
@@ -100,14 +100,14 @@ export class TestClient {
     return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 
-  assignReviewer({ id = API_TALK.id, reviewerId = DAILOS.id }) {
+  assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
     return tepper(this.app)
       .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
       .send({ reviewerId })
       .expectStatus(HttpStatus.OK)
   }
 
-  approveTalk({ id = API_TALK.id }) {
+  approveTalk({ id = JUNIOR_XP.id }) {
     return tepper(this.app)
       .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
 

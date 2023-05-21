@@ -1,7 +1,7 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { CODEMOTION_2, JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../shared/infrastructure/fixtures/talks'
+import { JUNIOR_XP } from '../../shared/infrastructure/fixtures/talks'
 import { EventId } from '../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { TalkDescription } from '../domain/TalkDescription'
@@ -10,7 +10,7 @@ import { TalkStatus } from '../domain/TalkStatus'
 import { TalkTitle } from '../domain/TalkTitle'
 import { ProposeTalk, ProposeTalkParams } from './ProposeTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
-import { createCodemotionEvent } from '../../../test/mother/TalkEventMother'
+import { jsdayEvent } from '../../../test/mother/TalkEventMother'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import {
@@ -30,7 +30,7 @@ describe('ProposeTalk', () => {
     talkRepository = TalkRepositoryFake.empty()
     eventRepository = new EventRepositoryMemory()
     speakerRepository = SpeakerRepositoryFake.with(conchaSpeakerWithProfile())
-    await eventRepository.save(createCodemotionEvent())
+    await eventRepository.save(jsdayEvent())
   })
 
   it('creates the a proposal talk', async () => {
@@ -79,11 +79,11 @@ function generateCreateApiTalkParams({
   speakerId = new SpeakerId(CONCHA_ASENSIO.id),
 } = {}): ProposeTalkParams {
   return {
-    id: new TalkId(API_TALK.id),
-    title: new TalkTitle(API_TALK.title),
-    description: new TalkDescription(API_TALK.description),
-    cospeakers: API_TALK.cospeakers.map(SpeakerId.fromPrimitives),
-    language: API_TALK.language,
+    id: new TalkId(JUNIOR_XP.id),
+    title: new TalkTitle(JUNIOR_XP.title),
+    description: new TalkDescription(JUNIOR_XP.description),
+    cospeakers: JUNIOR_XP.cospeakers.map(SpeakerId.fromPrimitives),
+    language: JUNIOR_XP.language,
     eventId: eventId,
     speakerId,
   }

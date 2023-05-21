@@ -2,24 +2,24 @@ import { ApiProperty } from '@nestjs/swagger'
 import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
 import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../../../shared/infrastructure/fixtures/talks'
+import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
 
 export class TalkResponseDTO {
-  @ApiProperty({ example: API_TALK.id })
+  @ApiProperty({ example: JUNIOR_XP.id })
   id!: string
 
-  @ApiProperty({ example: API_TALK.title })
+  @ApiProperty({ example: JUNIOR_XP.title })
   title!: string
 
-  @ApiProperty({ example: API_TALK.description })
+  @ApiProperty({ example: JUNIOR_XP.description })
   description!: string
 
   @ApiProperty({ example: Language.ENGLISH, enum: Language })
   language!: Language
 
-  @ApiProperty({ example: API_TALK.cospeakers, type: [String] })
+  @ApiProperty({ example: JUNIOR_XP.cospeakers, type: [String] })
   cospeakers!: string[]
 
   @ApiProperty({ example: TalkStatus.PROPOSAL, enum: TalkStatus })

@@ -1,4 +1,4 @@
-import { createApiTalk, createApiTalkId } from '../../../test/mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../../../test/mother/TalkMother'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
 import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
@@ -17,8 +17,8 @@ describe('ReviewTalk', () => {
   })
 
   it('assigns the talk to a reviewer', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
+    const talkId = juniorXpId()
+    const talk = juniorXpTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const reviewerId = new OrganizerId(DAILOS.id)
@@ -33,8 +33,8 @@ describe('ReviewTalk', () => {
   })
 
   it('event should be emitted', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
+    const talkId = juniorXpId()
+    const talk = juniorXpTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     jest.spyOn(eventBus, 'publish')
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
@@ -49,7 +49,7 @@ describe('ReviewTalk', () => {
   })
 
   it('fails if talk does not exist', async () => {
-    const notExistentId = createApiTalkId()
+    const notExistentId = juniorXpId()
     const talkRepository = TalkRepositoryFake.empty()
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const notImportantId = new OrganizerId(DAILOS.id)
@@ -64,8 +64,8 @@ describe('ReviewTalk', () => {
   })
 
   it('fails if talk is already being reviewed', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
+    const talkId = juniorXpId()
+    const talk = juniorXpTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const reviewerId = new OrganizerId(DAILOS.id)

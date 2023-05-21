@@ -1,5 +1,5 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
-import { createApiTalk, createApiTalkId } from '../../../test/mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../../../test/mother/TalkMother'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from '../domain/TalkStatus'
@@ -10,12 +10,12 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 
 describe('ApproveTalk', () => {
   it('approves the talk', async () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
     talk.assignReviewer(new OrganizerId(DAILOS.id))
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const approveTalk = new ApproveTalk(talkRepository)
 
-    await approveTalk.execute(createApiTalkId())
+    await approveTalk.execute(juniorXpId())
 
     const savedTalk = talkRepository.getLatestSavedTalk()
     expect(savedTalk.hasStatus(TalkStatus.APPROVED)).toBe(true)
@@ -25,7 +25,7 @@ describe('ApproveTalk', () => {
     const talkRepository = TalkRepositoryFake.createWithApiTalk()
     const approveTalk = new ApproveTalk(talkRepository)
 
-    await expect(() => approveTalk.execute(createApiTalkId())).rejects.toThrowError(
+    await expect(() => approveTalk.execute(juniorXpId())).rejects.toThrowError(
       new TalkCannotBeApprovedError()
     )
   })

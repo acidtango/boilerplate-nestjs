@@ -1,4 +1,4 @@
-import { createApiTalk } from '../../../test/mother/TalkMother'
+import { juniorXpTalk } from '../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
@@ -13,30 +13,30 @@ describe('Talk', () => {
       'c0650351-b6aa-4ae1-9ac6-30af6f8d3778',
     ]
 
-    expect(() => createApiTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
+    expect(() => juniorXpTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
   })
 
   it('is not assigned for review when created', () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
 
     const notExistentId = new OrganizerId('not-existent-id')
     expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
   })
 
   it('has status PROPOSAL when created', () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
 
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
   })
 
   it('does not have status REVIEWING when created', () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
 
     expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(false)
   })
 
   it('can be assigned to a reviewer', () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
     const reviewerId = new OrganizerId(DAILOS.id)
 
     talk.assignForReviewTo(reviewerId)
@@ -45,7 +45,7 @@ describe('Talk', () => {
   })
 
   it('has status REVIEWING when assigned to a reviewer', () => {
-    const talk = createApiTalk()
+    const talk = juniorXpTalk()
     const reviewerId = new OrganizerId(DAILOS.id)
 
     talk.assignForReviewTo(reviewerId)
