@@ -7,9 +7,7 @@ export class EventRepositoryMemory implements EventRepository, Reseteable {
   private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()
 
   async save(talkEvent: TalkEvent): Promise<void> {
-    const talkEventPrimitives = talkEvent.toPrimitives()
-
-    this.talkEvents.set(talkEventPrimitives.id, talkEventPrimitives)
+    this.saveSync(talkEvent)
   }
 
   async findAll(): Promise<TalkEvent[]> {
@@ -24,5 +22,11 @@ export class EventRepositoryMemory implements EventRepository, Reseteable {
 
   async reset() {
     this.talkEvents.clear()
+  }
+
+  protected saveSync(talkEvent: TalkEvent) {
+    const talkEventPrimitives = talkEvent.toPrimitives()
+
+    this.talkEvents.set(talkEventPrimitives.id, talkEventPrimitives)
   }
 }

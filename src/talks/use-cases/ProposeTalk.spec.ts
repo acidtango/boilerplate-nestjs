@@ -1,5 +1,5 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
-import { CODEMOTION, JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../shared/infrastructure/fixtures/talks'
 import { EventId } from '../../shared/domain/models/ids/EventId'
@@ -14,28 +14,28 @@ import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotF
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
 import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
-import {
-  conchaId,
-  conchaSpeaker,
-  conchaSpeakerWithoutProfile,
-} from '../../../test/mother/SpeakerMother/Concha'
+import { conchaSpeaker } from '../../../test/mother/SpeakerMother/Concha'
 import { jsdayEvent } from '../../../test/mother/EventMother/JsDay'
+import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImportant'
+import { jorgeId, jorgeSpeakerWithoutProfile } from '../../../test/mother/SpeakerMother/Jorge'
+import { EventRepositoryFake } from '../../../test/fakes/EventRepositoryFake'
+import { nonExistingEventId } from '../../../test/mother/EventMother/NotImportant'
 
 describe('ProposeTalk', () => {
   let talkRepository: TalkRepositoryFake
   let speakerRepository: SpeakerRepositoryFake
   let eventRepository: EventRepositoryMemory
+  let proposeTalk: ProposeTalk
 
   beforeEach(async () => {
     talkRepository = TalkRepositoryFake.empty()
-    eventRepository = new EventRepositoryMemory()
-    speakerRepository = SpeakerRepositoryFake.with(conchaSpeaker())
-    await eventRepository.save(jsdayEvent())
+    eventRepository = EventRepositoryFake.with(jsdayEvent())
+    speakerRepository = SpeakerRepositoryFake.with(conchaSpeaker(), jorgeSpeakerWithoutProfile())
+    proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
   })
 
   it('creates the a proposal talk', async () => {
-    const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const params = generateCreateApiTalkParams()
+    const params = juniorXpParams()
 
     await proposeTalk.execute(params)
 
@@ -44,29 +44,26 @@ describe('ProposeTalk', () => {
   })
 
   it('fails if eventId does not exists', async () => {
-    const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const notExistingEventId = new EventId(CODEMOTION.id)
-    const params = generateCreateApiTalkParams({ eventId: notExistingEventId })
+    const eventId = nonExistingEventId()
+    const params = juniorXpParams({ eventId })
 
     const result = proposeTalk.execute(params)
 
-    await expect(result).rejects.toThrow(new TalkEventNotFoundError(notExistingEventId))
+    await expect(result).rejects.toThrow(new TalkEventNotFoundError(eventId))
   })
 
   it('fails if the speaker does not have a filled profile', async () => {
-    speakerRepository = SpeakerRepositoryFake.with(conchaSpeakerWithoutProfile())
-    const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const params = generateCreateApiTalkParams()
+    const speakerId = jorgeId()
+    const params = juniorXpParams({ speakerId })
 
     const result = proposeTalk.execute(params)
 
-    await expect(result).rejects.toThrow(new ProfileNotFilledError(conchaId()))
+    await expect(result).rejects.toThrow(new ProfileNotFilledError(speakerId))
   })
 
   it('fails if the speaker does not exists', async () => {
-    const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const speakerId = new SpeakerId('not-existent-id')
-    const params = generateCreateApiTalkParams({ speakerId })
+    const speakerId = nonExistingSpeakerId()
+    const params = juniorXpParams({ speakerId })
 
     const result = proposeTalk.execute(params)
 
@@ -74,7 +71,7 @@ describe('ProposeTalk', () => {
   })
 })
 
-function generateCreateApiTalkParams({
+function juniorXpParams({
   eventId = new EventId(JSDAY_CANARIAS.id),
   speakerId = new SpeakerId(CONCHA_ASENSIO.id),
 } = {}): ProposeTalkParams {

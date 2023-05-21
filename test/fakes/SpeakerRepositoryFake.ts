@@ -7,10 +7,12 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
     return new SpeakerRepositoryFake()
   }
 
-  static with(speaker: Speaker) {
+  static with(...speakers: Speaker[]) {
     const speakerRepository = new SpeakerRepositoryFake()
-    const speakerPrimitives = speaker.toPrimitives()
-    speakerRepository.speakers.set(speakerPrimitives.id, speakerPrimitives)
+
+    for (const speaker of speakers) {
+      speakerRepository.saveSync(speaker)
+    }
 
     return speakerRepository
   }

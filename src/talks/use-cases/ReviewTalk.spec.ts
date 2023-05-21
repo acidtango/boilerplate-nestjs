@@ -40,12 +40,11 @@ describe('ReviewTalk', () => {
   })
 
   it('fails if talk does not exist', async () => {
-    const result = reviewTalk.execute({
-      talkId: improvingTestsId(),
-      reviewerId: notImportantOrganizerId(),
-    })
+    const talkId = improvingTestsId()
 
-    await expect(result).rejects.toThrowError(new TalkNotFoundError(improvingTestsId()))
+    const result = reviewTalk.execute({ talkId, reviewerId: notImportantOrganizerId() })
+
+    await expect(result).rejects.toThrowError(new TalkNotFoundError(talkId))
   })
 
   it('fails if talk is already being reviewed', async () => {
