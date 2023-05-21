@@ -12,20 +12,19 @@ import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlrea
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
 
 describe('RegisterSpeaker', () => {
-  let crypto: CryptoFixed
   let speakerRepository: SpeakerRepositoryFake
   let eventBus: EventBusNoopFake
   let registerSpeaker: RegisterSpeaker
 
   beforeEach(() => {
-    crypto = new CryptoFixed()
+    const crypto = new CryptoFixed()
     speakerRepository = SpeakerRepositoryFake.empty()
     eventBus = new EventBusNoopFake()
     registerSpeaker = new RegisterSpeaker(speakerRepository, crypto, eventBus)
   })
 
   it('saves the speaker in the repository', async () => {
-    const params = generateRegisterJoyceParams()
+    const params = registerConchaParams()
 
     await registerSpeaker.execute(params)
 
@@ -34,7 +33,7 @@ describe('RegisterSpeaker', () => {
   })
 
   it('emits a SpeakerRegistered event', async () => {
-    const params = generateRegisterJoyceParams()
+    const params = registerConchaParams()
 
     await registerSpeaker.execute(params)
 
@@ -42,7 +41,7 @@ describe('RegisterSpeaker', () => {
   })
 
   it('fails if already registered', async () => {
-    const params = generateRegisterJoyceParams()
+    const params = registerConchaParams()
     await registerSpeaker.execute(params)
 
     const result = registerSpeaker.execute(params)
@@ -51,17 +50,17 @@ describe('RegisterSpeaker', () => {
   })
 
   it('fails if exists an speaker with same id', async () => {
-    const joyceLinParams = generateRegisterJoyceParams()
-    await registerSpeaker.execute(joyceLinParams)
-    const hakonWiumParams = generateRegisterHakonParams({ id: CONCHA_ASENSIO.id })
+    const conchaParams = registerConchaParams()
+    await registerSpeaker.execute(conchaParams)
+    const jorgeParams = registerJorgeParams({ id: CONCHA_ASENSIO.id })
 
-    const result = registerSpeaker.execute(hakonWiumParams)
+    const result = registerSpeaker.execute(jorgeParams)
 
     await expect(result).rejects.toEqual(new SpeakerAlreadyCreatedError(conchaId()))
   })
 })
 
-function generateRegisterJoyceParams(): RegisterSpeakerParams {
+function registerConchaParams(): RegisterSpeakerParams {
   return {
     id: new SpeakerId(CONCHA_ASENSIO.id),
     email: new EmailAddress(CONCHA_ASENSIO.email),
@@ -69,7 +68,7 @@ function generateRegisterJoyceParams(): RegisterSpeakerParams {
   }
 }
 
-function generateRegisterHakonParams({ id = JORGE_AGUIAR.id }): RegisterSpeakerParams {
+function registerJorgeParams({ id = JORGE_AGUIAR.id }): RegisterSpeakerParams {
   return {
     id: new SpeakerId(id),
     email: new EmailAddress(JORGE_AGUIAR.email),

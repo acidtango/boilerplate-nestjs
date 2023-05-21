@@ -39,7 +39,7 @@ export function conchaPassword() {
   return new PlainPassword(CONCHA_ASENSIO.password)
 }
 
-export function jorgePassword() {
+export function jorgeEmail() {
   return new EmailAddress(JORGE_AGUIAR.email)
 }
 
@@ -49,6 +49,10 @@ export function conchaEmail() {
 
 export function notImportantPassword() {
   return new PlainPassword(NOT_IMPORTANT_SPEAKER.password)
+}
+
+export function nonExistingSpeakerId() {
+  return new SpeakerId(NOT_IMPORTANT_SPEAKER.id)
 }
 
 export function exampleSalt() {

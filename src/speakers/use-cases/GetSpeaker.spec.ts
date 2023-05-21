@@ -1,14 +1,19 @@
-import { conchaId } from '../../../test/mother/SpeakerMother'
+import { conchaId, nonExistingSpeakerId } from '../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 
 describe('GetSpeaker', () => {
+  let speakerRepository: SpeakerRepositoryFake
+  let getSpeakerUseCase: GetSpeaker
+
+  beforeEach(() => {
+    speakerRepository = SpeakerRepositoryFake.createWithConcha()
+    getSpeakerUseCase = new GetSpeaker(speakerRepository)
+  })
+
   it('returns the speaker by id', async () => {
     const expectedSpeakerId = conchaId()
-    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
-    const getSpeakerUseCase = new GetSpeaker(speakerRepository)
 
     const speaker = await getSpeakerUseCase.execute(expectedSpeakerId)
 
@@ -17,11 +22,10 @@ describe('GetSpeaker', () => {
   })
 
   it('fails if the speaker does not exist', async () => {
-    const notExistentId = new SpeakerId('not-existent-id')
-    const speakerRepository = SpeakerRepositoryFake.empty()
-    const getSpeakerUseCase = new GetSpeaker(speakerRepository)
+    const notExistentId = nonExistingSpeakerId()
 
-    const expectedError = new SpeakerNotFoundError(notExistentId)
-    await expect(getSpeakerUseCase.execute(notExistentId)).rejects.toThrowError(expectedError)
+    const result = getSpeakerUseCase.execute(notExistentId)
+
+    await expect(result).rejects.toThrowError(new SpeakerNotFoundError(notExistentId))
   })
 })

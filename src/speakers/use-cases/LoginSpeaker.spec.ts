@@ -5,7 +5,7 @@ import { LoginSpeaker } from './LoginSpeaker'
 import {
   conchaEmail,
   conchaPassword,
-  jorgePassword,
+  jorgeEmail,
   notImportantPassword,
 } from '../../../test/mother/SpeakerMother'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
@@ -15,13 +15,20 @@ import { JwtPayload } from '../../auth/domain/JwtPayload'
 import { Role } from '../../shared/domain/models/Role'
 
 describe('LoginSpeaker', () => {
+  let clock: ClockFake
+  let speakerRepository: SpeakerRepositoryFake
+  let loginSpeaker: LoginSpeaker
+
+  beforeEach(() => {
+    clock = new ClockFake()
+    speakerRepository = SpeakerRepositoryFake.createWithConcha()
+    loginSpeaker = new LoginSpeaker(speakerRepository, clock)
+  })
+
   it('returns an access token if credentials are valid', async () => {
-    const clock = new ClockFake()
     const now = clock.now()
     const expectedIat = now.toSeconds()
     const expectedExp = now.addDays(1).toSeconds()
-    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
-    const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const accessToken = await loginSpeaker.execute({
       email: conchaEmail(),
@@ -36,10 +43,6 @@ describe('LoginSpeaker', () => {
   })
 
   it('fails if password is incorrect', async () => {
-    const clock = new ClockFake()
-    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
-    const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
-
     const result = loginSpeaker.execute({
       email: conchaEmail(),
       password: new PlainPassword('wrong password'),
@@ -49,12 +52,8 @@ describe('LoginSpeaker', () => {
   })
 
   it('fails if email is not found', async () => {
-    const clock = new ClockFake()
-    const speakerRepository = SpeakerRepositoryFake.createWithConcha()
-    const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
-
     const result = loginSpeaker.execute({
-      email: jorgePassword(),
+      email: jorgeEmail(),
       password: notImportantPassword(),
     })
 
