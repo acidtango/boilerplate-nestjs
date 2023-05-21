@@ -7,6 +7,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - "27017:27017"
+  queue:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: acid
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   api:
     build:
       context: .
