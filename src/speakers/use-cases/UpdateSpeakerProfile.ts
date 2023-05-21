@@ -1,13 +1,13 @@
+import { Inject, Injectable } from '@nestjs/common'
 import { UseCase } from '../../shared/domain/models/hex/UseCase'
 import { Language } from '../../shared/domain/models/Language'
 import { SpeakerAge } from '../domain/SpeakerAge'
 import { SpeakerName } from '../domain/SpeakerName'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { SpeakerRepository } from '../domain/SpeakerRepository'
 import { SpeakerFinder } from '../domain/services/SpeakerFinder'
-import { Inject, Injectable } from '@nestjs/common'
 import { Token } from '../../shared/domain/services/Token'
+import { EventBus } from '../../shared/domain/models/hex/EventBus'
 
 export type UpdateSpeakerProfileParams = {
   id: SpeakerId
@@ -24,7 +24,7 @@ export class UpdateSpeakerProfile extends UseCase {
     @Inject(Token.SPEAKER_REPOSITORY)
     private readonly speakerRepository: SpeakerRepository,
     @Inject(Token.EVENT_BUS)
-    private readonly eventBus: EventBusFake
+    private readonly eventBus: EventBus
   ) {
     super()
     this.speakerFinder = new SpeakerFinder(speakerRepository)
