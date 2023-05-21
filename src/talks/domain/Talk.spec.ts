@@ -1,7 +1,7 @@
 import { createApiTalk } from '../../../test/mother/TalkMother'
 import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
-import { FRAN } from '../../shared/infrastructure/fixtures/organizers'
+import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {
@@ -37,7 +37,7 @@ describe('Talk', () => {
 
   it('can be assigned to a reviewer', () => {
     const talk = createApiTalk()
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = new OrganizerId(DAILOS.id)
 
     talk.assignForReviewTo(reviewerId)
 
@@ -46,7 +46,7 @@ describe('Talk', () => {
 
   it('has status REVIEWING when assigned to a reviewer', () => {
     const talk = createApiTalk()
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = new OrganizerId(DAILOS.id)
 
     talk.assignForReviewTo(reviewerId)
 

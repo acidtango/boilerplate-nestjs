@@ -39,7 +39,7 @@ export class Speaker extends AggregateRoot {
       id,
       SpeakerName.fromPrimitives(''),
       SpeakerAge.fromPrimitives(18),
-      Language.SPANISH,
+      Language.ENGLISH,
       email,
       hash,
       salt,

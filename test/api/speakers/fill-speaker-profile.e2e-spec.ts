@@ -1,5 +1,5 @@
 import { createClient } from '../../utils/createClient'
-import { JOYCE_LIN } from '../../../src/shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
 
 describe('fill speaker profile', () => {
   it('can fill the profile', async () => {
@@ -11,8 +11,8 @@ describe('fill speaker profile', () => {
 
     const { body: speaker } = await client.getSpeaker({ jwt: body.accessToken }).run()
 
-    expect(speaker.profile.name).toEqual(JOYCE_LIN.name)
-    expect(speaker.profile.age).toEqual(JOYCE_LIN.age)
-    expect(speaker.profile.language).toEqual(JOYCE_LIN.language)
+    expect(speaker.profile.name).toEqual(CONCHA_ASENSIO.name)
+    expect(speaker.profile.age).toEqual(CONCHA_ASENSIO.age)
+    expect(speaker.profile.language).toEqual(CONCHA_ASENSIO.language)
   })
 })

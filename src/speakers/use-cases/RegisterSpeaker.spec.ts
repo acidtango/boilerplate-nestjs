@@ -1,11 +1,11 @@
-import { HAKON_WIUM, JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO, JORGE_AGUIAR } from '../../shared/infrastructure/fixtures/speakers'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { RegisterSpeaker, RegisterSpeakerParams } from './RegisterSpeaker'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { CryptoFixed } from '../../shared/infrastructure/services/crypto/CryptoFixed'
-import { createJoyceLinId, joyceLinPassword } from '../../../test/mother/SpeakerMother'
+import { conchaId, conchaPassword } from '../../../test/mother/SpeakerMother'
 import { EventBusNoopFake } from '../../../test/fakes/EventBusFake'
 import { SpeakerRegistered } from '../domain/events/SpeakerRegistered'
 import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError'
@@ -30,7 +30,7 @@ describe('RegisterSpeaker', () => {
     await registerSpeaker.execute(params)
 
     const speaker = speakerRepository.getLatestSavedSpeaker()
-    expect(speaker.has(joyceLinPassword())).toBe(true)
+    expect(speaker.has(conchaPassword())).toBe(true)
   })
 
   it('emits a SpeakerRegistered event', async () => {
@@ -53,26 +53,26 @@ describe('RegisterSpeaker', () => {
   it('fails if exists an speaker with same id', async () => {
     const joyceLinParams = generateRegisterJoyceParams()
     await registerSpeaker.execute(joyceLinParams)
-    const hakonWiumParams = generateRegisterHakonParams({ id: JOYCE_LIN.id })
+    const hakonWiumParams = generateRegisterHakonParams({ id: CONCHA_ASENSIO.id })
 
     const result = registerSpeaker.execute(hakonWiumParams)
 
-    await expect(result).rejects.toEqual(new SpeakerAlreadyCreatedError(createJoyceLinId()))
+    await expect(result).rejects.toEqual(new SpeakerAlreadyCreatedError(conchaId()))
   })
 })
 
 function generateRegisterJoyceParams(): RegisterSpeakerParams {
   return {
-    id: new SpeakerId(JOYCE_LIN.id),
-    email: new EmailAddress(JOYCE_LIN.email),
-    password: new PlainPassword(JOYCE_LIN.password),
+    id: new SpeakerId(CONCHA_ASENSIO.id),
+    email: new EmailAddress(CONCHA_ASENSIO.email),
+    password: new PlainPassword(CONCHA_ASENSIO.password),
   }
 }
 
-function generateRegisterHakonParams({ id = HAKON_WIUM.id }): RegisterSpeakerParams {
+function generateRegisterHakonParams({ id = JORGE_AGUIAR.id }): RegisterSpeakerParams {
   return {
     id: new SpeakerId(id),
-    email: new EmailAddress(HAKON_WIUM.email),
-    password: new PlainPassword(HAKON_WIUM.password),
+    email: new EmailAddress(JORGE_AGUIAR.email),
+    password: new PlainPassword(JORGE_AGUIAR.password),
   }
 }

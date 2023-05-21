@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken'
-import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
 import {
-  createHakonEmail,
-  createJoyceLinEmail,
-  createJoyceLinPassword,
+  conchaEmail,
+  conchaPassword,
+  jorgePassword,
   notImportantPassword,
 } from '../../../test/mother/SpeakerMother'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
@@ -24,12 +24,12 @@ describe('LoginSpeaker', () => {
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const accessToken = await loginSpeaker.execute({
-      email: createJoyceLinEmail(),
-      password: createJoyceLinPassword(),
+      email: conchaEmail(),
+      password: conchaPassword(),
     })
 
     const content = jwt.decode(accessToken) as JwtPayload
-    expect(content.sub).toEqual(JOYCE_LIN.id)
+    expect(content.sub).toEqual(CONCHA_ASENSIO.id)
     expect(content.iat).toEqual(expectedIat)
     expect(content.exp).toEqual(expectedExp)
     expect(content.role).toEqual(Role.SPEAKER)
@@ -41,7 +41,7 @@ describe('LoginSpeaker', () => {
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const result = loginSpeaker.execute({
-      email: createJoyceLinEmail(),
+      email: conchaEmail(),
       password: new PlainPassword('wrong password'),
     })
 
@@ -54,7 +54,7 @@ describe('LoginSpeaker', () => {
     const loginSpeaker = new LoginSpeaker(speakerRepository, clock)
 
     const result = loginSpeaker.execute({
-      email: createHakonEmail(),
+      email: jorgePassword(),
       password: notImportantPassword(),
     })
 

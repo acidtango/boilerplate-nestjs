@@ -1,6 +1,6 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
-import { CANARIASJS, CODEMOTION } from '../../shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { CODEMOTION_2, JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
+import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { API_TALK } from '../../shared/infrastructure/fixtures/talks'
 import { EventId } from '../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
@@ -14,9 +14,9 @@ import { createCodemotionEvent } from '../../../test/mother/TalkEventMother'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import {
-  createJoyceLinId,
-  createJoyceLinSpeakerWithoutProfile,
-  createJoyceLinSpeakerWithProfile,
+  conchaId,
+  conchaSpeakerWithoutProfile,
+  conchaSpeakerWithProfile,
 } from '../../../test/mother/SpeakerMother'
 import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
 import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
@@ -29,7 +29,7 @@ describe('ProposeTalk', () => {
   beforeEach(async () => {
     talkRepository = TalkRepositoryFake.empty()
     eventRepository = new EventRepositoryMemory()
-    speakerRepository = SpeakerRepositoryFake.with(createJoyceLinSpeakerWithProfile())
+    speakerRepository = SpeakerRepositoryFake.with(conchaSpeakerWithProfile())
     await eventRepository.save(createCodemotionEvent())
   })
 
@@ -45,7 +45,7 @@ describe('ProposeTalk', () => {
 
   it('fails if eventId does not exists', async () => {
     const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
-    const notExistingEventId = new EventId(CANARIASJS.id)
+    const notExistingEventId = new EventId(CODEMOTION_2.id)
     const params = generateCreateApiTalkParams({ eventId: notExistingEventId })
 
     const result = proposeTalk.execute(params)
@@ -54,13 +54,13 @@ describe('ProposeTalk', () => {
   })
 
   it('fails if the speaker does not have a filled profile', async () => {
-    speakerRepository = SpeakerRepositoryFake.with(createJoyceLinSpeakerWithoutProfile())
+    speakerRepository = SpeakerRepositoryFake.with(conchaSpeakerWithoutProfile())
     const proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
     const params = generateCreateApiTalkParams()
 
     const result = proposeTalk.execute(params)
 
-    await expect(result).rejects.toThrow(new ProfileNotFilledError(createJoyceLinId()))
+    await expect(result).rejects.toThrow(new ProfileNotFilledError(conchaId()))
   })
 
   it('fails if the speaker does not exists', async () => {
@@ -75,8 +75,8 @@ describe('ProposeTalk', () => {
 })
 
 function generateCreateApiTalkParams({
-  eventId = new EventId(CODEMOTION.id),
-  speakerId = new SpeakerId(JOYCE_LIN.id),
+  eventId = new EventId(JSDAY_CANARIAS.id),
+  speakerId = new SpeakerId(CONCHA_ASENSIO.id),
 } = {}): ProposeTalkParams {
   return {
     id: new TalkId(API_TALK.id),

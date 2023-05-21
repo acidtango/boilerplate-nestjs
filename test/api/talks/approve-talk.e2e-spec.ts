@@ -1,18 +1,18 @@
 import { HttpStatus } from '@nestjs/common'
-import { CODEMOTION } from '../../../src/shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../../src/shared/infrastructure/fixtures/speakers'
+import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events'
+import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
 import { API_TALK } from '../../../src/shared/infrastructure/fixtures/talks'
 import { createClient } from '../../utils/createClient'
-import { FRAN } from '../../../src/shared/infrastructure/fixtures/organizers'
+import { DAILOS } from '../../../src/shared/infrastructure/fixtures/organizers'
 
 describe('talk can be approved or rejected', () => {
   it('can approve the talk', async () => {
     const client = await createClient()
-    await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
-    await client.updateProfile({ id: JOYCE_LIN.id }).run()
-    await client.createEvent({ id: CODEMOTION.id }).run()
+    await client.registerSpeaker({ id: CONCHA_ASENSIO.id }).run()
+    await client.updateProfile({ id: CONCHA_ASENSIO.id }).run()
+    await client.createEvent({ id: JSDAY_CANARIAS.id }).run()
     await client.proposeTalk({ id: API_TALK.id }).run()
-    await client.assignReviewer({ id: API_TALK.id, reviewerId: FRAN.id }).run()
+    await client.assignReviewer({ id: API_TALK.id, reviewerId: DAILOS.id }).run()
 
     const { status } = await client.approveTalk({ id: API_TALK.id }).run()
 

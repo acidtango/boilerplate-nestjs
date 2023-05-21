@@ -1,7 +1,7 @@
 import { createApiTalk, createApiTalkId } from '../../../test/mother/TalkMother'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
-import { FRAN } from '../../shared/infrastructure/fixtures/organizers'
+import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { EventBus } from '../../shared/domain/models/hex/EventBus'
@@ -21,7 +21,7 @@ describe('ReviewTalk', () => {
     const talk = createApiTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = new OrganizerId(DAILOS.id)
 
     await reviewTalk.execute({
       talkId,
@@ -38,7 +38,7 @@ describe('ReviewTalk', () => {
     const talkRepository = TalkRepositoryFake.createWith(talk)
     jest.spyOn(eventBus, 'publish')
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = new OrganizerId(DAILOS.id)
 
     await reviewTalk.execute({
       talkId,
@@ -52,7 +52,7 @@ describe('ReviewTalk', () => {
     const notExistentId = createApiTalkId()
     const talkRepository = TalkRepositoryFake.empty()
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const notImportantId = new OrganizerId(FRAN.id)
+    const notImportantId = new OrganizerId(DAILOS.id)
 
     const expectedError = new TalkNotFoundError(notExistentId)
     await expect(() =>
@@ -68,7 +68,7 @@ describe('ReviewTalk', () => {
     const talk = createApiTalk({ id: talkId })
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const reviewerId = new OrganizerId(DAILOS.id)
     await reviewTalk.execute({
       talkId,
       reviewerId,

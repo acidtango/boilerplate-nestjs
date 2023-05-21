@@ -4,8 +4,8 @@ import { TalkTitle } from '../../src/talks/domain/TalkTitle'
 import { EventId } from '../../src/shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../src/shared/domain/models/ids/SpeakerId'
 import { TalkId } from '../../src/shared/domain/models/ids/TalkId'
-import { CODEMOTION } from '../../src/shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../src/shared/infrastructure/fixtures/speakers'
+import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
+import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
 import { API_TALK } from '../../src/shared/infrastructure/fixtures/talks'
 
 export function createApiTalkId() {
@@ -19,7 +19,7 @@ export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.co
     new TalkDescription(API_TALK.description),
     API_TALK.language,
     cospeakers.map(SpeakerId.fromPrimitives),
-    new SpeakerId(JOYCE_LIN.id),
-    new EventId(CODEMOTION.id)
+    new SpeakerId(CONCHA_ASENSIO.id),
+    new EventId(JSDAY_CANARIAS.id)
   )
 }

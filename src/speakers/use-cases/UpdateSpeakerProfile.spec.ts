@@ -1,4 +1,4 @@
-import { JOYCE_LIN } from '../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { EventBusNoopFake } from '../../../test/fakes/EventBusFake'
@@ -26,9 +26,9 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('saves the speaker in the repository with the profile', async () => {
-    const speakerId = new SpeakerId(JOYCE_LIN.id)
-    const name = new SpeakerName(JOYCE_LIN.name)
-    const age = new SpeakerAge(JOYCE_LIN.age)
+    const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
+    const name = new SpeakerName(CONCHA_ASENSIO.name)
+    const age = new SpeakerAge(CONCHA_ASENSIO.age)
     const language = Language.ENGLISH
 
     await updateSpeakerProfile.execute({
@@ -45,9 +45,9 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('emits a domain event', async () => {
-    const speakerId = new SpeakerId(JOYCE_LIN.id)
-    const name = new SpeakerName(JOYCE_LIN.name)
-    const age = new SpeakerAge(JOYCE_LIN.age)
+    const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
+    const name = new SpeakerName(CONCHA_ASENSIO.name)
+    const age = new SpeakerAge(CONCHA_ASENSIO.age)
     const language = Language.ENGLISH
 
     await updateSpeakerProfile.execute({

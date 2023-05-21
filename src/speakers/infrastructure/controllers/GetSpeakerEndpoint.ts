@@ -4,7 +4,7 @@ import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
-import { JOYCE_LIN } from '../../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
 import { Role } from '../../../shared/domain/models/Role'
 
 @Controller('/v1/speakers/:id')
@@ -31,9 +31,9 @@ export class GetSpeakerEndpoint {
       email: speakerPrimitives.email,
       isEmailValidated: speakerPrimitives.isEmailValidated,
       profile: SpeakerProfileDTO.create({
-        name: JOYCE_LIN.name,
-        age: JOYCE_LIN.age,
-        language: JOYCE_LIN.language,
+        name: CONCHA_ASENSIO.name,
+        age: CONCHA_ASENSIO.age,
+        language: CONCHA_ASENSIO.language,
       }),
     })
   }

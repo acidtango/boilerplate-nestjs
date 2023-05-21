@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import {
-  createJoyceLinEmail,
-  createJoyceLinId,
-  createJoyceLinSpeaker,
+  conchaEmail,
+  conchaId,
+  conchaSpeaker_DEPRECATED,
 } from '../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { JOYCE_LIN } from '../../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
@@ -38,8 +38,8 @@ describe('SpeakerRepository', () => {
     })
 
     it('saves the speaker', async () => {
-      const speakerId = createJoyceLinId()
-      const speaker = createJoyceLinSpeaker({ id: speakerId })
+      const speakerId = conchaId()
+      const speaker = conchaSpeaker_DEPRECATED({ id: speakerId })
 
       await speakerRepository.save(speaker)
 
@@ -48,8 +48,8 @@ describe('SpeakerRepository', () => {
     })
 
     it('checks if the speaker exists', async () => {
-      const speakerId = new SpeakerId(JOYCE_LIN.id)
-      const speaker = createJoyceLinSpeaker({ id: speakerId })
+      const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
+      const speaker = conchaSpeaker_DEPRECATED({ id: speakerId })
       await speakerRepository.save(speaker)
 
       const exists = await speakerRepository.exists(speakerId)
@@ -59,7 +59,7 @@ describe('SpeakerRepository', () => {
 
     describe('findBy email', () => {
       it('returns undefined if does not exists', async () => {
-        const email = createJoyceLinEmail()
+        const email = conchaEmail()
 
         const speaker = await speakerRepository.findBy(email)
 
@@ -67,8 +67,8 @@ describe('SpeakerRepository', () => {
       })
 
       it('returns the speaker if exists', async () => {
-        const email = createJoyceLinEmail()
-        const speaker = createJoyceLinSpeaker({ email })
+        const email = conchaEmail()
+        const speaker = conchaSpeaker_DEPRECATED({ email })
         await speakerRepository.save(speaker)
 
         const savedSpeaker = await speakerRepository.findBy(email)
@@ -79,7 +79,7 @@ describe('SpeakerRepository', () => {
 
     describe('existsWith', () => {
       it('returns false if does not exists', async () => {
-        const email = createJoyceLinEmail()
+        const email = conchaEmail()
 
         const exists = await speakerRepository.existsWith(email)
 
@@ -87,8 +87,8 @@ describe('SpeakerRepository', () => {
       })
 
       it('checks if the speaker with an email already exists', async () => {
-        const email = createJoyceLinEmail()
-        const speaker = createJoyceLinSpeaker({ email })
+        const email = conchaEmail()
+        const speaker = conchaSpeaker_DEPRECATED({ email })
         await speakerRepository.save(speaker)
 
         const exists = await speakerRepository.existsWith(email)

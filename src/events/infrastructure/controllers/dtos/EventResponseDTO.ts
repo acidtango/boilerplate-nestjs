@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
 import { DateRangeDTO } from './DateRangeDTO'
 import { ProposalDateRangeDTO } from './ProposalDateRangeDTO'
 
@@ -11,10 +11,10 @@ type EventResponseDTOParams = {
 }
 
 export class EventResponseDTO {
-  @ApiProperty({ example: CODEMOTION.id })
+  @ApiProperty({ example: JSDAY_CANARIAS.id })
   id!: string
 
-  @ApiProperty({ example: CODEMOTION.name })
+  @ApiProperty({ example: JSDAY_CANARIAS.name })
   name!: string
 
   @ApiProperty()

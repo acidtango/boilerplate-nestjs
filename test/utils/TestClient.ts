@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import tepper from 'tepper'
-import { CODEMOTION } from '../../src/shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
 import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { JOYCE_LIN } from '../../src/shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
 import { API_TALK } from '../../src/shared/infrastructure/fixtures/talks'
-import { FRAN } from '../../src/shared/infrastructure/fixtures/organizers'
+import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
 export class TestClient {
@@ -22,31 +22,31 @@ export class TestClient {
     return tepper(this.app).get('/health')
   }
 
-  createEvent({ id = CODEMOTION.id } = {}) {
+  createEvent({ id = JSDAY_CANARIAS.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/events')
       .send({
         id,
-        name: CODEMOTION.name,
+        name: JSDAY_CANARIAS.name,
         dateRange: {
-          startDate: CODEMOTION.startDate,
-          endDate: CODEMOTION.endDate,
+          startDate: JSDAY_CANARIAS.startDate,
+          endDate: JSDAY_CANARIAS.endDate,
         },
         proposalsDateRange: {
-          startDate: CODEMOTION.proposalsStartDate,
-          deadline: CODEMOTION.proposalsDeadlineDate,
+          startDate: JSDAY_CANARIAS.proposalsStartDate,
+          deadline: JSDAY_CANARIAS.proposalsDeadlineDate,
         },
       })
       .expectStatus(HttpStatus.CREATED)
   }
 
-  registerSpeaker({ id = JOYCE_LIN.id } = {}) {
+  registerSpeaker({ id = CONCHA_ASENSIO.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/speakers/registration')
       .send({
         id,
-        email: JOYCE_LIN.email,
-        password: JOYCE_LIN.password,
+        email: CONCHA_ASENSIO.email,
+        password: CONCHA_ASENSIO.password,
       })
       .expectStatus(HttpStatus.CREATED)
   }
@@ -55,8 +55,8 @@ export class TestClient {
     return tepper(this.app)
       .post('/api/v1/speakers/login')
       .send({
-        email: JOYCE_LIN.email,
-        password: JOYCE_LIN.password,
+        email: CONCHA_ASENSIO.email,
+        password: CONCHA_ASENSIO.password,
       })
       .expectStatus(HttpStatus.OK)
   }
@@ -70,8 +70,8 @@ export class TestClient {
         description: API_TALK.description,
         language: API_TALK.language,
         cospeakers: API_TALK.cospeakers,
-        speakerId: JOYCE_LIN.id,
-        eventId: CODEMOTION.id,
+        speakerId: CONCHA_ASENSIO.id,
+        eventId: JSDAY_CANARIAS.id,
       })
       .expectStatus(HttpStatus.CREATED)
   }
@@ -80,19 +80,19 @@ export class TestClient {
     return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
   }
 
-  updateProfile({ id = JOYCE_LIN.id, jwt = '' } = {}) {
+  updateProfile({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
     return tepper(this.app)
       .put(`/api/v1/speakers/${id}/profile`)
       .authWith(jwt)
       .send({
-        name: JOYCE_LIN.name,
-        age: JOYCE_LIN.age,
-        language: JOYCE_LIN.language,
+        name: CONCHA_ASENSIO.name,
+        age: CONCHA_ASENSIO.age,
+        language: CONCHA_ASENSIO.language,
       })
       .expectStatus(HttpStatus.OK)
   }
 
-  getSpeaker({ id = JOYCE_LIN.id, jwt = '' } = {}) {
+  getSpeaker({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
     return tepper(this.app).get(`/api/v1/speakers/${id}`).authWith(jwt).expectStatus(HttpStatus.OK)
   }
 
@@ -100,7 +100,7 @@ export class TestClient {
     return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 
-  assignReviewer({ id = API_TALK.id, reviewerId = FRAN.id }) {
+  assignReviewer({ id = API_TALK.id, reviewerId = DAILOS.id }) {
     return tepper(this.app)
       .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
       .send({ reviewerId })

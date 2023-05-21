@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsString, IsUUID } from 'class-validator'
 import { API_TALK } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
-import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
-import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
 
 export class ProposeTalkRequestDTO {
   @ApiProperty({ example: API_TALK.id })
@@ -26,11 +26,11 @@ export class ProposeTalkRequestDTO {
   @IsString({ each: true })
   cospeakers!: string[]
 
-  @ApiProperty({ example: JOYCE_LIN.id })
+  @ApiProperty({ example: CONCHA_ASENSIO.id })
   @IsUUID()
   speakerId!: string
 
-  @ApiProperty({ example: CODEMOTION.id })
+  @ApiProperty({ example: JSDAY_CANARIAS.id })
   @IsUUID()
   eventId!: string
 }

@@ -1,10 +1,10 @@
-import { CODEMOTION } from '../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
 import { EventDateRange } from './EventDateRange'
 import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
 
 describe('EventDateRange', () => {
   it('is serializable', () => {
-    const { startDate, endDate } = CODEMOTION
+    const { startDate, endDate } = JSDAY_CANARIAS
 
     const eventDateRange = EventDateRange.fromPrimitives({ startDate, endDate })
 
@@ -14,7 +14,7 @@ describe('EventDateRange', () => {
 
   it('fails if event start date is greater than end date', () => {
     expect(() => {
-      new EventDateRange(CODEMOTION.endDate, CODEMOTION.startDate)
-    }).toThrowError(new InvalidDateRangeError(CODEMOTION.endDate, CODEMOTION.startDate))
+      new EventDateRange(JSDAY_CANARIAS.endDate, JSDAY_CANARIAS.startDate)
+    }).toThrowError(new InvalidDateRangeError(JSDAY_CANARIAS.endDate, JSDAY_CANARIAS.startDate))
   })
 })
