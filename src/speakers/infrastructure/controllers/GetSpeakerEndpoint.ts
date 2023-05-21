@@ -4,8 +4,8 @@ import { Controller, Get, HttpStatus, Param } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
-import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
 import { Role } from '../../../shared/domain/models/Role'
+import { SpeakerProfilePrimitives } from '../../domain/SpeakerProfile'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {
@@ -25,16 +25,21 @@ export class GetSpeakerEndpoint {
 
     return SpeakerResponseDTO.create({
       id: speakerPrimitives.id,
-      name: speakerPrimitives.name,
-      age: speakerPrimitives.age,
-      language: speakerPrimitives.language,
       email: speakerPrimitives.email,
       isEmailValidated: speakerPrimitives.isEmailValidated,
-      profile: SpeakerProfileDTO.create({
-        name: CONCHA_ASENSIO.name,
-        age: CONCHA_ASENSIO.age,
-        language: CONCHA_ASENSIO.language,
-      }),
+      profile: this.mapProfileToDTO(speakerPrimitives.profile),
+    })
+  }
+
+  private mapProfileToDTO(profilePrimitives?: SpeakerProfilePrimitives) {
+    if (!profilePrimitives) {
+      return undefined
+    }
+
+    return SpeakerProfileDTO.create({
+      name: profilePrimitives.name,
+      age: profilePrimitives.age,
+      language: profilePrimitives.language,
     })
   }
 }
