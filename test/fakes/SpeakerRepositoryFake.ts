@@ -1,5 +1,5 @@
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
-import { conchaSpeakerWithoutProfile, conchaSpeakerWithProfile } from '../mother/SpeakerMother'
+import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother'
 import { Speaker } from '../../src/speakers/domain/Speaker'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
@@ -16,7 +16,7 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   }
 
   static createWithConcha(): SpeakerRepositoryFake {
-    const speaker = conchaSpeakerWithProfile()
+    const speaker = conchaSpeaker()
 
     return this.with(speaker)
   }

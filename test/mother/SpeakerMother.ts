@@ -55,8 +55,8 @@ export function exampleSalt() {
   return 'salt'
 }
 
-export function conchaSpeakerWithProfile({ id = conchaId(), email = conchaEmail() } = {}) {
-  const speaker = conchaSpeakerWithoutProfile()
+export function conchaSpeaker({ id = conchaId(), email = conchaEmail() } = {}) {
+  const speaker = conchaSpeakerWithoutProfile({ id, email })
 
   speaker.updateProfile(
     new SpeakerName(CONCHA_ASENSIO.name),
@@ -67,8 +67,8 @@ export function conchaSpeakerWithProfile({ id = conchaId(), email = conchaEmail(
   return flushDomainEvents(speaker)
 }
 
-export function conchaSpeakerWithoutProfile() {
-  const speaker = Speaker.register(conchaId(), conchaEmail(), conchaPassword(), exampleSalt())
+export function conchaSpeakerWithoutProfile({ id = conchaId(), email = conchaEmail() } = {}) {
+  const speaker = Speaker.register(id, email, conchaPassword(), exampleSalt())
   return flushDomainEvents(speaker)
 }
 

@@ -15,8 +15,8 @@ import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotF
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import {
   conchaId,
+  conchaSpeaker,
   conchaSpeakerWithoutProfile,
-  conchaSpeakerWithProfile,
 } from '../../../test/mother/SpeakerMother'
 import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
 import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
@@ -29,7 +29,7 @@ describe('ProposeTalk', () => {
   beforeEach(async () => {
     talkRepository = TalkRepositoryFake.empty()
     eventRepository = new EventRepositoryMemory()
-    speakerRepository = SpeakerRepositoryFake.with(conchaSpeakerWithProfile())
+    speakerRepository = SpeakerRepositoryFake.with(conchaSpeaker())
     await eventRepository.save(jsdayEvent())
   })
 

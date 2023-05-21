@@ -1,9 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import {
-  conchaEmail,
-  conchaId,
-  conchaSpeakerWithProfile,
-} from '../../../../test/mother/SpeakerMother'
+import { conchaEmail, conchaId, conchaSpeaker } from '../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
@@ -39,7 +35,7 @@ describe('SpeakerRepository', () => {
 
     it('saves the speaker', async () => {
       const speakerId = conchaId()
-      const speaker = conchaSpeakerWithProfile({ id: speakerId })
+      const speaker = conchaSpeaker({ id: speakerId })
 
       await speakerRepository.save(speaker)
 
@@ -49,7 +45,7 @@ describe('SpeakerRepository', () => {
 
     it('checks if the speaker exists', async () => {
       const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
-      const speaker = conchaSpeakerWithProfile({ id: speakerId })
+      const speaker = conchaSpeaker({ id: speakerId })
       await speakerRepository.save(speaker)
 
       const exists = await speakerRepository.exists(speakerId)
@@ -68,7 +64,7 @@ describe('SpeakerRepository', () => {
 
       it('returns the speaker if exists', async () => {
         const email = conchaEmail()
-        const speaker = conchaSpeakerWithProfile({ email })
+        const speaker = conchaSpeaker({ email })
         await speakerRepository.save(speaker)
 
         const savedSpeaker = await speakerRepository.findBy(email)
@@ -88,7 +84,7 @@ describe('SpeakerRepository', () => {
 
       it('checks if the speaker with an email already exists', async () => {
         const email = conchaEmail()
-        const speaker = conchaSpeakerWithProfile({ email })
+        const speaker = conchaSpeaker({ email })
         await speakerRepository.save(speaker)
 
         const exists = await speakerRepository.existsWith(email)
