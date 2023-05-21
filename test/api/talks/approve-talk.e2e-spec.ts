@@ -9,6 +9,7 @@ describe('talk can be approved or rejected', () => {
   it('can approve the talk', async () => {
     const client = await createClient()
     await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
+    await client.updateProfile({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
     await client.proposeTalk({ id: API_TALK.id }).run()
     await client.assignReviewer({ id: API_TALK.id, reviewerId: FRAN.id }).run()

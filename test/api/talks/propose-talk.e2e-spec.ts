@@ -8,6 +8,7 @@ describe('create talk', () => {
   it('can be created', async () => {
     const client = await createClient()
     await client.registerSpeaker({ id: JOYCE_LIN.id }).run()
+    await client.updateProfile({ id: JOYCE_LIN.id }).run()
     await client.createEvent({ id: CODEMOTION.id }).run()
 
     const { status } = await client.proposeTalk({ id: API_TALK.id }).run()

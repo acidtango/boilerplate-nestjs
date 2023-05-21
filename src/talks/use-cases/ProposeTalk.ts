@@ -9,8 +9,10 @@ import { Talk } from '../domain/Talk'
 import { TalkDescription } from '../domain/TalkDescription'
 import { TalkRepository } from '../domain/TalkRepository'
 import { TalkTitle } from '../domain/TalkTitle'
-import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { EventRepository } from '../../events/domain/EventRepository'
+import { SpeakerRepository } from '../../speakers/domain/SpeakerRepository'
+import { SpeakerFinder } from '../../speakers/domain/services/SpeakerFinder'
+import { EventFinder } from '../../events/domain/services/EventFinder'
 
 export type ProposeTalkParams = {
   id: TalkId
@@ -24,11 +26,18 @@ export type ProposeTalkParams = {
 
 @Injectable()
 export class ProposeTalk extends UseCase {
+  private readonly speakerFinder: SpeakerFinder
+
+  private readonly eventFinder: EventFinder
+
   constructor(
     @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
-    @Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository
+    @Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository,
+    @Inject(Token.SPEAKER_REPOSITORY) speakerRepository: SpeakerRepository
   ) {
     super()
+    this.speakerFinder = new SpeakerFinder(speakerRepository)
+    this.eventFinder = new EventFinder(eventRepository)
   }
 
   async execute({
@@ -40,11 +49,12 @@ export class ProposeTalk extends UseCase {
     speakerId,
     title,
   }: ProposeTalkParams) {
-    if (!(await this.eventRepository.exists(eventId))) {
-      throw new TalkEventNotFoundError(eventId)
-    }
+    const speaker = await this.speakerFinder.findOrThrowBy(speakerId)
 
-    const talk = Talk.create(id, title, description, language, cospeakers, speakerId, eventId)
+    speaker.ensureHasProfileFilled()
+    await this.eventFinder.ensureExists(eventId)
+
+    const talk = Talk.proposal(id, title, description, language, cospeakers, speakerId, eventId)
 
     await this.talkRepository.save(talk)
   }

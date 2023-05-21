@@ -59,10 +59,19 @@ export function exampleSalt() {
   return 'salt'
 }
 
-export function createJoyceLinSpeakerWithoutProfile({
-  id = createJoyceLinId(),
-  email = createJoyceLinEmail(),
-} = {}) {
+export function createJoyceLinSpeakerWithProfile() {
+  const speaker = createJoyceLinSpeakerWithoutProfile()
+
+  speaker.updateProfile(
+    new SpeakerName(JOYCE_LIN.name),
+    new SpeakerAge(JOYCE_LIN.age),
+    JOYCE_LIN.language
+  )
+
+  return speaker
+}
+
+export function createJoyceLinSpeakerWithoutProfile() {
   return Speaker.register(
     createJoyceLinId(),
     createJoyceLinEmail(),
@@ -88,19 +97,6 @@ export function createJoyceLinSpeaker({
       'b83fc3c0cb5cf813b220d30737777cf38beb4c4edc9d63a77a54f387edffc14980e5fe527b56b69e1e13f5930e5231196d22126220c72312a4bd00300454d18b'
     ),
     exampleSalt(),
-    true
-  )
-}
-
-export function createHakonWium({ id = new SpeakerId(HAKON_WIUM.id) } = {}) {
-  return new Speaker(
-    id,
-    new SpeakerName(HAKON_WIUM.name),
-    new SpeakerAge(HAKON_WIUM.age),
-    HAKON_WIUM.language,
-    new EmailAddress(HAKON_WIUM.email),
-    new HashedPassword(''),
-    '',
     true
   )
 }

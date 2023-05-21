@@ -9,6 +9,7 @@ import { HashedPassword } from '../../shared/domain/models/HashedPassword'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRegistered } from './events/SpeakerRegistered'
 import { SpeakerProfileUpdated } from './events/SpeakerProfileUpdated'
+import { ProfileNotFilledError } from './errors/ProfileNotFilledError'
 
 export type SpeakerPrimitives = Primitives<Speaker>
 
@@ -111,5 +112,19 @@ export class Speaker extends AggregateRoot {
     this.language = language
 
     this.recordEvent(new SpeakerProfileUpdated(this.id))
+  }
+
+  hasProfile() {
+    return !this.name.equalsTo(new SpeakerName(''))
+  }
+
+  getId() {
+    return this.id
+  }
+
+  ensureHasProfileFilled() {
+    if (!this.hasProfile()) {
+      throw new ProfileNotFilledError(this.getId())
+    }
   }
 }

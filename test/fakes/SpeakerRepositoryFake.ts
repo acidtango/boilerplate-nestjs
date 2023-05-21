@@ -43,4 +43,12 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   expectSaveToHaveBeenCalled() {
     expect(this.saveHasBeenCalled).toBe(true)
   }
+
+  static with(speaker: Speaker) {
+    const speakerRepository = new SpeakerRepositoryFake()
+    const speakerPrimitives = speaker.toPrimitives()
+    speakerRepository.speakers.set(speakerPrimitives.id, speakerPrimitives)
+
+    return speakerRepository
+  }
 }

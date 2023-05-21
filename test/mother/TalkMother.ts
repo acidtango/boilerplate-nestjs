@@ -13,7 +13,7 @@ export function createApiTalkId() {
 }
 
 export function createApiTalk({ id = createApiTalkId(), cospeakers = API_TALK.cospeakers } = {}) {
-  return Talk.create(
+  return Talk.proposal(
     id,
     new TalkTitle(API_TALK.title),
     new TalkDescription(API_TALK.description),
