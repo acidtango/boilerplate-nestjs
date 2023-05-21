@@ -1,6 +1,6 @@
-import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../../shared/infrastructure/fixtures/events'
 import { EventDateRange } from './EventDateRange'
-import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
+import { InvalidDateRangeError } from '../errors/InvalidDateRangeError'
 
 describe('EventDateRange', () => {
   it('is serializable', () => {

@@ -1,6 +1,6 @@
-import { SpeakerRepository } from '../../domain/SpeakerRepository'
+import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { Speaker, SpeakerPrimitives } from '../../domain/Speaker'
+import { Speaker, SpeakerPrimitives } from '../../domain/models/Speaker'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
 

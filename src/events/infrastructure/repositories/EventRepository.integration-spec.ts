@@ -3,7 +3,7 @@ import { MongoModule } from '../../../shared/infrastructure/database/MongoModule
 import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
-import { EventRepository } from '../../domain/EventRepository'
+import { EventRepository } from '../../domain/repositories/EventRepository'
 import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion'
 
@@ -43,15 +43,25 @@ describe('TalkEventRepository', () => {
     })
 
     it('retrieves all events', async () => {
-      const codemotionTalkEvent = jsdayEvent()
-      const canariasJSTalkEvent = codemotionEvent()
+      const canariasJSTalkEvent = jsdayEvent()
+      const codemotionTalkEvent = codemotionEvent()
 
-      await talkEventRepository.save(codemotionTalkEvent)
       await talkEventRepository.save(canariasJSTalkEvent)
+      await talkEventRepository.save(codemotionTalkEvent)
 
       const allEvents = await talkEventRepository.findAll()
 
       expect(allEvents).toHaveLength(2)
+    })
+
+    it('find retrieves the saved event', async () => {
+      const event = jsdayEvent()
+
+      await talkEventRepository.save(event)
+
+      const [storedEvent] = await talkEventRepository.findAll()
+
+      expect(storedEvent).toEqual(event)
     })
   })
 })

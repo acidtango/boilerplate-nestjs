@@ -1,9 +1,9 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
 import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { EventDateRange } from '../../domain/EventDateRange'
+import { EventDateRange } from '../../domain/models/EventDateRange'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { EventName } from '../../domain/EventName'
-import { EventProposalsDateRange } from '../../domain/EventProposalsDateRange'
+import { EventName } from '../../domain/models/EventName'
+import { EventProposalsDateRange } from '../../domain/models/EventProposalsDateRange'
 import { CreateEvent } from '../../use-cases/CreateEvent'
 import { CreateEventRequestDTO } from './dtos/CreateEventRequestDTO'
 

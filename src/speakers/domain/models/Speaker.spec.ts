@@ -3,15 +3,15 @@ import {
   notImportantEmail,
   notImportantPassword,
   notImportantSpeakerId,
-} from '../../../test/mother/SpeakerMother/NotImportant'
-import { exampleSalt } from '../../../test/mother/Common'
+} from '../../../../test/mother/SpeakerMother/NotImportant'
+import { exampleSalt } from '../../../../test/mother/Common'
 import {
   conchaAge,
   conchaLanguage,
   conchaName,
   conchaPassword,
-} from '../../../test/mother/SpeakerMother/Concha'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword'
+} from '../../../../test/mother/SpeakerMother/Concha'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
 
 describe('Speaker', () => {
   it('can check if the password is correct', () => {

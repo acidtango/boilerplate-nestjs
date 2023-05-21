@@ -1,6 +1,6 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { juniorXpId, juniorXpTalkReviewed } from '../../../test/mother/TalkMother/JuniorXp'
-import { TalkStatus } from '../domain/TalkStatus'
+import { TalkStatus } from '../domain/models/TalkStatus'
 import { TalkCannotBeApprovedError } from '../domain/errors/TalkCannotBeApprovedError'
 import { ApproveTalk } from './ApproveTalk'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'

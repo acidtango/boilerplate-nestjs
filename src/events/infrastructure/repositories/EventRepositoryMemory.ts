@@ -1,5 +1,5 @@
-import { EventRepository } from '../../domain/EventRepository'
-import { TalkEvent, TalkEventPrimitives } from '../../domain/TalkEvent'
+import { EventRepository } from '../../domain/repositories/EventRepository'
+import { TalkEvent, TalkEventPrimitives } from '../../domain/models/TalkEvent'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 

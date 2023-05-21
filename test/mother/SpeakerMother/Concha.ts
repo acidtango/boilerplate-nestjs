@@ -1,9 +1,9 @@
-import { Speaker } from '../../../src/speakers/domain/Speaker'
+import { Speaker } from '../../../src/speakers/domain/models/Speaker'
 import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
 import { EmailAddress } from '../../../src/shared/domain/models/EmailAddress'
-import { SpeakerName } from '../../../src/speakers/domain/SpeakerName'
-import { SpeakerAge } from '../../../src/speakers/domain/SpeakerAge'
+import { SpeakerName } from '../../../src/speakers/domain/models/SpeakerName'
+import { SpeakerAge } from '../../../src/speakers/domain/models/SpeakerAge'
 import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword'
 import { exampleSalt, flushDomainEvents } from '../Common'
 

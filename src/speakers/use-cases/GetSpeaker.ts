@@ -1,6 +1,6 @@
-import { Speaker } from '../domain/Speaker'
+import { Speaker } from '../domain/models/Speaker'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { SpeakerRepository } from '../domain/SpeakerRepository'
+import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { Inject, Injectable } from '@nestjs/common'
 import { Token } from '../../shared/domain/services/Token'

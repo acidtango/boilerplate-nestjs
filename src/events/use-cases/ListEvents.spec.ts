@@ -1,18 +1,17 @@
-import { EventRepository } from '../domain/EventRepository'
-import { EventRepositoryMemory } from '../infrastructure/repositories/EventRepositoryMemory'
+import { EventRepository } from '../domain/repositories/EventRepository'
 import { ListEvents } from './ListEvents'
 
 import { jsdayEvent } from '../../../test/mother/EventMother/JsDay'
+import { EventRepositoryFake } from '../../../test/fakes/EventRepositoryFake'
 
 describe('ListEvents', () => {
   it('returns all the events', async () => {
-    const eventRepository: EventRepository = new EventRepositoryMemory()
-    const events = [jsdayEvent()]
-    jest.spyOn(eventRepository, 'findAll').mockReturnValue(Promise.resolve(events))
-    const createEventUseCase = new ListEvents(eventRepository)
+    const event = jsdayEvent()
+    const eventRepository: EventRepository = EventRepositoryFake.with(event)
+    const listEvents = new ListEvents(eventRepository)
 
-    const talkEvents = await createEventUseCase.execute()
+    const talkEvents = await listEvents.execute()
 
-    expect(talkEvents).toEqual(events)
+    expect(talkEvents).toEqual([event])
   })
 })

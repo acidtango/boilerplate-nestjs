@@ -5,7 +5,7 @@ import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decor
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
 import { Role } from '../../../shared/domain/models/Role'
-import { SpeakerProfilePrimitives } from '../../domain/SpeakerProfile'
+import { SpeakerProfilePrimitives } from '../../domain/models/SpeakerProfile'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {

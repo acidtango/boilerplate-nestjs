@@ -1,5 +1,5 @@
-import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
-import { UnderageSpeakerError } from './errors/UnderageSpeakerError'
+import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
+import { UnderageSpeakerError } from '../errors/UnderageSpeakerError'
 
 export class SpeakerAge extends ValueObject {
   static fromPrimitives(age: number) {

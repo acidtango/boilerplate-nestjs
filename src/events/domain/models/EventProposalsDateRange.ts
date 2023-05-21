@@ -1,6 +1,6 @@
-import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
-import { Primitives } from '../../shared/domain/models/hex/Primitives'
-import { InvalidDateRangeError } from './errors/InvalidDateRangeError'
+import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
+import { Primitives } from '../../../shared/domain/models/hex/Primitives'
+import { InvalidDateRangeError } from '../errors/InvalidDateRangeError'
 
 type EventProposalDateRangePrimitives = Primitives<EventProposalsDateRange>
 

@@ -1,5 +1,5 @@
 import { TalkTitle } from './TalkTitle'
-import { TalkTitleTooLongError } from './errors/TalkTitleTooLongError'
+import { TalkTitleTooLongError } from '../errors/TalkTitleTooLongError'
 
 describe('TalkTitle', () => {
   it('fails if has more than 100 characters', () => {

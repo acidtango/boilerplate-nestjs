@@ -1,7 +1,7 @@
-import { juniorXpTalk } from '../../../test/mother/TalkMother/JuniorXp'
-import { MaximumCospeakersReachedError } from './errors/MaximumCospeakersReachedError'
-import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
-import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
+import { juniorXpTalk } from '../../../../test/mother/TalkMother/JuniorXp'
+import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
+import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
+import { DAILOS } from '../../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {
