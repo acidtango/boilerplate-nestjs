@@ -8,3 +8,12 @@ export const JUNIOR_XP = {
   language: Language.SPANISH,
   cospeakers: [] as string[],
 }
+
+export const IMPROVING_TESTS = {
+  id: 'e063c2a2-abd6-4872-8829-b9cb2d9bb648',
+  title: 'Mejorando nuestros test con aserciones sobre nuestro dominio',
+  description:
+    '¿Alguna vez has leído un test y has pensado que era muy complejo de entender lo que estabas aseverando? A mi si me ha pasado, y tras tiempo dándole vueltas, he encontrado la forma de que nuestros tests hablen el mismo idioma que nuestro código. Veremos cómo podemos usar Jest, para mejorar las aserciones de nuestros tests creando las nuestras propias',
+  language: Language.SPANISH,
+  cospeakers: [] as string[],
+}

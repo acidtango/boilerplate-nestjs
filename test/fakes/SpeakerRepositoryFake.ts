@@ -1,6 +1,6 @@
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
-import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother'
 import { Speaker } from '../../src/speakers/domain/Speaker'
+import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother/Concha'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   static empty() {

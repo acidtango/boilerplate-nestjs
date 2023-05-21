@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { juniorXpId, juniorXpTalk } from '../../../../test/mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../../../../test/mother/TalkMother/JuniorXp'
 import { TalkRepositoryMongo } from './TalkRepositoryMongo'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { TalkRepositoryMemory } from './TalkRepositoryMemory'

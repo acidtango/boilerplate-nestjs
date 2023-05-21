@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { codemotionEvent, jsdayEvent, jsdayId } from '../../../../test/mother/TalkEventMother'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { EventRepository } from '../../domain/EventRepository'
+import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay'
+import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion'
 
 describe('TalkEventRepository', () => {
   describe.each([

@@ -1,7 +1,8 @@
 import { EventRepository } from '../domain/EventRepository'
 import { EventRepositoryMemory } from '../infrastructure/repositories/EventRepositoryMemory'
 import { ListEvents } from './ListEvents'
-import { jsdayEvent } from '../../../test/mother/TalkEventMother'
+
+import { jsdayEvent } from '../../../test/mother/EventMother/JsDay'
 
 describe('ListEvents', () => {
   it('returns all the events', async () => {

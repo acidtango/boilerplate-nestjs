@@ -2,17 +2,14 @@ import jwt from 'jsonwebtoken'
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
-import {
-  conchaEmail,
-  conchaPassword,
-  jorgeEmail,
-  notImportantPassword,
-} from '../../../test/mother/SpeakerMother'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
 import { JwtPayload } from '../../auth/domain/JwtPayload'
 import { Role } from '../../shared/domain/models/Role'
+import { conchaEmail, conchaPassword } from '../../../test/mother/SpeakerMother/Concha'
+import { notImportantPassword } from '../../../test/mother/SpeakerMother/NotImportant'
+import { jorgeEmail } from '../../../test/mother/SpeakerMother/Jorge'
 
 describe('LoginSpeaker', () => {
   let clock: ClockFake

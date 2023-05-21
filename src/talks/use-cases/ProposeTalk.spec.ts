@@ -10,16 +10,16 @@ import { TalkStatus } from '../domain/TalkStatus'
 import { TalkTitle } from '../domain/TalkTitle'
 import { ProposeTalk, ProposeTalkParams } from './ProposeTalk'
 import { EventRepositoryMemory } from '../../events/infrastructure/repositories/EventRepositoryMemory'
-import { jsdayEvent } from '../../../test/mother/TalkEventMother'
 import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
+import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
+import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
 import {
   conchaId,
   conchaSpeaker,
   conchaSpeakerWithoutProfile,
-} from '../../../test/mother/SpeakerMother'
-import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
-import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
+} from '../../../test/mother/SpeakerMother/Concha'
+import { jsdayEvent } from '../../../test/mother/EventMother/JsDay'
 
 describe('ProposeTalk', () => {
   let talkRepository: TalkRepositoryFake

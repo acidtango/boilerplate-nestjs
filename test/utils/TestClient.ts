@@ -92,7 +92,7 @@ export class TestClient {
       .expectStatus(HttpStatus.OK)
   }
 
-  getSpeaker({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
+  getSpeaker({ id = CONCHA_ASENSIO.id, jwt = CONCHA_ASENSIO.jwt } = {}) {
     return tepper(this.app).get(`/api/v1/speakers/${id}`).authWith(jwt).expectStatus(HttpStatus.OK)
   }
 

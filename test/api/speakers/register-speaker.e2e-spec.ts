@@ -15,11 +15,11 @@ describe('register speaker', () => {
 
   it('login returns a refresh token', async () => {
     const client = await createClient()
-    await client.registerSpeaker().run()
     const clock = client.getClock()
     const now = clock.now()
     const expectedIat = now.toSeconds()
     const expectedExp = now.addDays(1).toSeconds()
+    await client.registerSpeaker().run()
 
     const { body } = await client.loginSpeaker().run()
 

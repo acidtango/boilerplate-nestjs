@@ -1,7 +1,8 @@
-import { conchaId, nonExistingSpeakerId } from '../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
+import { conchaId } from '../../../test/mother/SpeakerMother/Concha'
+import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImportant'
 
 describe('GetSpeaker', () => {
   let speakerRepository: SpeakerRepositoryFake

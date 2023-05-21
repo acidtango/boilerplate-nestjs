@@ -1,27 +1,27 @@
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { EventBusNoopFake } from '../../../test/fakes/EventBusFake'
+import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { UpdateSpeakerProfile } from './UpdateSpeakerProfile'
 import { SpeakerName } from '../domain/SpeakerName'
 import { SpeakerAge } from '../domain/SpeakerAge'
 import { Language } from '../../shared/domain/models/Language'
+import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
+import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated'
 import {
   notImportantAge,
   notImportantLanguage,
   notImportantName,
-} from '../../../test/mother/SpeakerMother'
-import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
-import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated'
+} from '../../../test/mother/SpeakerMother/NotImportant'
 
 describe('UpdateSpeakerProfile', () => {
   let speakerRepository: SpeakerRepositoryFake
-  let eventBus: EventBusNoopFake
+  let eventBus: EventBusFake
   let updateSpeakerProfile: UpdateSpeakerProfile
 
   beforeEach(() => {
     speakerRepository = SpeakerRepositoryFake.createWithConchaWithoutProfile()
-    eventBus = new EventBusNoopFake()
+    eventBus = new EventBusFake()
     updateSpeakerProfile = new UpdateSpeakerProfile(speakerRepository, eventBus)
   })
 

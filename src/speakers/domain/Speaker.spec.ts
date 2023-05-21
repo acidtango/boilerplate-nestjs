@@ -1,13 +1,13 @@
 import { Speaker } from './Speaker'
-import {
-  notImportantEmail,
-  notImportantPassword,
-  notImportantSpeakerId,
-} from '../../../test/mother/SpeakerMother'
 import { CONCHA_ASENSIO, JORGE_AGUIAR } from '../../shared/infrastructure/fixtures/speakers'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerName } from './SpeakerName'
 import { SpeakerAge } from './SpeakerAge'
+import {
+  notImportantEmail,
+  notImportantPassword,
+  notImportantSpeakerId,
+} from '../../../test/mother/SpeakerMother/NotImportant'
 
 describe('Speaker', () => {
   const salt = 'salt'

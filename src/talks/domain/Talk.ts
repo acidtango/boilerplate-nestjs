@@ -103,7 +103,7 @@ export class Talk extends AggregateRoot {
   }
 
   approve() {
-    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError()
+    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError(this.id)
 
     this.isApproved = true
   }

@@ -5,21 +5,21 @@ import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { RegisterSpeaker, RegisterSpeakerParams } from './RegisterSpeaker'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { CryptoFixed } from '../../shared/infrastructure/services/crypto/CryptoFixed'
-import { conchaId, conchaPassword } from '../../../test/mother/SpeakerMother'
-import { EventBusNoopFake } from '../../../test/fakes/EventBusFake'
+import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { SpeakerRegistered } from '../domain/events/SpeakerRegistered'
 import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError'
 import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
+import { conchaId, conchaPassword } from '../../../test/mother/SpeakerMother/Concha'
 
 describe('RegisterSpeaker', () => {
   let speakerRepository: SpeakerRepositoryFake
-  let eventBus: EventBusNoopFake
+  let eventBus: EventBusFake
   let registerSpeaker: RegisterSpeaker
 
   beforeEach(() => {
     const crypto = new CryptoFixed()
     speakerRepository = SpeakerRepositoryFake.empty()
-    eventBus = new EventBusNoopFake()
+    eventBus = new EventBusFake()
     registerSpeaker = new RegisterSpeaker(speakerRepository, crypto, eventBus)
   })
 

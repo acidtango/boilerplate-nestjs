@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { conchaEmail, conchaId, conchaSpeaker } from '../../../../test/mother/SpeakerMother'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
@@ -7,6 +6,7 @@ import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { SpeakerRepository } from '../../domain/SpeakerRepository'
+import { conchaEmail, conchaId, conchaSpeaker } from '../../../../test/mother/SpeakerMother/Concha'
 
 describe('SpeakerRepository', () => {
   describe.each([

@@ -1,24 +1,23 @@
-import { juniorXpId, juniorXpTalk } from '../../../test/mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../../../test/mother/TalkMother/JuniorXp'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
 import { DAILOS } from '../../shared/infrastructure/fixtures/organizers'
 import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { EventBus } from '../../shared/domain/models/hex/EventBus'
-import { EventBusNoop } from '../../shared/infrastructure/events/EventBusNoop'
 import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
 import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
+import { EventBusFake } from '../../../test/fakes/EventBusFake'
 
 describe('ReviewTalk', () => {
-  let eventBus: EventBus
+  let eventBus: EventBusFake
 
   beforeEach(() => {
-    eventBus = new EventBusNoop()
+    eventBus = new EventBusFake()
   })
 
   it('assigns the talk to a reviewer', async () => {
     const talkId = juniorXpId()
-    const talk = juniorXpTalk({ id: talkId })
+    const talk = juniorXpTalk()
     const talkRepository = TalkRepositoryFake.createWith(talk)
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const reviewerId = new OrganizerId(DAILOS.id)
@@ -34,9 +33,8 @@ describe('ReviewTalk', () => {
 
   it('event should be emitted', async () => {
     const talkId = juniorXpId()
-    const talk = juniorXpTalk({ id: talkId })
+    const talk = juniorXpTalk()
     const talkRepository = TalkRepositoryFake.createWith(talk)
-    jest.spyOn(eventBus, 'publish')
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const reviewerId = new OrganizerId(DAILOS.id)
 
@@ -45,7 +43,7 @@ describe('ReviewTalk', () => {
       reviewerId,
     })
 
-    expect(eventBus.publish).toHaveBeenCalledWith([new TalkAssignedForReview(talkId, reviewerId)])
+    eventBus.expectLastEventToBe(new TalkAssignedForReview(talkId, reviewerId))
   })
 
   it('fails if talk does not exist', async () => {
@@ -54,13 +52,12 @@ describe('ReviewTalk', () => {
     const reviewTalk = new ReviewTalk(eventBus, talkRepository)
     const notImportantId = new OrganizerId(DAILOS.id)
 
-    const expectedError = new TalkNotFoundError(notExistentId)
-    await expect(() =>
-      reviewTalk.execute({
-        talkId: notExistentId,
-        reviewerId: notImportantId,
-      })
-    ).rejects.toThrowError(expectedError)
+    const result = reviewTalk.execute({
+      talkId: notExistentId,
+      reviewerId: notImportantId,
+    })
+
+    await expect(result).rejects.toThrowError(new TalkNotFoundError(notExistentId))
   })
 
   it('fails if talk is already being reviewed', async () => {
@@ -74,12 +71,11 @@ describe('ReviewTalk', () => {
       reviewerId,
     })
 
-    const expectedError = new TalkAlreadyBeingReviewed(talkId)
-    await expect(
-      reviewTalk.execute({
-        talkId,
-        reviewerId,
-      })
-    ).rejects.toThrowError(expectedError)
+    const result = reviewTalk.execute({
+      talkId,
+      reviewerId,
+    })
+
+    await expect(result).rejects.toThrowError(new TalkAlreadyBeingReviewed(talkId))
   })
 })
