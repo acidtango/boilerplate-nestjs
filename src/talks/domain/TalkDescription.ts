@@ -2,7 +2,7 @@ import { ValueObject } from '../../shared/domain/models/hex/ValueObject'
 import { TalkDescriptionTooLongError } from './errors/TalkDescriptionTooLongError'
 
 export class TalkDescription extends ValueObject {
-  private static readonly MAX_LENGTH = 300
+  private static readonly MAX_LENGTH = 1000
 
   constructor(private readonly description: string) {
     super()

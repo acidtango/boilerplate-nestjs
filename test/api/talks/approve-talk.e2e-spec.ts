@@ -1,22 +1,20 @@
 import { HttpStatus } from '@nestjs/common'
-import { CODEMOTION } from '../../../src/shared/infrastructure/fixtures/events'
-import { JOYCE_LIN } from '../../../src/shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../../src/shared/infrastructure/fixtures/talks'
+import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks'
 import { createClient } from '../../utils/createClient'
-import { FRAN } from '../../../src/shared/infrastructure/fixtures/organizers'
+import { DAILOS } from '../../../src/shared/infrastructure/fixtures/organizers'
 
 describe('talk can be approved or rejected', () => {
   it('can approve the talk', async () => {
     const client = await createClient()
-    await client.createSpeaker({ id: JOYCE_LIN.id }).run()
-    await client.createEvent({ id: CODEMOTION.id }).run()
-    await client.createTalk({ id: API_TALK.id }).run()
-    await client.assignReviewer({ id: API_TALK.id, reviewerId: FRAN.id }).run()
+    await client.createConcha()
+    await client.createJsDayCanarias()
+    await client.proposeTalk({ id: JUNIOR_XP.id }).run()
+    await client.assignReviewer({ id: JUNIOR_XP.id, reviewerId: DAILOS.id }).run()
 
-    const { status } = await client.approveTalk({ id: API_TALK.id }).run()
+    const { status } = await client.approveTalk({ id: JUNIOR_XP.id }).run()
 
     expect(status).toEqual(HttpStatus.OK)
-    const { body: talk } = await client.getTalk(API_TALK.id).run()
+    const { body: talk } = await client.getTalk(JUNIOR_XP.id).run()
     expect(talk.status).toEqual('APPROVED')
   })
 })

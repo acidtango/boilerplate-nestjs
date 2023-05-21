@@ -1,14 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import {
-  createCanariasJSEvent,
-  createCodemotionEvent,
-  createCodemotionEventId,
-} from '../../../../test/mother/TalkEventMother'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { EventRepository } from '../../domain/EventRepository'
+import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay'
+import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion'
 
 describe('TalkEventRepository', () => {
   describe.each([
@@ -36,8 +33,8 @@ describe('TalkEventRepository', () => {
     })
 
     it('saves the event', async () => {
-      const talkEventId = createCodemotionEventId()
-      const talkEvent = createCodemotionEvent({ id: talkEventId })
+      const talkEventId = jsdayId()
+      const talkEvent = jsdayEvent({ id: talkEventId })
 
       await talkEventRepository.save(talkEvent)
 
@@ -46,8 +43,8 @@ describe('TalkEventRepository', () => {
     })
 
     it('retrieves all events', async () => {
-      const codemotionTalkEvent = createCodemotionEvent()
-      const canariasJSTalkEvent = createCanariasJSEvent()
+      const codemotionTalkEvent = jsdayEvent()
+      const canariasJSTalkEvent = codemotionEvent()
 
       await talkEventRepository.save(codemotionTalkEvent)
       await talkEventRepository.save(canariasJSTalkEvent)

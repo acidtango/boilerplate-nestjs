@@ -1,40 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { CODEMOTION } from '../../../../shared/infrastructure/fixtures/events'
-import { FRAN } from '../../../../shared/infrastructure/fixtures/organizers'
-import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
-import { API_TALK } from '../../../../shared/infrastructure/fixtures/talks'
+import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
+import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
 import { TalkStatus } from '../../../domain/TalkStatus'
 
 export class TalkResponseDTO {
-  @ApiProperty({ example: API_TALK.id })
+  @ApiProperty({ example: JUNIOR_XP.id })
   id!: string
 
-  @ApiProperty({ example: API_TALK.title })
+  @ApiProperty({ example: JUNIOR_XP.title })
   title!: string
 
-  @ApiProperty({ example: API_TALK.description })
+  @ApiProperty({ example: JUNIOR_XP.description })
   description!: string
 
   @ApiProperty({ example: Language.ENGLISH, enum: Language })
   language!: Language
 
-  @ApiProperty({ example: API_TALK.cospeakers, type: [String] })
+  @ApiProperty({ example: JUNIOR_XP.cospeakers, type: [String] })
   cospeakers!: string[]
 
   @ApiProperty({ example: TalkStatus.PROPOSAL, enum: TalkStatus })
   status!: TalkStatus
 
-  @ApiProperty({ example: JOYCE_LIN.id })
+  @ApiProperty({ example: CONCHA_ASENSIO.id })
   speakerId!: string
 
-  @ApiProperty({ example: FRAN.id, nullable: true })
+  @ApiProperty({ example: DAILOS.id, nullable: true })
   reviewerId?: string
 
   @ApiProperty({ example: false, nullable: true })
   isApproved?: boolean
 
-  @ApiProperty({ example: CODEMOTION.id })
+  @ApiProperty({ example: JSDAY_CANARIAS.id })
   eventId!: string
 
   static create(params: TalkResponseDTO) {

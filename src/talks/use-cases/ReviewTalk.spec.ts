@@ -1,85 +1,59 @@
-import { createApiTalk, createApiTalkId } from '../../../test/mother/TalkMother'
+import { juniorXpId } from '../../../test/mother/TalkMother/JuniorXp'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
-import { FRAN } from '../../shared/infrastructure/fixtures/organizers'
-import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
-import { EventBus } from '../../shared/domain/models/hex/EventBus'
-import { EventBusNoop } from '../../shared/infrastructure/events/EventBusNoop'
 import { TalkAssignedForReview } from '../domain/TalkAssignedForReview'
 import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
+import { EventBusFake } from '../../../test/fakes/EventBusFake'
+import { improvingTestsId } from '../../../test/mother/TalkMother/ImprovingTests'
+import { dailosId } from '../../../test/mother/OrganizerMother/Dailos'
+import { notImportantOrganizerId } from '../../../test/mother/OrganizerMother/NotImportant'
 
 describe('ReviewTalk', () => {
-  let eventBus: EventBus
+  let eventBus: EventBusFake
+  let talkRepository: TalkRepositoryFake
+  let reviewTalk: ReviewTalk
 
   beforeEach(() => {
-    eventBus = new EventBusNoop()
+    eventBus = new EventBusFake()
+    talkRepository = TalkRepositoryFake.createWithJuniorXp()
+    reviewTalk = new ReviewTalk(eventBus, talkRepository)
   })
 
   it('assigns the talk to a reviewer', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
-    const talkRepository = TalkRepositoryFake.createWith(talk)
-    const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const talkId = juniorXpId()
+    const reviewerId = dailosId()
 
-    await reviewTalk.execute({
-      talkId,
-      reviewerId,
-    })
+    await reviewTalk.execute({ talkId, reviewerId })
 
     const savedTalk = talkRepository.getLatestSavedTalk()
     expect(savedTalk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
   })
 
   it('event should be emitted', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
-    const talkRepository = TalkRepositoryFake.createWith(talk)
-    jest.spyOn(eventBus, 'publish')
-    const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
+    const talkId = juniorXpId()
+    const reviewerId = dailosId()
 
-    await reviewTalk.execute({
-      talkId,
-      reviewerId,
-    })
+    await reviewTalk.execute({ talkId, reviewerId })
 
-    expect(eventBus.publish).toHaveBeenCalledWith([new TalkAssignedForReview(talkId, reviewerId)])
+    eventBus.expectLastEventToBe(new TalkAssignedForReview(talkId, reviewerId))
   })
 
   it('fails if talk does not exist', async () => {
-    const notExistentId = createApiTalkId()
-    const talkRepository = TalkRepositoryFake.empty()
-    const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const notImportantId = new OrganizerId(FRAN.id)
+    const talkId = improvingTestsId()
 
-    const expectedError = new TalkNotFoundError(notExistentId)
-    await expect(() =>
-      reviewTalk.execute({
-        talkId: notExistentId,
-        reviewerId: notImportantId,
-      })
-    ).rejects.toThrowError(expectedError)
+    const result = reviewTalk.execute({ talkId, reviewerId: notImportantOrganizerId() })
+
+    await expect(result).rejects.toThrowError(new TalkNotFoundError(talkId))
   })
 
   it('fails if talk is already being reviewed', async () => {
-    const talkId = createApiTalkId()
-    const talk = createApiTalk({ id: talkId })
-    const talkRepository = TalkRepositoryFake.createWith(talk)
-    const reviewTalk = new ReviewTalk(eventBus, talkRepository)
-    const reviewerId = new OrganizerId(FRAN.id)
-    await reviewTalk.execute({
-      talkId,
-      reviewerId,
-    })
+    const talkId = juniorXpId()
+    const reviewerId = dailosId()
+    await reviewTalk.execute({ talkId, reviewerId })
 
-    const expectedError = new TalkAlreadyBeingReviewed(talkId)
-    await expect(
-      reviewTalk.execute({
-        talkId,
-        reviewerId,
-      })
-    ).rejects.toThrowError(expectedError)
+    const result = reviewTalk.execute({ talkId, reviewerId })
+
+    await expect(result).rejects.toThrowError(new TalkAlreadyBeingReviewed(talkId))
   })
 })

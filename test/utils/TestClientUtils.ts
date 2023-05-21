@@ -10,4 +10,13 @@ export class TestClientUtils extends TestClient {
    *
    * This consists of several TestClient calls
    */
+
+  async createConcha() {
+    await this.registerSpeaker().run()
+    await this.updateProfile().run()
+  }
+
+  async createJsDayCanarias() {
+    await this.createEvent().run()
+  }
 }

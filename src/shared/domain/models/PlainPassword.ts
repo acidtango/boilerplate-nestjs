@@ -15,8 +15,4 @@ export class PlainPassword extends ValueObject {
     const hash = crypto.pbkdf2Sync(this.password, salt, 1000, 64, 'sha512').toString('hex')
     return new HashedPassword(hash)
   }
-
-  toPrimitives() {
-    return this.password
-  }
 }

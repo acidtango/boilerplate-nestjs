@@ -1,9 +1,9 @@
 import { EventId } from './EventId'
-import { CODEMOTION } from '../../../infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../../infrastructure/fixtures/events'
 
 describe('EventId', () => {
   it('is serializable', () => {
-    const eventIdPrimitive = CODEMOTION.id
+    const eventIdPrimitive = JSDAY_CANARIAS.id
 
     const id = EventId.fromPrimitives(eventIdPrimitive)
 

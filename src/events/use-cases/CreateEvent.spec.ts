@@ -1,4 +1,4 @@
-import { CODEMOTION } from '../../shared/infrastructure/fixtures/events'
+import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
 import { EventDateRange } from '../domain/EventDateRange'
 import { EventId } from '../../shared/domain/models/ids/EventId'
 import { EventName } from '../domain/EventName'
@@ -26,19 +26,19 @@ describe('CreateEvent', () => {
     const params = generateCreateCodemotionParams()
 
     await expect(createEventUseCase.execute(params)).rejects.toThrowError(
-      new EventAlreadyCreatedError(new EventId(CODEMOTION.id))
+      new EventAlreadyCreatedError(new EventId(JSDAY_CANARIAS.id))
     )
   })
 })
 
 function generateCreateCodemotionParams(): CreateEventParams {
   return {
-    id: new EventId(CODEMOTION.id),
-    name: new EventName(CODEMOTION.name),
-    dateRange: new EventDateRange(CODEMOTION.startDate, CODEMOTION.endDate),
+    id: new EventId(JSDAY_CANARIAS.id),
+    name: new EventName(JSDAY_CANARIAS.name),
+    dateRange: new EventDateRange(JSDAY_CANARIAS.startDate, JSDAY_CANARIAS.endDate),
     proposalsDateRange: new EventProposalsDateRange(
-      CODEMOTION.proposalsStartDate,
-      CODEMOTION.proposalsDeadlineDate
+      JSDAY_CANARIAS.proposalsStartDate,
+      JSDAY_CANARIAS.proposalsDeadlineDate
     ),
   }
 }

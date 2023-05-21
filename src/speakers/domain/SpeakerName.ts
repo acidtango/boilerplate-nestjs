@@ -12,4 +12,8 @@ export class SpeakerName extends ValueObject {
   toPrimitives() {
     return this.name
   }
+
+  equalsTo(otherName: SpeakerName) {
+    return this.name === otherName.name
+  }
 }

@@ -102,14 +102,14 @@ For example:
    │  └── TalkStatus.ts
    ├── use-cases
    │  ├── ApproveTalk.ts
-   │  ├── CreateTalk.ts
+   │  ├── ProposeTalk.ts
    │  └── GetTalk.ts
    │  └── controllers
    └── infrastructure
          ├── ApproveTalkEndpoint.ts
-         ├── CreateTalkEndpoint.ts
+         ├── ProposeTalkEndpoint.ts
          ├── dtos
-         │  ├── CreateTalkRequestDTO.ts
+         │  ├── ProposeTalkRequestDTO.ts
          │  └── TalkResponseDTO.ts
          ├── GetTalkEndpoint.ts
          └── ReviewTalkEndpoint.ts

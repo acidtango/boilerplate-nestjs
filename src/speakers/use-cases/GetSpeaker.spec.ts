@@ -1,27 +1,32 @@
-import { createJoyceLinId, createJoyceLinSpeaker } from '../../../test/mother/SpeakerMother'
 import { GetSpeaker } from './GetSpeaker'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
+import { conchaId } from '../../../test/mother/SpeakerMother/Concha'
+import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImportant'
 
 describe('GetSpeaker', () => {
+  let speakerRepository: SpeakerRepositoryFake
+  let getSpeakerUseCase: GetSpeaker
+
+  beforeEach(() => {
+    speakerRepository = SpeakerRepositoryFake.createWithConcha()
+    getSpeakerUseCase = new GetSpeaker(speakerRepository)
+  })
+
   it('returns the speaker by id', async () => {
-    const expectedSpeakerId = createJoyceLinId()
-    const speakerRepository = SpeakerRepositoryFake.createWithJoyceLin()
-    const getSpeakerUseCase = new GetSpeaker(speakerRepository)
+    const expectedSpeakerId = conchaId()
 
     const speaker = await getSpeakerUseCase.execute(expectedSpeakerId)
 
-    const expectedSpeaker = createJoyceLinSpeaker({ id: expectedSpeakerId })
+    const expectedSpeaker = speakerRepository.getLatestSavedSpeaker()
     expect(speaker).toEqual(expectedSpeaker)
   })
 
   it('fails if the speaker does not exist', async () => {
-    const notExistentId = new SpeakerId('not-existent-id')
-    const speakerRepository = SpeakerRepositoryFake.empty()
-    const getSpeakerUseCase = new GetSpeaker(speakerRepository)
+    const notExistentId = nonExistingSpeakerId()
 
-    const expectedError = new SpeakerNotFoundError(notExistentId)
-    await expect(getSpeakerUseCase.execute(notExistentId)).rejects.toThrowError(expectedError)
+    const result = getSpeakerUseCase.execute(notExistentId)
+
+    await expect(result).rejects.toThrowError(new SpeakerNotFoundError(notExistentId))
   })
 })

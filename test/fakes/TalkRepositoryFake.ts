@@ -1,18 +1,24 @@
 import { Talk } from '../../src/talks/domain/Talk'
 import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { createApiTalk } from '../mother/TalkMother'
+import { juniorXpId, juniorXpTalk } from '../mother/TalkMother/JuniorXp'
 
 export class TalkRepositoryFake extends TalkRepositoryMemory {
   static empty() {
     return new TalkRepositoryFake()
   }
 
-  static createWith(talk: Talk) {
+  static createWith(...talks: Talk[]) {
     const talkRepository = TalkRepositoryFake.empty()
 
-    talkRepository.saveSync(talk)
+    for (const talk of talks) {
+      talkRepository.saveSync(talk)
+    }
 
     return talkRepository
+  }
+
+  static createWithJuniorXp(): TalkRepositoryFake {
+    return TalkRepositoryFake.createWith(juniorXpTalk())
   }
 
   getLatestSavedTalk(): Talk {
@@ -24,11 +30,11 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
     return Talk.fromPrimitives(lastTalk)
   }
 
-  static createWithApiTalk(): TalkRepositoryFake {
-    const talkRepository = TalkRepositoryFake.empty()
+  async getJuniorXpTalk(): Promise<Talk> {
+    const talk = await this.findBy(juniorXpId())
 
-    talkRepository.saveSync(createApiTalk())
+    if (!talk) throw new Error('No talk saved yet')
 
-    return talkRepository
+    return talk
   }
 }

@@ -7,4 +7,4 @@ import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
   providers: [{ provide: Token.SPEAKER_REPOSITORY, useClass: SpeakerRepositoryMongo }],
   exports: [Token.SPEAKER_REPOSITORY],
 })
-export class TalkRepositoryModule {}
+export class SpeakerRepositoryModule {}

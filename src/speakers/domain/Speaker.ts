@@ -8,31 +8,23 @@ import { AggregateRoot } from '../../shared/domain/models/hex/AggregateRoot'
 import { HashedPassword } from '../../shared/domain/models/HashedPassword'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRegistered } from './events/SpeakerRegistered'
+import { SpeakerProfileUpdated } from './events/SpeakerProfileUpdated'
+import { ProfileNotFilledError } from './errors/ProfileNotFilledError'
 
 export type SpeakerPrimitives = Primitives<Speaker>
 
 export class Speaker extends AggregateRoot {
   constructor(
     private readonly id: SpeakerId,
-    private readonly name: SpeakerName,
-    private readonly age: SpeakerAge,
-    private readonly language: Language,
+    private name: SpeakerName,
+    private age: SpeakerAge,
+    private language: Language,
     private readonly email: EmailAddress,
     private readonly password: HashedPassword,
     private readonly salt: string,
     private readonly isEmailValidated: boolean
   ) {
     super()
-  }
-
-  static create(
-    id: SpeakerId,
-    name: SpeakerName,
-    age: SpeakerAge,
-    language: Language,
-    email: EmailAddress
-  ) {
-    return new Speaker(id, name, age, language, email, new HashedPassword(''), '', false)
   }
 
   static register(
@@ -47,7 +39,7 @@ export class Speaker extends AggregateRoot {
       id,
       SpeakerName.fromPrimitives(''),
       SpeakerAge.fromPrimitives(18),
-      Language.SPANISH,
+      Language.ENGLISH,
       email,
       hash,
       salt,
@@ -59,7 +51,23 @@ export class Speaker extends AggregateRoot {
     return speaker
   }
 
-  has(plainPassword: PlainPassword) {
+  has(value: PlainPassword | SpeakerName | SpeakerAge | Language) {
+    if (value instanceof PlainPassword) {
+      return this.hasPassword(value)
+    }
+
+    if (value instanceof SpeakerName) {
+      return this.name.equalsTo(value)
+    }
+
+    if (value instanceof SpeakerAge) {
+      return this.age.equalsTo(value)
+    }
+
+    return this.language === value
+  }
+
+  private hasPassword(plainPassword: PlainPassword) {
     const hash = plainPassword.toHashed(this.salt)
     return this.password.equalsTo(hash)
   }
@@ -90,15 +98,33 @@ export class Speaker extends AggregateRoot {
     }
   }
 
-  hasValidatedEmail() {
-    return false
-  }
-
   getIdString() {
     return this.id.toString()
   }
 
   doesNotHaveMatching(password: PlainPassword) {
     return !this.has(password)
+  }
+
+  updateProfile(name: SpeakerName, age: SpeakerAge, language: Language) {
+    this.name = name
+    this.age = age
+    this.language = language
+
+    this.recordEvent(new SpeakerProfileUpdated(this.id))
+  }
+
+  hasProfile() {
+    return !this.name.equalsTo(new SpeakerName(''))
+  }
+
+  getId() {
+    return this.id
+  }
+
+  ensureHasProfileFilled() {
+    if (!this.hasProfile()) {
+      throw new ProfileNotFilledError(this.getId())
+    }
   }
 }

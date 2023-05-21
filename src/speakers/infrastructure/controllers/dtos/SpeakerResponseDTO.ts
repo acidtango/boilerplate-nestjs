@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsNumber, IsString, IsUUID } from 'class-validator'
-import { JOYCE_LIN } from '../../../../shared/infrastructure/fixtures/speakers'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
 import { Language } from '../../../../shared/domain/models/Language'
+import { SpeakerProfileDTO } from './SpeakerProfileDTO'
 
 type EventResponseDTOParams = {
   id: string
@@ -10,18 +11,19 @@ type EventResponseDTOParams = {
   language: Language
   email: string
   isEmailValidated: boolean
+  profile: SpeakerProfileDTO
 }
 
 export class SpeakerResponseDTO {
-  @ApiProperty({ example: JOYCE_LIN.id })
+  @ApiProperty({ example: CONCHA_ASENSIO.id })
   @IsUUID()
   id!: string
 
-  @ApiProperty({ example: JOYCE_LIN.name })
+  @ApiProperty({ example: CONCHA_ASENSIO.name })
   @IsString()
   name!: string
 
-  @ApiProperty({ example: JOYCE_LIN.age })
+  @ApiProperty({ example: CONCHA_ASENSIO.age })
   @IsNumber()
   age!: number
 
@@ -29,11 +31,14 @@ export class SpeakerResponseDTO {
   @IsEnum(Language)
   language!: Language
 
-  @ApiProperty({ example: JOYCE_LIN.email })
+  @ApiProperty({ example: CONCHA_ASENSIO.email })
   email!: string
 
   @ApiProperty({ example: true })
   isEmailValidated!: boolean
+
+  @ApiProperty({ type: SpeakerProfileDTO })
+  profile?: SpeakerProfileDTO
 
   static create(params: EventResponseDTOParams) {
     const createEventRequestDTO = new SpeakerResponseDTO()
@@ -44,6 +49,7 @@ export class SpeakerResponseDTO {
     createEventRequestDTO.email = params.email
     createEventRequestDTO.language = params.language
     createEventRequestDTO.isEmailValidated = params.isEmailValidated
+    createEventRequestDTO.profile = params.profile
 
     return createEventRequestDTO
   }

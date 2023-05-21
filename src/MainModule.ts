@@ -1,5 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common'
-import { APP_FILTER, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core'
 import { config } from './shared/infrastructure/config'
 import { DatabaseSwitcherModule } from './shared/infrastructure/database/DatabaseSwitcherModule'
 import { DomainErrorFilter } from './shared/infrastructure/filters/DomainErrorFilter'
@@ -12,6 +12,7 @@ import { TalksModule } from './talks/TalksModule'
 import { EventBusModule } from './shared/infrastructure/events/EventBusModule'
 import { ClockModule } from './shared/infrastructure/services/clock/ClockModule'
 import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModule'
+import { RolesGuard } from './shared/infrastructure/guards/JwtAuthGuard'
 
 @Module({
   imports: [
@@ -39,6 +40,10 @@ import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModu
     {
       provide: APP_FILTER,
       useClass: DomainErrorFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
     ApplicationShutdownService,
   ],

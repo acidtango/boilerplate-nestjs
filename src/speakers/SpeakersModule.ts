@@ -1,31 +1,22 @@
 import { Module } from '@nestjs/common'
-import { Token } from '../shared/domain/services/Token'
-import { CreateSpeakerEndpoint } from './infrastructure/controllers/CreateSpeakerEndpoint'
 import { GetSpeakerEndpoint } from './infrastructure/controllers/GetSpeakerEndpoint'
-import { SpeakerRepositoryMongo } from './infrastructure/repositories/SepakerRepositoryMongo'
-import { CreateSpeaker } from './use-cases/CreateSpeaker'
 import { GetSpeaker } from './use-cases/GetSpeaker'
 import { RegisterSpeakerEndpoint } from './infrastructure/controllers/RegisterSpeakerEndpoint'
 import { LoginSpeakerEndpoint } from './infrastructure/controllers/LoginSpeakerEndpoint'
 import { RegisterSpeaker } from './use-cases/RegisterSpeaker'
 import { LoginSpeaker } from './use-cases/LoginSpeaker'
+import { UpdateSpeakerProfileEndpoint } from './infrastructure/controllers/UpdateSpeakerProfileEndpoint'
+import { UpdateSpeakerProfile } from './use-cases/UpdateSpeakerProfile'
+import { SpeakerRepositoryModule } from './infrastructure/repositories/SpeakerRepositoryModule'
 
 @Module({
+  imports: [SpeakerRepositoryModule],
   controllers: [
     RegisterSpeakerEndpoint,
     LoginSpeakerEndpoint,
-    CreateSpeakerEndpoint,
     GetSpeakerEndpoint,
+    UpdateSpeakerProfileEndpoint,
   ],
-  providers: [
-    CreateSpeaker,
-    GetSpeaker,
-    RegisterSpeaker,
-    LoginSpeaker,
-    {
-      provide: Token.SPEAKER_REPOSITORY,
-      useClass: SpeakerRepositoryMongo,
-    },
-  ],
+  providers: [GetSpeaker, RegisterSpeaker, LoginSpeaker, UpdateSpeakerProfile],
 })
 export class SpeakersModule {}

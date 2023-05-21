@@ -1,7 +1,7 @@
 import { DomainEvent } from '../../src/shared/domain/events/DomainEvent'
 import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
 
-export class EventBusNoopFake implements EventBus {
+export class EventBusFake implements EventBus {
   private readonly events: DomainEvent[] = []
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {

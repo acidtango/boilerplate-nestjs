@@ -8,6 +8,10 @@ export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable {
   protected speakers: Map<string, SpeakerPrimitives> = new Map()
 
   async save(speaker: Speaker): Promise<void> {
+    this.saveSync(speaker)
+  }
+
+  protected saveSync(speaker: Speaker) {
     const speakerPrimitives = speaker.toPrimitives()
 
     this.speakers.set(speakerPrimitives.id, speakerPrimitives)

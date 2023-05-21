@@ -1,36 +1,37 @@
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
-import { createJoyceLinSpeaker } from '../mother/SpeakerMother'
 import { Speaker } from '../../src/speakers/domain/Speaker'
+import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother/Concha'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
-  private saveHasBeenCalled = false
-
   static empty() {
     return new SpeakerRepositoryFake()
   }
 
-  static createWithJoyceLin(): SpeakerRepositoryFake {
+  static with(...speakers: Speaker[]) {
     const speakerRepository = new SpeakerRepositoryFake()
-    const speaker = createJoyceLinSpeaker()
 
-    const speakerPrimitives = speaker.toPrimitives()
-    speakerRepository.speakers.set(speakerPrimitives.id, speakerPrimitives)
+    for (const speaker of speakers) {
+      speakerRepository.saveSync(speaker)
+    }
 
     return speakerRepository
   }
 
-  async save(speaker: Speaker): Promise<void> {
-    this.saveHasBeenCalled = true
-    return super.save(speaker)
+  static createWithConcha(): SpeakerRepositoryFake {
+    const speaker = conchaSpeaker()
+
+    return this.with(speaker)
+  }
+
+  static createWithConchaWithoutProfile(): SpeakerRepositoryFake {
+    const speaker = conchaSpeakerWithoutProfile()
+
+    return this.with(speaker)
   }
 
   getLatestSavedSpeaker(): Speaker {
     const speakers = Array.from(this.speakers.values())
     const lastSpeaker = speakers[speakers.length - 1]
     return Speaker.fromPrimitives(lastSpeaker)
-  }
-
-  expectSaveToHaveBeenCalled() {
-    expect(this.saveHasBeenCalled).toBe(true)
   }
 }

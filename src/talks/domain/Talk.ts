@@ -16,37 +16,6 @@ import { TalkCannotBeApprovedError } from './errors/TalkCannotBeApprovedError'
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
-  private constructor(
-    private readonly id: TalkId,
-    private readonly title: TalkTitle,
-    private readonly description: TalkDescription,
-    private readonly language: Language,
-    private readonly cospeakers: SpeakerId[],
-    private readonly speakerId: SpeakerId,
-    private readonly eventId: EventId,
-    private reviewerId?: OrganizerId,
-    private isApproved?: boolean
-  ) {
-    super()
-    if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
-  }
-
-  static create(
-    id: TalkId,
-    title: TalkTitle,
-    description: TalkDescription,
-    language: Language,
-    cospeakers: SpeakerId[],
-    speakerId: SpeakerId,
-    eventId: EventId
-  ) {
-    return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
-  }
-
-  assignReviewer(id: OrganizerId) {
-    this.reviewerId = id
-  }
-
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const {
       id,
@@ -71,6 +40,37 @@ export class Talk extends AggregateRoot {
       reviewerId ? OrganizerId.fromPrimitives(reviewerId) : undefined,
       typeof isApproved === 'boolean' ? isApproved : undefined
     )
+  }
+
+  static proposal(
+    id: TalkId,
+    title: TalkTitle,
+    description: TalkDescription,
+    language: Language,
+    cospeakers: SpeakerId[],
+    speakerId: SpeakerId,
+    eventId: EventId
+  ) {
+    return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
+  }
+
+  private constructor(
+    private readonly id: TalkId,
+    private readonly title: TalkTitle,
+    private readonly description: TalkDescription,
+    private readonly language: Language,
+    private readonly cospeakers: SpeakerId[],
+    private readonly speakerId: SpeakerId,
+    private readonly eventId: EventId,
+    private reviewerId?: OrganizerId,
+    private isApproved?: boolean
+  ) {
+    super()
+    if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
+  }
+
+  assignReviewer(id: OrganizerId) {
+    this.reviewerId = id
   }
 
   hasStatus(expectedStatus: TalkStatus) {
@@ -103,7 +103,7 @@ export class Talk extends AggregateRoot {
   }
 
   approve() {
-    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError()
+    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError(this.id)
 
     this.isApproved = true
   }
