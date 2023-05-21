@@ -1,20 +1,27 @@
 import { Speaker } from './Speaker'
-import { CONCHA_ASENSIO, JORGE_AGUIAR } from '../../shared/infrastructure/fixtures/speakers'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword'
-import { SpeakerName } from './SpeakerName'
-import { SpeakerAge } from './SpeakerAge'
 import {
   notImportantEmail,
   notImportantPassword,
   notImportantSpeakerId,
 } from '../../../test/mother/SpeakerMother/NotImportant'
+import { exampleSalt } from '../../../test/mother/Common'
+import {
+  conchaAge,
+  conchaLanguage,
+  conchaName,
+  conchaPassword,
+} from '../../../test/mother/SpeakerMother/Concha'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 
 describe('Speaker', () => {
-  const salt = 'salt'
-
   it('can check if the password is correct', () => {
-    const password = new PlainPassword(CONCHA_ASENSIO.password)
-    const speaker = Speaker.register(notImportantSpeakerId(), notImportantEmail(), password, salt)
+    const password = conchaPassword()
+    const speaker = Speaker.register(
+      notImportantSpeakerId(),
+      notImportantEmail(),
+      password,
+      exampleSalt()
+    )
 
     const samePassword = speaker.has(password)
 
@@ -22,22 +29,27 @@ describe('Speaker', () => {
   })
 
   it('can check if the password is not correct', () => {
-    const password = new PlainPassword(CONCHA_ASENSIO.password)
-    const otherPassword = new PlainPassword(JORGE_AGUIAR.password)
-    const speaker = Speaker.register(notImportantSpeakerId(), notImportantEmail(), password, salt)
+    const password = conchaPassword()
+    const wrongPassword = new PlainPassword('wrong password')
+    const speaker = Speaker.register(
+      notImportantSpeakerId(),
+      notImportantEmail(),
+      password,
+      exampleSalt()
+    )
 
-    const samePassword = speaker.has(otherPassword)
+    const samePassword = speaker.has(wrongPassword)
 
     expect(samePassword).toBe(false)
   })
 
   it('checks if the name is correct', () => {
-    const name = new SpeakerName(CONCHA_ASENSIO.name)
+    const name = conchaName()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
       notImportantPassword(),
-      salt
+      exampleSalt()
     )
 
     const sameName = speaker.has(name)
@@ -46,12 +58,12 @@ describe('Speaker', () => {
   })
 
   it('checks if the age is correct', () => {
-    const age = new SpeakerAge(CONCHA_ASENSIO.age)
+    const age = conchaAge()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
       notImportantPassword(),
-      salt
+      exampleSalt()
     )
 
     const sameAge = speaker.has(age)
@@ -60,12 +72,12 @@ describe('Speaker', () => {
   })
 
   it('checks if the language is correct', () => {
-    const language = CONCHA_ASENSIO.language
+    const language = conchaLanguage()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
       notImportantPassword(),
-      salt
+      exampleSalt()
     )
 
     const sameLanguage = speaker.has(language)
@@ -78,11 +90,11 @@ describe('Speaker', () => {
       notImportantSpeakerId(),
       notImportantEmail(),
       notImportantPassword(),
-      salt
+      exampleSalt()
     )
-    const name = new SpeakerName(CONCHA_ASENSIO.name)
-    const age = new SpeakerAge(CONCHA_ASENSIO.age)
-    const language = CONCHA_ASENSIO.language
+    const name = conchaName()
+    const age = conchaAge()
+    const language = conchaLanguage()
 
     speaker.updateProfile(name, age, language)
 
