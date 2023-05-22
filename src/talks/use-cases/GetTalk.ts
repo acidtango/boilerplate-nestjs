@@ -16,6 +16,6 @@ export class GetTalk extends UseCase {
   }
 
   async execute(talkId: TalkId): Promise<Talk> {
-    return this.talkFinder.findOrThrow(talkId)
+    return this.talkFinder.findOrThrowBy(talkId)
   }
 }

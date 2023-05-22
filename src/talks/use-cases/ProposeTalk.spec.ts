@@ -20,18 +20,23 @@ import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImpo
 import { jorgeId, jorgeSpeakerWithoutProfile } from '../../../test/mother/SpeakerMother/Jorge'
 import { EventRepositoryFake } from '../../../test/fakes/EventRepositoryFake'
 import { nonExistingEventId } from '../../../test/mother/EventMother/NotImportant'
+import { EventBusFake } from '../../../test/fakes/EventBusFake'
+import { TalkProposed } from '../domain/events/TalkProposed'
+import { juniorXpId } from '../../../test/mother/TalkMother/JuniorXp'
 
 describe('ProposeTalk', () => {
   let talkRepository: TalkRepositoryFake
   let speakerRepository: SpeakerRepositoryFake
   let eventRepository: EventRepositoryMemory
   let proposeTalk: ProposeTalk
+  let eventBus: EventBusFake
 
   beforeEach(async () => {
     talkRepository = TalkRepositoryFake.empty()
     eventRepository = EventRepositoryFake.with(jsdayEvent())
     speakerRepository = SpeakerRepositoryFake.with(conchaSpeaker(), jorgeSpeakerWithoutProfile())
-    proposeTalk = new ProposeTalk(talkRepository, eventRepository, speakerRepository)
+    eventBus = new EventBusFake()
+    proposeTalk = new ProposeTalk(eventBus, talkRepository, eventRepository, speakerRepository)
   })
 
   it('creates the a proposal talk', async () => {
@@ -41,6 +46,14 @@ describe('ProposeTalk', () => {
 
     const talk = talkRepository.getLatestSavedTalk()
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
+  })
+
+  it('emits a domain event', async () => {
+    const params = juniorXpParams()
+
+    await proposeTalk.execute(params)
+
+    eventBus.expectLastEventToBe(TalkProposed.emit(juniorXpId()))
   })
 
   it('fails if eventId does not exists', async () => {

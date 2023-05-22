@@ -13,6 +13,7 @@ import { EventRepository } from '../../events/domain/repositories/EventRepositor
 import { SpeakerRepository } from '../../speakers/domain/repositories/SpeakerRepository'
 import { SpeakerFinder } from '../../speakers/domain/services/SpeakerFinder'
 import { EventFinder } from '../../events/domain/services/EventFinder'
+import { EventBus } from '../../shared/domain/models/hex/EventBus'
 
 export type ProposeTalkParams = {
   id: TalkId
@@ -31,6 +32,7 @@ export class ProposeTalk extends UseCase {
   private readonly eventFinder: EventFinder
 
   constructor(
+    @Inject(Token.EVENT_BUS) private readonly eventBus: EventBus,
     @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository,
     @Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository,
     @Inject(Token.SPEAKER_REPOSITORY) speakerRepository: SpeakerRepository
@@ -57,5 +59,6 @@ export class ProposeTalk extends UseCase {
     const talk = Talk.proposal(id, title, description, language, cospeakers, speakerId, eventId)
 
     await this.talkRepository.save(talk)
+    await this.eventBus.publish(talk.pullDomainEvents())
   }
 }

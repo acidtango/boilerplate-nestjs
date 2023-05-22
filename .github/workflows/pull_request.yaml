@@ -64,6 +64,19 @@ jobs:
           --health-retries 5
         ports:
           - 27017:27017
+      queue:
+        image: rabbitmq:3.10-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: acid
+          RABBITMQ_DEFAULT_PASS: password
+        options: >-
+          --health-cmd "rabbitmqctl node_health_check"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 15672:15672
+          - 5672:5672
     strategy:
       matrix:
         shard: [1]
@@ -84,6 +97,9 @@ jobs:
           DB_USERNAME: acid
           DB_PASSWORD: password
           DB_DATABASE: develop
+          QUEUE_HOST: queue
+          QUEUE_USERNAME: acid
+          QUEUE_PASSWORD: password
 
   docker-build:
     needs: skip-draft

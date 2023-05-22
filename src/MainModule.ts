@@ -9,10 +9,12 @@ import { LoggerSwitcherModule } from './shared/infrastructure/LoggerSwitcher.mod
 import { EventsModule } from './events/EventsModule'
 import { SpeakersModule } from './speakers/SpeakersModule'
 import { TalksModule } from './talks/TalksModule'
-import { EventBusModule } from './shared/infrastructure/events/EventBusModule'
+import { EventBusModule } from './shared/infrastructure/events/EventBus/EventBusModule'
 import { ClockModule } from './shared/infrastructure/services/clock/ClockModule'
 import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModule'
 import { RolesGuard } from './shared/infrastructure/guards/JwtAuthGuard'
+import { EmailSenderModule } from './shared/infrastructure/email/EmailSenderModule'
+import { QueueSwitcherModule } from './shared/infrastructure/queue/QueueSwitcherModule'
 
 @Module({
   imports: [
@@ -25,9 +27,13 @@ import { RolesGuard } from './shared/infrastructure/guards/JwtAuthGuard'
     CryptoModule,
     UuidGeneratorModule,
     ClockModule,
+    EmailSenderModule,
     // Infrastructure modules
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     DatabaseSwitcherModule.init({
+      disable: config.testModeEnabled && !config.forceEnableORMRepositories,
+    }),
+    QueueSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
   ],

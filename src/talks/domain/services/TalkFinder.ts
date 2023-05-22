@@ -8,7 +8,7 @@ export class TalkFinder extends DomainService {
     super()
   }
 
-  async findOrThrow(talkId: TalkId) {
+  async findOrThrowBy(talkId: TalkId) {
     const talk = await this.talkRepository.findBy(talkId)
 
     if (!talk) {

@@ -9,6 +9,9 @@ import { INestApplication, VersioningType } from '@nestjs/common'
 import { Server } from 'http'
 import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
 import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
+import { EmailSenderFake } from '../fakes/EmailSenderFake'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory'
+import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
 
 export class TestApi {
   private static instance: TestApi
@@ -61,13 +64,13 @@ export class TestApi {
       .useClass(TalkRepositoryMemory)
       .overrideProvider(Token.SPEAKER_REPOSITORY)
       .useClass(SpeakerRepositoryMemory)
+      .overrideProvider(Token.EVENT_BUS)
+      .useClass(EventBusMemory)
   }
 
   private useThirdPartyMocks(testingModuleBuilder: TestingModuleBuilder) {
-    return testingModuleBuilder
     // Here we override the necessary services
-    // .overrideProvider(PHONE_VALIDATOR_TOKEN)
-    // .useValue(new PhoneValidator);
+    return testingModuleBuilder.overrideProvider(Token.EMAIL_SENDER).useClass(EmailSenderFake)
   }
 
   async close() {
@@ -84,6 +87,14 @@ export class TestApi {
 
   public getClock() {
     return this.getNestApplication().get<ClockFake>(Token.CLOCK)
+  }
+
+  public getEventBus() {
+    return this.getNestApplication().get<EventBus>(Token.EVENT_BUS)
+  }
+
+  public getEmailSender() {
+    return this.getNestApplication().get<EmailSenderFake>(Token.EMAIL_SENDER)
   }
 
   private getNestApplication() {

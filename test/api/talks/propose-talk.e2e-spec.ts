@@ -3,6 +3,7 @@ import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/even
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks'
 import { createClient } from '../../utils/createClient'
+import { waitFor } from '../../utils/waitFor'
 
 describe('create talk', () => {
   it('can be created', async () => {
@@ -22,5 +23,18 @@ describe('create talk', () => {
     expect(talk.status).toEqual('PROPOSAL')
     expect(talk.speakerId).toEqual(CONCHA_ASENSIO.id)
     expect(talk.eventId).toEqual(JSDAY_CANARIAS.id)
+  })
+
+  it('sends an email to the speaker', async () => {
+    const client = await createClient()
+    const emailSender = client.getEmailSender()
+    await client.createConcha()
+    await client.createJsDayCanarias()
+
+    await client.proposeTalk({ id: JUNIOR_XP.id }).run()
+
+    await waitFor(async () => {
+      emailSender.expectSendThanksForProposalSent()
+    })
   })
 })

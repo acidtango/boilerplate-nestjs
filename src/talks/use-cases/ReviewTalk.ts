@@ -25,7 +25,7 @@ export class ReviewTalk extends UseCase {
   }
 
   async execute({ talkId, reviewerId }: ReviewTalkParams) {
-    const talk = await this.talkFinder.findOrThrow(talkId)
+    const talk = await this.talkFinder.findOrThrowBy(talkId)
 
     talk.assignForReviewTo(reviewerId)
 

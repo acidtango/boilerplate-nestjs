@@ -12,6 +12,7 @@ import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
 import { TalkAlreadyBeingReviewed } from '../errors/TalkAlreadyBeingReviewed'
 import { TalkCannotBeApprovedError } from '../errors/TalkCannotBeApprovedError'
+import { TalkProposed } from '../events/TalkProposed'
 
 export type TalkPrimitives = Primitives<Talk>
 
@@ -51,7 +52,11 @@ export class Talk extends AggregateRoot {
     speakerId: SpeakerId,
     eventId: EventId
   ) {
-    return new Talk(id, title, description, language, cospeakers, speakerId, eventId)
+    const talk = new Talk(id, title, description, language, cospeakers, speakerId, eventId)
+
+    talk.recordEvent(TalkProposed.emit(id))
+
+    return talk
   }
 
   private constructor(
@@ -106,6 +111,10 @@ export class Talk extends AggregateRoot {
     if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError(this.id)
 
     this.isApproved = true
+  }
+
+  getSpeakerId() {
+    return this.speakerId
   }
 
   toPrimitives() {

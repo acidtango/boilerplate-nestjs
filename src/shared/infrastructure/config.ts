@@ -7,15 +7,16 @@ export const config = {
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_DATABASE || 'develop',
   },
+  queue: {
+    username: process.env.QUEUE_USERNAME || 'acid',
+    password: process.env.QUEUE_PASSWORD || 'password',
+    host: process.env.QUEUE_HOST || 'localhost',
+    port: process.env.QUEUE_PORT || '5672',
+  },
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
   apiPrefix: process.env.API_PREFIX || 'api/',
-  neutrinoApi: {
-    baseURL: process.env.NEUTRINO_API_BASE_URL || 'https://neutrinoapi.net',
-    userId: process.env.NEUTRINO_API_USER_ID || '',
-    apiKey: process.env.NEUTRINO_API_KEY || '',
-  },
   testModeEnabled: process.env.NODE_ENV === 'test',
   runThirdPartyTests: process.env.RUN_THIRD_PARTY_TESTS === 'true',
 }
