@@ -15,7 +15,7 @@ export class ApproveTalk extends UseCase {
   }
 
   async execute(talkId: TalkId) {
-    const talk = await this.talkFinder.findOrThrow(talkId)
+    const talk = await this.talkFinder.findOrThrowBy(talkId)
 
     talk.approve()
 

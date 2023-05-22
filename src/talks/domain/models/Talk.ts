@@ -54,7 +54,7 @@ export class Talk extends AggregateRoot {
   ) {
     const talk = new Talk(id, title, description, language, cospeakers, speakerId, eventId)
 
-    talk.recordEvent(new TalkProposed(id))
+    talk.recordEvent(TalkProposed.emit(id))
 
     return talk
   }
@@ -111,6 +111,10 @@ export class Talk extends AggregateRoot {
     if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError(this.id)
 
     this.isApproved = true
+  }
+
+  getSpeakerId() {
+    return this.speakerId
   }
 
   toPrimitives() {

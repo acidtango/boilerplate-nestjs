@@ -8,10 +8,11 @@ import { GetTalk } from './use-cases/GetTalk'
 import { ReviewTalk } from './use-cases/ReviewTalk'
 import { ApproveTalk } from './use-cases/ApproveTalk'
 import { TalkRepositoryModule } from './infrastructure/repositories/TalkRepositoryModule'
+import { TalkProposedSubscriber } from './use-cases/subscribers/TalkProposedSubscriber'
 
 @Module({
   imports: [TalkRepositoryModule],
   controllers: [ProposeTalkEndpoint, GetTalkEndpoint, ReviewTalkEndpoint, ApproveTalkEndpoint],
-  providers: [ProposeTalk, GetTalk, ReviewTalk, ApproveTalk],
+  providers: [ProposeTalk, GetTalk, ReviewTalk, ApproveTalk, TalkProposedSubscriber],
 })
 export class TalksModule {}

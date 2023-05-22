@@ -11,6 +11,13 @@ export class EventBusFake implements EventBus {
   }
 
   expectLastEventToBe(event: DomainEvent) {
-    expect(this.events[this.events.length - 1]).toEqual(event)
+    const lastEvent = this.events[this.events.length - 1]
+
+    expect(lastEvent).toEqual({
+      ...event,
+      eventId: {
+        id: expect.any(String),
+      },
+    })
   }
 }

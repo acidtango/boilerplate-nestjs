@@ -18,6 +18,10 @@ export class TestClient {
     return this.testApi.getClock()
   }
 
+  getEmailSender() {
+    return this.testApi.getEmailSender()
+  }
+
   health() {
     return tepper(this.app).get('/health')
   }
