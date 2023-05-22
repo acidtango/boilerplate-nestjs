@@ -55,11 +55,9 @@ export class EventBusRabbitMQ implements EventBus, OnModuleInit, OnModuleDestroy
   }
 
   public async waitForProcessingAllEvents() {
-    console.log('Waiting for processing all events...', this.processingEventsAmount)
     while (this.processingEventsAmount > 0) {
       await sleep(50)
     }
-    console.log('Done!', this.processingEventsAmount)
   }
 
   async publish(events: DomainEvent[]): Promise<void> {
