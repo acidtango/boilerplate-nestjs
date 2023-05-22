@@ -18,6 +18,7 @@ export class EventBusFake implements EventBus {
       eventId: {
         id: expect.any(String),
       },
+      occurredAt: expect.any(Date),
     })
   }
 }
