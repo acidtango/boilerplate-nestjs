@@ -1,7 +1,5 @@
 import { juniorXpTalk } from '../../../../test/mother/TalkMother/JuniorXp'
 import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
-import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
-import { DAILOS } from '../../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {
@@ -16,40 +14,9 @@ describe('Talk', () => {
     expect(() => juniorXpTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
   })
 
-  it('is not assigned for review when created', () => {
-    const talk = juniorXpTalk()
-
-    const notExistentId = new OrganizerId('not-existent-id')
-    expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
-  })
-
   it('has status PROPOSAL when created', () => {
     const talk = juniorXpTalk()
 
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
-  })
-
-  it('does not have status REVIEWING when created', () => {
-    const talk = juniorXpTalk()
-
-    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(false)
-  })
-
-  it('can be assigned to a reviewer', () => {
-    const talk = juniorXpTalk()
-    const reviewerId = new OrganizerId(DAILOS.id)
-
-    talk.assignForReviewTo(reviewerId)
-
-    expect(talk.isGoingToBeReviewedBy(reviewerId)).toBe(true)
-  })
-
-  it('has status REVIEWING when assigned to a reviewer', () => {
-    const talk = juniorXpTalk()
-    const reviewerId = new OrganizerId(DAILOS.id)
-
-    talk.assignForReviewTo(reviewerId)
-
-    expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(true)
   })
 })

@@ -1,34 +1,20 @@
 import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId'
 import { Primitives } from '../../../shared/domain/models/hex/Primitives'
 import { Language } from '../../../shared/domain/models/Language'
-import { TalkAssignedForReview } from '../events/TalkAssignedForReview'
 import { TalkDescription } from './TalkDescription'
 import { TalkStatus } from './TalkStatus'
 import { TalkTitle } from './TalkTitle'
 import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
-import { TalkAlreadyBeingReviewed } from '../errors/TalkAlreadyBeingReviewed'
-import { TalkCannotBeApprovedError } from '../errors/TalkCannotBeApprovedError'
 import { TalkProposed } from '../events/TalkProposed'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
-    const {
-      id,
-      cospeakers,
-      description,
-      eventId,
-      language,
-      speakerId,
-      title,
-      reviewerId,
-      isApproved,
-    } = talkPrimitives
+    const { id, cospeakers, description, eventId, language, speakerId, title } = talkPrimitives
 
     return new Talk(
       TalkId.fromPrimitives(id),
@@ -37,9 +23,7 @@ export class Talk extends AggregateRoot {
       language,
       cospeakers.map(SpeakerId.fromPrimitives),
       SpeakerId.fromPrimitives(speakerId),
-      EventId.fromPrimitives(eventId),
-      reviewerId ? OrganizerId.fromPrimitives(reviewerId) : undefined,
-      typeof isApproved === 'boolean' ? isApproved : undefined
+      EventId.fromPrimitives(eventId)
     )
   }
 
@@ -66,9 +50,7 @@ export class Talk extends AggregateRoot {
     private readonly language: Language,
     private readonly cospeakers: SpeakerId[],
     private readonly speakerId: SpeakerId,
-    private readonly eventId: EventId,
-    private reviewerId?: OrganizerId,
-    private isApproved?: boolean
+    private readonly eventId: EventId
   ) {
     super()
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
@@ -78,34 +60,8 @@ export class Talk extends AggregateRoot {
     return this.getCurrentStatus() === expectedStatus
   }
 
-  assignForReviewTo(reviewerId: OrganizerId) {
-    this.ensureTalkIsNotAlreadyBeingReviewed()
-    this.reviewerId = reviewerId
-    this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
-  }
-
-  isGoingToBeReviewedBy(expectedReviewerId: OrganizerId) {
-    return this.reviewerId?.equals(expectedReviewerId) ?? false
-  }
-
-  ensureTalkIsNotAlreadyBeingReviewed() {
-    if (this.hasStatus(TalkStatus.REVIEWING)) {
-      throw new TalkAlreadyBeingReviewed(this.id)
-    }
-  }
-
   private getCurrentStatus() {
-    if (this.isApproved) return TalkStatus.APPROVED
-    if (this.isApproved === false) return TalkStatus.REJECTED
-    if (this.reviewerId) return TalkStatus.REVIEWING
-
     return TalkStatus.PROPOSAL
-  }
-
-  approve() {
-    if (this.hasStatus(TalkStatus.PROPOSAL)) throw new TalkCannotBeApprovedError(this.id)
-
-    this.isApproved = true
   }
 
   getSpeakerId() {
@@ -121,9 +77,7 @@ export class Talk extends AggregateRoot {
       cospeakers: this.cospeakers.map(SpeakerId.toPrimitives),
       status: this.getCurrentStatus(),
       speakerId: this.speakerId.toPrimitives(),
-      reviewerId: this.reviewerId?.toPrimitives(),
       eventId: this.eventId.toPrimitives(),
-      isApproved: this.isApproved,
     }
   }
 }

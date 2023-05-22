@@ -4,7 +4,6 @@ import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
 import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
 import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks'
-import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
 export class TestClient {
@@ -106,19 +105,5 @@ export class TestClient {
 
   getEvents() {
     return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
-  }
-
-  assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
-    return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
-      .send({ reviewerId })
-      .expectStatus(HttpStatus.OK)
-  }
-
-  approveTalk({ id = JUNIOR_XP.id }) {
-    return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
-
-      .expectStatus(HttpStatus.OK)
   }
 }

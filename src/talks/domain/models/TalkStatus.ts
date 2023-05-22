@@ -1,6 +1,3 @@
 export enum TalkStatus {
   PROPOSAL = 'PROPOSAL',
-  REVIEWING = 'REVIEWING',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED',
 }

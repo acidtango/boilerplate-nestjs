@@ -8,8 +8,6 @@ import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/even
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks'
 import { flushDomainEvents } from '../Common'
-import { OrganizerId } from '../../../src/shared/domain/models/ids/OrganizerId'
-import { DAILOS } from '../../../src/shared/infrastructure/fixtures/organizers'
 
 export function juniorXpId() {
   return new TalkId(JUNIOR_XP.id)
@@ -26,11 +24,5 @@ export function juniorXpTalk({ id = juniorXpId(), cospeakers = JUNIOR_XP.cospeak
     new EventId(JSDAY_CANARIAS.id)
   )
 
-  return flushDomainEvents(talk)
-}
-
-export function juniorXpTalkReviewed() {
-  const talk = juniorXpTalk()
-  talk.assignForReviewTo(new OrganizerId(DAILOS.id))
   return flushDomainEvents(talk)
 }

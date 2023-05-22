@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
-import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
 import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
@@ -28,12 +27,6 @@ export class TalkResponseDTO {
   @ApiProperty({ example: CONCHA_ASENSIO.id })
   speakerId!: string
 
-  @ApiProperty({ example: DAILOS.id, nullable: true })
-  reviewerId?: string
-
-  @ApiProperty({ example: false, nullable: true })
-  isApproved?: boolean
-
   @ApiProperty({ example: JSDAY_CANARIAS.id })
   eventId!: string
 
@@ -48,8 +41,6 @@ export class TalkResponseDTO {
     talkResponseDTO.status = params.status
     talkResponseDTO.speakerId = params.speakerId
     talkResponseDTO.eventId = params.eventId
-    talkResponseDTO.reviewerId = params.reviewerId
-    talkResponseDTO.isApproved = params.isApproved
 
     return talkResponseDTO
   }
