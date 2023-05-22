@@ -11,6 +11,7 @@ import { isReseteable } from '../../src/shared/infrastructure/repositories/Reset
 import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
 import { EmailSenderFake } from '../fakes/EmailSenderFake'
 import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory'
+import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
 
 export class TestApi {
   private static instance: TestApi
@@ -86,6 +87,10 @@ export class TestApi {
 
   public getClock() {
     return this.getNestApplication().get<ClockFake>(Token.CLOCK)
+  }
+
+  public getEventBus() {
+    return this.getNestApplication().get<EventBus>(Token.EVENT_BUS)
   }
 
   public getEmailSender() {
