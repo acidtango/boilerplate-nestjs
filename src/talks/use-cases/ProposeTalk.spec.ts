@@ -53,7 +53,7 @@ describe('ProposeTalk', () => {
 
     await proposeTalk.execute(params)
 
-    eventBus.expectLastEventToBe(new TalkProposed(juniorXpId()))
+    eventBus.expectLastEventToBe(TalkProposed.emit(juniorXpId()))
   })
 
   it('fails if eventId does not exists', async () => {

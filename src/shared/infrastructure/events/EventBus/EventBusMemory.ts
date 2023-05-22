@@ -11,9 +11,7 @@ export class EventBusMemory implements EventBus {
   ) {}
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
-    const events = domainEvents
-
-    for await (const event of events) {
+    for await (const event of domainEvents) {
       const subscribersAndEvent = this.domainEventMapper.getSubscribersAndEvent(event.code)
 
       if (!subscribersAndEvent) return
@@ -25,7 +23,7 @@ export class EventBusMemory implements EventBus {
       for await (const subscriber of subscribers) {
         try {
           await subscriber.on(event)
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('TODO: Correctly manage error', error)
           throw error
         }

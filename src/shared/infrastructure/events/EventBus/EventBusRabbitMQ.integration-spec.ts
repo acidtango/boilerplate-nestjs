@@ -26,7 +26,7 @@ describe('EventBusRabbitMQ', () => {
   })
 
   it('sends the event and calls the given subscriber', async () => {
-    const event = new TalkProposed(juniorXpId())
+    const event = TalkProposed.emit(juniorXpId())
 
     await eventBus.publish([event])
 

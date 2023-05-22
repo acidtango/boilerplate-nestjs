@@ -4,6 +4,7 @@ import { Reseteable } from '../../src/shared/infrastructure/repositories/Resetea
 export class EmailSenderFake implements EmailSender, Reseteable {
   private sendThanksForProposalCalled = false
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async sendThanksForProposal(email: ThanksForTheProposal): Promise<void> {
     this.sendThanksForProposalCalled = true
   }

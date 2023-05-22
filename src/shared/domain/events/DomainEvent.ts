@@ -14,7 +14,7 @@ export abstract class DomainEvent {
     }
   }
 
-  constructor(
+  protected constructor(
     public readonly code: DomainEventCode,
     public readonly eventId: DomainId = new DomainId(UuidGeneratorRandom.generate()),
     public readonly occurredAt: Date = new Date()
@@ -27,5 +27,6 @@ export abstract class DomainEvent {
 
 export type DomainEventClass = {
   code: DomainEventCode
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fromPrimitives: (primitives: any) => DomainEvent
 }

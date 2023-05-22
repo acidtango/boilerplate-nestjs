@@ -97,6 +97,9 @@ jobs:
           DB_USERNAME: acid
           DB_PASSWORD: password
           DB_DATABASE: develop
+          QUEUE_HOST: queue
+          QUEUE_USERNAME: acid
+          QUEUE_PASSWORD: password
 
   docker-build:
     needs: skip-draft
