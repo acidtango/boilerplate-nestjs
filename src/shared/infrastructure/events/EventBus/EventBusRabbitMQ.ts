@@ -1,11 +1,12 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
+import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
+import { Channel } from 'amqplib'
 import { DomainEventCode } from '../../../domain/events/DomainEventCode'
 import { EventBus } from '../../../domain/models/hex/EventBus'
 import { Token } from '../../../domain/services/Token'
 import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
 import { DomainEvent, DomainEventPrimitives } from '../../../domain/events/DomainEvent'
 import { RabbitConnection } from '../../queue/RabbitConnection'
-import { Channel } from 'amqplib'
+import { sleep } from '../../utils/sleep'
 
 type MessageContent = {
   data: {
@@ -19,12 +20,14 @@ type MessageContent = {
 }
 
 @Injectable()
-export class EventBusRabbitMQ implements EventBus, OnModuleInit {
+export class EventBusRabbitMQ implements EventBus, OnModuleInit, OnModuleDestroy {
   private static readonly QUEUE = 'DomainEvents'
 
   private receiveChannel?: Channel
 
   private sendChannel?: Channel
+
+  private processingEventsAmount = 0
 
   constructor(
     private readonly connection: RabbitConnection,
@@ -35,13 +38,22 @@ export class EventBusRabbitMQ implements EventBus, OnModuleInit {
     this.sendChannel = await this.connection.createChannel()
     this.receiveChannel = await this.connection.createChannel()
 
-    await this.getReceiveChannel().assertQueue(EventBusRabbitMQ.QUEUE)
+    await this.getReceiveChannel().assertQueue(EventBusRabbitMQ.QUEUE, { durable: true })
 
     await this.getReceiveChannel().consume(EventBusRabbitMQ.QUEUE, (message) => {
       if (!message) return
-      this.getReceiveChannel().ack(message)
-      this.onMessage(JSON.parse(message.content.toString()))
+      this.processingEventsAmount += 1
+      this.onMessage(JSON.parse(message.content.toString())).finally(() => {
+        this.processingEventsAmount -= 1
+        this.getReceiveChannel().ack(message)
+      })
     })
+  }
+
+  async onModuleDestroy() {
+    while (this.processingEventsAmount > 0) {
+      await sleep(50)
+    }
   }
 
   async publish(events: DomainEvent[]): Promise<void> {

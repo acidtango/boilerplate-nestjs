@@ -1,4 +1,4 @@
-import { sleep } from './sleep'
+import { sleep } from '../../src/shared/infrastructure/utils/sleep'
 
 /**
  * This function tries to mimic the behavior of
