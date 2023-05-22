@@ -31,6 +31,6 @@ export function juniorXpTalk({ id = juniorXpId(), cospeakers = JUNIOR_XP.cospeak
 
 export function juniorXpTalkReviewed() {
   const talk = juniorXpTalk()
-  talk.assignReviewer(new OrganizerId(DAILOS.id))
-  return talk
+  talk.assignForReviewTo(new OrganizerId(DAILOS.id))
+  return flushDomainEvents(talk)
 }

@@ -74,18 +74,13 @@ export class Talk extends AggregateRoot {
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
   }
 
-  assignReviewer(id: OrganizerId) {
-    this.reviewerId = id
-  }
-
   hasStatus(expectedStatus: TalkStatus) {
     return this.getCurrentStatus() === expectedStatus
   }
 
   assignForReviewTo(reviewerId: OrganizerId) {
     this.ensureTalkIsNotAlreadyBeingReviewed()
-
-    this.assignReviewer(reviewerId)
+    this.reviewerId = reviewerId
     this.recordEvent(new TalkAssignedForReview(this.id, reviewerId))
   }
 
