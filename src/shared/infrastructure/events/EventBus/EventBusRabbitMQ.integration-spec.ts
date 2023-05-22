@@ -1,46 +1,49 @@
 import { EventBusRabbitMQ } from './EventBusRabbitMQ'
 import { DomainEventMapperFake } from '../DomainEventMapper/DomainEventMapperFake'
-import { TalkProposedSubscriber } from '../../../../talks/use-cases/subscribers/TalkProposedSubscriber'
 import { TalkProposed } from '../../../../talks/domain/events/TalkProposed'
 import { juniorXpId } from '../../../../../test/mother/TalkMother/JuniorXp'
 import { waitFor } from '../../../../../test/utils/waitFor'
-import { EmailSenderFake } from '../../../../../test/fakes/EmailSenderFake'
-import { TalkRepositoryFake } from '../../../../../test/fakes/TalkRepositoryFake'
-import { SpeakerRepositoryFake } from '../../../../../test/fakes/SpeakerRepositoryFake'
 import { RabbitMQModule } from '../../queue/RabbitMQModule'
+import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber'
+import { RabbitConnection } from '../../queue/RabbitConnection'
 
 describe('EventBusRabbitMQ', () => {
+  let connection: RabbitConnection
+  let eventBus: EventBusRabbitMQ
+  let userCreatedSubscriber: DomainEventSubscriberFake
+
+  beforeEach(async () => {
+    connection = RabbitMQModule.createRabbitMQConnection()
+    await connection.connect()
+    userCreatedSubscriber = new DomainEventSubscriberFake()
+    const domainEventMapper = new DomainEventMapperFake(userCreatedSubscriber)
+    eventBus = new EventBusRabbitMQ(connection, domainEventMapper)
+    await eventBus.onModuleInit()
+  })
+
+  afterEach(async () => {
+    await connection.close()
+  })
+
   it('sends the event and calls the given subscriber', async () => {
-    await withConnection(async (connection) => {
-      const emailSender = new EmailSenderFake()
-      const talkRepository = TalkRepositoryFake.createWithJuniorXp()
-      const speakerRepository = SpeakerRepositoryFake.createWithConcha()
-      const userCreatedSubscriber = new TalkProposedSubscriber(
-        emailSender,
-        talkRepository,
-        speakerRepository
-      )
-      jest.spyOn(userCreatedSubscriber, 'on')
-      const domainEventMapper = new DomainEventMapperFake(userCreatedSubscriber)
-      const eventBus = new EventBusRabbitMQ(connection, domainEventMapper)
-      await eventBus.onModuleInit()
+    const event = new TalkProposed(juniorXpId())
 
-      await eventBus.publish([new TalkProposed(juniorXpId())])
+    await eventBus.publish([event])
 
-      await waitFor(async () => {
-        expect(userCreatedSubscriber.on).toHaveBeenCalled()
-      })
+    await waitFor(async () => {
+      userCreatedSubscriber.expectToHaveReceivedEvent(event)
     })
   })
 })
 
-async function withConnection(cb: (connection: any) => Promise<void>) {
-  const connection = RabbitMQModule.createRabbitMQConnection()
+class DomainEventSubscriberFake implements DomainEventSubscriber<TalkProposed> {
+  private eventReceived?: TalkProposed
 
-  try {
-    await connection.completeConfiguration()
-    await cb(connection)
-  } finally {
-    await connection.close()
+  async on(domainEvent: TalkProposed): Promise<void> {
+    this.eventReceived = domainEvent
+  }
+
+  expectToHaveReceivedEvent(event: TalkProposed) {
+    expect(this.eventReceived).toEqual(event)
   }
 }

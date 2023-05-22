@@ -1,10 +1,11 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
-import { Connection, Exchange, Message, Queue } from 'amqp-ts'
 import { DomainEventCode } from '../../../domain/events/DomainEventCode'
 import { EventBus } from '../../../domain/models/hex/EventBus'
 import { Token } from '../../../domain/services/Token'
 import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
 import { DomainEvent, DomainEventPrimitives } from '../../../domain/events/DomainEvent'
+import { RabbitConnection } from '../../queue/RabbitConnection'
+import { Channel } from 'amqplib'
 
 type MessageContent = {
   data: {
@@ -19,24 +20,32 @@ type MessageContent = {
 
 @Injectable()
 export class EventBusRabbitMQ implements EventBus, OnModuleInit {
-  private readonly exchange: Exchange
+  private static readonly QUEUE = 'DomainEvents'
 
-  private readonly queue: Queue
+  private receiveChannel?: Channel
+
+  private sendChannel?: Channel
 
   constructor(
-    private readonly connection: Connection,
+    private readonly connection: RabbitConnection,
     @Inject(Token.DOMAIN_EVENT_MAPPER) private readonly domainEventMapper: DomainEventMapper
-  ) {
-    this.exchange = this.connection.declareExchange('DomainEvents', 'fanout', { durable: false })
-    this.queue = this.connection.declareQueue('api-core')
-  }
+  ) {}
 
   async onModuleInit() {
-    await this.loadEventListeners()
+    this.sendChannel = await this.connection.createChannel()
+    this.receiveChannel = await this.connection.createChannel()
+
+    await this.getReceiveChannel().assertQueue(EventBusRabbitMQ.QUEUE)
+
+    await this.getReceiveChannel().consume(EventBusRabbitMQ.QUEUE, (message) => {
+      if (!message) return
+      this.getReceiveChannel().ack(message)
+      this.onMessage(JSON.parse(message.content.toString()))
+    })
   }
 
   async publish(events: DomainEvent[]): Promise<void> {
-    events.map((event) => {
+    for (const event of events) {
       const content: MessageContent = {
         data: {
           id: event.eventId.toPrimitives(),
@@ -47,36 +56,44 @@ export class EventBusRabbitMQ implements EventBus, OnModuleInit {
         },
         meta: {},
       }
-      const message = new Message(content)
-      this.exchange.send(message)
-    })
+
+      this.getSendChannel().sendToQueue(
+        EventBusRabbitMQ.QUEUE,
+        Buffer.from(JSON.stringify(content))
+      )
+    }
   }
 
-  private async loadEventListeners() {
-    await this.queue.bind(this.exchange)
-    await this.queue.activateConsumer((message: Message) => this.onMessage(message), {
-      noAck: false,
-    })
-  }
+  private async onMessage(message: MessageContent) {
+    if (!message) return
 
-  private async onMessage(message: Message) {
-    const event = JSON.parse(message.content.toString()) as MessageContent
-    if (!event) return
-
-    const subscribersAndEvent = this.domainEventMapper.getSubscribersAndEvent(event.data.type)
+    const subscribersAndEvent = this.domainEventMapper.getSubscribersAndEvent(message.data.type)
 
     if (!subscribersAndEvent) {
-      message.ack()
       return
     }
 
     const { subscribers, eventClass } = subscribersAndEvent
 
     for await (const subscriber of subscribers) {
-      const domainEvent = eventClass.fromPrimitives(event.data.attributes)
+      const domainEvent = eventClass.fromPrimitives(message.data.attributes)
       await subscriber.on(domainEvent)
     }
+  }
 
-    message.ack()
+  private getSendChannel(): Channel {
+    if (!this.sendChannel) {
+      throw new Error('EventBusRabbitMQ not initialized')
+    }
+
+    return this.sendChannel
+  }
+
+  private getReceiveChannel(): Channel {
+    if (!this.receiveChannel) {
+      throw new Error('EventBusRabbitMQ not initialized')
+    }
+
+    return this.receiveChannel
   }
 }

@@ -13,7 +13,7 @@ export class TalkProposed extends DomainEvent {
     return new TalkProposed(
       TalkId.fromPrimitives(primitives.talkId),
       new DomainId(primitives.eventId),
-      primitives.occurredAt
+      new Date(primitives.occurredAt)
     )
   }
 
