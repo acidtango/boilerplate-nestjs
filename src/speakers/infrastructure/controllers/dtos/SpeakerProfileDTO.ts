@@ -13,7 +13,7 @@ export class SpeakerProfileDTO {
   @IsInt()
   age!: number
 
-  @ApiProperty({ example: CONCHA_ASENSIO.language, type: Language })
+  @ApiProperty({ example: CONCHA_ASENSIO.language, enum: Language })
   @IsEnum(Language)
   language!: Language
 

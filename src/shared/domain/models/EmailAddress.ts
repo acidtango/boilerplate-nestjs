@@ -9,6 +9,10 @@ export class EmailAddress extends ValueObject {
     return new EmailAddress(email)
   }
 
+  toString() {
+    return this.email
+  }
+
   toPrimitives() {
     return this.email
   }
