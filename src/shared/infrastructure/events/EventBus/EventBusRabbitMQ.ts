@@ -42,7 +42,6 @@ export class EventBusRabbitMQ implements EventBus, OnModuleInit, OnModuleDestroy
 
     await this.getReceiveChannel().consume(EventBusRabbitMQ.QUEUE, (message) => {
       if (!message) return
-      this.processingEventsAmount += 1
       this.onMessage(JSON.parse(message.content.toString())).finally(() => {
         this.processingEventsAmount -= 1
         this.getReceiveChannel().ack(message)
@@ -77,6 +76,7 @@ export class EventBusRabbitMQ implements EventBus, OnModuleInit, OnModuleDestroy
         EventBusRabbitMQ.QUEUE,
         Buffer.from(JSON.stringify(content))
       )
+      this.processingEventsAmount += 1
     }
   }
 
