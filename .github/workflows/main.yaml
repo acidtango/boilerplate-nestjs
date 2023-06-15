@@ -60,7 +60,7 @@ jobs:
         ports:
           - 27017:27017
       queue:
-        image: rabbitmq:3.11-alpine
+        image: rabbitmq:3.12-alpine
         env:
           RABBITMQ_DEFAULT_USER: acid
           RABBITMQ_DEFAULT_PASS: password
