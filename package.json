@@ -64,7 +64,7 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.0.3",
+    "@nestjs/cli": "10.0.5",
     "@nestjs/schematics": "10.0.1",
     "@nestjs/testing": "10.0.3",
     "@shopify/eslint-plugin": "42.1.0",
@@ -78,8 +78,8 @@
     "@types/supertest": "2.0.12",
     "@types/uuid": "9.0.2",
     "@types/validator": "^13.7.14",
-    "@typescript-eslint/eslint-plugin": "5.60.0",
-    "@typescript-eslint/parser": "5.60.0",
+    "@typescript-eslint/eslint-plugin": "5.60.1",
+    "@typescript-eslint/parser": "5.60.1",
     "eslint": "8.43.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "17.0.0",
