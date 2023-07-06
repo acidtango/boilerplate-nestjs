@@ -64,7 +64,7 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.1.4",
+    "@nestjs/cli": "10.1.7",
     "@nestjs/schematics": "10.0.1",
     "@nestjs/testing": "10.0.5",
     "@shopify/eslint-plugin": "42.1.0",
