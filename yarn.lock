@@ -135,7 +135,7 @@
     "@aws-sdk/util-utf8-browser" "^3.0.0"
     tslib "^1.11.1"
 
-"@aws-sdk/client-sqs@^3.507.0":
+"@aws-sdk/client-sqs@^3.447.0", "@aws-sdk/client-sqs@^3.507.0":
   version "3.507.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sqs/-/client-sqs-3.507.0.tgz#88def5e8c2baea8b96fcd6def162ad8b72a9442a"
   integrity sha512-PYdJlj8dUoPPgxPdTGRe747FcvdPP7GQsVhXTBOMbSxTdxKX7Lo7W2Ky6Y7qZnlSgVwra5BEiu8I8iisp39+Uw==
@@ -7067,6 +7067,14 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+sqs-consumer@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/sqs-consumer/-/sqs-consumer-8.2.0.tgz#96e72b483a5e1d9e1fa022e5540ac17ca72e72d8"
+  integrity sha512-sV7Hk90+dsM+FJG3ZKmxMOzucen19fiiwVAPFWU7hBadCaNEQWhF8ZUY83An1TCxm6FGqyaEzDDvQAZWY3vh0A==
+  dependencies:
+    "@aws-sdk/client-sqs" "^3.447.0"
+    debug "^4.3.4"
 
 stack-utils@^2.0.3:
   version "2.0.6"

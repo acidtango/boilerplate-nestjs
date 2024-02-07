@@ -1,6 +1,6 @@
 import { Global, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
-import { RabbitConnection } from './RabbitConnection'
 import { config } from '../config'
+import { RabbitConnection } from './RabbitConnection'
 
 @Global()
 @Module({
@@ -14,7 +14,7 @@ import { config } from '../config'
 })
 export class RabbitMQModule implements OnModuleInit, OnModuleDestroy {
   static createRabbitMQConnection() {
-    const { username, password, host: hostname, port } = config.queue
+    const { username, password, host: hostname, port } = config.queue.rabbitMQ
     return new RabbitConnection(`amqp://${username}:${password}@${hostname}:${port}`)
   }
 

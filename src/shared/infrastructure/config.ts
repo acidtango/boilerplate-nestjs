@@ -8,10 +8,20 @@ export const config = {
     database: process.env.DB_DATABASE || 'develop',
   },
   queue: {
-    username: process.env.QUEUE_USERNAME || 'acid',
-    password: process.env.QUEUE_PASSWORD || 'password',
-    host: process.env.QUEUE_HOST || 'localhost',
-    port: process.env.QUEUE_PORT || '5672',
+    rabbitMQ: {
+      username: process.env.QUEUE_USERNAME || 'acid',
+      password: process.env.QUEUE_PASSWORD || 'password',
+      host: process.env.QUEUE_HOST || 'localhost',
+      port: process.env.QUEUE_PORT || '5672',
+    },
+    sqs: {
+      queueUrl: process.env.SQS_QUEUE_URL || '',
+    },
+  },
+  aws: {
+    accessKey: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    region: process.env.AWS_REGION || '',
   },
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
