@@ -1,5 +1,6 @@
 # Environment
 /docker/.env
+.env
 
 # Compiled output
 dist

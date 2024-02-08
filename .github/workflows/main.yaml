@@ -72,6 +72,13 @@ jobs:
         ports:
           - 15672:15672
           - 5672:5672
+      sqs:
+        image: localstack/localstack
+        ports:
+          - '4566:4566'
+        env:
+          SERVICES: sqs,s3
+          AWS_DEFAULT_REGION: eu-west-1
     strategy:
       matrix:
         shard: [1]

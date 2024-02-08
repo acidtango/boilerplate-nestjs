@@ -19,9 +19,9 @@ export const config = {
     },
   },
   aws: {
-    accessKey: process.env.AWS_ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-    region: process.env.AWS_REGION || '',
+    accessKey: process.env.AWS_ACCESS_KEY_ID || 'na',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'na',
+    region: process.env.AWS_REGION || 'eu-west-1',
   },
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',

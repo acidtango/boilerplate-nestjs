@@ -1,10 +1,9 @@
-import { SendMessageCommand } from '@aws-sdk/client-sqs'
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { Consumer } from 'sqs-consumer'
 import { DomainEvent } from '../../../domain/events/DomainEvent'
 import { DomainEventCode } from '../../../domain/events/DomainEventCode'
 import { EventBus } from '../../../domain/models/hex/EventBus'
-import { SQSConnection } from '../../queue/SQSConnection'
 import { sleep } from '../../utils/sleep'
 import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
 
@@ -16,18 +15,18 @@ type MessageContent = {
 }
 
 @Injectable()
-export class SQSEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
+export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
   private readonly sqsQueueUrl: string
 
   private readonly domainEventMapper: DomainEventMapper
 
-  private readonly client: SQSConnection
+  private readonly client: SQSClient
 
   private consumer?: Consumer
 
   private processingEventsAmount = 0
 
-  constructor(client: SQSConnection, sqsQueueUrl: string, domainEventMapper: DomainEventMapper) {
+  constructor(client: SQSClient, sqsQueueUrl: string, domainEventMapper: DomainEventMapper) {
     this.sqsQueueUrl = sqsQueueUrl
     this.client = client
     this.domainEventMapper = domainEventMapper
@@ -35,6 +34,7 @@ export class SQSEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
 
   async onModuleDestroy() {
     this.consumer?.stop()
+    this.client.destroy()
     await this.waitForProcessingAllEvents()
   }
 
@@ -46,14 +46,14 @@ export class SQSEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     this.consumer = Consumer.create({
-      sqs: this.client.getClient(),
+      sqs: this.client,
       queueUrl: this.sqsQueueUrl,
       handleMessage: async ({ Body }) => {
         if (!Body) return
         await this.onMessage(JSON.parse(Body))
         this.processingEventsAmount -= 1
       },
-      waitTimeSeconds: 3,
+      waitTimeSeconds: 0,
     })
 
     this.consumer.start()
