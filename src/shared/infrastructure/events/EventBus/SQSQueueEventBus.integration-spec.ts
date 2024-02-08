@@ -3,6 +3,7 @@ import { juniorXpId } from '../../../../../test/mother/TalkMother/JuniorXp'
 import { waitFor } from '../../../../../test/utils/waitFor'
 import { TalkProposed } from '../../../../talks/domain/events/TalkProposed'
 import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber'
+import { config } from '../../config'
 import { DomainEventMapperFake } from '../DomainEventMapper/DomainEventMapperFake'
 import { SQSQueueEventBus } from './SQSQueueEventBus'
 
@@ -16,7 +17,7 @@ describe('SQSQueueEventBus', () => {
     const anyAccesKey = 'na'
     const anyPrivateAccessKey = 'na'
     const defaultRegion = 'eu-west-1'
-    const localEndpoint = 'http:/localhost:4566'
+    const localEndpoint = `http://${config.queue.sqs.host}:${config.queue.sqs.port}`
     sqsClient = new SQSClient({
       credentials: {
         accessKeyId: anyAccesKey,

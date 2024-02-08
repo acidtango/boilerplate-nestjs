@@ -107,6 +107,8 @@ jobs:
           QUEUE_HOST: queue
           QUEUE_USERNAME: acid
           QUEUE_PASSWORD: password
+          SQS_QUEUE_HOST: sqs
+          SQS_QUEUE_PORT: 4566
 
   docker-build:
     needs: skip-draft

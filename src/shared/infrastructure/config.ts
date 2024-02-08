@@ -16,6 +16,8 @@ export const config = {
     },
     sqs: {
       queueUrl: process.env.SQS_QUEUE_URL || '',
+      host: process.env.SQS_QUEUE_HOST || 'localhost',
+      port: process.env.SQS_QUEUE_PORT || '4566',
     },
   },
   aws: {
