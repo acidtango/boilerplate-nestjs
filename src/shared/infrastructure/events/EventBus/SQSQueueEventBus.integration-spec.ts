@@ -6,7 +6,7 @@ import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscri
 import { DomainEventMapperFake } from '../DomainEventMapper/DomainEventMapperFake'
 import { SQSQueueEventBus } from './SQSQueueEventBus'
 
-describe(SQSQueueEventBus, () => {
+describe('SQSQueueEventBus', () => {
   let eventBus: SQSQueueEventBus
   let userCreatedSubscriber: DomainEventSubscriberFake
   let sqsClient: SQSClient
