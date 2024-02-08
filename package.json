@@ -33,7 +33,7 @@
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
-    "node": "^18.15.0",
+    "node": "^20.11.0",
     "yarn": "~1.22.19"
   },
   "dependencies": {
@@ -75,7 +75,7 @@
     "@types/jest": "29.5.2",
     "@types/jsonwebtoken": "9.0.2",
     "@types/morgan": "1.9.4",
-    "@types/node": "^18.15.10",
+    "@types/node": "^20.11.10",
     "@types/pino-http": "5.8.1",
     "@types/supertest": "2.0.12",
     "@types/uuid": "9.0.2",
