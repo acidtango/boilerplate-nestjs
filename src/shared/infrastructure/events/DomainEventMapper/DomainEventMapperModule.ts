@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common'
 import { DiscoveryService } from '@nestjs/core'
-import { DomainEventMapperNest } from './DomainEventMapperNest'
 import { Token } from '../../../domain/services/Token'
+import { DomainEventMapperNest } from './DomainEventMapperNest'
 
 @Global()
 @Module({

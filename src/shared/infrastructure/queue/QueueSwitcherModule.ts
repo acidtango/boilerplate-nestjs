@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common'
-import { RabbitMQModule } from './RabbitMQModule'
+import { SQSModule } from './SQSModule'
 
 @Module({})
 export class QueueSwitcherModule {
@@ -12,7 +12,7 @@ export class QueueSwitcherModule {
 
     return {
       module: QueueSwitcherModule,
-      imports: [RabbitMQModule],
+      imports: [SQSModule],
     }
   }
 }

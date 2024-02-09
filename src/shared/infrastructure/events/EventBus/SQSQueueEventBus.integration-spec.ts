@@ -4,34 +4,38 @@ import { waitFor } from '../../../../../test/utils/waitFor'
 import { TalkProposed } from '../../../../talks/domain/events/TalkProposed'
 import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber'
 import { config } from '../../config'
+import { SQSQueueUrl } from '../../queue/SQSConnectionUrl'
+import { SQSQueueClient } from '../../queue/SQSQueueClient'
 import { DomainEventMapperFake } from '../DomainEventMapper/DomainEventMapperFake'
 import { SQSQueueEventBus } from './SQSQueueEventBus'
 
 describe('SQSQueueEventBus', () => {
   let eventBus: SQSQueueEventBus
   let userCreatedSubscriber: DomainEventSubscriberFake
-  let sqsClient: SQSClient
-  let queueUrl: string
+  let sqsClient: SQSQueueClient
+  let queueUrl: SQSQueueUrl
 
   beforeEach(async () => {
     const anyAccesKey = 'na'
     const anyPrivateAccessKey = 'na'
     const defaultRegion = 'eu-west-1'
     const localEndpoint = `http://${config.queue.sqs.host}:${config.queue.sqs.port}`
-    sqsClient = new SQSClient({
-      credentials: {
-        accessKeyId: anyAccesKey,
-        secretAccessKey: anyPrivateAccessKey,
-      },
-      region: defaultRegion,
-      endpoint: localEndpoint,
-    })
+    sqsClient = new SQSQueueClient(
+      new SQSClient({
+        credentials: {
+          accessKeyId: anyAccesKey,
+          secretAccessKey: anyPrivateAccessKey,
+        },
+        region: defaultRegion,
+        endpoint: localEndpoint,
+      })
+    )
     const localQueueName = 'cola-de-prueba1'
     const createQueueCommand = new CreateQueueCommand({
       QueueName: localQueueName,
     })
-    const response = await sqsClient.send(createQueueCommand)
-    queueUrl = response.QueueUrl ?? ''
+    const response = await sqsClient.getClient().send(createQueueCommand)
+    queueUrl = new SQSQueueUrl(response.QueueUrl ?? '')
     userCreatedSubscriber = new DomainEventSubscriberFake()
     const domainEventMapper = new DomainEventMapperFake(userCreatedSubscriber)
     eventBus = new SQSQueueEventBus(sqsClient, queueUrl, domainEventMapper)
@@ -39,7 +43,7 @@ describe('SQSQueueEventBus', () => {
   })
 
   afterEach(async () => {
-    await sqsClient.send(new PurgeQueueCommand({ QueueUrl: queueUrl }))
+    await sqsClient.getClient().send(new PurgeQueueCommand({ QueueUrl: queueUrl.getValue() }))
   })
 
   afterAll(async () => {

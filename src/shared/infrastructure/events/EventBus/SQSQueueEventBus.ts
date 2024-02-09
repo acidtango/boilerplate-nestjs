@@ -1,9 +1,12 @@
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
+import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { Consumer } from 'sqs-consumer'
 import { DomainEvent } from '../../../domain/events/DomainEvent'
 import { DomainEventCode } from '../../../domain/events/DomainEventCode'
 import { EventBus } from '../../../domain/models/hex/EventBus'
+import { Token } from '../../../domain/services/Token'
+import { SQSQueueUrl } from '../../queue/SQSConnectionUrl'
+import { SQSQueueClient } from '../../queue/SQSQueueClient'
 import { sleep } from '../../utils/sleep'
 import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
 
@@ -16,7 +19,7 @@ type MessageContent = {
 
 @Injectable()
 export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
-  private readonly sqsQueueUrl: string
+  private readonly sqsQueueUrl: SQSQueueUrl
 
   private readonly domainEventMapper: DomainEventMapper
 
@@ -26,9 +29,13 @@ export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy
 
   private processingEventsAmount = 0
 
-  constructor(client: SQSClient, sqsQueueUrl: string, domainEventMapper: DomainEventMapper) {
+  constructor(
+    client: SQSQueueClient,
+    sqsQueueUrl: SQSQueueUrl,
+    @Inject(Token.DOMAIN_EVENT_MAPPER) domainEventMapper: DomainEventMapper
+  ) {
     this.sqsQueueUrl = sqsQueueUrl
-    this.client = client
+    this.client = client.getClient()
     this.domainEventMapper = domainEventMapper
   }
 
@@ -47,7 +54,7 @@ export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy
   async onModuleInit() {
     this.consumer = Consumer.create({
       sqs: this.client,
-      queueUrl: this.sqsQueueUrl,
+      queueUrl: this.sqsQueueUrl.getValue(),
       handleMessage: async ({ Body }) => {
         if (!Body) return
         await this.onMessage(JSON.parse(Body))
@@ -63,7 +70,7 @@ export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy
     for (const event of events) {
       const command = new SendMessageCommand({
         MessageBody: JSON.stringify(event.toPrimitives()),
-        QueueUrl: this.sqsQueueUrl,
+        QueueUrl: this.sqsQueueUrl.getValue(),
         MessageAttributes: {
           id: { DataType: 'String', StringValue: event.eventId.toPrimitives() },
           executor_id: { DataType: 'String', StringValue: 'TODO' },
