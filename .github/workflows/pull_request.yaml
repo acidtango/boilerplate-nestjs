@@ -64,19 +64,6 @@ jobs:
           --health-retries 5
         ports:
           - 27017:27017
-      queue:
-        image: rabbitmq:3.12-alpine
-        env:
-          RABBITMQ_DEFAULT_USER: acid
-          RABBITMQ_DEFAULT_PASS: password
-        options: >-
-          --health-cmd "rabbitmqctl node_health_check"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 15672:15672
-          - 5672:5672
       sqs:
         image: localstack/localstack
         ports:
