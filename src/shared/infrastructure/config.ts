@@ -7,18 +7,10 @@ export const config = {
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_DATABASE || 'develop',
   },
-  queue: {
-    rabbitMQ: {
-      username: process.env.QUEUE_USERNAME || 'acid',
-      password: process.env.QUEUE_PASSWORD || 'password',
-      host: process.env.QUEUE_HOST || 'localhost',
-      port: process.env.QUEUE_PORT || '5672',
-    },
-    sqs: {
-      queueUrl: process.env.SQS_QUEUE_URL || '',
-      host: process.env.SQS_QUEUE_HOST || 'localhost',
-      port: process.env.SQS_QUEUE_PORT || '4566',
-    },
+  sqs: {
+    queueUrl: process.env.SQS_QUEUE_URL || '',
+    host: process.env.SQS_QUEUE_HOST || 'localhost',
+    port: process.env.SQS_QUEUE_PORT || '4566',
   },
   aws: {
     accessKey: process.env.AWS_ACCESS_KEY_ID || 'na',

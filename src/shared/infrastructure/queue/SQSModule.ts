@@ -17,7 +17,7 @@ import { SQSQueueClient } from './SQSQueueClient'
 })
 export class SQSModule {
   static createSQSQueueUrl() {
-    const { queueUrl } = config.queue.sqs
+    const { queueUrl } = config.sqs
     return new SQSQueueUrl(queueUrl)
   }
 

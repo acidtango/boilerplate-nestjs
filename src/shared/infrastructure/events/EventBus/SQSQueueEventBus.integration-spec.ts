@@ -19,7 +19,7 @@ describe('SQSQueueEventBus', () => {
     const anyAccesKey = 'na'
     const anyPrivateAccessKey = 'na'
     const defaultRegion = 'eu-west-1'
-    const localEndpoint = `http://${config.queue.sqs.host}:${config.queue.sqs.port}`
+    const localEndpoint = `http://${config.sqs.host}:${config.sqs.port}`
     sqsClient = new SQSQueueClient(
       new SQSClient({
         credentials: {

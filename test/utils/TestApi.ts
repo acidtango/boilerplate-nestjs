@@ -1,17 +1,20 @@
-import { Test, TestingModuleBuilder } from '@nestjs/testing'
-import { MainModule } from '../../src/MainModule'
-import { config } from '../../src/shared/infrastructure/config'
-import { Token } from '../../src/shared/domain/services/Token'
-import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory'
-import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { CreateQueueCommand, SQSClient } from '@aws-sdk/client-sqs'
 import { INestApplication, VersioningType } from '@nestjs/common'
+import { Test, TestingModuleBuilder } from '@nestjs/testing'
 import { Server } from 'http'
+import { MainModule } from '../../src/MainModule'
+import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory'
+import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
+import { Token } from '../../src/shared/domain/services/Token'
+import { config } from '../../src/shared/infrastructure/config'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory'
+import { SQSQueueUrl } from '../../src/shared/infrastructure/queue/SQSConnectionUrl'
+import { SQSQueueClient } from '../../src/shared/infrastructure/queue/SQSQueueClient'
 import { isReseteable } from '../../src/shared/infrastructure/repositories/Reseteable'
 import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockFake'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
+import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
 import { EmailSenderFake } from '../fakes/EmailSenderFake'
-import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory'
-import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
 
 export class TestApi {
   private static instance: TestApi
@@ -33,7 +36,7 @@ export class TestApi {
   private constructor() {}
 
   async initialize() {
-    const testingModuleBuilder = this.createRootModule()
+    const testingModuleBuilder = await this.createRootModule()
     const moduleFixture = await testingModuleBuilder.compile()
     this.nestApplication = moduleFixture.createNestApplication()
     this.nestApplication.setGlobalPrefix(config.apiPrefix)
@@ -43,12 +46,12 @@ export class TestApi {
     this.app = this.nestApplication.getHttpServer()
   }
 
-  private createRootModule() {
+  private async createRootModule() {
     let testingModuleBuilder = Test.createTestingModule({
       imports: [MainModule],
     })
 
-    testingModuleBuilder = this.useThirdPartyMocks(testingModuleBuilder)
+    testingModuleBuilder = await this.useThirdPartyMocks(testingModuleBuilder)
 
     if (!config.forceEnableORMRepositories) {
       testingModuleBuilder = this.useMemoryRepositories(testingModuleBuilder)
@@ -68,9 +71,36 @@ export class TestApi {
       .useClass(EventBusMemory)
   }
 
-  private useThirdPartyMocks(testingModuleBuilder: TestingModuleBuilder) {
+  private async useThirdPartyMocks(testingModuleBuilder: TestingModuleBuilder) {
     // Here we override the necessary services
-    return testingModuleBuilder.overrideProvider(Token.EMAIL_SENDER).useClass(EmailSenderFake)
+    const anyAccesKey = 'na'
+    const anyPrivateAccessKey = 'na'
+    const defaultRegion = 'eu-west-1'
+    const localEndpoint = `http://${config.sqs.host}:${config.sqs.port}`
+    const sqsClient = new SQSQueueClient(
+      new SQSClient({
+        credentials: {
+          accessKeyId: anyAccesKey,
+          secretAccessKey: anyPrivateAccessKey,
+        },
+        region: defaultRegion,
+        endpoint: localEndpoint,
+      })
+    )
+    const localQueueName = 'cola-de-prueba1'
+    const createQueueCommand = new CreateQueueCommand({
+      QueueName: localQueueName,
+    })
+    const response = await sqsClient.getClient().send(createQueueCommand)
+    const queueUrl = new SQSQueueUrl(response.QueueUrl ?? '')
+
+    return testingModuleBuilder
+      .overrideProvider(Token.EMAIL_SENDER)
+      .useClass(EmailSenderFake)
+      .overrideProvider(SQSQueueUrl)
+      .useValue(queueUrl)
+      .overrideProvider(SQSQueueClient)
+      .useValue(sqsClient)
   }
 
   async close() {
