@@ -1,5 +1,5 @@
-import { EventBusSQS } from '../../src/shared/infrastructure/events/EventBus/EventBusSQS'
 import { TestApi } from '../utils/TestApi'
+import { EventBusSQS } from '../../src/shared/infrastructure/events/EventBus/EventBusSQS'
 
 afterAll(async () => {
   const testApi = await TestApi.create()
