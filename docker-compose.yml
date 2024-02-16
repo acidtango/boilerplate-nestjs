@@ -7,7 +7,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - "27017:27017"
-  sqs:
+  queue:
     image: localstack/localstack
     ports:
       - '4566:4566'
