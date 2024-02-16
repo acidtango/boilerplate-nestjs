@@ -1,12 +1,12 @@
-import { Global, Module } from '@nestjs/common'
 import { Token } from '../../../domain/services/Token'
+import { Global, Module } from '@nestjs/common'
+import { EventBusSQS } from './EventBusSQS'
 import { DomainEventMapperModule } from '../DomainEventMapper/DomainEventMapperModule'
-import { SQSQueueEventBus } from './SQSQueueEventBus'
 
 @Global()
 @Module({
   imports: [DomainEventMapperModule],
-  providers: [{ provide: Token.EVENT_BUS, useClass: SQSQueueEventBus }],
+  providers: [{ provide: Token.EVENT_BUS, useClass: EventBusSQS }],
   exports: [Token.EVENT_BUS],
 })
 export class EventBusModule {}

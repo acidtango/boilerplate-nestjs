@@ -18,7 +18,7 @@ type MessageContent = {
 }
 
 @Injectable()
-export class SQSQueueEventBus implements EventBus, OnModuleInit, OnModuleDestroy {
+export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
   private readonly sqsQueueUrl: SQSQueueUrl
 
   private readonly domainEventMapper: DomainEventMapper

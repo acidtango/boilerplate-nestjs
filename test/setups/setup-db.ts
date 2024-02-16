@@ -1,4 +1,4 @@
-import { SQSQueueEventBus } from '../../src/shared/infrastructure/events/EventBus/SQSQueueEventBus'
+import { EventBusSQS } from '../../src/shared/infrastructure/events/EventBus/EventBusSQS'
 import { TestApi } from '../utils/TestApi'
 
 afterAll(async () => {
@@ -10,7 +10,7 @@ afterEach(async () => {
   const testApi = await TestApi.create()
   const eventBus = testApi.getEventBus()
 
-  if (eventBus instanceof SQSQueueEventBus) {
+  if (eventBus instanceof EventBusSQS) {
     await eventBus.waitForProcessingAllEvents()
   }
 })

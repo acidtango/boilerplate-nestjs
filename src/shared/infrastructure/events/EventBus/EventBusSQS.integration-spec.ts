@@ -7,10 +7,10 @@ import { config } from '../../config'
 import { SQSQueueUrl } from '../../queue/SQSConnectionUrl'
 import { SQSQueueClient } from '../../queue/SQSQueueClient'
 import { DomainEventMapperFake } from '../DomainEventMapper/DomainEventMapperFake'
-import { SQSQueueEventBus } from './SQSQueueEventBus'
+import { EventBusSQS } from './EventBusSQS'
 
-describe('SQSQueueEventBus', () => {
-  let eventBus: SQSQueueEventBus
+describe('EventBusSQS', () => {
+  let eventBus: EventBusSQS
   let userCreatedSubscriber: DomainEventSubscriberFake
   let sqsClient: SQSQueueClient
   let queueUrl: SQSQueueUrl
@@ -38,7 +38,7 @@ describe('SQSQueueEventBus', () => {
     queueUrl = new SQSQueueUrl(response.QueueUrl ?? '')
     userCreatedSubscriber = new DomainEventSubscriberFake()
     const domainEventMapper = new DomainEventMapperFake(userCreatedSubscriber)
-    eventBus = new SQSQueueEventBus(sqsClient, queueUrl, domainEventMapper)
+    eventBus = new EventBusSQS(sqsClient, queueUrl, domainEventMapper)
     await eventBus.onModuleInit()
   })
 
