@@ -11,7 +11,10 @@ export const config = {
     accessKey: process.env.AWS_ACCESS_KEY_ID || 'na',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'na',
     region: process.env.AWS_REGION || 'eu-west-1',
-    endpoint: process.env.AWS_ENDPOINT === 'default' ? undefined : process.env.AWS_ENDPOINT,
+    endpoint:
+      process.env.AWS_ENDPOINT === 'default'
+        ? undefined
+        : process.env.AWS_ENDPOINT ?? 'http://localhost:4566',
     sqs: {
       url:
         process.env.AWS_SQS_URL ||

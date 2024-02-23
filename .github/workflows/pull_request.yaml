@@ -94,7 +94,8 @@ jobs:
           QUEUE_HOST: queue
           QUEUE_USERNAME: acid
           QUEUE_PASSWORD: password
-          AWS_ENDPOINT: aws
+          AWS_ENDPOINT: http://aws:4566
+          AWS_SQS_URL: http://sqs.eu-west-1.aws.localstack.cloud:4566/000000000000/localstack-queue
 
   docker-build:
     needs: skip-draft
