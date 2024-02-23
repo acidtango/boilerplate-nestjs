@@ -7,13 +7,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - "27017:27017"
-  queue:
+  aws:
     image: localstack/localstack
-    ports:
-      - '4566:4566'
     environment:
       SERVICES: sqs
       AWS_DEFAULT_REGION: eu-west-1
+    ports:
+      - '4566:4566'
   api:
     build:
       context: .
@@ -25,6 +25,7 @@ services:
       DB_PASSWORD: password
       DB_DATABASE: develop
       DEPLOY_ENV: dev
+      AWS_ENDPOINT: aws
 
     working_dir: /home/node/
     volumes:
