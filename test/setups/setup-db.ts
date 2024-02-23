@@ -1,5 +1,5 @@
 import { TestApi } from '../utils/TestApi'
-import { EventBusRabbitMQ } from '../../src/shared/infrastructure/events/EventBus/EventBusRabbitMQ'
+import { EventBusSQS } from '../../src/shared/infrastructure/events/EventBus/EventBusSQS'
 
 afterAll(async () => {
   const testApi = await TestApi.create()
@@ -10,7 +10,7 @@ afterEach(async () => {
   const testApi = await TestApi.create()
   const eventBus = testApi.getEventBus()
 
-  if (eventBus instanceof EventBusRabbitMQ) {
+  if (eventBus instanceof EventBusSQS) {
     await eventBus.waitForProcessingAllEvents()
   }
 })

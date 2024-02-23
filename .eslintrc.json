@@ -15,6 +15,7 @@
   },
   "rules": {
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+    "prefer-const": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/lines-between-class-members": "warn",
     "class-methods-use-this": "off",
