@@ -8,7 +8,7 @@ export const config = {
     database: process.env.DB_DATABASE || 'develop',
   },
   sqs: {
-    queueUrl: process.env.SQS_QUEUE_URL || '',
+    queueUrl: process.env.SQS_QUEUE_URL || 'http://sqs.eu-west-1.localhost.localstack.cloud:4566/000000000000/local',
     host: process.env.SQS_QUEUE_HOST || 'localhost',
     port: process.env.SQS_QUEUE_PORT || '4566',
   },

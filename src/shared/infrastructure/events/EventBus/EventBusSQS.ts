@@ -1,14 +1,13 @@
-import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
+import { CreateQueueCommand, PurgeQueueCommand, SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { Consumer } from 'sqs-consumer'
 import { DomainEvent } from '../../../domain/events/DomainEvent'
 import { DomainEventCode } from '../../../domain/events/DomainEventCode'
 import { EventBus } from '../../../domain/models/hex/EventBus'
 import { Token } from '../../../domain/services/Token'
-import { SQSQueueUrl } from '../../queue/SQSConnectionUrl'
-import { SQSQueueClient } from '../../queue/SQSQueueClient'
 import { sleep } from '../../utils/sleep'
 import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
+import { config } from '../../config'
 
 type MessageContent = {
   code: DomainEventCode
@@ -19,7 +18,7 @@ type MessageContent = {
 
 @Injectable()
 export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
-  private readonly sqsQueueUrl: SQSQueueUrl
+  private queueUrl: string
 
   private readonly domainEventMapper: DomainEventMapper
 
@@ -30,13 +29,18 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
   private processingEventsAmount = 0
 
   constructor(
-    client: SQSQueueClient,
-    sqsQueueUrl: SQSQueueUrl,
     @Inject(Token.DOMAIN_EVENT_MAPPER) domainEventMapper: DomainEventMapper
   ) {
-    this.sqsQueueUrl = sqsQueueUrl
-    this.client = client.getClient()
+    this.client = new SQSClient({
+      credentials: {
+        accessKeyId: config.aws.accessKey,
+        secretAccessKey: config.aws.secretAccessKey,
+      },
+      region: config.aws.region,
+      endpoint: `http://${config.sqs.host}:${config.sqs.port}`,
+    })
     this.domainEventMapper = domainEventMapper
+    this.queueUrl = config.sqs.queueUrl
   }
 
   async onModuleDestroy() {
@@ -54,7 +58,7 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     this.consumer = Consumer.create({
       sqs: this.client,
-      queueUrl: this.sqsQueueUrl.getValue(),
+      queueUrl: this.queueUrl,
       handleMessage: async ({ Body }) => {
         if (!Body) return
         await this.onMessage(JSON.parse(Body))
@@ -66,11 +70,28 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
     this.consumer.start()
   }
 
+  async createQueue() {
+    const createQueueCommand = new CreateQueueCommand({ QueueName: "localstack-queue", })
+    const { QueueUrl } = await this.client.send(createQueueCommand)
+
+    if (!QueueUrl) {
+      throw new Error('Could not create queue')
+    }
+
+    console.log(QueueUrl)
+
+    this.queueUrl = QueueUrl
+  }
+
+  async destroyQueue() {
+    await this.client.send(new PurgeQueueCommand({ QueueUrl: this.queueUrl }))
+  }
+
   async publish(events: DomainEvent[]): Promise<void> {
     for (const event of events) {
       const command = new SendMessageCommand({
         MessageBody: JSON.stringify(event.toPrimitives()),
-        QueueUrl: this.sqsQueueUrl.getValue(),
+        QueueUrl: this.queueUrl,
         MessageAttributes: {
           id: { DataType: 'String', StringValue: event.eventId.toPrimitives() },
           executor_id: { DataType: 'String', StringValue: 'TODO' },
@@ -83,7 +104,6 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
       this.processingEventsAmount += 1
     }
   }
-
   private async onMessage(message: MessageContent) {
     if (!message) return
 
