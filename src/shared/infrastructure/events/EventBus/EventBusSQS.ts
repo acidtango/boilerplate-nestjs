@@ -34,6 +34,14 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
   private processingEventsAmount = 0
 
   constructor(@Inject(Token.DOMAIN_EVENT_MAPPER) domainEventMapper: DomainEventMapper) {
+    console.log('config aws', {
+      credentials: {
+        accessKeyId: config.aws.accessKey,
+        secretAccessKey: config.aws.secretAccessKey,
+      },
+      region: config.aws.region,
+      endpoint: config.aws.endpoint,
+    })
     this.client = new SQSClient({
       credentials: {
         accessKeyId: config.aws.accessKey,
