@@ -1,6 +1,5 @@
 import {
   CreateQueueCommand,
-  ListQueuesCommand,
   PurgeQueueCommand,
   SendMessageCommand,
   SQSClient,
@@ -45,7 +44,7 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
     })
 
     this.domainEventMapper = domainEventMapper
-    this.queueUrl = config.sqs.queueUrl
+    this.queueUrl = config.aws.sqs.url
   }
 
   async onModuleDestroy() {
@@ -90,12 +89,6 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
     await this.client.send(new PurgeQueueCommand({ QueueUrl: this.queueUrl }))
   }
 
-  async listQueues(prefix = '') {
-    const value = await this.client.send(new ListQueuesCommand({}))
-
-    console.log(prefix, value)
-  }
-
   async publish(events: DomainEvent[]): Promise<void> {
     for (const event of events) {
       const command = new SendMessageCommand({
@@ -113,6 +106,7 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
       this.processingEventsAmount += 1
     }
   }
+
   private async onMessage(message: MessageContent) {
     if (!message) return
 
