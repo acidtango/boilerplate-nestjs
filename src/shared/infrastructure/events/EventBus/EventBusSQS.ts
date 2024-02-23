@@ -82,6 +82,8 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
       throw new Error('Could not create queue')
     }
 
+    console.log('Queue URL', QueueUrl)
+
     this.queueUrl = QueueUrl
   }
 
