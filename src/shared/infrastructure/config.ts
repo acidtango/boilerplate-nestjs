@@ -8,14 +8,15 @@ export const config = {
     database: process.env.DB_DATABASE || 'develop',
   },
   sqs: {
-    queueUrl: process.env.SQS_QUEUE_URL || 'http://sqs.eu-west-1.localhost.localstack.cloud:4566/000000000000/local',
-    host: process.env.SQS_QUEUE_HOST || 'localhost',
-    port: process.env.SQS_QUEUE_PORT || '4566',
+    queueUrl:
+      process.env.SQS_QUEUE_URL ||
+      'http://sqs.eu-west-1.localhost.localstack.cloud:4566/000000000000/localstack-queue',
   },
   aws: {
     accessKey: process.env.AWS_ACCESS_KEY_ID || 'na',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'na',
     region: process.env.AWS_REGION || 'eu-west-1',
+    endpoint: process.env.AWS_URL === 'default' ? undefined : 'http://localhost:4566',
   },
   deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',

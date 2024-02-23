@@ -14,7 +14,6 @@ import { ClockModule } from './shared/infrastructure/services/clock/ClockModule'
 import { CryptoModule } from './shared/infrastructure/services/crypto/CryptoModule'
 import { RolesGuard } from './shared/infrastructure/guards/JwtAuthGuard'
 import { EmailSenderModule } from './shared/infrastructure/email/EmailSenderModule'
-import { QueueSwitcherModule } from './shared/infrastructure/queue/QueueSwitcherModule'
 
 @Module({
   imports: [
@@ -31,9 +30,6 @@ import { QueueSwitcherModule } from './shared/infrastructure/queue/QueueSwitcher
     // Infrastructure modules
     LoggerSwitcherModule.init({ disable: config.testModeEnabled }),
     DatabaseSwitcherModule.init({
-      disable: config.testModeEnabled && !config.forceEnableORMRepositories,
-    }),
-    QueueSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableORMRepositories,
     }),
   ],

@@ -12,9 +12,6 @@ import { ClockFake } from '../../src/shared/infrastructure/services/clock/ClockF
 import { EmailSenderFake } from '../fakes/EmailSenderFake'
 import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory'
 import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
-import { SQSQueueClient } from '../../src/shared/infrastructure/queue/SQSQueueClient'
-import { CreateQueueCommand, SQSClient } from '@aws-sdk/client-sqs'
-import { SQSQueueUrl } from '../../src/shared/infrastructure/queue/SQSConnectionUrl'
 
 export class TestApi {
   private static instance: TestApi
@@ -36,7 +33,7 @@ export class TestApi {
   private constructor() {}
 
   async initialize() {
-    const testingModuleBuilder = await this.createRootModule()
+    const testingModuleBuilder = this.createRootModule()
     const moduleFixture = await testingModuleBuilder.compile()
     this.nestApplication = moduleFixture.createNestApplication()
     this.nestApplication.setGlobalPrefix(config.apiPrefix)
@@ -46,12 +43,12 @@ export class TestApi {
     this.app = this.nestApplication.getHttpServer()
   }
 
-  private async createRootModule() {
+  private createRootModule() {
     let testingModuleBuilder = Test.createTestingModule({
       imports: [MainModule],
     })
 
-    testingModuleBuilder = await this.useThirdPartyMocks(testingModuleBuilder)
+    testingModuleBuilder = this.useThirdPartyMocks(testingModuleBuilder)
 
     if (!config.forceEnableORMRepositories) {
       testingModuleBuilder = this.useMemoryRepositories(testingModuleBuilder)
@@ -71,36 +68,9 @@ export class TestApi {
       .useClass(EventBusMemory)
   }
 
-  private async useThirdPartyMocks(testingModuleBuilder: TestingModuleBuilder) {
+  private useThirdPartyMocks(testingModuleBuilder: TestingModuleBuilder) {
     // Here we override the necessary services
-    const anyAccesKey = 'na'
-    const anyPrivateAccessKey = 'na'
-    const defaultRegion = 'eu-west-1'
-    const localEndpoint = `http://${config.sqs.host}:${config.sqs.port}`
-    const sqsClient = new SQSQueueClient(
-      new SQSClient({
-        credentials: {
-          accessKeyId: anyAccesKey,
-          secretAccessKey: anyPrivateAccessKey,
-        },
-        region: defaultRegion,
-        endpoint: localEndpoint,
-      })
-    )
-    const localQueueName = 'cola-de-prueba1'
-    const createQueueCommand = new CreateQueueCommand({
-      QueueName: localQueueName,
-    })
-    const response = await sqsClient.getClient().send(createQueueCommand)
-    const queueUrl = new SQSQueueUrl(response.QueueUrl ?? '')
-
-    return testingModuleBuilder
-      .overrideProvider(Token.EMAIL_SENDER)
-      .useClass(EmailSenderFake)
-      .overrideProvider(SQSQueueUrl)
-      .useValue(queueUrl)
-      .overrideProvider(SQSQueueClient)
-      .useValue(sqsClient)
+    return testingModuleBuilder.overrideProvider(Token.EMAIL_SENDER).useClass(EmailSenderFake)
   }
 
   async close() {
