@@ -59,13 +59,13 @@ jobs:
           --health-retries 5
         ports:
           - 27017:27017
-      sqs:
+      aws:
         image: localstack/localstack
+        env:
+          SERVICES: sqs
+          AWS_DEFAULT_REGION: eu-west-1
         ports:
           - '4566:4566'
-        env:
-          SERVICES: sqs,s3
-          AWS_DEFAULT_REGION: eu-west-1
     strategy:
       matrix:
         shard: [1]
@@ -86,9 +86,7 @@ jobs:
           DB_USERNAME: acid
           DB_PASSWORD: password
           DB_DATABASE: develop
-          QUEUE_HOST: queue
-          QUEUE_USERNAME: acid
-          QUEUE_PASSWORD: password
+          AWS_ENDPOINT: aws
 
   docker-build:
     needs: skip-draft
