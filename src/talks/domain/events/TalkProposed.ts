@@ -21,7 +21,11 @@ export class TalkProposed extends DomainEvent {
     return new TalkProposed(talkId)
   }
 
-  private constructor(public readonly talkId: TalkId, eventId?: DomainId, occurredAt?: Date) {
+  private constructor(
+    public readonly talkId: TalkId,
+    eventId?: DomainId,
+    occurredAt?: Date
+  ) {
     super(DomainEventCode.TALK_PROPOSED, eventId, occurredAt)
   }
 

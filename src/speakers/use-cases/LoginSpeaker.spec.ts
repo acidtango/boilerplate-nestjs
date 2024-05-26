@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
 import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
