@@ -29,7 +29,6 @@ export class TestApi {
     return TestApi.instance
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   async initialize() {

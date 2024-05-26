@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import tepper from 'tepper'
+import { tepper } from 'tepper'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
 import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
 import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'

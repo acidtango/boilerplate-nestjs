@@ -1,4 +1,5 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
+import { JwtPayload } from 'jsonwebtoken'
 import { createClient } from '../../utils/createClient'
 import { HttpStatus } from '@nestjs/common'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'

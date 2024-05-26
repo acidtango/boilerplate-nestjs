@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
