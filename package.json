@@ -55,7 +55,6 @@
     "mongodb": "^6.6.2",
     "morgan": "1.10.0",
     "nestjs-pino": "4.1.0",
-    "pg": "^8.11.5",
     "pino-http": "10.1.0",
     "reflect-metadata": "^0.2.2",
     "rimraf": "5.0.7",
