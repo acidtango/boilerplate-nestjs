@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto"
+import { randomUUID } from 'node:crypto'
 import { UuidGenerator } from '../../../domain/services/UuidGenerator'
 
 export class UuidGeneratorRandom implements UuidGenerator {
