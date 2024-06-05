@@ -22,6 +22,6 @@ describe('GetTalk', () => {
     const getSpeakerUseCase = new GetTalk(talkRepository)
 
     const expectedError = new TalkNotFoundError(notExistentId)
-    await expect(getSpeakerUseCase.execute(notExistentId)).rejects.toThrowError(expectedError)
+    await expect(getSpeakerUseCase.execute(notExistentId)).rejects.toThrow(expectedError)
   })
 })

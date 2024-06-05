@@ -13,7 +13,7 @@ describe('Talk', () => {
       'c0650351-b6aa-4ae1-9ac6-30af6f8d3778',
     ]
 
-    expect(() => discoveringTechTalentTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
+    expect(() => discoveringTechTalentTalk({ cospeakers })).toThrow(new MaximumCospeakersReachedError())
   })
 
   it('is not assigned for review when created', () => {

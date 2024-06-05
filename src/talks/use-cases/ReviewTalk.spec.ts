@@ -44,7 +44,7 @@ describe('ReviewTalk', () => {
 
     const result = reviewTalk.execute({ talkId, reviewerId: notImportantOrganizerId() })
 
-    await expect(result).rejects.toThrowError(new TalkNotFoundError(talkId))
+    await expect(result).rejects.toThrow(new TalkNotFoundError(talkId))
   })
 
   it('fails if talk is already being reviewed', async () => {
@@ -54,6 +54,6 @@ describe('ReviewTalk', () => {
 
     const result = reviewTalk.execute({ talkId, reviewerId })
 
-    await expect(result).rejects.toThrowError(new TalkAlreadyBeingReviewed(talkId))
+    await expect(result).rejects.toThrow(new TalkAlreadyBeingReviewed(talkId))
   })
 })

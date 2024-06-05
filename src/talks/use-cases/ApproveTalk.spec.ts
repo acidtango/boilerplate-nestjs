@@ -31,7 +31,7 @@ describe('ApproveTalk', () => {
 
     const result = approveTalk.execute(talkId)
 
-    await expect(result).rejects.toThrowError(new TalkCannotBeApprovedError(talkId))
+    await expect(result).rejects.toThrow(new TalkCannotBeApprovedError(talkId))
   })
 
   it('fails if the talk does not exist', async () => {
@@ -39,6 +39,6 @@ describe('ApproveTalk', () => {
 
     const result = approveTalk.execute(talkId)
 
-    await expect(result).rejects.toThrowError(new TalkNotFoundError(talkId))
+    await expect(result).rejects.toThrow(new TalkNotFoundError(talkId))
   })
 })

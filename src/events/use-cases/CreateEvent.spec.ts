@@ -31,7 +31,7 @@ describe('CreateEvent', () => {
 
     const result = createEventUseCase.execute(params)
 
-    await expect(result).rejects.toThrowError(new EventAlreadyCreatedError(vlcTechFestId()))
+    await expect(result).rejects.toThrow(new EventAlreadyCreatedError(vlcTechFestId()))
   })
 })
 

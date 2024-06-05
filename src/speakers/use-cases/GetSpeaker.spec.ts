@@ -27,6 +27,6 @@ describe('GetSpeaker', () => {
 
     const result = getSpeakerUseCase.execute(notExistentId)
 
-    await expect(result).rejects.toThrowError(new SpeakerNotFoundError(notExistentId))
+    await expect(result).rejects.toThrow(new SpeakerNotFoundError(notExistentId))
   })
 })

@@ -15,6 +15,6 @@ describe('EventDateRange', () => {
   it('fails if event start date is greater than end date', () => {
     expect(() => {
       new EventDateRange(VLCTECHFEST.endDate, VLCTECHFEST.startDate)
-    }).toThrowError(new InvalidDateRangeError(VLCTECHFEST.endDate, VLCTECHFEST.startDate))
+    }).toThrow(new InvalidDateRangeError(VLCTECHFEST.endDate, VLCTECHFEST.startDate))
   })
 })

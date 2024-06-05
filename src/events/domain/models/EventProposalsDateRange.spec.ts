@@ -24,7 +24,7 @@ describe('EventProposalsDateRange', () => {
         VLCTECHFEST.proposalsDeadlineDate,
         VLCTECHFEST.proposalsStartDate
       )
-    }).toThrowError(
+    }).toThrow(
       new InvalidDateRangeError(
         VLCTECHFEST.proposalsDeadlineDate,
         VLCTECHFEST.proposalsStartDate

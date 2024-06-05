@@ -8,6 +8,6 @@ describe('SpeakerAge', () => {
 
   it('fails if user is under-age', () => {
     const underageSpeakerError = new UnderageSpeakerError(12)
-    expect(() => new SpeakerAge(12)).toThrowError(underageSpeakerError)
+    expect(() => new SpeakerAge(12)).toThrow(underageSpeakerError)
   })
 })
