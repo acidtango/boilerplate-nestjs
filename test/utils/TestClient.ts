@@ -110,14 +110,14 @@ export class TestClient {
 
   assignReviewer({ id = DISCOVERING_TECH_TALENT.id, reviewerId = CESAR.id }) {
     return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
+      .put<void>(`/api/v1/talks/${id}/assignation`)
       .send({ reviewerId })
       .expectStatus(HttpStatus.OK)
   }
 
   approveTalk({ id = DISCOVERING_TECH_TALENT.id }) {
     return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
+      .put<void>(`/api/v1/talks/${id}/approve`)
 
       .expectStatus(HttpStatus.OK)
   }
