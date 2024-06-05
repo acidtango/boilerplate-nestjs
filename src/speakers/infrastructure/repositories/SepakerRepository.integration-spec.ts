@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../shared/infrastructure/fixtures/speakers'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo'
 import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
-import { conchaEmail, conchaId, conchaSpeaker } from '../../../../test/mother/SpeakerMother/Concha'
+import { paolaEmail, paolaId, paolaSpeaker } from '../../../../test/mother/SpeakerMother/Paola'
 
 describe('SpeakerRepository', () => {
   describe.each([
@@ -34,8 +34,8 @@ describe('SpeakerRepository', () => {
     })
 
     it('saves the speaker', async () => {
-      const speakerId = conchaId()
-      const speaker = conchaSpeaker({ id: speakerId })
+      const speakerId = paolaId()
+      const speaker = paolaSpeaker({ id: speakerId })
 
       await speakerRepository.save(speaker)
 
@@ -44,8 +44,8 @@ describe('SpeakerRepository', () => {
     })
 
     it('checks if the speaker exists', async () => {
-      const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
-      const speaker = conchaSpeaker({ id: speakerId })
+      const speakerId = new SpeakerId(PAOLA.id)
+      const speaker = paolaSpeaker({ id: speakerId })
       await speakerRepository.save(speaker)
 
       const exists = await speakerRepository.exists(speakerId)
@@ -55,7 +55,7 @@ describe('SpeakerRepository', () => {
 
     describe('findBy email', () => {
       it('returns undefined if does not exists', async () => {
-        const email = conchaEmail()
+        const email = paolaEmail()
 
         const speaker = await speakerRepository.findBy(email)
 
@@ -63,8 +63,8 @@ describe('SpeakerRepository', () => {
       })
 
       it('returns the speaker if exists', async () => {
-        const email = conchaEmail()
-        const speaker = conchaSpeaker({ email })
+        const email = paolaEmail()
+        const speaker = paolaSpeaker({ email })
         await speakerRepository.save(speaker)
 
         const savedSpeaker = await speakerRepository.findBy(email)
@@ -75,7 +75,7 @@ describe('SpeakerRepository', () => {
 
     describe('existsWith', () => {
       it('returns false if does not exists', async () => {
-        const email = conchaEmail()
+        const email = paolaEmail()
 
         const exists = await speakerRepository.existsWith(email)
 
@@ -83,8 +83,8 @@ describe('SpeakerRepository', () => {
       })
 
       it('checks if the speaker with an email already exists', async () => {
-        const email = conchaEmail()
-        const speaker = conchaSpeaker({ email })
+        const email = paolaEmail()
+        const speaker = paolaSpeaker({ email })
         await speakerRepository.save(speaker)
 
         const exists = await speakerRepository.existsWith(email)

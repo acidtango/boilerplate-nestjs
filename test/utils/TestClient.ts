@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
 import { tepper } from 'tepper'
-import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
+import { VLCTECHFEST } from '../../src/shared/infrastructure/fixtures/events'
 import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
-import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks'
-import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers'
+import { PAOLA } from '../../src/shared/infrastructure/fixtures/speakers'
+import { DISCOVERING_TECH_TALENT } from '../../src/shared/infrastructure/fixtures/talks'
+import { CESAR } from '../../src/shared/infrastructure/fixtures/organizers'
 import { TestApi } from './TestApi'
 
 export class TestClient {
@@ -30,31 +30,31 @@ export class TestClient {
     return tepper(this.app).get('/health')
   }
 
-  createEvent({ id = JSDAY_CANARIAS.id } = {}) {
+  createEvent({ id = VLCTECHFEST.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/events')
       .send({
         id,
-        name: JSDAY_CANARIAS.name,
+        name: VLCTECHFEST.name,
         dateRange: {
-          startDate: JSDAY_CANARIAS.startDate,
-          endDate: JSDAY_CANARIAS.endDate,
+          startDate: VLCTECHFEST.startDate,
+          endDate: VLCTECHFEST.endDate,
         },
         proposalsDateRange: {
-          startDate: JSDAY_CANARIAS.proposalsStartDate,
-          deadline: JSDAY_CANARIAS.proposalsDeadlineDate,
+          startDate: VLCTECHFEST.proposalsStartDate,
+          deadline: VLCTECHFEST.proposalsDeadlineDate,
         },
       })
       .expectStatus(HttpStatus.CREATED)
   }
 
-  registerSpeaker({ id = CONCHA_ASENSIO.id } = {}) {
+  registerSpeaker({ id = PAOLA.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/speakers/registration')
       .send({
         id,
-        email: CONCHA_ASENSIO.email,
-        password: CONCHA_ASENSIO.password,
+        email: PAOLA.email,
+        password: PAOLA.password,
       })
       .expectStatus(HttpStatus.CREATED)
   }
@@ -63,44 +63,44 @@ export class TestClient {
     return tepper(this.app)
       .post('/api/v1/speakers/login')
       .send({
-        email: CONCHA_ASENSIO.email,
-        password: CONCHA_ASENSIO.password,
+        email: PAOLA.email,
+        password: PAOLA.password,
       })
       .expectStatus(HttpStatus.OK)
   }
 
-  proposeTalk({ id = JUNIOR_XP.id } = {}) {
+  proposeTalk({ id = DISCOVERING_TECH_TALENT.id } = {}) {
     return tepper(this.app)
       .post('/api/v1/talks')
       .send({
         id,
-        title: JUNIOR_XP.title,
-        description: JUNIOR_XP.description,
-        language: JUNIOR_XP.language,
-        cospeakers: JUNIOR_XP.cospeakers,
-        speakerId: CONCHA_ASENSIO.id,
-        eventId: JSDAY_CANARIAS.id,
+        title: DISCOVERING_TECH_TALENT.title,
+        description: DISCOVERING_TECH_TALENT.description,
+        language: DISCOVERING_TECH_TALENT.language,
+        cospeakers: DISCOVERING_TECH_TALENT.cospeakers,
+        speakerId: PAOLA.id,
+        eventId: VLCTECHFEST.id,
       })
       .expectStatus(HttpStatus.CREATED)
   }
 
-  getTalk(id = JUNIOR_XP.id) {
+  getTalk(id = DISCOVERING_TECH_TALENT.id) {
     return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
   }
 
-  updateProfile({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
+  updateProfile({ id = PAOLA.id, jwt = '' } = {}) {
     return tepper(this.app)
       .put(`/api/v1/speakers/${id}/profile`)
       .authWith(jwt)
       .send({
-        name: CONCHA_ASENSIO.name,
-        age: CONCHA_ASENSIO.age,
-        language: CONCHA_ASENSIO.language,
+        name: PAOLA.name,
+        age: PAOLA.age,
+        language: PAOLA.language,
       })
       .expectStatus(HttpStatus.OK)
   }
 
-  getSpeaker({ id = CONCHA_ASENSIO.id, jwt = CONCHA_ASENSIO.jwt } = {}) {
+  getSpeaker({ id = PAOLA.id, jwt = PAOLA.jwt } = {}) {
     return tepper(this.app).get(`/api/v1/speakers/${id}`).authWith(jwt).expectStatus(HttpStatus.OK)
   }
 
@@ -108,14 +108,14 @@ export class TestClient {
     return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
   }
 
-  assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
+  assignReviewer({ id = DISCOVERING_TECH_TALENT.id, reviewerId = CESAR.id }) {
     return tepper(this.app)
       .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
       .send({ reviewerId })
       .expectStatus(HttpStatus.OK)
   }
 
-  approveTalk({ id = JUNIOR_XP.id }) {
+  approveTalk({ id = DISCOVERING_TECH_TALENT.id }) {
     return tepper(this.app)
       .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
 

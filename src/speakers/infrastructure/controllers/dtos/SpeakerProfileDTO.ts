@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsInt, IsPositive, IsString } from 'class-validator'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../../shared/infrastructure/fixtures/speakers'
 import { Language } from '../../../../shared/domain/models/Language'
 
 export class SpeakerProfileDTO {
-  @ApiProperty({ example: CONCHA_ASENSIO.name })
+  @ApiProperty({ example: PAOLA.name })
   @IsString()
   name!: string
 
-  @ApiProperty({ example: CONCHA_ASENSIO.age })
+  @ApiProperty({ example: PAOLA.age })
   @IsPositive()
   @IsInt()
   age!: number
 
-  @ApiProperty({ example: CONCHA_ASENSIO.language, enum: Language })
+  @ApiProperty({ example: PAOLA.language, enum: Language })
   @IsEnum(Language)
   language!: Language
 

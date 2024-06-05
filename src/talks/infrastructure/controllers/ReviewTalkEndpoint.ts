@@ -5,7 +5,7 @@ import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decor
 import { ReviewTalk } from '../../use-cases/ReviewTalk'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
 import { ApiParam } from '@nestjs/swagger'
-import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks'
+import { DISCOVERING_TECH_TALENT } from '../../../shared/infrastructure/fixtures/talks'
 
 @Controller('/v1/talks/:id/assignation')
 export class ReviewTalkEndpoint {
@@ -16,7 +16,7 @@ export class ReviewTalkEndpoint {
     description: 'Assigns a talk to a reviewer',
     status: HttpStatus.OK,
   })
-  @ApiParam({ name: 'id', example: JUNIOR_XP.id })
+  @ApiParam({ name: 'id', example: DISCOVERING_TECH_TALENT.id })
   @Put()
   async execute(@Param('id') id: string, @Body() body: ReviewTalkRequestDTO) {
     await this.reviewTalk.execute({

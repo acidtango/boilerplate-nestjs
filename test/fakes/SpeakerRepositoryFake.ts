@@ -1,6 +1,6 @@
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
 import { Speaker } from '../../src/speakers/domain/models/Speaker'
-import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother/Concha'
+import { paolaSpeaker, paolaSpeakerWithoutProfile } from '../mother/SpeakerMother/Paola'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   static empty() {
@@ -17,14 +17,14 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
     return speakerRepository
   }
 
-  static createWithConcha(): SpeakerRepositoryFake {
-    const speaker = conchaSpeaker()
+  static createWithPaola(): SpeakerRepositoryFake {
+    const speaker = paolaSpeaker()
 
     return this.with(speaker)
   }
 
-  static createWithConchaWithoutProfile(): SpeakerRepositoryFake {
-    const speaker = conchaSpeakerWithoutProfile()
+  static createWithPaolaWithoutProfile(): SpeakerRepositoryFake {
+    const speaker = paolaSpeakerWithoutProfile()
 
     return this.with(speaker)
   }

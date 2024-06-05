@@ -1,40 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
-import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
-import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
+import { VLCTECHFEST } from '../../../../shared/infrastructure/fixtures/events'
+import { CESAR } from '../../../../shared/infrastructure/fixtures/organizers'
+import { PAOLA } from '../../../../shared/infrastructure/fixtures/speakers'
+import { DISCOVERING_TECH_TALENT } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
 import { TalkStatus } from '../../../domain/models/TalkStatus'
 
 export class TalkResponseDTO {
-  @ApiProperty({ example: JUNIOR_XP.id })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.id })
   id!: string
 
-  @ApiProperty({ example: JUNIOR_XP.title })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.title })
   title!: string
 
-  @ApiProperty({ example: JUNIOR_XP.description })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.description })
   description!: string
 
   @ApiProperty({ example: Language.ENGLISH, enum: Language })
   language!: Language
 
-  @ApiProperty({ example: JUNIOR_XP.cospeakers, type: [String] })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.cospeakers, type: [String] })
   cospeakers!: string[]
 
   @ApiProperty({ example: TalkStatus.PROPOSAL, enum: TalkStatus })
   status!: TalkStatus
 
-  @ApiProperty({ example: CONCHA_ASENSIO.id })
+  @ApiProperty({ example: PAOLA.id })
   speakerId!: string
 
-  @ApiProperty({ example: DAILOS.id, nullable: true })
+  @ApiProperty({ example: CESAR.id, nullable: true })
   reviewerId?: string
 
   @ApiProperty({ example: false, nullable: true })
   isApproved?: boolean
 
-  @ApiProperty({ example: JSDAY_CANARIAS.id })
+  @ApiProperty({ example: VLCTECHFEST.id })
   eventId!: string
 
   static create(params: TalkResponseDTO) {

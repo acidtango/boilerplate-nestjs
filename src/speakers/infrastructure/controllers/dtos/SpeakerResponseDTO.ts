@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsUUID } from 'class-validator'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../../shared/infrastructure/fixtures/speakers'
 import { SpeakerProfileDTO } from './SpeakerProfileDTO'
 
 export class SpeakerResponseDTO {
-  @ApiProperty({ example: CONCHA_ASENSIO.id })
+  @ApiProperty({ example: PAOLA.id })
   @IsUUID()
   id!: string
 
-  @ApiProperty({ example: CONCHA_ASENSIO.email })
+  @ApiProperty({ example: PAOLA.email })
   email!: string
 
   @ApiProperty({ example: true })

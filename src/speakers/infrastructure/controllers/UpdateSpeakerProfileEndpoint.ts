@@ -6,7 +6,7 @@ import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
 import { SpeakerName } from '../../domain/models/SpeakerName'
 import { SpeakerAge } from '../../domain/models/SpeakerAge'
 import { ApiParam } from '@nestjs/swagger'
-import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../shared/infrastructure/fixtures/speakers'
 
 @Controller('/v1/speakers/:id/profile')
 export class UpdateSpeakerProfileEndpoint {
@@ -17,7 +17,7 @@ export class UpdateSpeakerProfileEndpoint {
     description: 'Updates a speaker profile',
     status: HttpStatus.OK,
   })
-  @ApiParam({ name: 'id', example: CONCHA_ASENSIO.id })
+  @ApiParam({ name: 'id', example: PAOLA.id })
   @Put()
   async execute(@Param('id') id: string, @Body() body: SpeakerProfileDTO) {
     await this.updateSpeakerProfile.execute({

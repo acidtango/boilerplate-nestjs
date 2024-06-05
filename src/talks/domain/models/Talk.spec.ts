@@ -1,7 +1,7 @@
-import { juniorXpTalk } from '../../../../test/mother/TalkMother/JuniorXp'
+import { discoveringTechTalentTalk } from '../../../../test/mother/TalkMother/DiscoveringTechTalent'
 import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
 import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
-import { DAILOS } from '../../../shared/infrastructure/fixtures/organizers'
+import { CESAR } from '../../../shared/infrastructure/fixtures/organizers'
 import { TalkStatus } from './TalkStatus'
 
 describe('Talk', () => {
@@ -13,31 +13,31 @@ describe('Talk', () => {
       'c0650351-b6aa-4ae1-9ac6-30af6f8d3778',
     ]
 
-    expect(() => juniorXpTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
+    expect(() => discoveringTechTalentTalk({ cospeakers })).toThrowError(new MaximumCospeakersReachedError())
   })
 
   it('is not assigned for review when created', () => {
-    const talk = juniorXpTalk()
+    const talk = discoveringTechTalentTalk()
 
     const notExistentId = new OrganizerId('not-existent-id')
     expect(talk.isGoingToBeReviewedBy(notExistentId)).toBe(false)
   })
 
   it('has status PROPOSAL when created', () => {
-    const talk = juniorXpTalk()
+    const talk = discoveringTechTalentTalk()
 
     expect(talk.hasStatus(TalkStatus.PROPOSAL)).toBe(true)
   })
 
   it('does not have status REVIEWING when created', () => {
-    const talk = juniorXpTalk()
+    const talk = discoveringTechTalentTalk()
 
     expect(talk.hasStatus(TalkStatus.REVIEWING)).toBe(false)
   })
 
   it('can be assigned to a reviewer', () => {
-    const talk = juniorXpTalk()
-    const reviewerId = new OrganizerId(DAILOS.id)
+    const talk = discoveringTechTalentTalk()
+    const reviewerId = new OrganizerId(CESAR.id)
 
     talk.assignForReviewTo(reviewerId)
 
@@ -45,8 +45,8 @@ describe('Talk', () => {
   })
 
   it('has status REVIEWING when assigned to a reviewer', () => {
-    const talk = juniorXpTalk()
-    const reviewerId = new OrganizerId(DAILOS.id)
+    const talk = discoveringTechTalentTalk()
+    const reviewerId = new OrganizerId(CESAR.id)
 
     talk.assignForReviewTo(reviewerId)
 

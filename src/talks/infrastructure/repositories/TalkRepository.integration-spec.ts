@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { juniorXpId, juniorXpTalk } from '../../../../test/mother/TalkMother/JuniorXp'
+import { discoveringTechTalentId, discoveringTechTalentTalk } from '../../../../test/mother/TalkMother/DiscoveringTechTalent'
 import { TalkRepositoryMongo } from './TalkRepositoryMongo'
 import { MongoModule } from '../../../shared/infrastructure/database/MongoModule'
 import { TalkRepositoryMemory } from './TalkRepositoryMemory'
@@ -32,8 +32,8 @@ describe('TalkRepository', () => {
     })
 
     it('saves the talk', async () => {
-      const talkId = juniorXpId()
-      const talk = juniorXpTalk({ id: talkId })
+      const talkId = discoveringTechTalentId()
+      const talk = discoveringTechTalentTalk({ id: talkId })
 
       await talkRepository.save(talk)
 
@@ -42,7 +42,7 @@ describe('TalkRepository', () => {
     })
 
     it('findById returns undefined if not found', async () => {
-      const notExistentId = juniorXpId()
+      const notExistentId = discoveringTechTalentId()
 
       const notExistentTalk = await talkRepository.findBy(notExistentId)
 

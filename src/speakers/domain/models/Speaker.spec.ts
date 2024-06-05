@@ -6,16 +6,16 @@ import {
 } from '../../../../test/mother/SpeakerMother/NotImportant'
 import { exampleSalt } from '../../../../test/mother/Common'
 import {
-  conchaAge,
-  conchaLanguage,
-  conchaName,
-  conchaPassword,
-} from '../../../../test/mother/SpeakerMother/Concha'
+  paolaAge,
+  paolaLanguage,
+  paolaName,
+  paolaPassword,
+} from '../../../../test/mother/SpeakerMother/Paola'
 import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
 
 describe('Speaker', () => {
   it('can check if the password is correct', () => {
-    const password = conchaPassword()
+    const password = paolaPassword()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
@@ -29,7 +29,7 @@ describe('Speaker', () => {
   })
 
   it('can check if the password is not correct', () => {
-    const password = conchaPassword()
+    const password = paolaPassword()
     const wrongPassword = new PlainPassword('wrong password')
     const speaker = Speaker.register(
       notImportantSpeakerId(),
@@ -44,7 +44,7 @@ describe('Speaker', () => {
   })
 
   it('checks if the name is correct', () => {
-    const name = conchaName()
+    const name = paolaName()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
@@ -58,7 +58,7 @@ describe('Speaker', () => {
   })
 
   it('checks if the age is correct', () => {
-    const age = conchaAge()
+    const age = paolaAge()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
@@ -72,7 +72,7 @@ describe('Speaker', () => {
   })
 
   it('checks if the language is correct', () => {
-    const language = conchaLanguage()
+    const language = paolaLanguage()
     const speaker = Speaker.register(
       notImportantSpeakerId(),
       notImportantEmail(),
@@ -92,9 +92,9 @@ describe('Speaker', () => {
       notImportantPassword(),
       exampleSalt()
     )
-    const name = conchaName()
-    const age = conchaAge()
-    const language = conchaLanguage()
+    const name = paolaName()
+    const age = paolaAge()
+    const language = paolaLanguage()
 
     speaker.updateProfile(name, age, language)
 

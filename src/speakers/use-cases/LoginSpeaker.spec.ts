@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../shared/infrastructure/fixtures/speakers'
 import { ClockFake } from '../../shared/infrastructure/services/clock/ClockFake'
 import { LoginSpeaker } from './LoginSpeaker'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
@@ -7,9 +7,9 @@ import { PlainPassword } from '../../shared/domain/models/PlainPassword'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
 import { JwtPayload } from '../../auth/domain/JwtPayload'
 import { Role } from '../../shared/domain/models/Role'
-import { conchaEmail, conchaPassword } from '../../../test/mother/SpeakerMother/Concha'
+import { paolaEmail, paolaPassword } from '../../../test/mother/SpeakerMother/Paola'
 import { notImportantPassword } from '../../../test/mother/SpeakerMother/NotImportant'
-import { jorgeEmail } from '../../../test/mother/SpeakerMother/Jorge'
+import { dianaEmail } from '../../../test/mother/SpeakerMother/Diana'
 
 describe('LoginSpeaker', () => {
   let clock: ClockFake
@@ -18,7 +18,7 @@ describe('LoginSpeaker', () => {
 
   beforeEach(() => {
     clock = new ClockFake()
-    speakerRepository = SpeakerRepositoryFake.createWithConcha()
+    speakerRepository = SpeakerRepositoryFake.createWithPaola()
     loginSpeaker = new LoginSpeaker(speakerRepository, clock)
   })
 
@@ -28,12 +28,12 @@ describe('LoginSpeaker', () => {
     const expectedExp = now.addDays(1).toSeconds()
 
     const accessToken = await loginSpeaker.execute({
-      email: conchaEmail(),
-      password: conchaPassword(),
+      email: paolaEmail(),
+      password: paolaPassword(),
     })
 
     const content = jwt.decode(accessToken) as JwtPayload
-    expect(content.sub).toEqual(CONCHA_ASENSIO.id)
+    expect(content.sub).toEqual(PAOLA.id)
     expect(content.iat).toEqual(expectedIat)
     expect(content.exp).toEqual(expectedExp)
     expect(content.role).toEqual(Role.SPEAKER)
@@ -41,7 +41,7 @@ describe('LoginSpeaker', () => {
 
   it('fails if password is incorrect', async () => {
     const result = loginSpeaker.execute({
-      email: conchaEmail(),
+      email: paolaEmail(),
       password: new PlainPassword('wrong password'),
     })
 
@@ -50,7 +50,7 @@ describe('LoginSpeaker', () => {
 
   it('fails if email is not found', async () => {
     const result = loginSpeaker.execute({
-      email: jorgeEmail(),
+      email: dianaEmail(),
       password: notImportantPassword(),
     })
 

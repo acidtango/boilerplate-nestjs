@@ -1,12 +1,12 @@
-import { juniorXpId } from '../../../test/mother/TalkMother/JuniorXp'
+import { discoveringTechTalentId } from '../../../test/mother/TalkMother/DiscoveringTechTalent'
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
 import { ReviewTalk } from './ReviewTalk'
 import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 import { TalkAssignedForReview } from '../domain/events/TalkAssignedForReview'
 import { TalkAlreadyBeingReviewed } from '../domain/errors/TalkAlreadyBeingReviewed'
 import { EventBusFake } from '../../../test/fakes/EventBusFake'
-import { improvingTestsId } from '../../../test/mother/TalkMother/ImprovingTests'
-import { dailosId } from '../../../test/mother/OrganizerMother/Dailos'
+import { webAccessibilityId } from '../../../test/mother/TalkMother/WebAccessibility'
+import { cesarId } from '../../../test/mother/OrganizerMother/Cesar'
 import { notImportantOrganizerId } from '../../../test/mother/OrganizerMother/NotImportant'
 
 describe('ReviewTalk', () => {
@@ -21,8 +21,8 @@ describe('ReviewTalk', () => {
   })
 
   it('assigns the talk to a reviewer', async () => {
-    const talkId = juniorXpId()
-    const reviewerId = dailosId()
+    const talkId = discoveringTechTalentId()
+    const reviewerId = cesarId()
 
     await reviewTalk.execute({ talkId, reviewerId })
 
@@ -31,8 +31,8 @@ describe('ReviewTalk', () => {
   })
 
   it('event should be emitted', async () => {
-    const talkId = juniorXpId()
-    const reviewerId = dailosId()
+    const talkId = discoveringTechTalentId()
+    const reviewerId = cesarId()
 
     await reviewTalk.execute({ talkId, reviewerId })
 
@@ -40,7 +40,7 @@ describe('ReviewTalk', () => {
   })
 
   it('fails if talk does not exist', async () => {
-    const talkId = improvingTestsId()
+    const talkId = webAccessibilityId()
 
     const result = reviewTalk.execute({ talkId, reviewerId: notImportantOrganizerId() })
 
@@ -48,8 +48,8 @@ describe('ReviewTalk', () => {
   })
 
   it('fails if talk is already being reviewed', async () => {
-    const talkId = juniorXpId()
-    const reviewerId = dailosId()
+    const talkId = discoveringTechTalentId()
+    const reviewerId = cesarId()
     await reviewTalk.execute({ talkId, reviewerId })
 
     const result = reviewTalk.execute({ talkId, reviewerId })

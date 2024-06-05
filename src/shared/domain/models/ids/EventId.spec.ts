@@ -1,9 +1,9 @@
 import { EventId } from './EventId'
-import { JSDAY_CANARIAS } from '../../../infrastructure/fixtures/events'
+import { VLCTECHFEST } from '../../../infrastructure/fixtures/events'
 
 describe('EventId', () => {
   it('is serializable', () => {
-    const eventIdPrimitive = JSDAY_CANARIAS.id
+    const eventIdPrimitive = VLCTECHFEST.id
 
     const id = EventId.fromPrimitives(eventIdPrimitive)
 

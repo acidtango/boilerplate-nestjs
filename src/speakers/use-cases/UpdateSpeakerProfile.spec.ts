@@ -10,11 +10,11 @@ import {
   notImportantName,
 } from '../../../test/mother/SpeakerMother/NotImportant'
 import {
-  conchaAge,
-  conchaId,
-  conchaLanguage,
-  conchaName,
-} from '../../../test/mother/SpeakerMother/Concha'
+  paolaAge,
+  paolaId,
+  paolaLanguage,
+  paolaName,
+} from '../../../test/mother/SpeakerMother/Paola'
 
 describe('UpdateSpeakerProfile', () => {
   let speakerRepository: SpeakerRepositoryFake
@@ -22,16 +22,16 @@ describe('UpdateSpeakerProfile', () => {
   let updateSpeakerProfile: UpdateSpeakerProfile
 
   beforeEach(() => {
-    speakerRepository = SpeakerRepositoryFake.createWithConchaWithoutProfile()
+    speakerRepository = SpeakerRepositoryFake.createWithPaolaWithoutProfile()
     eventBus = new EventBusFake()
     updateSpeakerProfile = new UpdateSpeakerProfile(speakerRepository, eventBus)
   })
 
   it('saves the speaker in the repository with the profile', async () => {
-    const speakerId = conchaId()
-    const name = conchaName()
-    const age = conchaAge()
-    const language = conchaLanguage()
+    const speakerId = paolaId()
+    const name = paolaName()
+    const age = paolaAge()
+    const language = paolaLanguage()
 
     await updateSpeakerProfile.execute({
       id: speakerId,
@@ -47,10 +47,10 @@ describe('UpdateSpeakerProfile', () => {
   })
 
   it('emits a domain event', async () => {
-    const speakerId = conchaId()
-    const name = conchaName()
-    const age = conchaAge()
-    const language = conchaLanguage()
+    const speakerId = paolaId()
+    const name = paolaName()
+    const age = paolaAge()
+    const language = paolaLanguage()
 
     await updateSpeakerProfile.execute({
       id: speakerId,

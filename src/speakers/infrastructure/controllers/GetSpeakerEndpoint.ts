@@ -7,7 +7,7 @@ import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO'
 import { Role } from '../../../shared/domain/models/Role'
 import { SpeakerProfilePrimitives } from '../../domain/models/SpeakerProfile'
 import { ApiParam } from '@nestjs/swagger'
-import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../shared/infrastructure/fixtures/speakers'
 
 @Controller('/v1/speakers/:id')
 export class GetSpeakerEndpoint {
@@ -19,7 +19,7 @@ export class GetSpeakerEndpoint {
     status: HttpStatus.OK,
     roles: [Role.SPEAKER],
   })
-  @ApiParam({ name: 'id', example: CONCHA_ASENSIO.id })
+  @ApiParam({ name: 'id', example: PAOLA.id })
   @Get()
   async execute(@Param('id') id: string): Promise<SpeakerResponseDTO> {
     const speaker = await this.getSpeaker.execute(SpeakerId.fromPrimitives(id))

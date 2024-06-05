@@ -1,20 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsString, IsUUID } from 'class-validator'
-import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
+import { DISCOVERING_TECH_TALENT } from '../../../../shared/infrastructure/fixtures/talks'
 import { Language } from '../../../../shared/domain/models/Language'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
+import { PAOLA } from '../../../../shared/infrastructure/fixtures/speakers'
+import { VLCTECHFEST } from '../../../../shared/infrastructure/fixtures/events'
 
 export class ProposeTalkRequestDTO {
-  @ApiProperty({ example: JUNIOR_XP.id })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.id })
   @IsUUID()
   id!: string
 
-  @ApiProperty({ example: JUNIOR_XP.title })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.title })
   @IsString()
   title!: string
 
-  @ApiProperty({ example: JUNIOR_XP.description })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.description })
   @IsString()
   description!: string
 
@@ -22,15 +22,15 @@ export class ProposeTalkRequestDTO {
   @IsEnum(Language)
   language!: Language
 
-  @ApiProperty({ example: JUNIOR_XP.cospeakers, type: [String] })
+  @ApiProperty({ example: DISCOVERING_TECH_TALENT.cospeakers, type: [String] })
   @IsString({ each: true })
   cospeakers!: string[]
 
-  @ApiProperty({ example: CONCHA_ASENSIO.id })
+  @ApiProperty({ example: PAOLA.id })
   @IsUUID()
   speakerId!: string
 
-  @ApiProperty({ example: JSDAY_CANARIAS.id })
+  @ApiProperty({ example: VLCTECHFEST.id })
   @IsUUID()
   eventId!: string
 }

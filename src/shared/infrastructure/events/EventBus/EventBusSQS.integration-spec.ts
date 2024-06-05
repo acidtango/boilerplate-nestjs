@@ -1,4 +1,4 @@
-import { juniorXpId } from '../../../../../test/mother/TalkMother/JuniorXp'
+import { discoveringTechTalentId } from '../../../../../test/mother/TalkMother/DiscoveringTechTalent'
 import { waitFor } from '../../../../../test/utils/waitFor'
 import { TalkProposed } from '../../../../talks/domain/events/TalkProposed'
 import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber'
@@ -26,7 +26,7 @@ describe('EventBusSQS', () => {
   })
 
   it('sends the event and calls the given subscriber', async () => {
-    const event = TalkProposed.emit(juniorXpId())
+    const event = TalkProposed.emit(discoveringTechTalentId())
 
     await eventBus.publish([event])
 

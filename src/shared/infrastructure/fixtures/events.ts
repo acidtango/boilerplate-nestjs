@@ -1,10 +1,10 @@
-export const JSDAY_CANARIAS = {
+export const VLCTECHFEST = {
   id: 'e1bd47cc-6b6f-462b-bcb8-45e923725cb4',
-  name: 'JSDay Canarias',
-  startDate: new Date('2023-05-25T08:00:00.000Z'),
-  endDate: new Date('2023-05-28T18:00:00.000Z'),
-  proposalsStartDate: new Date('2022-11-01T10:00:00.000Z'),
-  proposalsDeadlineDate: new Date('2023-01-15T23:00:00.000Z'),
+  name: 'VLCTechFest',
+  startDate: new Date('2024-06-08T07:30:00.000Z'),
+  endDate: new Date('2024-06-08T17:30:00.000Z'),
+  proposalsStartDate: new Date('2023-04-05T10:00:00.000Z'),
+  proposalsDeadlineDate: new Date('2023-04-30T10:00:00.000Z'),
 }
 
 export const CODEMOTION = {

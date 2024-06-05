@@ -1,9 +1,9 @@
-import { JSDAY_CANARIAS } from '../../../shared/infrastructure/fixtures/events'
+import { VLCTECHFEST } from '../../../shared/infrastructure/fixtures/events'
 import { EventName } from './EventName'
 
 describe('EventName', () => {
   it('is serializable', () => {
-    const namePrimitive = JSDAY_CANARIAS.name
+    const namePrimitive = VLCTECHFEST.name
 
     const name = EventName.fromPrimitives(namePrimitive)
 

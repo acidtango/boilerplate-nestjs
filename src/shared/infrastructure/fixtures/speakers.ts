@@ -1,21 +1,21 @@
 import { Language } from '../../domain/models/Language'
 
-export const CONCHA_ASENSIO = {
+export const PAOLA = {
   id: 'b741e452-a5ca-48f3-92f0-5bdbc4d84c81',
-  name: 'Concha Asensio',
+  name: 'Paola Peiró',
   language: Language.SPANISH,
-  email: 'concha-asensio@gmail.com',
-  password: 'xpRules123',
-  age: 30,
+  email: 'paola-peiro@gmail.com',
+  password: 'iLoveCats123',
+  age: 23,
   jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODQzMzM4MDAsInN1YiI6ImI3NDFlNDUyLWE1Y2EtNDhmMy05MmYwLTViZGJjNGQ4NGM4MSIsImV4cCI6MjY4NDQyMDIwMCwicm9sZSI6IlNQRUFLRVIifQ.K2LKmblSn3Y2Es7z0U6bVv0FQhphBNRdFFE3zYIqcQ0',
 }
 
-export const JORGE_AGUIAR = {
+export const DIANA = {
   id: 'c0f1e467-a382-4984-a1b0-7a760fc5270b',
-  name: 'Jorge Aguiar',
+  name: 'Diana Rodriguez',
   language: Language.SPANISH,
-  email: 'jorge-aguiar@gmail.com',
-  age: 57,
+  email: 'diana-rodriguez@gmail.com',
+  age: 30,
   password: 'tddIsAwesome999',
 }
 

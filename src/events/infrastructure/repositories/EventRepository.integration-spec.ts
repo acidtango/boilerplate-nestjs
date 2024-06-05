@@ -4,7 +4,7 @@ import { EventRepositoryMongo } from './EventRepositoryMongo'
 import { EventRepositoryMemory } from './EventRepositoryMemory'
 import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
 import { EventRepository } from '../../domain/repositories/EventRepository'
-import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay'
+import { vlcTechFestEvent, vlcTechFestId } from '../../../../test/mother/EventMother/VlcTechFest'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion'
 
 describe('TalkEventRepository', () => {
@@ -33,8 +33,8 @@ describe('TalkEventRepository', () => {
     })
 
     it('saves the event', async () => {
-      const talkEventId = jsdayId()
-      const talkEvent = jsdayEvent({ id: talkEventId })
+      const talkEventId = vlcTechFestId()
+      const talkEvent = vlcTechFestEvent({ id: talkEventId })
 
       await talkEventRepository.save(talkEvent)
 
@@ -43,7 +43,7 @@ describe('TalkEventRepository', () => {
     })
 
     it('retrieves all events', async () => {
-      const canariasJSTalkEvent = jsdayEvent()
+      const canariasJSTalkEvent = vlcTechFestEvent()
       const codemotionTalkEvent = codemotionEvent()
 
       await talkEventRepository.save(canariasJSTalkEvent)
@@ -55,7 +55,7 @@ describe('TalkEventRepository', () => {
     })
 
     it('find retrieves the saved event', async () => {
-      const event = jsdayEvent()
+      const event = vlcTechFestEvent()
 
       await talkEventRepository.save(event)
 

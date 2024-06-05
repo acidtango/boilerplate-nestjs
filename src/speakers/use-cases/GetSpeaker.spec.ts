@@ -1,7 +1,7 @@
 import { GetSpeaker } from './GetSpeaker'
 import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
-import { conchaId } from '../../../test/mother/SpeakerMother/Concha'
+import { paolaId } from '../../../test/mother/SpeakerMother/Paola'
 import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImportant'
 
 describe('GetSpeaker', () => {
@@ -9,12 +9,12 @@ describe('GetSpeaker', () => {
   let getSpeakerUseCase: GetSpeaker
 
   beforeEach(() => {
-    speakerRepository = SpeakerRepositoryFake.createWithConcha()
+    speakerRepository = SpeakerRepositoryFake.createWithPaola()
     getSpeakerUseCase = new GetSpeaker(speakerRepository)
   })
 
   it('returns the speaker by id', async () => {
-    const expectedSpeakerId = conchaId()
+    const expectedSpeakerId = paolaId()
 
     const speaker = await getSpeakerUseCase.execute(expectedSpeakerId)
 

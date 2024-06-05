@@ -1,7 +1,7 @@
 import { TalkRepositoryFake } from '../../../test/fakes/TalkRepositoryFake'
-import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events'
-import { CONCHA_ASENSIO } from '../../shared/infrastructure/fixtures/speakers'
-import { JUNIOR_XP } from '../../shared/infrastructure/fixtures/talks'
+import { VLCTECHFEST } from '../../shared/infrastructure/fixtures/events'
+import { PAOLA } from '../../shared/infrastructure/fixtures/speakers'
+import { DISCOVERING_TECH_TALENT } from '../../shared/infrastructure/fixtures/talks'
 import { EventId } from '../../shared/domain/models/ids/EventId'
 import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
 import { TalkDescription } from '../domain/models/TalkDescription'
@@ -14,15 +14,15 @@ import { TalkEventNotFoundError } from '../../events/domain/errors/TalkEventNotF
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
 import { ProfileNotFilledError } from '../../speakers/domain/errors/ProfileNotFilledError'
 import { SpeakerNotFoundError } from '../../speakers/domain/errors/SpeakerNotFoundError'
-import { conchaSpeaker } from '../../../test/mother/SpeakerMother/Concha'
-import { jsdayEvent } from '../../../test/mother/EventMother/JsDay'
+import { paolaSpeaker } from '../../../test/mother/SpeakerMother/Paola'
+import { vlcTechFestEvent } from '../../../test/mother/EventMother/VlcTechFest'
 import { nonExistingSpeakerId } from '../../../test/mother/SpeakerMother/NotImportant'
-import { jorgeId, jorgeSpeakerWithoutProfile } from '../../../test/mother/SpeakerMother/Jorge'
+import { dianaId, dianaSpeakerWithoutProfile } from '../../../test/mother/SpeakerMother/Diana'
 import { EventRepositoryFake } from '../../../test/fakes/EventRepositoryFake'
 import { nonExistingEventId } from '../../../test/mother/EventMother/NotImportant'
 import { EventBusFake } from '../../../test/fakes/EventBusFake'
 import { TalkProposed } from '../domain/events/TalkProposed'
-import { juniorXpId } from '../../../test/mother/TalkMother/JuniorXp'
+import { discoveringTechTalentId } from '../../../test/mother/TalkMother/DiscoveringTechTalent'
 
 describe('ProposeTalk', () => {
   let talkRepository: TalkRepositoryFake
@@ -33,8 +33,8 @@ describe('ProposeTalk', () => {
 
   beforeEach(async () => {
     talkRepository = TalkRepositoryFake.empty()
-    eventRepository = EventRepositoryFake.with(jsdayEvent())
-    speakerRepository = SpeakerRepositoryFake.with(conchaSpeaker(), jorgeSpeakerWithoutProfile())
+    eventRepository = EventRepositoryFake.with(vlcTechFestEvent())
+    speakerRepository = SpeakerRepositoryFake.with(paolaSpeaker(), dianaSpeakerWithoutProfile())
     eventBus = new EventBusFake()
     proposeTalk = new ProposeTalk(eventBus, talkRepository, eventRepository, speakerRepository)
   })
@@ -53,7 +53,7 @@ describe('ProposeTalk', () => {
 
     await proposeTalk.execute(params)
 
-    eventBus.expectLastEventToBe(TalkProposed.emit(juniorXpId()))
+    eventBus.expectLastEventToBe(TalkProposed.emit(discoveringTechTalentId()))
   })
 
   it('fails if eventId does not exists', async () => {
@@ -66,7 +66,7 @@ describe('ProposeTalk', () => {
   })
 
   it('fails if the speaker does not have a filled profile', async () => {
-    const speakerId = jorgeId()
+    const speakerId = dianaId()
     const params = juniorXpParams({ speakerId })
 
     const result = proposeTalk.execute(params)
@@ -85,15 +85,15 @@ describe('ProposeTalk', () => {
 })
 
 function juniorXpParams({
-  eventId = new EventId(JSDAY_CANARIAS.id),
-  speakerId = new SpeakerId(CONCHA_ASENSIO.id),
+  eventId = new EventId(VLCTECHFEST.id),
+  speakerId = new SpeakerId(PAOLA.id),
 } = {}): ProposeTalkParams {
   return {
-    id: new TalkId(JUNIOR_XP.id),
-    title: new TalkTitle(JUNIOR_XP.title),
-    description: new TalkDescription(JUNIOR_XP.description),
-    cospeakers: JUNIOR_XP.cospeakers.map(SpeakerId.fromPrimitives),
-    language: JUNIOR_XP.language,
+    id: new TalkId(DISCOVERING_TECH_TALENT.id),
+    title: new TalkTitle(DISCOVERING_TECH_TALENT.title),
+    description: new TalkDescription(DISCOVERING_TECH_TALENT.description),
+    cospeakers: DISCOVERING_TECH_TALENT.cospeakers.map(SpeakerId.fromPrimitives),
+    language: DISCOVERING_TECH_TALENT.language,
     eventId: eventId,
     speakerId,
   }

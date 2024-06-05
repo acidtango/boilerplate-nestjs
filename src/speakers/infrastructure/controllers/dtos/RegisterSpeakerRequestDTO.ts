@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsUUID } from 'class-validator'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { PAOLA } from '../../../../shared/infrastructure/fixtures/speakers'
 
 export class RegisterSpeakerRequestDTO {
-  @ApiProperty({ example: CONCHA_ASENSIO.id })
+  @ApiProperty({ example: PAOLA.id })
   @IsUUID()
   id!: string
 
-  @ApiProperty({ example: CONCHA_ASENSIO.email })
+  @ApiProperty({ example: PAOLA.email })
   @IsString()
   email!: string
 
-  @ApiProperty({ example: CONCHA_ASENSIO.password })
+  @ApiProperty({ example: PAOLA.password })
   @IsString()
   password!: string
 }

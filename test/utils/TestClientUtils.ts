@@ -11,12 +11,12 @@ export class TestClientUtils extends TestClient {
    * This consists of several TestClient calls
    */
 
-  async createConcha() {
+  async createPaola() {
     await this.registerSpeaker().run()
     await this.updateProfile().run()
   }
 
-  async createJsDayCanarias() {
+  async createVlcTechFest() {
     await this.createEvent().run()
   }
 }

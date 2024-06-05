@@ -1,5 +1,5 @@
 import { createClient } from '../../utils/createClient'
-import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events'
+import { VLCTECHFEST } from '../../../src/shared/infrastructure/fixtures/events'
 import { HttpStatus } from '@nestjs/common'
 
 describe('create event', () => {
@@ -12,9 +12,9 @@ describe('create event', () => {
     const { body: events } = await client.getEvents().run()
     expect(events).toHaveLength(1)
     const firstEvent = events[0]
-    expect(firstEvent.id).toEqual(JSDAY_CANARIAS.id)
-    expect(firstEvent.name).toEqual(JSDAY_CANARIAS.name)
-    expect(firstEvent.dateRange.startDate).toEqual(JSDAY_CANARIAS.startDate.toISOString())
-    expect(firstEvent.dateRange.endDate).toEqual(JSDAY_CANARIAS.endDate.toISOString())
+    expect(firstEvent.id).toEqual(VLCTECHFEST.id)
+    expect(firstEvent.name).toEqual(VLCTECHFEST.name)
+    expect(firstEvent.dateRange.startDate).toEqual(VLCTECHFEST.startDate.toISOString())
+    expect(firstEvent.dateRange.endDate).toEqual(VLCTECHFEST.endDate.toISOString())
   })
 })

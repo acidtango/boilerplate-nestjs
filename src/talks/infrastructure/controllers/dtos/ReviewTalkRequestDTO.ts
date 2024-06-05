@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsUUID } from 'class-validator'
-import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
+import { CESAR } from '../../../../shared/infrastructure/fixtures/organizers'
 
 export class ReviewTalkRequestDTO {
-  @ApiProperty({ example: DAILOS.id })
+  @ApiProperty({ example: CESAR.id })
   @IsUUID()
   reviewerId!: string
 }
