@@ -40,7 +40,7 @@ describe('ProposeTalk', () => {
   })
 
   it('creates the a proposal talk', async () => {
-    const params = juniorXpParams()
+    const params = discoveringTechTalentParams()
 
     await proposeTalk.execute(params)
 
@@ -49,7 +49,7 @@ describe('ProposeTalk', () => {
   })
 
   it('emits a domain event', async () => {
-    const params = juniorXpParams()
+    const params = discoveringTechTalentParams()
 
     await proposeTalk.execute(params)
 
@@ -58,7 +58,7 @@ describe('ProposeTalk', () => {
 
   it('fails if eventId does not exists', async () => {
     const eventId = nonExistingEventId()
-    const params = juniorXpParams({ eventId })
+    const params = discoveringTechTalentParams({ eventId })
 
     const result = proposeTalk.execute(params)
 
@@ -67,7 +67,7 @@ describe('ProposeTalk', () => {
 
   it('fails if the speaker does not have a filled profile', async () => {
     const speakerId = dianaId()
-    const params = juniorXpParams({ speakerId })
+    const params = discoveringTechTalentParams({ speakerId })
 
     const result = proposeTalk.execute(params)
 
@@ -76,7 +76,7 @@ describe('ProposeTalk', () => {
 
   it('fails if the speaker does not exists', async () => {
     const speakerId = nonExistingSpeakerId()
-    const params = juniorXpParams({ speakerId })
+    const params = discoveringTechTalentParams({ speakerId })
 
     const result = proposeTalk.execute(params)
 
@@ -84,7 +84,7 @@ describe('ProposeTalk', () => {
   })
 })
 
-function juniorXpParams({
+function discoveringTechTalentParams({
   eventId = new EventId(VLCTECHFEST.id),
   speakerId = new SpeakerId(PAOLA.id),
 } = {}): ProposeTalkParams {

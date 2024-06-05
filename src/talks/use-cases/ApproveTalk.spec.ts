@@ -22,7 +22,7 @@ describe('ApproveTalk', () => {
   it('approves the talk', async () => {
     await approveTalk.execute(discoveringTechTalentId())
 
-    const savedTalk = await talkRepository.getJuniorXpTalk()
+    const savedTalk = await talkRepository.getDiscoveringTechTalent()
     expect(savedTalk.hasStatus(TalkStatus.APPROVED)).toBe(true)
   })
 

@@ -16,7 +16,7 @@ describe('ReviewTalk', () => {
 
   beforeEach(() => {
     eventBus = new EventBusFake()
-    talkRepository = TalkRepositoryFake.createWithJuniorXp()
+    talkRepository = TalkRepositoryFake.createWithDiscoveringTechTalent()
     reviewTalk = new ReviewTalk(eventBus, talkRepository)
   })
 

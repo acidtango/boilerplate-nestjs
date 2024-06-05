@@ -17,7 +17,7 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
     return talkRepository
   }
 
-  static createWithJuniorXp(): TalkRepositoryFake {
+  static createWithDiscoveringTechTalent(): TalkRepositoryFake {
     return TalkRepositoryFake.createWith(discoveringTechTalentTalk())
   }
 
@@ -30,7 +30,7 @@ export class TalkRepositoryFake extends TalkRepositoryMemory {
     return Talk.fromPrimitives(lastTalk)
   }
 
-  async getJuniorXpTalk(): Promise<Talk> {
+  async getDiscoveringTechTalent(): Promise<Talk> {
     const talk = await this.findBy(discoveringTechTalentId())
 
     if (!talk) throw new Error('No talk saved yet')

@@ -7,7 +7,7 @@ import { TalkNotFoundError } from '../domain/errors/TalkNotFoundError'
 describe('GetTalk', () => {
   it('returns the talk by id', async () => {
     const expectedTalkId = discoveringTechTalentId()
-    const talkRepository = TalkRepositoryFake.createWithJuniorXp()
+    const talkRepository = TalkRepositoryFake.createWithDiscoveringTechTalent()
     const getTalk = new GetTalk(talkRepository)
 
     const speaker = await getTalk.execute(expectedTalkId)
