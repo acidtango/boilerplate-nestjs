@@ -35,15 +35,15 @@
       "automerge": false
     },
     {
-      "matchCategories": ["ci"],
-      "groupName": "ci",
-      "prPriority": 6,
+      "matchPackagePatterns": ["^typeorm", "^@mikro-orm", "^mongo", "^postgres"],
+      "groupName": "orm",
+      "prPriority": 5,
       "automerge": false
     },
     {
-      "matchPackagePatterns": ["^typeorm", "^@mikro-orm"],
-      "groupName": "orm",
-      "prPriority": 5,
+      "matchCategories": ["ci"],
+      "groupName": "ci",
+      "prPriority": 4,
       "automerge": false
     }
   ]
