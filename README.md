@@ -205,4 +205,9 @@ class ReservationTitle extends ValueObject<string> { /* ... */ }
 
 ## 📲 Contact
 
-The project was mainly developed by [Alberto González](https://github.com/AlberTJ97) and [Daniel Ramos](https://github.com/DanielRamosAcosta) from [Acid Tango](https://acidtango.com/) with ❤️ and 💪
+The project was mainly developed by [Alberto González](https://github.com/AlberTJ97) and [Daniel Ramos](https://github.com/DanielRamosAcosta) from [Acid Tango](https://acidtango.com/) with ❤️ and �
+
+
+
+
+�
