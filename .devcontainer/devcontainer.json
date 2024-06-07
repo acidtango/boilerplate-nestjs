@@ -1,0 +1,18 @@
+{
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "api",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [8080],
+  "postCreateCommand": "yarn install --frozen-lockfile",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker",
+        "mutantdino.resourcemonitor",
+        "eamodio.gitlens"
+      ]
+    }
+  }
+}

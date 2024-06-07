@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+  db:
+    image: mongo:6.0.15-jammy
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: acid
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - db-data:/data/db
+    networks:
+      - ls
+
+  aws:
+    image: localstack/localstack
+    environment:
+      SERVICES: sqs
+      AWS_DEFAULT_REGION: eu-west-1
+    volumes:
+      - "./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+    networks:
+      ls:
+        ipv4_address: 10.0.2.20
+
+  api:
+    image: mcr.microsoft.com/devcontainers/typescript-node:20
+    command: sleep infinity
+    environment:
+      DB_HOST: db
+      DB_PORT: 27017
+      DB_USERNAME: acid
+      DB_PASSWORD: password
+      DB_DATABASE: develop
+      DEPLOY_ENV: dev
+      AWS_ENDPOINT: http://aws:4566
+      AWS_ENDPOINT_URL: http://aws:4566
+      AWS_DEFAULT_REGION: eu-west-1
+    dns:
+      - 10.0.2.20
+    volumes:
+      - ..:/workspace:cached
+    networks:
+      - ls
+
+networks:
+  ls:
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24
+
+volumes:
+  db-data:
