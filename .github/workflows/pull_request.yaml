@@ -51,12 +51,11 @@ jobs:
     container: node:lts
     timeout-minutes: 10
     services:
-      database:
+      db:
         image: mongo:6.0.15-jammy
         env:
-          MONGO_INITDB_ROOT_USERNAME: acid
-          MONGO_INITDB_ROOT_PASSWORD: password
-          MONGO_INITDB_DATABASE: develop
+      MONGO_INITDB_ROOT_USERNAME: acid
+      MONGO_INITDB_ROOT_PASSWORD: password
         options: >-
           --health-cmd "echo 'dgit stb.runCommand("ping").ok' | mongosh --quiet"
           --health-interval 10s
@@ -64,6 +63,8 @@ jobs:
           --health-retries 5
         ports:
           - 27017:27017
+        volumes:
+          - ./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
       aws:
         image: localstack/localstack
         env:
@@ -87,15 +88,9 @@ jobs:
         run: |
           yarn test:ci --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
-          DB_HOST: database
-          DB_USERNAME: acid
-          DB_PASSWORD: password
-          DB_DATABASE: develop
-          QUEUE_HOST: queue
-          QUEUE_USERNAME: acid
-          QUEUE_PASSWORD: password
+          DB_HOST: db
           AWS_ENDPOINT: http://aws:4566
-          AWS_SQS_URL: http://sqs.eu-west-1.aws.localstack.cloud:4566/000000000000/localstack-queue
+          AWS_SQS_URL: http://sqs.eu-west-1.aws:4566/000000000000/localstack-queue
 
   docker-build:
     needs: skip-draft
