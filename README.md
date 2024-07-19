@@ -9,6 +9,16 @@ by event organizers and approved or rejected.
 
 ## 💻 I'm a dev, how do I get started?
 
+### Run using [dev containers](https://containers.dev/)
+
+```
+git clone git@github.com:acidtango/boilerplate-nestjs.git
+```
+
+Open the devcontainer using your favourite IDE and you are ready to go!!
+
+### Run in local environment
+
 Prerequisites:
 
 - [Node.js](https://nodejs.org/es/download)
@@ -19,11 +29,10 @@ Prerequisites:
 Now:
 
 ```bash
-git clone git@github.com:DanielRamosAcosta/codetalk.git
+git clone git@github.com:acidtango/boilerplate-nestjs.git
 cd codetalk
 yarn install
-docker-compose up -d database # starts DDBB
-yarn start:dev # opens the server in development mode
+docker compose up -d db aws # starts DDBB & queue
 ```
 
 You are now good ready to go!! 👯
@@ -31,7 +40,6 @@ You are now good ready to go!! 👯
 ### `yarn` scripts
 
 - `build`: Compiles the project for later using `yarn start`
-- `initialize:db`: Initializes a local database
 - `start`: Opens the server by compiling the sources on the fly
 - `start:dev`: Opens the server compiling the project on the fly in watch mode
 - `start:prod`: Opens the server in production mode using the compiled sources
@@ -49,28 +57,28 @@ You are now good ready to go!! 👯
 
 ### Docker
 
-We use Docker as a utility tool, mainly for running MongoDB. In the `docker-compose.yml` you have two wservuces services:
+We use Docker as a utility tool, mainly for running MongoDB and LocalStack. In the `docker-compose.yml` you have two services:
 
-- `codetalk`: The API if you want to open it as a docker container
-- `database`: A mongodb database that we use for starting the API in development mode and running the integration tests locally.
+- `api`: The API if you want to open it as a docker container
+- `db`: A mongodb database that we use for starting the API in development mode and running the integration tests locally.
+- `aws`: This is LocalStack, which is an environment simulation of AWS. We use it for the SQS service.
 
 ### Project management
 
 - [Trello board](https://example.org/)
-- [Github repo](https://github.com/DanielRamosAcosta/codetalk)
-- [Github Actions](https://github.com/DanielRamosAcosta/codetalk/actions)
+- [Github repo](https://github.com/acidtango/boilerplate-nestjs)
+- [Github Actions](https://github.com/acidtango/boilerplate-nestjs/actions)
 - [Figma](https://example.org/)
 - [Firebase console](https://example.org/)
 
 ## 🛠 Which technologies are you using?
 
-- Node
+- [Node](https://nodejs.org/en)
 - [Nestjs](https://nestjs.com/)
   - Validations with [Class Validator & Class Transformer](https://docs.nestjs.com/techniques/validation)
   - [OpenAPI docs](https://docs.nestjs.com/openapi/introduction)
   - Mainly used as dependency injection container
-- TypeScript
-- [Stripe](https://stripe.com/es)
+- [TypeScript](https://github.com/AgileCraftsmanshipCanarias/kata-setup-typescript)
 
 ## 🏘 How is the code organized?
 
@@ -200,7 +208,7 @@ class ReservationTitle extends ValueObject<string> {
 
 - We are using [Jest](https://jestjs.io/) and [tepper](https://github.com/DanielRamosAcosta/tepper) for acceptance tests.
 - Unitary Tests are paired with the element that tests. For example `Talk.spec.ts` is next to `Talk.ts`.
-- Acceptance tests lives under the `tests` directory. These tests crosses the framework layers and we interact with the API as a black box. These are the main tests that we use for TDD by performing outside-in.
+- E2E tests lives under the `tests` directory. These tests crosses the framework layers and we interact with the API as a black box. These are the main tests that we use for TDD by performing outside-in. We write then in an acceptance test fashion.
 
 ### CI/CD
 
@@ -208,7 +216,3 @@ class ReservationTitle extends ValueObject<string> {
 - We run the precommit script before each commit using Husky.
 - The CI runs for both acceptance/unitary and integration tests with a real database.
 - After all tests passed, then the API is re-deployed
-
-## 📲 Contact
-
-The project was mainly developed by [Alberto González](https://github.com/AlberTJ97) and [Daniel Ramos](https://github.com/DanielRamosAcosta) from [Acid Tango](https://acidtango.com/) with ❤️ and 💪
