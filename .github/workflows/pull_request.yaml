@@ -64,7 +64,7 @@ jobs:
         ports:
           - 27017:27017
         volumes:
-          - ./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+          - ${{ github.workspace }}/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
       aws:
         image: localstack/localstack
         env:
