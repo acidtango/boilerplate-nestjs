@@ -54,8 +54,8 @@ jobs:
       db:
         image: mongo:6.0.15-jammy
         env:
-      MONGO_INITDB_ROOT_USERNAME: acid
-      MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_ROOT_USERNAME: acid
+          MONGO_INITDB_ROOT_PASSWORD: password
         options: >-
           --health-cmd "echo 'dgit stb.runCommand("ping").ok' | mongosh --quiet"
           --health-interval 10s
