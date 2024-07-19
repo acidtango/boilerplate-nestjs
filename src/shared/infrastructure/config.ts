@@ -21,7 +21,6 @@ export const config = {
         'http://sqs.eu-west-1.localhost.localstack.cloud:4566/000000000000/localstack-queue',
     },
   },
-  deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
   apiPrefix: process.env.API_PREFIX || 'api/',

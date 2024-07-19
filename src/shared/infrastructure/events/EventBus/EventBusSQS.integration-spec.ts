@@ -13,12 +13,7 @@ describe('EventBusSQS', () => {
     domainEventSubscriber = new DomainEventSubscriberFake()
     const domainEventMapper = new DomainEventMapperFake(domainEventSubscriber)
     eventBus = new EventBusSQS(domainEventMapper)
-    await eventBus.createQueue()
     await eventBus.onModuleInit()
-  })
-
-  afterEach(async () => {
-    await eventBus.destroyQueue()
   })
 
   afterAll(async () => {
