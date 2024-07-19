@@ -66,9 +66,9 @@ We use Docker as a utility tool, mainly for running MongoDB. In the `docker-comp
 
 - Node
 - [Nestjs](https://nestjs.com/)
-    - Validations with [Class Validator & Class Transformer](https://docs.nestjs.com/techniques/validation)
-    - [OpenAPI docs](https://docs.nestjs.com/openapi/introduction)
-    - Mainly used as dependency injection container
+  - Validations with [Class Validator & Class Transformer](https://docs.nestjs.com/techniques/validation)
+  - [OpenAPI docs](https://docs.nestjs.com/openapi/introduction)
+  - Mainly used as dependency injection container
 - TypeScript
 - [Stripe](https://stripe.com/es)
 
@@ -126,8 +126,8 @@ You can read more about dependency inversion [here](https://en.wikipedia.org/wik
 - Do not import third-parties or side effect methods into the domain/use cases layer
 - Instead, create an interface that represent that interaction
 - Create two implementations of that interface:
-    - A "real" implementation (calling TypeORM, Stripe, Fetch HTTP API Call...).
-    - A "fake" implementation just for testing purposes.
+  - A "real" implementation (calling TypeORM, Stripe, Fetch HTTP API Call...).
+  - A "fake" implementation just for testing purposes.
 
 ### Dependency injection container
 
@@ -140,16 +140,16 @@ The interfaces are a compile-time thing of Typescript, so when we need to inject
 ```typescript
 // TalkRepository.interface.ts
 export interface TalkRepository {
-    save(talk: Talk): Promise<void>
-    findBy(talkId: TalkId): Promise<Talk | undefined>
+  save(talk: Talk): Promise<void>
+  findBy(talkId: TalkId): Promise<Talk | undefined>
 }
 ```
 
 ```typescript
 // Token.ts
 export enum Token {
-    TALK_REPOSITORY = 'TALK_REPOSITORY',
-    // ...
+  TALK_REPOSITORY = 'TALK_REPOSITORY',
+  // ...
 }
 ```
 
@@ -168,8 +168,8 @@ Later on, we need to wire up these dependencies from a Nestjs module:
 
 @Global()
 @Module({
-    providers: [{ provide: Token.TALK_REPOSITORY, useClass: TalkRepositoryMongo }],
-    exports: [Token.TALK_REPOSITORY],
+  providers: [{ provide: Token.TALK_REPOSITORY, useClass: TalkRepositoryMongo }],
+  exports: [Token.TALK_REPOSITORY],
 })
 export class TalkRepositoryModule {}
 ```
@@ -185,9 +185,15 @@ In general, this inheritance does not have any logic. It's just like a explanato
 Examples:
 
 ```typescript
-class ReservationLister extends UseCase { /* ... */}
-class Reservation extends AggregateRoot { /* ... */ }
-class ReservationTitle extends ValueObject<string> { /* ... */ }
+class ReservationLister extends UseCase {
+  /* ... */
+}
+class Reservation extends AggregateRoot {
+  /* ... */
+}
+class ReservationTitle extends ValueObject<string> {
+  /* ... */
+}
 ```
 
 ## ✅ Tests
