@@ -7,8 +7,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d db",
-    "initialize:db": "yarn containers:restart && sleep 4 && yarn migration:run",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "format:ci": "yarn format:check",
