@@ -1,8 +1,8 @@
-import * as crypto from 'crypto'
-import { Crypto } from '../../../domain/services/Crypto'
+import * as crypto from "crypto";
+import type { Crypto } from "../../../domain/services/Crypto.ts";
 
 export class CryptoNode implements Crypto {
   async generateSalt(): Promise<string> {
-    return crypto.randomBytes(16).toString('hex')
+    return crypto.randomBytes(16).toString("hex");
   }
 }

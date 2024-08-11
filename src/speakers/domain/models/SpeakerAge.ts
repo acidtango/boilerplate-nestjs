@@ -1,27 +1,30 @@
-import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
-import { UnderageSpeakerError } from '../errors/UnderageSpeakerError'
+import { ValueObject } from "../../../shared/domain/models/hex/ValueObject.ts";
+import { UnderageSpeakerError } from "../errors/UnderageSpeakerError.ts";
 
 export class SpeakerAge extends ValueObject {
   static fromPrimitives(age: number) {
-    return new SpeakerAge(age)
+    return new SpeakerAge(age);
   }
 
-  constructor(private readonly age: number) {
-    super()
-    this.ensureIsNotUnderAge()
+  private readonly age: number;
+
+  constructor(age: number) {
+    super();
+    this.age = age;
+    this.ensureIsNotUnderAge();
   }
 
   private ensureIsNotUnderAge() {
     if (this.age < 18) {
-      throw new UnderageSpeakerError(this.age)
+      throw new UnderageSpeakerError(this.age);
     }
   }
 
   equalsTo(value: SpeakerAge) {
-    return this.age === value.age
+    return this.age === value.age;
   }
 
   toPrimitives() {
-    return this.age
+    return this.age;
   }
 }

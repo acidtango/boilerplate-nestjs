@@ -1,19 +1,22 @@
-import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
+import { ValueObject } from "../../../shared/domain/models/hex/ValueObject.ts";
 
 export class SpeakerName extends ValueObject {
-  constructor(private readonly name: string) {
-    super()
+  private readonly name: string;
+
+  constructor(name: string) {
+    super();
+    this.name = name;
   }
 
   static fromPrimitives(name: string): SpeakerName {
-    return new SpeakerName(name)
+    return new SpeakerName(name);
   }
 
   toPrimitives() {
-    return this.name
+    return this.name;
   }
 
   equalsTo(otherName: SpeakerName) {
-    return this.name === otherName.name
+    return this.name === otherName.name;
   }
 }

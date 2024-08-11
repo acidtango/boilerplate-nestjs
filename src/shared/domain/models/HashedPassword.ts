@@ -1,20 +1,26 @@
-import * as crypto from 'crypto'
-import { ValueObject } from './hex/ValueObject'
+import * as crypto from "crypto";
+import { ValueObject } from "./hex/ValueObject.ts";
 
 export class HashedPassword extends ValueObject {
-  constructor(private readonly hash: string) {
-    super()
+  private readonly hash: string;
+
+  constructor(hash: string) {
+    super();
+    this.hash = hash;
   }
 
   static fromPrimitives(hash: string): HashedPassword {
-    return new HashedPassword(hash)
+    return new HashedPassword(hash);
   }
 
   toPrimitives() {
-    return this.hash
+    return this.hash;
   }
 
   equalsTo(password: HashedPassword) {
-    return crypto.timingSafeEqual(Buffer.from(this.hash), Buffer.from(password.hash))
+    return crypto.timingSafeEqual(
+      Buffer.from(this.hash),
+      Buffer.from(password.hash)
+    );
   }
 }

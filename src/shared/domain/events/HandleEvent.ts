@@ -1,11 +1,7 @@
-import { DomainEventClass } from './DomainEvent'
-import { SetMetadata } from '@nestjs/common'
+import type { DomainEventClass } from "./DomainEvent.ts";
 
-export const EVENT_HANDLER_METADATA = 'EventHandlerMetadata'
+export const EVENT_HANDLER_METADATA = "EventHandlerMetadata";
 
 export type HandleEventMetadata = {
-  event: DomainEventClass
-}
-
-export const HandleEvent = (event: DomainEventClass): MethodDecorator =>
-  SetMetadata<string, HandleEventMetadata>(EVENT_HANDLER_METADATA, { event })
+  event: DomainEventClass;
+};

@@ -1,3 +1,3 @@
 export interface Crypto {
-  generateSalt(): Promise<string>
+  generateSalt(): Promise<string>;
 }

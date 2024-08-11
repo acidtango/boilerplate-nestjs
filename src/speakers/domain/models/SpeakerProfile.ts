@@ -1,9 +1,9 @@
-import { SpeakerName } from './SpeakerName'
-import { SpeakerAge } from './SpeakerAge'
-import { Language } from '../../../shared/domain/models/Language'
-import { Primitives } from '../../../shared/domain/models/hex/Primitives'
+import { SpeakerName } from "./SpeakerName.ts";
+import { SpeakerAge } from "./SpeakerAge.ts";
+import { Language } from "../../../shared/domain/models/Language.ts";
+import type { Primitives } from "../../../shared/domain/models/hex/Primitives.ts";
 
-export type SpeakerProfilePrimitives = Primitives<SpeakerProfile>
+export type SpeakerProfilePrimitives = Primitives<SpeakerProfile>;
 
 export class SpeakerProfile {
   static fromPrimitives(primitives: SpeakerProfilePrimitives) {
@@ -11,25 +11,29 @@ export class SpeakerProfile {
       SpeakerName.fromPrimitives(primitives.name),
       SpeakerAge.fromPrimitives(primitives.age),
       primitives.language
-    )
+    );
   }
 
-  constructor(
-    public readonly name: SpeakerName,
-    public readonly age: SpeakerAge,
-    public readonly language: Language
-  ) {}
+  public readonly name: SpeakerName;
+  public readonly age: SpeakerAge;
+  public readonly language: Language;
+
+  constructor(name: SpeakerName, age: SpeakerAge, language: Language) {
+    this.name = name;
+    this.age = age;
+    this.language = language;
+  }
 
   has(value: SpeakerName | SpeakerAge | Language) {
     if (value instanceof SpeakerName) {
-      return this.name.equalsTo(value)
+      return this.name.equalsTo(value);
     }
 
     if (value instanceof SpeakerAge) {
-      return this.age.equalsTo(value)
+      return this.age.equalsTo(value);
     }
 
-    return this.language === value
+    return this.language === value;
   }
 
   toPrimitives() {
@@ -37,6 +41,6 @@ export class SpeakerProfile {
       name: this.name.toPrimitives(),
       age: this.age.toPrimitives(),
       language: this.language,
-    }
+    };
   }
 }
