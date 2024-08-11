@@ -4,14 +4,14 @@
   "main": "main.ts",
   "type": "module",
   "scripts": {
-    "start": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types main.ts",
-    "start:dev": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --watch main.ts",
+    "start": "node --experimental-strip-types --disable-warning=ExperimentalWarning main.ts",
+    "start:dev": "node --experimental-strip-types --disable-warning=ExperimentalWarning --watch main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "typecheck": "tsc",
-    "test": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --test **/*test.ts",
-    "test:watch": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --test --watch **/*test.ts"
+    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test **/*test.ts",
+    "test:watch": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test --watch **/*test.ts"
   },
   "author": "",
   "license": "ISC",
@@ -37,5 +37,6 @@
     "tepper": "^1.2.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca"
 }
