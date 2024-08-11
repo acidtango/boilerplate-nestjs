@@ -4,6 +4,8 @@
   "main": "main.ts",
   "type": "module",
   "scripts": {
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "start": "node --experimental-strip-types --disable-warning=ExperimentalWarning main.ts",
     "start:dev": "node --experimental-strip-types --disable-warning=ExperimentalWarning --watch main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",

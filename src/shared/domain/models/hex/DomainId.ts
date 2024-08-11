@@ -1,23 +1,23 @@
 export class DomainId {
   static toPrimitives(id: DomainId) {
-    return id.id;
+    return id.id
   }
 
-  private readonly id: string;
+  private readonly id: string
 
   constructor(id: string) {
-    this.id = id;
+    this.id = id
   }
 
   equals(other: DomainId) {
-    return this.id === other.id;
+    return this.id === other.id
   }
 
   toPrimitives() {
-    return DomainId.toPrimitives(this);
+    return DomainId.toPrimitives(this)
   }
 
   toString() {
-    return this.id;
+    return this.id
   }
 }

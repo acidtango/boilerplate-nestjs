@@ -1,5 +1,5 @@
-import type { OpenAPIHono } from "@hono/zod-openapi";
+import type { OpenAPIHono } from '@hono/zod-openapi'
 
 export interface HonoController {
-  register(api: OpenAPIHono): void;
+  register(api: OpenAPIHono): void
 }
