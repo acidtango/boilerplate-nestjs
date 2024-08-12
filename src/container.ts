@@ -1,5 +1,5 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { Container, BindingScopeEnum } from 'inversify'
+import { BindingScopeEnum, Container } from 'inversify'
 import { RegisterSpeaker } from './speakers/use-cases/RegisterSpeaker.ts'
 import { RegisterSpeakerController } from './speakers/infrastructure/RegisterSpeakerController.ts'
 import type { HonoController } from './shared/infrastructure/HonoController.ts'
