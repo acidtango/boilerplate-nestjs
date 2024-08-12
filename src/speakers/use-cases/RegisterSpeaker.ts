@@ -23,9 +23,9 @@ export class RegisterSpeaker {
 
   public static create({ container }: interfaces.Context) {
     return new RegisterSpeaker(
-      container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
-      container.get<Crypto>(Token.CRYPTO),
-      container.get<EventBus>(Token.EVENT_BUS)
+      container.get(Token.SPEAKER_REPOSITORY),
+      container.get(Token.CRYPTO),
+      container.get(Token.EVENT_BUS)
     )
   }
 

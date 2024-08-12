@@ -9,7 +9,7 @@ export class GetSpeaker {
   private readonly speakerRepository: SpeakerRepository
 
   public static create({ container }: interfaces.Context) {
-    return new GetSpeaker(container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY))
+    return new GetSpeaker(container.get(Token.SPEAKER_REPOSITORY))
   }
 
   constructor(speakerRepository: SpeakerRepository) {

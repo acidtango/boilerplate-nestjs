@@ -20,10 +20,7 @@ export class LoginSpeaker {
   private readonly clock: Clock
 
   static create({ container }: interfaces.Context) {
-    return new LoginSpeaker(
-      container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
-      container.get<Clock>(Token.CLOCK)
-    )
+    return new LoginSpeaker(container.get(Token.SPEAKER_REPOSITORY), container.get(Token.CLOCK))
   }
 
   constructor(speakerRepository: SpeakerRepository, clock: Clock) {

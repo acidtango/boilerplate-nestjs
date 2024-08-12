@@ -21,7 +21,7 @@ const ParamsSchema = z.object({
     }),
 })
 
-export class GetSpeakerController implements HonoController {
+export class GetSpeakerEndpoint implements HonoController {
   private static Schema = {
     method: 'get',
     path: '/api/v1/speakers/:id',
@@ -41,7 +41,7 @@ export class GetSpeakerController implements HonoController {
   } satisfies RouteConfig
 
   public static create({ container }: interfaces.Context) {
-    return new GetSpeakerController(container.get(GetSpeaker))
+    return new GetSpeakerEndpoint(container.get(GetSpeaker))
   }
 
   private readonly getSpeaker: GetSpeaker
@@ -51,7 +51,7 @@ export class GetSpeakerController implements HonoController {
   }
 
   register(api: OpenAPIHono) {
-    api.openapi(createRoute(GetSpeakerController.Schema), async (c) => {
+    api.openapi(createRoute(GetSpeakerEndpoint.Schema), async (c) => {
       const param = c.req.valid('param')
       const speaker = await this.getSpeaker.execute(SpeakerId.fromPrimitives(param.id))
 

@@ -9,6 +9,7 @@ import {
   isReseteable,
   type Reseteable,
 } from '../../src/shared/infrastructure/repositories/Reseteable.ts'
+import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
 
 class TestClient {
   private readonly container: Container
@@ -100,6 +101,42 @@ class TestClient {
         Authorization: `Bearer ${jwt}`,
       },
     })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
+  }
+
+  async createEvent() {
+    const res = await this.app.request('/api/v1/events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: JSDAY_CANARIAS.id,
+        name: JSDAY_CANARIAS.name,
+        dateRange: {
+          startDate: JSDAY_CANARIAS.startDate,
+          endDate: JSDAY_CANARIAS.endDate,
+        },
+        proposalsDateRange: {
+          startDate: JSDAY_CANARIAS.proposalsStartDate,
+          deadline: JSDAY_CANARIAS.proposalsDeadlineDate,
+        },
+      }),
+    })
+    expect(res.status).toBe(201)
+    return {
+      status: res.status,
+      res,
+    }
+  }
+
+  async getEvents() {
+    const res = await this.app.request('/api/v1/events')
     expect(res.status).toBe(200)
     return {
       status: res.status,
