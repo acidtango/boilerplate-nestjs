@@ -72,6 +72,41 @@ class TestClient {
       res,
     }
   }
+
+  async updateProfile({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
+    const res = await this.app.request(`/api/v1/speakers/${id}/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        name: CONCHA_ASENSIO.name,
+        age: CONCHA_ASENSIO.age,
+        language: CONCHA_ASENSIO.language,
+      }),
+    })
+    console.log(await res.text())
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      res,
+    }
+  }
+
+  async getSpeaker({ id = CONCHA_ASENSIO.id, jwt = CONCHA_ASENSIO.jwt } = {}) {
+    const res = await this.app.request(`/api/v1/speakers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
+  }
 }
 
 export async function createClient() {

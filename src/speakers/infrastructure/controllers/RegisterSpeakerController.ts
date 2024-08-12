@@ -1,11 +1,11 @@
 import { createRoute, OpenAPIHono, type RouteConfig } from '@hono/zod-openapi'
 import type { interfaces } from 'inversify'
-import { RegisterSpeaker } from '../use-cases/RegisterSpeaker.ts'
-import type { HonoController } from '../../shared/infrastructure/HonoController.ts'
+import { RegisterSpeaker } from '../../use-cases/RegisterSpeaker.ts'
+import type { HonoController } from '../../../shared/infrastructure/HonoController.ts'
 import { RegisterSpeakerRequestDTO } from './dtos/RegisterSpeakerRequestDTO.ts'
-import { EmailAddress } from '../../shared/domain/models/EmailAddress.ts'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId.ts'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
 
 export class RegisterSpeakerController implements HonoController {
   private static Schema = {

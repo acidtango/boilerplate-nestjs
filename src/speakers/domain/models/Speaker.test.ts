@@ -5,14 +5,14 @@ import {
   notImportantEmail,
   notImportantPassword,
   notImportantSpeakerId,
-} from '../../../../tests/mother/SpeakerMother/NotImportant.ts'
-import { exampleSalt } from '../../../../tests/mother/Common.ts'
+} from '../../../../test/mother/SpeakerMother/NotImportant.ts'
+import { exampleSalt } from '../../../../test/mother/Common.ts'
 import {
   conchaAge,
   conchaLanguage,
   conchaName,
   conchaPassword,
-} from '../../../../tests/mother/SpeakerMother/Concha.ts'
+} from '../../../../test/mother/SpeakerMother/Concha.ts'
 import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
 
 describe('Speaker', () => {

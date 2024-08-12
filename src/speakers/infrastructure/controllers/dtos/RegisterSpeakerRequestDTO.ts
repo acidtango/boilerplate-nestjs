@@ -1,5 +1,5 @@
 import { z } from '@hono/zod-openapi'
-import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers.ts'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 
 export const RegisterSpeakerRequestDTO = z
   .object({
