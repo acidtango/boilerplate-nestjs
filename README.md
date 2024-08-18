@@ -208,7 +208,7 @@ class ReservationTitle extends ValueObject<string> {
 
 - We are using [Jest](https://jestjs.io/) and [tepper](https://github.com/DanielRamosAcosta/tepper) for acceptance tests.
 - Unitary Tests are paired with the element that tests. For example `Talk.spec.ts` is next to `Talk.ts`.
-- E2E tests lives under the `tests` directory. These tests crosses the framework layers and we interact with the API as a black box. These are the main tests that we use for TDD by performing outside-in. We write then in an acceptance test fashion.
+- E2E tests lives under the `tests` directory. These tests crosses the framework layers and we interact with the API as a black box. These are the main tests that we use for TDD by performing outside-in. We write them in an acceptance test fashion.
 
 ### CI/CD
 
