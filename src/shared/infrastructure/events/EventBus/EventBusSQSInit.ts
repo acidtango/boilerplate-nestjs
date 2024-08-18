@@ -1,4 +1,4 @@
-import { EventBusSQS } from './shared/infrastructure/events/EventBus/EventBusSQS'
+import { EventBusSQS } from './EventBusSQS'
 
 // eslint-disable-next-line
 const eventBus = new EventBusSQS(null as any)

@@ -1,9 +1,4 @@
-import {
-  CreateQueueCommand,
-  PurgeQueueCommand,
-  SendMessageCommand,
-  SQSClient,
-} from '@aws-sdk/client-sqs'
+import { CreateQueueCommand, SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { Consumer } from 'sqs-consumer'
 import { DomainEvent } from '../../../domain/events/DomainEvent'
@@ -82,13 +77,7 @@ export class EventBusSQS implements EventBus, OnModuleInit, OnModuleDestroy {
       throw new Error('Could not create queue')
     }
 
-    console.log('Queue URL', QueueUrl)
-
     this.queueUrl = QueueUrl
-  }
-
-  async destroyQueue() {
-    await this.client.send(new PurgeQueueCommand({ QueueUrl: this.queueUrl }))
   }
 
   async publish(events: DomainEvent[]): Promise<void> {
