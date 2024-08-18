@@ -25,6 +25,7 @@ export class GetSpeakerEndpoint implements HonoController {
   private static Schema = {
     method: 'get',
     path: '/api/v1/speakers/:id',
+    tags: ['speakers'],
     request: {
       params: ParamsSchema,
     },
@@ -40,8 +41,8 @@ export class GetSpeakerEndpoint implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new GetSpeakerEndpoint(container.get(GetSpeaker))
+  public static async create({ container }: interfaces.Context) {
+    return new GetSpeakerEndpoint(await container.getAsync(GetSpeaker))
   }
 
   private readonly getSpeaker: GetSpeaker

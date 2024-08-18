@@ -12,8 +12,8 @@
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "typecheck": "tsc",
-    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test **/*test.ts",
-    "test:watch": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test --watch **/*test.ts"
+    "test:unitary": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test src/**/*test.ts",
+    "test:e2e": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test-force-exit --test-concurrency=1 --test test/**/*test.ts"
   },
   "author": "",
   "license": "ISC",
@@ -26,7 +26,8 @@
     "hono": "^4.5.5",
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
-    "koa": "^2.15.3"
+    "koa": "^2.15.3",
+    "mongodb": "^6.8.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

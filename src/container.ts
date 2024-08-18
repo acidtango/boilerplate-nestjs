@@ -16,9 +16,35 @@ import { GetSpeakerEndpoint } from './speakers/infrastructure/controllers/GetSpe
 import { GetSpeaker } from './speakers/use-cases/GetSpeaker.ts'
 import { CreateEventController } from './events/infrastructure/controllers/CreateEventEndpoint.ts'
 import { CreateEvent } from './events/use-cases/CreateEvent.ts'
-import { EventRepositoryMemory } from './events/infrastructure/repositories/EventRepositoryMemory.ts'
 import { ListEventsEndpoint } from './events/infrastructure/controllers/ListEventsEndpoint.ts'
 import { ListEvents } from './events/use-cases/ListEvents.ts'
+import { MongoClient } from 'mongodb'
+import { config } from './shared/infrastructure/config.ts'
+import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.ts'
+
+async function createMongoClient() {
+  const { username, password, host, port } = config.db
+  const mongoClient = new MongoClient(`mongodb://${username}:${password}@${host}:${port}`)
+  await mongoClient.connect()
+  return mongoClient
+}
+
+/**
+ * static createMongoClient() {
+ *     const { username, password, host, port } = config.db
+ *     return new MongoClient(`mongodb://${username}:${password}@${host}:${port}`)
+ *   }
+ *
+ *   constructor(private readonly client: MongoClient) {}
+ *
+ *   async onModuleInit() {
+ *     await this.client.connect()
+ *   }
+ *
+ *   async onModuleDestroy() {
+ *     await this.client.close()
+ *   }
+ */
 
 export const container = new Container({
   defaultScope: BindingScopeEnum.Singleton,
@@ -34,7 +60,7 @@ container.bind(ListEvents).toDynamicValue(ListEvents.create)
 
 // Repositories
 container.bind(Token.SPEAKER_REPOSITORY).toConstantValue(new SpeakerRepositoryMemory())
-container.bind(Token.EVENT_REPOSITORY).toConstantValue(new EventRepositoryMemory())
+container.bind(Token.EVENT_REPOSITORY).toDynamicValue(EventRepositoryMongo.create)
 
 // Services
 container.bind(Token.CRYPTO).toConstantValue(new CryptoNode())
@@ -49,15 +75,20 @@ container.bind(Token.CONTROLLER).toDynamicValue(GetSpeakerEndpoint.create)
 container.bind(Token.CONTROLLER).toDynamicValue(CreateEventController.create)
 container.bind(Token.CONTROLLER).toDynamicValue(ListEventsEndpoint.create)
 
+// Libraries
+container.bind(MongoClient).toDynamicValue(async () => {
+  return await createMongoClient()
+})
+
 // Hono
-container.bind(Token.HONO).toConstantValue(new OpenAPIHono())
-container.bind(Token.APP).toDynamicValue((context) => {
-  const api = context.container.get<OpenAPIHono>(Token.HONO)
-  const controllers = context.container.getAll<HonoController>(Token.CONTROLLER)
+container.bind(OpenAPIHono).toConstantValue(new OpenAPIHono())
+container.bind(Token.APP).toDynamicValue(async ({ container }) => {
+  const app = container.get<OpenAPIHono>(OpenAPIHono)
+  const controllers = await container.getAllAsync<HonoController>(Token.CONTROLLER)
 
   for (const controller of controllers) {
-    controller.register(api)
+    controller.register(app)
   }
 
-  return api
+  return app
 })

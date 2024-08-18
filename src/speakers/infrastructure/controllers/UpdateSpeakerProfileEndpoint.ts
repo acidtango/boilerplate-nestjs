@@ -25,6 +25,7 @@ export class UpdateSpeakerProfileEndpoint implements HonoController {
   private static Schema = {
     method: 'put',
     path: '/api/v1/speakers/:id/profile',
+    tags: ['speakers'],
     request: {
       params: ParamsSchema,
       body: {
@@ -42,8 +43,8 @@ export class UpdateSpeakerProfileEndpoint implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new UpdateSpeakerProfileEndpoint(container.get(UpdateSpeakerProfile))
+  public static async create({ container }: interfaces.Context) {
+    return new UpdateSpeakerProfileEndpoint(await container.getAsync(UpdateSpeakerProfile))
   }
 
   private readonly updateSpeakerProfile: UpdateSpeakerProfile

@@ -1,7 +1,12 @@
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
-import { describe, it } from 'node:test'
+import { beforeEach, describe, it } from 'node:test'
 import { expect } from 'expect'
 import { createClient } from '../../utils/TestClient.ts'
+
+beforeEach(async () => {
+  const client = await createClient()
+  await client.reset()
+})
 
 describe('fill speaker profile', () => {
   it('can fill the profile', async () => {

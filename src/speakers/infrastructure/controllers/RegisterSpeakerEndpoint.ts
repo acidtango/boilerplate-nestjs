@@ -11,6 +11,7 @@ export class RegisterSpeakerEndpoint implements HonoController {
   private static Schema = {
     method: 'post',
     path: '/api/v1/speakers/registration',
+    tags: ['speakers'],
     request: {
       body: {
         content: {
@@ -27,8 +28,8 @@ export class RegisterSpeakerEndpoint implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new RegisterSpeakerEndpoint(container.get(RegisterSpeaker))
+  public static async create({ container }: interfaces.Context) {
+    return new RegisterSpeakerEndpoint(await container.getAsync(RegisterSpeaker))
   }
 
   private readonly registerSpeaker: RegisterSpeaker

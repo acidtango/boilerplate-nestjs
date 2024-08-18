@@ -1,10 +1,16 @@
-import { describe, it } from 'node:test'
+import { beforeEach, describe, it } from 'node:test'
 import { expect } from 'expect'
 import { createClient } from '../../utils/TestClient.ts'
 import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events.ts'
 
-describe('create event', () => {
-  it('can be created', async () => {
+beforeEach(async () => {
+  const client = await createClient()
+  await client.reset()
+})
+
+describe('create event', (dctx) => {
+  it('can be created', async (tctx) => {
+    console.log(dctx, tctx)
     const client = await createClient()
 
     const { status } = await client.createEvent()

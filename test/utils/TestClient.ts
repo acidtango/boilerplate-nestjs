@@ -10,16 +10,19 @@ import {
   type Reseteable,
 } from '../../src/shared/infrastructure/repositories/Reseteable.ts'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
+import { MongoClient } from 'mongodb'
 
 class TestClient {
-  private readonly container: Container
+  public readonly container: Container
+  private app: OpenAPIHono
 
-  constructor(container: Container) {
-    this.container = container
+  public static async create(container: Container) {
+    return new TestClient(await container.getAsync(Token.APP), container)
   }
 
-  get app() {
-    return this.container.get<OpenAPIHono>(Token.APP)
+  constructor(app: OpenAPIHono, container: Container) {
+    this.app = app
+    this.container = container
   }
 
   getClock() {
@@ -27,13 +30,19 @@ class TestClient {
   }
 
   async reset() {
-    const repositories = [this.container.get<Reseteable>(Token.SPEAKER_REPOSITORY)].filter(
-      isReseteable
-    )
+    const repositories = await Promise.all([
+      this.container.getAsync<Reseteable>(Token.SPEAKER_REPOSITORY),
+      this.container.getAsync<Reseteable>(Token.EVENT_REPOSITORY),
+    ]).then((repositories) => repositories.filter(isReseteable))
 
     for (const repository of repositories) {
       await repository.reset()
     }
+  }
+
+  async close() {
+    const mongoClient = this.container.get(MongoClient)
+    await mongoClient.close()
   }
 
   async registerSpeaker() {
@@ -147,5 +156,5 @@ class TestClient {
 }
 
 export async function createClient() {
-  return new TestClient(container)
+  return TestClient.create(container)
 }

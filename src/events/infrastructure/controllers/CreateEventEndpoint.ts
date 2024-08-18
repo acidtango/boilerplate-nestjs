@@ -12,6 +12,7 @@ export class CreateEventController implements HonoController {
   private static Schema = {
     method: 'post',
     path: '/api/v1/events',
+    tags: ['events'],
     request: {
       body: {
         content: {
@@ -28,8 +29,8 @@ export class CreateEventController implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new CreateEventController(container.get(CreateEvent))
+  public static async create({ container }: interfaces.Context) {
+    return new CreateEventController(await container.getAsync(CreateEvent))
   }
 
   private readonly createEvent: CreateEvent

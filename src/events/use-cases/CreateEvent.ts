@@ -19,8 +19,8 @@ export type CreateEventParams = {
 export class CreateEvent extends UseCase {
   private readonly eventRepository: EventRepository
 
-  public static create({ container }: interfaces.Context) {
-    return new CreateEvent(container.get(Token.EVENT_REPOSITORY))
+  public static async create({ container }: interfaces.Context) {
+    return new CreateEvent(await container.getAsync(Token.EVENT_REPOSITORY))
   }
 
   constructor(eventRepository: EventRepository) {

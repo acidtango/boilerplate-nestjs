@@ -12,6 +12,7 @@ export class LoginSpeakerEndpoint implements HonoController {
     method: 'post',
     path: '/api/v1/speakers/login',
     description: 'Login a speaker to get the auth tokens',
+    tags: ['speakers'],
     request: {
       body: {
         content: {
@@ -33,8 +34,8 @@ export class LoginSpeakerEndpoint implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new LoginSpeakerEndpoint(container.get(LoginSpeaker))
+  public static async create({ container }: interfaces.Context) {
+    return new LoginSpeakerEndpoint(await container.getAsync(LoginSpeaker))
   }
 
   private readonly loginSpeaker: LoginSpeaker

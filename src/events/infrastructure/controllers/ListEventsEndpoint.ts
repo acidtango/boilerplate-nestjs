@@ -9,6 +9,7 @@ export class ListEventsEndpoint implements HonoController {
     method: 'get',
     path: '/api/v1/events',
     description: 'List events',
+    tags: ['events'],
     responses: {
       200: {
         description: 'Speaker registered',
@@ -21,8 +22,8 @@ export class ListEventsEndpoint implements HonoController {
     },
   } satisfies RouteConfig
 
-  public static create({ container }: interfaces.Context) {
-    return new ListEventsEndpoint(container.get(ListEvents))
+  public static async create({ container }: interfaces.Context) {
+    return new ListEventsEndpoint(await container.getAsync(ListEvents))
   }
 
   private readonly listEvents: ListEvents
