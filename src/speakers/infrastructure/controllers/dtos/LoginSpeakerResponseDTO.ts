@@ -1,7 +1,8 @@
-export class LoginSpeakerResponseDTO {
-  public readonly accessToken: string
+import { z } from '@hono/zod-openapi'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 
-  constructor(accessToken: string) {
-    this.accessToken = accessToken
-  }
-}
+export const LoginSpeakerResponseDTO = z
+  .object({
+    accessToken: z.string().openapi({ example: CONCHA_ASENSIO.jwt }),
+  })
+  .openapi('LoginSpeakerResponseDTO')

@@ -1,6 +1,6 @@
-import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory'
-import { Speaker } from '../../src/speakers/domain/models/Speaker'
-import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother/Concha'
+import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory.ts'
+import { Speaker } from '../../src/speakers/domain/models/Speaker.ts'
+import { conchaSpeaker, conchaSpeakerWithoutProfile } from '../mother/SpeakerMother/Concha.ts'
 
 export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   static empty() {
@@ -32,6 +32,7 @@ export class SpeakerRepositoryFake extends SpeakerRepositoryMemory {
   getLatestSavedSpeaker(): Speaker {
     const speakers = Array.from(this.speakers.values())
     const lastSpeaker = speakers[speakers.length - 1]
+    if (!lastSpeaker) throw new Error('No speaker found')
     return Speaker.fromPrimitives(lastSpeaker)
   }
 }

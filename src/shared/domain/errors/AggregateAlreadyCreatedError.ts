@@ -1,6 +1,6 @@
-import { DomainId } from '../models/hex/DomainId'
-import { DomainError } from './DomainError'
-import { DomainErrorCode } from './DomainErrorCode'
+import { DomainId } from '../models/hex/DomainId.ts'
+import { DomainError } from './DomainError.ts'
+import { DomainErrorCode } from './DomainErrorCode.ts'
 
 export class AggregateAlreadyCreatedError extends DomainError {
   constructor(domainId: DomainId, entityName: string) {

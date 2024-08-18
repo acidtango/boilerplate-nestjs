@@ -1,9 +1,12 @@
 import * as crypto from 'crypto'
-import { ValueObject } from './hex/ValueObject'
+import { ValueObject } from './hex/ValueObject.ts'
 
 export class HashedPassword extends ValueObject {
-  constructor(private readonly hash: string) {
+  private readonly hash: string
+
+  constructor(hash: string) {
     super()
+    this.hash = hash
   }
 
   static fromPrimitives(hash: string): HashedPassword {

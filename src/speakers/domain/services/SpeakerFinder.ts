@@ -1,11 +1,14 @@
-import { SpeakerRepository } from '../repositories/SpeakerRepository'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { SpeakerNotFoundError } from '../errors/SpeakerNotFoundError'
-import { DomainService } from '../../../shared/domain/models/hex/DomainService'
+import type { SpeakerRepository } from '../repositories/SpeakerRepository.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { SpeakerNotFoundError } from '../errors/SpeakerNotFoundError.ts'
+import { DomainService } from '../../../shared/domain/models/hex/DomainService.ts'
 
 export class SpeakerFinder extends DomainService {
-  constructor(private readonly speakerRepository: SpeakerRepository) {
+  private readonly speakerRepository: SpeakerRepository
+
+  constructor(speakerRepository: SpeakerRepository) {
     super()
+    this.speakerRepository = speakerRepository
   }
 
   async findOrThrowBy(id: SpeakerId) {

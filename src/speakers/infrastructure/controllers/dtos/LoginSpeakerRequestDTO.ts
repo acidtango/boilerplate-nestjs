@@ -1,13 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
+import { z } from '@hono/zod-openapi'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 
-export class LoginSpeakerRequestDTO {
-  @ApiProperty({ example: CONCHA_ASENSIO.email })
-  @IsString()
-  email!: string
-
-  @ApiProperty({ example: CONCHA_ASENSIO.password })
-  @IsString()
-  password!: string
-}
+export const LoginSpeakerRequestDTO = z
+  .object({
+    email: z.string().email().openapi({ example: CONCHA_ASENSIO.email }),
+    password: z.string().openapi({ example: CONCHA_ASENSIO.password }),
+  })
+  .openapi('LoginSpeakerRequestDTO')

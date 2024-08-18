@@ -1,11 +1,11 @@
-import { Speaker } from '../../../src/speakers/domain/models/Speaker'
-import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId'
-import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers'
-import { EmailAddress } from '../../../src/shared/domain/models/EmailAddress'
-import { SpeakerName } from '../../../src/speakers/domain/models/SpeakerName'
-import { SpeakerAge } from '../../../src/speakers/domain/models/SpeakerAge'
-import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword'
-import { exampleSalt, flushDomainEvents } from '../Common'
+import { Speaker } from '../../../src/speakers/domain/models/Speaker.ts'
+import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId.ts'
+import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
+import { EmailAddress } from '../../../src/shared/domain/models/EmailAddress.ts'
+import { SpeakerName } from '../../../src/speakers/domain/models/SpeakerName.ts'
+import { SpeakerAge } from '../../../src/speakers/domain/models/SpeakerAge.ts'
+import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword.ts'
+import { exampleSalt, flushDomainEvents } from '../Common.ts'
 
 export function conchaId() {
   return new SpeakerId(CONCHA_ASENSIO.id)

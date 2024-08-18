@@ -1,4 +1,4 @@
-import { DomainErrorCode } from './DomainErrorCode'
+import type { DomainErrorCode } from './DomainErrorCode.ts'
 
 export class DomainError extends Error {
   public readonly code: DomainErrorCode

@@ -1,10 +1,10 @@
-import { EventId } from '../../../src/shared/domain/models/ids/EventId'
-import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events'
-import { TalkEvent } from '../../../src/events/domain/models/TalkEvent'
-import { EventName } from '../../../src/events/domain/models/EventName'
-import { EventDateRange } from '../../../src/events/domain/models/EventDateRange'
-import { EventProposalsDateRange } from '../../../src/events/domain/models/EventProposalsDateRange'
-import { flushDomainEvents } from '../Common'
+import { EventId } from '../../../src/shared/domain/models/ids/EventId.ts'
+import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events.ts'
+import { TalkEvent } from '../../../src/events/domain/models/TalkEvent.ts'
+import { EventName } from '../../../src/events/domain/models/EventName.ts'
+import { EventDateRange } from '../../../src/events/domain/models/EventDateRange.ts'
+import { EventProposalsDateRange } from '../../../src/events/domain/models/EventProposalsDateRange.ts'
+import { flushDomainEvents } from '../Common.ts'
 
 export function jsdayId() {
   return new EventId(JSDAY_CANARIAS.id)

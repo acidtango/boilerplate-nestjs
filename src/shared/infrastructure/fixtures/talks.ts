@@ -1,4 +1,4 @@
-import { Language } from '../../domain/models/Language'
+import { Language } from '../../domain/models/Language.ts'
 
 export const JUNIOR_XP = {
   id: '994e8e5f-d82a-4e16-bfae-33d279e86a72',

@@ -1,16 +1,22 @@
-import { Injectable } from '@nestjs/common'
+import type { interfaces } from 'inversify'
 import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../shared/infrastructure/config'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { EventRepository } from '../../domain/repositories/EventRepository'
-import { TalkEvent, TalkEventPrimitives } from '../../domain/models/TalkEvent'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
+import { config } from '../../../shared/infrastructure/config.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
+import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
+import { TalkEvent, type TalkEventPrimitives } from '../../domain/models/TalkEvent.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
 
-@Injectable()
 export class EventRepositoryMongo implements EventRepository, Reseteable {
   private readonly talkEvents: Collection<TalkEventPrimitives>
 
-  constructor(private readonly client: MongoClient) {
+  private readonly client: MongoClient
+
+  public static async create({ container }: interfaces.Context) {
+    return new EventRepositoryMongo(await container.getAsync(MongoClient))
+  }
+
+  constructor(client: MongoClient) {
+    this.client = client
     const db = client.db(config.db.database)
     this.talkEvents = db.collection('events')
   }

@@ -1,6 +1,6 @@
-import { AggregateAlreadyCreatedError } from '../../../shared/domain/errors/AggregateAlreadyCreatedError'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { Speaker } from '../models/Speaker'
+import { AggregateAlreadyCreatedError } from '../../../shared/domain/errors/AggregateAlreadyCreatedError.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { Speaker } from '../models/Speaker.ts'
 
 export class SpeakerAlreadyCreatedError extends AggregateAlreadyCreatedError {
   constructor(speakerId: SpeakerId) {

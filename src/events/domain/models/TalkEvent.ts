@@ -1,20 +1,32 @@
-import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot'
-import { Primitives } from '../../../shared/domain/models/hex/Primitives'
-import { EventDateRange } from './EventDateRange'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { EventName } from './EventName'
-import { EventProposalsDateRange } from './EventProposalsDateRange'
+import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot.ts'
+import type { Primitives } from '../../../shared/domain/models/hex/Primitives.ts'
+import { EventDateRange } from './EventDateRange.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
+import { EventName } from './EventName.ts'
+import { EventProposalsDateRange } from './EventProposalsDateRange.ts'
 
 export type TalkEventPrimitives = Primitives<TalkEvent>
 
 export class TalkEvent extends AggregateRoot {
+  private readonly eventId: EventId
+
+  private readonly name: EventName
+
+  private readonly dateRange: EventDateRange
+
+  private readonly proposalsDateRange: EventProposalsDateRange
+
   constructor(
-    private readonly eventId: EventId,
-    private readonly name: EventName,
-    private readonly dateRange: EventDateRange,
-    private readonly proposalsDateRange: EventProposalsDateRange
+    eventId: EventId,
+    name: EventName,
+    dateRange: EventDateRange,
+    proposalsDateRange: EventProposalsDateRange
   ) {
     super()
+    this.proposalsDateRange = proposalsDateRange
+    this.dateRange = dateRange
+    this.name = name
+    this.eventId = eventId
   }
 
   static create(

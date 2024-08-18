@@ -5,7 +5,11 @@ export class Instant {
     return date
   }
 
-  constructor(private readonly date: Date) {}
+  private readonly date: Date
+
+  constructor(date: Date) {
+    this.date = date
+  }
 
   toDate() {
     return this.date

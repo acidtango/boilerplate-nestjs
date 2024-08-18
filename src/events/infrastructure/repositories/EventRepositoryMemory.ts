@@ -1,7 +1,7 @@
-import { EventRepository } from '../../domain/repositories/EventRepository'
-import { TalkEvent, TalkEventPrimitives } from '../../domain/models/TalkEvent'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
+import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
+import { TalkEvent, type TalkEventPrimitives } from '../../domain/models/TalkEvent.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
 
 export class EventRepositoryMemory implements EventRepository, Reseteable {
   private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()

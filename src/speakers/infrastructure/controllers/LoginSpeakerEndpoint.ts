@@ -1,27 +1,58 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
-import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { LoginSpeakerRequestDTO } from './dtos/LoginSpeakerRequestDTO'
-import { LoginSpeaker } from '../../use-cases/LoginSpeaker'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
-import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
-import { LoginSpeakerResponseDTO } from './dtos/LoginSpeakerResponseDTO'
+import { createRoute, OpenAPIHono, type RouteConfig } from '@hono/zod-openapi'
+import type { interfaces } from 'inversify'
+import type { HonoController } from '../../../shared/infrastructure/HonoController.ts'
+import { LoginSpeakerRequestDTO } from './dtos/LoginSpeakerRequestDTO.ts'
+import { LoginSpeakerResponseDTO } from './dtos/LoginSpeakerResponseDTO.ts'
+import { LoginSpeaker } from '../../use-cases/LoginSpeaker.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
 
-@Controller('/v1/speakers/login')
-export class LoginSpeakerEndpoint {
-  constructor(private readonly createSpeaker: LoginSpeaker) {}
-
-  @Endpoint({
-    tag: DocumentationTag.SPEAKERS,
+export class LoginSpeakerEndpoint implements HonoController {
+  private static Schema = {
+    method: 'post',
+    path: '/api/v1/speakers/login',
     description: 'Login a speaker to get the auth tokens',
-    status: HttpStatus.OK,
-  })
-  @Post()
-  async execute(@Body() body: LoginSpeakerRequestDTO): Promise<LoginSpeakerResponseDTO> {
-    const email = EmailAddress.fromPrimitives(body.email)
-    const password = PlainPassword.fromPrimitives(body.password)
+    tags: ['speakers'],
+    request: {
+      body: {
+        content: {
+          'application/json': {
+            schema: LoginSpeakerRequestDTO,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: 'Speaker registered',
+        content: {
+          'application/json': {
+            schema: LoginSpeakerResponseDTO,
+          },
+        },
+      },
+    },
+  } satisfies RouteConfig
 
-    const accessToken = await this.createSpeaker.execute({ email, password })
+  public static async create({ container }: interfaces.Context) {
+    return new LoginSpeakerEndpoint(await container.getAsync(LoginSpeaker))
+  }
 
-    return new LoginSpeakerResponseDTO(accessToken)
+  private readonly loginSpeaker: LoginSpeaker
+
+  constructor(loginSpeaker: LoginSpeaker) {
+    this.loginSpeaker = loginSpeaker
+  }
+
+  register(api: OpenAPIHono) {
+    api.openapi(createRoute(LoginSpeakerEndpoint.Schema), async (c) => {
+      const body = c.req.valid('json')
+      const email = EmailAddress.fromPrimitives(body.email)
+      const password = PlainPassword.fromPrimitives(body.password)
+
+      const accessToken = await this.loginSpeaker.execute({ email, password })
+
+      return c.json({ accessToken }, 200)
+    })
   }
 }

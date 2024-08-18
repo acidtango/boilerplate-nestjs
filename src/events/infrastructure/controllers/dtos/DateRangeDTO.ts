@@ -1,13 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsISO8601 } from 'class-validator'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
+import { z } from '@hono/zod-openapi'
+import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events.ts'
 
-export class DateRangeDTO {
-  @ApiProperty({ example: JSDAY_CANARIAS.startDate, format: 'date-time' })
-  @IsISO8601()
-  startDate!: string
-
-  @ApiProperty({ example: JSDAY_CANARIAS.endDate, format: 'date-time' })
-  @IsISO8601()
-  endDate!: string
-}
+export const DateRangeDTO = z
+  .object({
+    startDate: z.string().openapi({ example: JSDAY_CANARIAS.startDate.toISOString() }),
+    endDate: z.string().openapi({ example: JSDAY_CANARIAS.endDate.toISOString() }),
+  })
+  .openapi('DateRangeDTO')

@@ -1,5 +1,5 @@
-import { Clock } from '../../../domain/services/Clock'
-import { Instant } from '../../../domain/models/Instant'
+import { Instant } from '../../../domain/models/Instant.ts'
+import type { Clock } from '../../../domain/services/Clock.ts'
 
 export class ClockFake implements Clock {
   public static now = new Date('2023-05-17T14:30:00.000Z')
