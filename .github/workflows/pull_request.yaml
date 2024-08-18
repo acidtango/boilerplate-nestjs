@@ -63,8 +63,6 @@ jobs:
           --health-retries 5
         ports:
           - 27017:27017
-        volumes:
-          - ${{ github.workspace }}/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
       aws:
         image: localstack/localstack
         env:
@@ -86,6 +84,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Tests
         run: |
+          yarn queue:init
           yarn test:ci --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           DB_HOST: db

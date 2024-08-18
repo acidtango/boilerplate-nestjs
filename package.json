@@ -27,6 +27,7 @@
     "test:integration:third-party": "jest -c test/config/integration-third-party.json",
     "test:e2e:memory": "jest --config ./test/config/e2e-memory.json",
     "test:e2e:db": "jest --config ./test/config/e2e-db.json",
+    "queue:init": "ts-node src/sqs.ts",
     "precommit": "yarn typecheck && yarn format:fix && yarn lint:fix",
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
