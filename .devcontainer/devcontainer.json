@@ -10,7 +10,8 @@
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "mutantdino.resourcemonitor",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "mongodb.mongodb-vscode"
       ]
     }
   }
