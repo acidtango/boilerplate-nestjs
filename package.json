@@ -7,18 +7,16 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d db",
-    "initialize:db": "yarn containers:restart && sleep 4 && yarn migration:run",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\" \"**/*.mjs\"",
-    "format:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"**/*.json\" \"**/*.mjs\"",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "format:ci": "yarn format:check",
     "start": "rimraf dist && nest start",
     "start:dev": "rimraf dist && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "typecheck": "tsc",
-    "lint:check": "eslint --max-warnings 0 \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:fix": "eslint --fix \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
+    "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "test": "yarn test:unitary && yarn test:e2e:memory && yarn test:integration && yarn test:e2e:db",
     "test:ci": "yarn test:coverage",
@@ -29,11 +27,12 @@
     "test:integration:third-party": "jest -c test/config/integration-third-party.json",
     "test:e2e:memory": "jest --config ./test/config/e2e-memory.json",
     "test:e2e:db": "jest --config ./test/config/e2e-db.json",
+    "queue:init": "ts-node src/shared/infrastructure/events/EventBus/EventBusSQSInit.ts",
     "precommit": "yarn typecheck && yarn format:fix && yarn lint:fix",
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
-    "node": "^20.11.0",
+    "node": "^20.15.1",
     "yarn": "~1.22.19"
   },
   "dependencies": {
