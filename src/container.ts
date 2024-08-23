@@ -84,6 +84,7 @@ container.bind(MongoClient).toDynamicValue(async () => {
 container.bind(OpenAPIHono).toConstantValue(new OpenAPIHono())
 container.bind(Token.APP).toDynamicValue(async ({ container }) => {
   const app = container.get<OpenAPIHono>(OpenAPIHono)
+
   const controllers = await container.getAllAsync<HonoController>(Token.CONTROLLER)
 
   for (const controller of controllers) {

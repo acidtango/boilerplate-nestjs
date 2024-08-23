@@ -1,13 +1,13 @@
 {
   "name": "codetalk-pure",
   "version": "1.0.0",
-  "main": "main.ts",
+  "main": "src/main.ts",
   "type": "module",
   "scripts": {
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "start": "node --experimental-strip-types --disable-warning=ExperimentalWarning main.ts",
-    "start:dev": "node --experimental-strip-types --disable-warning=ExperimentalWarning --watch main.ts",
+    "start": "node --experimental-strip-types --disable-warning=ExperimentalWarning src/main.ts",
+    "start:dev": "node --experimental-strip-types --disable-warning=ExperimentalWarning --watch src/main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
@@ -26,7 +26,6 @@
     "hono": "^4.5.5",
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
-    "koa": "^2.15.3",
     "mongodb": "^6.8.0"
   },
   "devDependencies": {
@@ -35,9 +34,7 @@
     "@types/node": "^22.2.0",
     "eslint": "^9.9.0",
     "expect": "^29.7.0",
-    "globals": "^15.9.0",
     "prettier": "^3.3.3",
-    "tepper": "^1.2.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1"
   },
