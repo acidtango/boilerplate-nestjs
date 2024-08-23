@@ -5,13 +5,11 @@ import { InvalidDateRangeError } from '../errors/InvalidDateRangeError.ts'
 type EventDateRangePrimitives = Primitives<EventDateRange>
 
 export class EventDateRange extends ValueObject {
-  private readonly startDate: Date
-  private readonly endDate: Date
-
-  constructor(startDate: Date, endDate: Date) {
+  constructor(
+    private readonly startDate: Date,
+    private readonly endDate: Date
+  ) {
     super()
-    this.endDate = endDate
-    this.startDate = startDate
     if (startDate > endDate) {
       throw new InvalidDateRangeError(startDate, endDate)
     }

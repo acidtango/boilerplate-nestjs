@@ -9,14 +9,11 @@ import type { Reseteable } from '../../../shared/infrastructure/repositories/Res
 export class EventRepositoryMongo implements EventRepository, Reseteable {
   private readonly talkEvents: Collection<TalkEventPrimitives>
 
-  private readonly client: MongoClient
-
   public static async create({ container }: interfaces.Context) {
     return new EventRepositoryMongo(await container.getAsync(MongoClient))
   }
 
-  constructor(client: MongoClient) {
-    this.client = client
+  constructor(private readonly client: MongoClient) {
     const db = client.db(config.db.database)
     this.talkEvents = db.collection('events')
   }

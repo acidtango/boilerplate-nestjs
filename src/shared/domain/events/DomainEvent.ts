@@ -14,19 +14,11 @@ export abstract class DomainEvent {
     }
   }
 
-  public readonly code: DomainEventCode
-  public readonly eventId: DomainId
-  public readonly occurredAt: Date
-
-  constructor(
-    code: DomainEventCode,
-    eventId: DomainId = new DomainId(UuidGeneratorRandom.generate()),
-    occurredAt: Date = new Date()
-  ) {
-    this.code = code
-    this.eventId = eventId
-    this.occurredAt = occurredAt
-  }
+  protected constructor(
+    public readonly code: DomainEventCode,
+    public readonly eventId: DomainId = new DomainId(UuidGeneratorRandom.generate()),
+    public readonly occurredAt: Date = new Date()
+  ) {}
 
   toPrimitives() {
     return DomainEvent.toPrimitives(this)

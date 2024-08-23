@@ -6,15 +6,11 @@ import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError.ts'
 import { Token } from '../../shared/domain/services/Token.ts'
 
 export class GetSpeaker {
-  private readonly speakerRepository: SpeakerRepository
-
   public static create({ container }: interfaces.Context) {
     return new GetSpeaker(container.get(Token.SPEAKER_REPOSITORY))
   }
 
-  constructor(speakerRepository: SpeakerRepository) {
-    this.speakerRepository = speakerRepository
-  }
+  constructor(private readonly speakerRepository: SpeakerRepository) {}
 
   async execute(speakerId: SpeakerId): Promise<Speaker> {
     const speaker = await this.speakerRepository.findById(speakerId)

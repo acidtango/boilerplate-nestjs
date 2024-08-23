@@ -17,15 +17,12 @@ export type CreateEventParams = {
 }
 
 export class CreateEvent extends UseCase {
-  private readonly eventRepository: EventRepository
-
   public static async create({ container }: interfaces.Context) {
     return new CreateEvent(await container.getAsync(Token.EVENT_REPOSITORY))
   }
 
-  constructor(eventRepository: EventRepository) {
+  constructor(private readonly eventRepository: EventRepository) {
     super()
-    this.eventRepository = eventRepository
   }
 
   async execute({ dateRange, id, name, proposalsDateRange }: CreateEventParams) {

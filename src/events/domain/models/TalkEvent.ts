@@ -8,25 +8,13 @@ import { EventProposalsDateRange } from './EventProposalsDateRange.ts'
 export type TalkEventPrimitives = Primitives<TalkEvent>
 
 export class TalkEvent extends AggregateRoot {
-  private readonly eventId: EventId
-
-  private readonly name: EventName
-
-  private readonly dateRange: EventDateRange
-
-  private readonly proposalsDateRange: EventProposalsDateRange
-
   constructor(
-    eventId: EventId,
-    name: EventName,
-    dateRange: EventDateRange,
-    proposalsDateRange: EventProposalsDateRange
+    private readonly eventId: EventId,
+    private readonly name: EventName,
+    private readonly dateRange: EventDateRange,
+    private readonly proposalsDateRange: EventProposalsDateRange
   ) {
     super()
-    this.proposalsDateRange = proposalsDateRange
-    this.dateRange = dateRange
-    this.name = name
-    this.eventId = eventId
   }
 
   static create(

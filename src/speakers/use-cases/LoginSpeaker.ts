@@ -1,4 +1,3 @@
-import type { interfaces } from 'inversify'
 import jwt from 'jsonwebtoken'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress.ts'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword.ts'
@@ -6,9 +5,10 @@ import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository
 import type { Clock } from '../../shared/domain/services/Clock.ts'
 import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError.ts'
 import { Speaker } from '../domain/models/Speaker.ts'
-import { Token } from '../../shared/domain/services/Token.ts'
 import type { JwtPayload } from '../../auth/domain/JwtPayload.ts'
 import { Role } from '../../shared/domain/models/Role.ts'
+import type { interfaces } from 'inversify'
+import { Token } from '../../shared/domain/services/Token.ts'
 
 export type LoginSpeakerParams = {
   email: EmailAddress
@@ -16,17 +16,14 @@ export type LoginSpeakerParams = {
 }
 
 export class LoginSpeaker {
-  private readonly speakerRepository: SpeakerRepository
-  private readonly clock: Clock
-
   static create({ container }: interfaces.Context) {
     return new LoginSpeaker(container.get(Token.SPEAKER_REPOSITORY), container.get(Token.CLOCK))
   }
 
-  constructor(speakerRepository: SpeakerRepository, clock: Clock) {
-    this.speakerRepository = speakerRepository
-    this.clock = clock
-  }
+  constructor(
+    private readonly speakerRepository: SpeakerRepository,
+    private readonly clock: Clock
+  ) {}
 
   async execute({ email, password }: LoginSpeakerParams): Promise<string> {
     const speaker = await this.speakerRepository.findBy(email)

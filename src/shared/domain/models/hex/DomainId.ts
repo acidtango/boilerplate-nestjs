@@ -3,11 +3,7 @@ export class DomainId {
     return id.id
   }
 
-  private readonly id: string
-
-  constructor(id: string) {
-    this.id = id
-  }
+  constructor(private readonly id: string) {}
 
   equals(other: DomainId) {
     return this.id === other.id

@@ -6,14 +6,14 @@
   "scripts": {
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "start": "node --experimental-strip-types --disable-warning=ExperimentalWarning src/main.ts",
-    "start:dev": "node --experimental-strip-types --disable-warning=ExperimentalWarning --watch src/main.ts",
+    "start": "node --experimental-transform-types --disable-warning=ExperimentalWarning src/main.ts",
+    "start:dev": "node --experimental-transform-types --disable-warning=ExperimentalWarning --watch src/main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "typecheck": "tsc",
-    "test:unitary": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test src/**/*test.ts",
-    "test:e2e": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test-force-exit --test-concurrency=1 --test test/**/*test.ts"
+    "test:unitary": "node --experimental-transform-types --disable-warning=ExperimentalWarning --test src/**/*test.ts",
+    "test:e2e": "node --experimental-transform-types --disable-warning=ExperimentalWarning --test-force-exit --test-concurrency=1 --test test/**/*test.ts"
   },
   "author": "",
   "license": "ISC",

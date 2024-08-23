@@ -3,11 +3,8 @@ import { HashedPassword } from './HashedPassword.ts'
 import * as crypto from 'crypto'
 
 export class PlainPassword extends ValueObject {
-  private readonly password: string
-
-  constructor(password: string) {
+  constructor(private readonly password: string) {
     super()
-    this.password = password
   }
 
   static fromPrimitives(email: string): PlainPassword {

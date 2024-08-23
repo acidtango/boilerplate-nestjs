@@ -14,15 +14,11 @@ export class SpeakerProfile {
     )
   }
 
-  public readonly name: SpeakerName
-  public readonly age: SpeakerAge
-  public readonly language: Language
-
-  constructor(name: SpeakerName, age: SpeakerAge, language: Language) {
-    this.name = name
-    this.age = age
-    this.language = language
-  }
+  constructor(
+    public readonly name: SpeakerName,
+    public readonly age: SpeakerAge,
+    public readonly language: Language
+  ) {}
 
   has(value: SpeakerName | SpeakerAge | Language) {
     if (value instanceof SpeakerName) {

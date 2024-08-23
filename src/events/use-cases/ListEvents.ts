@@ -5,15 +5,12 @@ import type { EventRepository } from '../domain/repositories/EventRepository.ts'
 import { Token } from '../../shared/domain/services/Token.ts'
 
 export class ListEvents extends UseCase {
-  private readonly eventRepository: EventRepository
-
   public static async create({ container }: interfaces.Context) {
     return new ListEvents(await container.getAsync(Token.EVENT_REPOSITORY))
   }
 
-  constructor(eventRepository: EventRepository) {
+  constructor(private readonly eventRepository: EventRepository) {
     super()
-    this.eventRepository = eventRepository
   }
 
   async execute(): Promise<TalkEvent[]> {

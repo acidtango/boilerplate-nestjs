@@ -17,8 +17,6 @@ export type UpdateSpeakerProfileParams = {
 }
 
 export class UpdateSpeakerProfile extends UseCase {
-  private readonly speakerFinder: SpeakerFinder
-
   public static create({ container }: interfaces.Context) {
     return new UpdateSpeakerProfile(
       container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
@@ -26,13 +24,13 @@ export class UpdateSpeakerProfile extends UseCase {
     )
   }
 
-  private readonly speakerRepository: SpeakerRepository
-  private readonly eventBus: EventBus
+  private readonly speakerFinder: SpeakerFinder
 
-  constructor(speakerRepository: SpeakerRepository, eventBus: EventBus) {
+  constructor(
+    private readonly speakerRepository: SpeakerRepository,
+    private readonly eventBus: EventBus
+  ) {
     super()
-    this.eventBus = eventBus
-    this.speakerRepository = speakerRepository
     this.speakerFinder = new SpeakerFinder(speakerRepository)
   }
 

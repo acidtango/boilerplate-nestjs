@@ -5,14 +5,11 @@ import { InvalidDateRangeError } from '../errors/InvalidDateRangeError.ts'
 type EventProposalDateRangePrimitives = Primitives<EventProposalsDateRange>
 
 export class EventProposalsDateRange extends ValueObject {
-  private readonly startDate: Date
-
-  private readonly deadline: Date
-
-  constructor(startDate: Date, deadline: Date) {
+  constructor(
+    private readonly startDate: Date,
+    private readonly deadline: Date
+  ) {
     super()
-    this.deadline = deadline
-    this.startDate = startDate
     if (startDate > deadline) {
       throw new InvalidDateRangeError(startDate, deadline)
     }

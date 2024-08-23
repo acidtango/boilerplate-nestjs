@@ -17,10 +17,6 @@ export type RegisterSpeakerParams = {
 }
 
 export class RegisterSpeaker {
-  private readonly speakerRepository: SpeakerRepository
-  private readonly crypto: Crypto
-  private readonly eventBus: EventBus
-
   public static create({ container }: interfaces.Context) {
     return new RegisterSpeaker(
       container.get(Token.SPEAKER_REPOSITORY),
@@ -29,11 +25,11 @@ export class RegisterSpeaker {
     )
   }
 
-  constructor(speakerRepository: SpeakerRepository, crypto: Crypto, eventBus: EventBus) {
-    this.speakerRepository = speakerRepository
-    this.crypto = crypto
-    this.eventBus = eventBus
-  }
+  constructor(
+    private readonly speakerRepository: SpeakerRepository,
+    private readonly crypto: Crypto,
+    private readonly eventBus: EventBus
+  ) {}
 
   async execute({ email, id, password }: RegisterSpeakerParams): Promise<void> {
     await this.ensureSpeakerWithEmailDoesNotAlreadyExists(email)
