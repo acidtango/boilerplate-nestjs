@@ -8,9 +8,8 @@ beforeEach(async () => {
   await client.reset()
 })
 
-describe('create event', (dctx) => {
-  it('can be created', async (tctx) => {
-    console.log(dctx, tctx)
+describe('create event', () => {
+  it('can be created', async () => {
     const client = await createClient()
 
     const { status } = await client.createEvent()
