@@ -1,6 +1,5 @@
+import { beforeEach, describe, expect, it } from 'vitest'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
-import { beforeEach, describe, it } from 'node:test'
-import { expect } from 'expect'
 import { createClient } from '../../utils/TestClient.ts'
 
 beforeEach(async () => {

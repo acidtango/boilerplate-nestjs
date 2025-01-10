@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { SpeakerAge } from './SpeakerAge.ts'
 import { UnderageSpeakerError } from '../errors/UnderageSpeakerError.ts'
 

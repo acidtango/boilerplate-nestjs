@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import type { EventRepository } from '../domain/repositories/EventRepository.ts'
 import { ListEvents } from './ListEvents.ts'
 import { jsdayEvent } from '../../../test/mother/EventMother/JsDay.ts'

@@ -1,5 +1,5 @@
+import { expect } from 'vitest'
 import type { OpenAPIHono } from '@hono/zod-openapi'
-import { expect } from 'expect'
 import type { Container } from 'inversify'
 import { container } from '../../src/container.ts'
 import type { Clock } from '../../src/shared/domain/services/Clock.ts'

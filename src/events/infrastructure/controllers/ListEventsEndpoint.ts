@@ -1,46 +1,50 @@
+import { resolver } from 'hono-openapi/zod'
+import { z } from '../../../shared/infrastructure/controllers/zod.ts'
 import { ListEvents } from '../../use-cases/ListEvents.ts'
-import { createRoute, OpenAPIHono, type RouteConfig, z } from '@hono/zod-openapi'
 import { EventResponseDTO } from './dtos/EventResponseDTO.ts'
+import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { describeRoute } from 'hono-openapi'
 
-export const Schema = {
-  method: 'get',
+export const ListEventsEndpoint = {
+  method: 'get' as const,
   path: '/api/v1/events',
-  description: 'List events',
-  tags: ['events'],
-  responses: {
-    200: {
-      description: 'Speaker registered',
-      content: {
-        'application/json': {
-          schema: z.array(EventResponseDTO),
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'List events',
+      tags: ['Events'],
+      responses: {
+        200: {
+          description: 'Lists the events',
+          content: {
+            'application/json': {
+              schema: resolver(z.array(EventResponseDTO)),
+            },
+          },
         },
       },
-    },
-  },
-} satisfies RouteConfig
+    }),
+    async (c) => {
+      const listEvents = await c.var.container.getAsync(ListEvents)
+      const events = await listEvents.execute()
 
-export function listEvents(api: OpenAPIHono) {
-  api.openapi(createRoute(Schema), async (c) => {
-    const listEvents = await c.var.container.getAsync(ListEvents)
-    const events = await listEvents.execute()
+      const mapped = events.map((event) => {
+        const eventPrimitives = event.toPrimitives()
 
-    const mapped = events.map((event) => {
-      const eventPrimitives = event.toPrimitives()
+        return {
+          id: eventPrimitives.id,
+          name: eventPrimitives.name,
+          dateRange: {
+            startDate: eventPrimitives.dateRange.startDate.toISOString(),
+            endDate: eventPrimitives.dateRange.endDate.toISOString(),
+          },
+          proposalsDateRange: {
+            startDate: eventPrimitives.proposalsDateRange.startDate.toISOString(),
+            deadline: eventPrimitives.proposalsDateRange.deadline.toISOString(),
+          },
+        }
+      })
 
-      return {
-        id: eventPrimitives.id,
-        name: eventPrimitives.name,
-        dateRange: {
-          startDate: eventPrimitives.dateRange.startDate.toISOString(),
-          endDate: eventPrimitives.dateRange.endDate.toISOString(),
-        },
-        proposalsDateRange: {
-          startDate: eventPrimitives.proposalsDateRange.startDate.toISOString(),
-          deadline: eventPrimitives.proposalsDateRange.deadline.toISOString(),
-        },
-      }
-    })
-
-    return c.json(mapped, 200)
-  })
+      return c.json(mapped, 200)
+    }
+  ),
 }

@@ -1,7 +1,6 @@
-import { describe, it, beforeEach } from 'node:test'
-import { expect } from 'expect'
-import * as jwt from 'jsonwebtoken'
+import { beforeEach, describe, expect, it } from 'vitest'
 import type { JwtPayload } from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { createClient } from '../../utils/TestClient.ts'
 

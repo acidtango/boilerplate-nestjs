@@ -1,45 +1,40 @@
-import { createRoute, OpenAPIHono, type RouteConfig } from '@hono/zod-openapi'
+import { describeRoute } from 'hono-openapi'
+import { resolver, validator } from 'hono-openapi/zod'
 import { LoginSpeakerRequestDTO } from './dtos/LoginSpeakerRequestDTO.ts'
 import { LoginSpeakerResponseDTO } from './dtos/LoginSpeakerResponseDTO.ts'
 import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
 import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
 import { LoginSpeaker } from '../../use-cases/LoginSpeaker.ts'
+import { factory } from '../../../shared/infrastructure/controllers/factory.js'
 
-const schema = {
-  method: 'post',
+export const LoginSpeakerEndpoint = {
+  method: 'post' as const,
   path: '/api/v1/speakers/login',
-  description: 'Login a speaker to get the auth tokens',
-  tags: ['speakers'],
-  request: {
-    body: {
-      content: {
-        'application/json': {
-          schema: LoginSpeakerRequestDTO,
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'Login a speaker to get the auth tokens',
+      tags: ['Speakers'],
+      responses: {
+        201: {
+          description: 'Speaker registered',
+          content: {
+            'application/json': {
+              schema: resolver(LoginSpeakerResponseDTO),
+            },
+          },
         },
       },
-    },
-  },
-  responses: {
-    200: {
-      description: 'Speaker registered',
-      content: {
-        'application/json': {
-          schema: LoginSpeakerResponseDTO,
-        },
-      },
-    },
-  },
-} satisfies RouteConfig
+    }),
+    validator('json', LoginSpeakerRequestDTO),
+    async (c) => {
+      const loginSpeaker = await c.var.container.getAsync(LoginSpeaker)
+      const body = c.req.valid('json')
+      const email = EmailAddress.fromPrimitives(body.email)
+      const password = PlainPassword.fromPrimitives(body.password)
 
-export function loginSpeakerEndpoint(api: OpenAPIHono) {
-  api.openapi(createRoute(schema), async (c) => {
-    const loginSpeaker = await c.var.container.getAsync(LoginSpeaker)
-    const body = c.req.valid('json')
-    const email = EmailAddress.fromPrimitives(body.email)
-    const password = PlainPassword.fromPrimitives(body.password)
+      const accessToken = await loginSpeaker.execute({ email, password })
 
-    const accessToken = await loginSpeaker.execute({ email, password })
-
-    return c.json({ accessToken }, 200)
-  })
+      return c.json({ accessToken }, 200)
+    }
+  ),
 }

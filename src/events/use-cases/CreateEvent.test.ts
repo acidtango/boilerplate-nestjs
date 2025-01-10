@@ -1,5 +1,4 @@
-import { beforeEach, describe, it } from 'node:test'
-import { expect } from 'expect'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { JSDAY_CANARIAS } from '../../shared/infrastructure/fixtures/events.ts'
 import { EventDateRange } from '../domain/models/EventDateRange.ts'
 import { EventId } from '../../shared/domain/models/ids/EventId.ts'

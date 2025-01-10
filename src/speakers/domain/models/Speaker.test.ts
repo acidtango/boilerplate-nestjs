@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { Speaker } from './Speaker.ts'
 import {
   notImportantEmail,

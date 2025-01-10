@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import type { interfaces } from 'inversify'
 import { EmailAddress } from '../../shared/domain/models/EmailAddress.ts'
 import { PlainPassword } from '../../shared/domain/models/PlainPassword.ts'
 import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository.ts'
@@ -7,7 +8,6 @@ import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsErro
 import { Speaker } from '../domain/models/Speaker.ts'
 import type { JwtPayload } from '../../auth/domain/JwtPayload.ts'
 import { Role } from '../../shared/domain/models/Role.ts'
-import type { interfaces } from 'inversify'
 import { Token } from '../../shared/domain/services/Token.ts'
 
 export type LoginSpeakerParams = {

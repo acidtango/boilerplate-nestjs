@@ -1,5 +1,4 @@
-import { beforeEach, describe, it } from 'node:test'
-import { expect } from 'expect'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake.ts'
 import { RegisterSpeaker, type RegisterSpeakerParams } from './RegisterSpeaker.ts'
 import { CryptoFixed } from '../../shared/infrastructure/services/crypto/CryptoFixed.ts'

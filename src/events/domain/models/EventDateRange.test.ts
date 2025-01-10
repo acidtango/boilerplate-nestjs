@@ -1,8 +1,7 @@
 import { JSDAY_CANARIAS } from '../../../shared/infrastructure/fixtures/events.ts'
 import { EventDateRange } from './EventDateRange.ts'
 import { InvalidDateRangeError } from '../errors/InvalidDateRangeError.ts'
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 
 describe('EventDateRange', () => {
   it('is serializable', () => {

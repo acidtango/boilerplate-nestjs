@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { JSDAY_CANARIAS } from '../../../shared/infrastructure/fixtures/events.ts'
 import { EventProposalsDateRange } from './EventProposalsDateRange.ts'
 import { InvalidDateRangeError } from '../errors/InvalidDateRangeError.ts'

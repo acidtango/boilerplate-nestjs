@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { Instant } from './Instant.ts'
 import { ClockFake } from '../../infrastructure/services/clock/ClockFake.ts'
 

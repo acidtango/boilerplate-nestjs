@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { EventId } from './EventId.ts'
 import { JSDAY_CANARIAS } from '../../../infrastructure/fixtures/events.ts'
 

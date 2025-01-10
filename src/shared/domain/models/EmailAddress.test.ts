@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test'
-import { expect } from 'expect'
+import { describe, expect, it } from 'vitest'
 import { EmailAddress } from './EmailAddress.ts'
 
 describe('EmailAddress', () => {
