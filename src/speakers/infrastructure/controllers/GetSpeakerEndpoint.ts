@@ -39,7 +39,11 @@ const schema = {
 } satisfies RouteConfig
 
 export function getSpeakerEndpoint(api: OpenAPIHono) {
-  api.openapi(createRoute(schema), async (c) => {
+  const route = createRoute(schema)
+
+  type Foo = typeof route
+
+  api.openapi(route, async (c) => {
     const getSpeaker = await c.var.container.getAsync(GetSpeaker)
     const param = c.req.valid('param')
     const speaker = await getSpeaker.execute(SpeakerId.fromPrimitives(param.id))
@@ -50,7 +54,7 @@ export function getSpeakerEndpoint(api: OpenAPIHono) {
       {
         id: speakerPrimitives.id,
         email: speakerPrimitives.email,
-        isEmailValidated: speakerPrimitives.isEmailValidated,
+        isEmailValidated: 3,
         profile: mapProfileToDTO(speakerPrimitives.profile),
       },
       200

@@ -13,7 +13,7 @@ export class EventRepositoryMongo implements EventRepository, Reseteable {
     return new EventRepositoryMongo(await container.getAsync(MongoClient))
   }
 
-  constructor(private readonly client: MongoClient) {
+  constructor(client: MongoClient) {
     const db = client.db(config.db.database)
     this.talkEvents = db.collection('events')
   }

@@ -21,8 +21,11 @@ export class CreateEvent extends UseCase {
     return new CreateEvent(await container.getAsync(Token.EVENT_REPOSITORY))
   }
 
-  constructor(private readonly eventRepository: EventRepository) {
+  private readonly eventRepository: EventRepository
+
+  constructor(eventRepository: EventRepository) {
     super()
+    this.eventRepository = eventRepository
   }
 
   async execute({ dateRange, id, name, proposalsDateRange }: CreateEventParams) {

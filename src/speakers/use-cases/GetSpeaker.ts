@@ -10,7 +10,11 @@ export class GetSpeaker {
     return new GetSpeaker(container.get(Token.SPEAKER_REPOSITORY))
   }
 
-  constructor(private readonly speakerRepository: SpeakerRepository) {}
+  private readonly speakerRepository: SpeakerRepository
+
+  constructor(speakerRepository: SpeakerRepository) {
+    this.speakerRepository = speakerRepository
+  }
 
   async execute(speakerId: SpeakerId): Promise<Speaker> {
     const speaker = await this.speakerRepository.findById(speakerId)

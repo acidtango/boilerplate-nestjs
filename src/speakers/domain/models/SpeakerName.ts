@@ -1,8 +1,11 @@
 import { ValueObject } from '../../../shared/domain/models/hex/ValueObject.ts'
 
 export class SpeakerName extends ValueObject {
-  constructor(private readonly name: string) {
+  private readonly name: string
+
+  constructor(name: string) {
     super()
+    this.name = name
   }
 
   static fromPrimitives(name: string): SpeakerName {

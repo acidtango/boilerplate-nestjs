@@ -26,11 +26,14 @@ export class UpdateSpeakerProfile extends UseCase {
 
   private readonly speakerFinder: SpeakerFinder
 
-  constructor(
-    private readonly speakerRepository: SpeakerRepository,
-    private readonly eventBus: EventBus
-  ) {
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly eventBus: EventBus
+
+  constructor(speakerRepository: SpeakerRepository, eventBus: EventBus) {
     super()
+    this.eventBus = eventBus
+    this.speakerRepository = speakerRepository
     this.speakerFinder = new SpeakerFinder(speakerRepository)
   }
 

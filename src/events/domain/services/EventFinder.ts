@@ -4,8 +4,11 @@ import { TalkEventNotFoundError } from '../errors/TalkEventNotFoundError'
 import { EventId } from '../../../shared/domain/models/ids/EventId'
 
 export class EventFinder extends DomainService {
-  constructor(private readonly eventRepository: EventRepository) {
+  private readonly eventRepository: EventRepository
+
+  constructor(eventRepository: EventRepository) {
     super()
+    this.eventRepository = eventRepository
   }
 
   async ensureExists(id: EventId) {

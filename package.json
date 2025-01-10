@@ -22,7 +22,6 @@
     "@hono/node-server": "^1.12.0",
     "@hono/swagger-ui": "^0.4.0",
     "@hono/zod-openapi": "^0.15.3",
-    "@hono/zod-validator": "^0.2.2",
     "hono": "^4.5.5",
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -34,9 +33,12 @@
     "@types/node": "^22.2.0",
     "eslint": "^9.9.0",
     "expect": "^29.7.0",
+    "hono-openapi": "^0.3.1",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.1"
+    "typescript-eslint": "^8.0.1",
+    "zod": "^3.24.1",
+    "zod-openapi": "^4.2.2"
   },
   "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca"
 }

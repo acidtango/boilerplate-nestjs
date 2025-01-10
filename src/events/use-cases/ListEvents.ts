@@ -9,8 +9,11 @@ export class ListEvents extends UseCase {
     return new ListEvents(await container.getAsync(Token.EVENT_REPOSITORY))
   }
 
-  constructor(private readonly eventRepository: EventRepository) {
+  private readonly eventRepository: EventRepository
+
+  constructor(eventRepository: EventRepository) {
     super()
+    this.eventRepository = eventRepository
   }
 
   async execute(): Promise<TalkEvent[]> {

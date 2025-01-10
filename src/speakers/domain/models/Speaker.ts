@@ -41,15 +41,33 @@ export class Speaker extends AggregateRoot {
     return speaker
   }
 
+  private readonly id: SpeakerId
+
+  private readonly email: EmailAddress
+
+  private readonly password: HashedPassword
+
+  private readonly salt: string
+
+  private readonly isEmailValidated: boolean
+
+  private profile?: SpeakerProfile
+
   constructor(
-    private readonly id: SpeakerId,
-    private readonly email: EmailAddress,
-    private readonly password: HashedPassword,
-    private readonly salt: string,
-    private readonly isEmailValidated: boolean,
-    private profile?: SpeakerProfile
+    id: SpeakerId,
+    email: EmailAddress,
+    password: HashedPassword,
+    salt: string,
+    isEmailValidated: boolean,
+    profile?: SpeakerProfile
   ) {
     super()
+    this.id = id
+    this.email = email
+    this.password = password
+    this.salt = salt
+    this.isEmailValidated = isEmailValidated
+    this.profile = profile
   }
 
   has(value: PlainPassword | SpeakerName | SpeakerAge | Language) {

@@ -4,8 +4,11 @@ import { SpeakerNotFoundError } from '../errors/SpeakerNotFoundError.ts'
 import { DomainService } from '../../../shared/domain/models/hex/DomainService.ts'
 
 export class SpeakerFinder extends DomainService {
-  constructor(private readonly speakerRepository: SpeakerRepository) {
+  private readonly speakerRepository: SpeakerRepository
+
+  constructor(speakerRepository: SpeakerRepository) {
     super()
+    this.speakerRepository = speakerRepository
   }
 
   async findOrThrowBy(id: SpeakerId) {

@@ -20,10 +20,14 @@ export class LoginSpeaker {
     return new LoginSpeaker(container.get(Token.SPEAKER_REPOSITORY), container.get(Token.CLOCK))
   }
 
-  constructor(
-    private readonly speakerRepository: SpeakerRepository,
-    private readonly clock: Clock
-  ) {}
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly clock: Clock
+
+  constructor(speakerRepository: SpeakerRepository, clock: Clock) {
+    this.clock = clock
+    this.speakerRepository = speakerRepository
+  }
 
   async execute({ email, password }: LoginSpeakerParams): Promise<string> {
     const speaker = await this.speakerRepository.findBy(email)

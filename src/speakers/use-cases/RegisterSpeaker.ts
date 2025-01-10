@@ -25,11 +25,17 @@ export class RegisterSpeaker {
     )
   }
 
-  constructor(
-    private readonly speakerRepository: SpeakerRepository,
-    private readonly crypto: Crypto,
-    private readonly eventBus: EventBus
-  ) {}
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly crypto: Crypto
+
+  private readonly eventBus: EventBus
+
+  constructor(speakerRepository: SpeakerRepository, crypto: Crypto, eventBus: EventBus) {
+    this.eventBus = eventBus
+    this.crypto = crypto
+    this.speakerRepository = speakerRepository
+  }
 
   async execute({ email, id, password }: RegisterSpeakerParams): Promise<void> {
     await this.ensureSpeakerWithEmailDoesNotAlreadyExists(email)

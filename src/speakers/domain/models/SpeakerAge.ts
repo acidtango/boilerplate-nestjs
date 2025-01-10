@@ -6,8 +6,11 @@ export class SpeakerAge extends ValueObject {
     return new SpeakerAge(age)
   }
 
-  constructor(private readonly age: number) {
+  private readonly age: number
+
+  constructor(age: number) {
     super()
+    this.age = age
     this.ensureIsNotUnderAge()
   }
 

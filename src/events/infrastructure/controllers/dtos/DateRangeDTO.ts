@@ -1,4 +1,4 @@
-import { z } from '@hono/zod-openapi'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events.ts'
 
 export const DateRangeDTO = z
