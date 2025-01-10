@@ -1,21 +1,27 @@
-import type { interfaces } from 'inversify'
+import { type interfaces } from 'inversify'
 import { Collection, MongoClient } from 'mongodb'
 import { config } from '../../../shared/infrastructure/config.ts'
 import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
 import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
 import { TalkEvent, type TalkEventPrimitives } from '../../domain/models/TalkEvent.ts'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
-export class EventRepositoryMongo implements EventRepository, Reseteable {
+export class EventRepositoryMongo implements EventRepository, Reseteable, Closable {
   private readonly talkEvents: Collection<TalkEventPrimitives>
+  public readonly client: MongoClient
 
   public static async create({ container }: interfaces.Context) {
-    return new EventRepositoryMongo(await container.getAsync(MongoClient))
+    const client = await container.getAsync(MongoClient)
+    console.log('I have the mongo client, creating repo')
+    return new EventRepositoryMongo(client)
   }
 
   constructor(client: MongoClient) {
+    console.log('Instantiating repo with client')
     const db = client.db(config.db.database)
     this.talkEvents = db.collection('events')
+    this.client = client
   }
 
   async save(talkEvent: TalkEvent) {
@@ -36,5 +42,9 @@ export class EventRepositoryMongo implements EventRepository, Reseteable {
 
   async reset() {
     await this.talkEvents.deleteMany()
+  }
+
+  async close(): Promise<void> {
+    await this.client.close()
   }
 }

@@ -1,26 +1,29 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { MongoClient } from 'mongodb'
 import { BindingScopeEnum, Container } from 'inversify'
-// import { EventRepositoryMongo } from './EventRepositoryMongo.ts'
-import { EventRepositoryMemory } from './EventRepositoryMemory.ts'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
+import { EventRepositoryMemory } from './EventRepositoryMemory.ts'
+import { EventRepositoryMongo } from './EventRepositoryMongo.js'
 import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay.ts'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion.ts'
-import { EventRepositoryMongo } from './EventRepositoryMongo.js'
-import { MongoClient } from 'mongodb'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.js'
+import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
 
 describe('TalkEventRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
-  container.bind(EventRepositoryMemory).toConstantValue(new EventRepositoryMemory())
+  container.bind(EventRepositoryMemory).toDynamicValue(EventRepositoryMemory.create)
   container.bind(EventRepositoryMongo).toDynamicValue(EventRepositoryMongo.create)
   container.bind(MongoClient).toDynamicValue(createMongoClient)
 
-  describe.each([EventRepositoryMemory, EventRepositoryMongo])(`%s`, (repositoryClass) => {
-    let talkEventRepository: EventRepository & Reseteable
+  describe.each([
+    [EventRepositoryMemory.name, EventRepositoryMemory],
+    [EventRepositoryMongo.name, EventRepositoryMongo],
+  ])(`%s`, (name, repositoryClass) => {
+    let talkEventRepository: EventRepository & Reseteable & Closable
 
     beforeAll(async () => {
-      talkEventRepository = await container.getAsync(repositoryClass)
+      talkEventRepository = await container.getAsync(repositoryClass as any)
     })
 
     beforeEach(async () => {
@@ -28,8 +31,7 @@ describe('TalkEventRepository', () => {
     })
 
     afterAll(async () => {
-      const mongo = await container.getAsync(MongoClient)
-      await mongo.close()
+      await talkEventRepository.close()
     })
 
     it('saves the event', async () => {

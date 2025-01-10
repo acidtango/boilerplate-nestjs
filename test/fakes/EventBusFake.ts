@@ -1,4 +1,4 @@
-import { expect } from 'expect'
+import { expect } from 'vitest'
 import { DomainEvent } from '../../src/shared/domain/events/DomainEvent.ts'
 import type { EventBus } from '../../src/shared/domain/models/hex/EventBus.ts'
 

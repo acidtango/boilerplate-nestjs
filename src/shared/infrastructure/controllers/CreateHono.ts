@@ -6,6 +6,8 @@ import { CreateEventEndpoint } from '../../../events/infrastructure/controllers/
 import { ListEventsEndpoint } from '../../../events/infrastructure/controllers/ListEventsEndpoint.js'
 import { RegisterSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/RegisterSpeakerEndpoint.js'
 import { LoginSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/LoginSpeakerEndpoint.js'
+import { UpdateSpeakerProfileEndpoint } from '../../../speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.js'
+import { GetSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/GetSpeakerEndpoint.js'
 
 declare module 'hono' {
   interface ContextVariableMap {
@@ -28,6 +30,11 @@ export function createHono({ container }: interfaces.Context) {
     ...RegisterSpeakerEndpoint.handlers
   )
   app[LoginSpeakerEndpoint.method](LoginSpeakerEndpoint.path, ...LoginSpeakerEndpoint.handlers)
+  app[UpdateSpeakerProfileEndpoint.method](
+    UpdateSpeakerProfileEndpoint.path,
+    ...UpdateSpeakerProfileEndpoint.handlers
+  )
+  app[GetSpeakerEndpoint.method](GetSpeakerEndpoint.path, ...GetSpeakerEndpoint.handlers)
   // listEvents(app)
 
   return app
