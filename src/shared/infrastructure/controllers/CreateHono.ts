@@ -3,11 +3,13 @@ import { Hono } from 'hono'
 
 import { containerMiddleware } from './ContainerMiddleware.ts'
 import { CreateEventEndpoint } from '../../../events/infrastructure/controllers/CreateEventEndpoint.ts'
-import { ListEventsEndpoint } from '../../../events/infrastructure/controllers/ListEventsEndpoint.js'
-import { RegisterSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/RegisterSpeakerEndpoint.js'
-import { LoginSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/LoginSpeakerEndpoint.js'
-import { UpdateSpeakerProfileEndpoint } from '../../../speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.js'
-import { GetSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/GetSpeakerEndpoint.js'
+import { ListEventsEndpoint } from '../../../events/infrastructure/controllers/ListEventsEndpoint.ts'
+import { RegisterSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/RegisterSpeakerEndpoint.ts'
+import { LoginSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/LoginSpeakerEndpoint.ts'
+import { UpdateSpeakerProfileEndpoint } from '../../../speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.ts'
+import { GetSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/GetSpeakerEndpoint.ts'
+import { ProposeTalkEndpoint } from '../../../talks/infrastructure/controllers/ProposeTalkEndpoint.ts'
+import { GetTalkEndpoint } from '../../../talks/infrastructure/controllers/GetTalkEndpoint.ts'
 
 declare module 'hono' {
   interface ContextVariableMap {
@@ -35,6 +37,8 @@ export function createHono({ container }: interfaces.Context) {
     ...UpdateSpeakerProfileEndpoint.handlers
   )
   app[GetSpeakerEndpoint.method](GetSpeakerEndpoint.path, ...GetSpeakerEndpoint.handlers)
+  app[ProposeTalkEndpoint.method](ProposeTalkEndpoint.path, ...ProposeTalkEndpoint.handlers)
+  app[GetTalkEndpoint.method](GetTalkEndpoint.path, ...GetTalkEndpoint.handlers)
   // listEvents(app)
 
   return app

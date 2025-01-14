@@ -1,4 +1,5 @@
 import { expect } from 'vitest'
+import { MongoClient } from 'mongodb'
 import type { OpenAPIHono } from '@hono/zod-openapi'
 import type { Container } from 'inversify'
 import { container } from '../../src/container.ts'
@@ -10,9 +11,9 @@ import {
   type Reseteable,
 } from '../../src/shared/infrastructure/repositories/Reseteable.ts'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
-import { MongoClient } from 'mongodb'
+import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
 
-class TestClient {
+export class TestClient {
   public readonly container: Container
   private app: OpenAPIHono
 
@@ -150,6 +151,39 @@ class TestClient {
     return {
       status: res.status,
       body: await res.json(),
+      res,
+    }
+  }
+
+  async getTalk(id = JUNIOR_XP.id) {
+    const res = await this.app.request(`/api/v1/talks/${id}`)
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
+  }
+
+  async proposeTalk({ id = JUNIOR_XP.id } = {}) {
+    const res = await this.app.request('/api/v1/talks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        title: JUNIOR_XP.title,
+        description: JUNIOR_XP.description,
+        language: JUNIOR_XP.language,
+        cospeakers: JUNIOR_XP.cospeakers,
+        speakerId: CONCHA_ASENSIO.id,
+        eventId: JSDAY_CANARIAS.id,
+      }),
+    })
+    expect(res.status).toBe(201)
+    return {
+      status: res.status,
       res,
     }
   }

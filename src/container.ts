@@ -11,9 +11,9 @@ import { GetSpeaker } from './speakers/use-cases/GetSpeaker.ts'
 import { CreateEvent } from './events/use-cases/CreateEvent.ts'
 import { ListEvents } from './events/use-cases/ListEvents.ts'
 import { MongoClient } from 'mongodb'
-import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.ts'
 import { createMongoClient } from './shared/infrastructure/repositories/CreateMongoClient.ts'
 import { createHono } from './shared/infrastructure/controllers/CreateHono.ts'
+import { EventRepositoryMemory } from './events/infrastructure/repositories/EventRepositoryMemory.ts'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -27,7 +27,7 @@ container.bind(ListEvents).toDynamicValue(ListEvents.create)
 
 // Repositories
 container.bind(Token.SPEAKER_REPOSITORY).toConstantValue(new SpeakerRepositoryMemory())
-container.bind(Token.EVENT_REPOSITORY).toDynamicValue(EventRepositoryMongo.create)
+container.bind(Token.EVENT_REPOSITORY).toConstantValue(new EventRepositoryMemory())
 
 // Services
 container.bind(Token.CRYPTO).toConstantValue(new CryptoNode())

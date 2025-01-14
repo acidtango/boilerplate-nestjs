@@ -12,8 +12,8 @@
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "typecheck": "tsc",
-    "test:unitary": "node --experimental-transform-types --disable-warning=ExperimentalWarning --test src/**/*test.ts",
-    "test:e2e": "node --experimental-transform-types --disable-warning=ExperimentalWarning --test-force-exit --test-concurrency=1 --test test/**/*test.ts"
+    "test:unitary": "vitest --config ./test/config/vitest.unitary.ts",
+    "test:e2e": "vitest --config ./test/config/vitest.e2e-db.ts"
   },
   "author": "",
   "license": "ISC",
