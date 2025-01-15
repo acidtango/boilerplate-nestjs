@@ -12,6 +12,7 @@ import {
 } from '../../src/shared/infrastructure/repositories/Reseteable.ts'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
 import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
+import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
 import type { EmailSenderFake } from '../fakes/EmailSenderFake.js'
 
 export class TestClient {
@@ -188,6 +189,23 @@ export class TestClient {
       }),
     })
     expect(res.status).toBe(201)
+    return {
+      status: res.status,
+      res,
+    }
+  }
+
+  async assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
+    const res = await this.app.request(`/api/v1/talks/${id}/assignation`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reviewerId,
+      }),
+    })
+    expect(res.status).toBe(200)
     return {
       status: res.status,
       res,
