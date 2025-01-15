@@ -1,20 +1,21 @@
-import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { EventBusFake } from '../../../test/fakes/EventBusFake'
-import { UpdateSpeakerProfile } from './UpdateSpeakerProfile'
-import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
-import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { SpeakerRepositoryFake } from '../../../test/fakes/SpeakerRepositoryFake.ts'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId.ts'
+import { EventBusFake } from '../../../test/fakes/EventBusFake.ts'
+import { UpdateSpeakerProfile } from './UpdateSpeakerProfile.ts'
+import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError.ts'
+import { SpeakerProfileUpdated } from '../domain/events/SpeakerProfileUpdated.ts'
 import {
   notImportantAge,
   notImportantLanguage,
   notImportantName,
-} from '../../../test/mother/SpeakerMother/NotImportant'
+} from '../../../test/mother/SpeakerMother/NotImportant.ts'
 import {
   conchaAge,
   conchaId,
   conchaLanguage,
   conchaName,
-} from '../../../test/mother/SpeakerMother/Concha'
+} from '../../../test/mother/SpeakerMother/Concha.ts'
 
 describe('UpdateSpeakerProfile', () => {
   let speakerRepository: SpeakerRepositoryFake

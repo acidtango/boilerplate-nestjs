@@ -2,30 +2,12 @@ import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO.ts'
 import { factory } from '../../../shared/infrastructure/controllers/factory.js'
-
-/* @Controller('/v1/talks')
-export class ProposeTalkEndpoint {
-  constructor(private readonly proposeTalk: ProposeTalk) {}
-
-  @Endpoint({
-    tag: DocumentationTag.TALKS,
-    description: 'Creates a talk',
-    status: HttpStatus.CREATED,
-  })
-  @Post()
-  async execute(@Body() body: ProposeTalkRequestDTO) {
-    await this.proposeTalk.execute({
-      id: TalkId.fromPrimitives(body.id),
-      title: TalkTitle.fromPrimitives(body.title),
-      description: TalkDescription.fromPrimitives(body.description),
-      cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
-      language: body.language,
-      eventId: EventId.fromPrimitives(body.eventId),
-      speakerId: SpeakerId.fromPrimitives(body.speakerId),
-    })
-  }
-}
-*/
+import { ProposeTalk } from '../../use-cases/ProposeTalk.js'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.js'
+import { TalkTitle } from '../../domain/models/TalkTitle.js'
+import { TalkDescription } from '../../domain/models/TalkDescription.js'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.js'
+import { EventId } from '../../../shared/domain/models/ids/EventId.js'
 
 export const ProposeTalkEndpoint = {
   method: 'post' as const,
@@ -42,6 +24,19 @@ export const ProposeTalkEndpoint = {
     }),
     validator('json', ProposeTalkRequestDTO),
     async (c) => {
+      const proposeTalk = await c.var.container.getAsync(ProposeTalk)
+      const body = c.req.valid('json')
+
+      await proposeTalk.execute({
+        id: TalkId.fromPrimitives(body.id),
+        title: TalkTitle.fromPrimitives(body.title),
+        description: TalkDescription.fromPrimitives(body.description),
+        cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
+        language: body.language,
+        eventId: EventId.fromPrimitives(body.eventId),
+        speakerId: SpeakerId.fromPrimitives(body.speakerId),
+      })
+
       return c.body(null, 201)
     }
   ),

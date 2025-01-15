@@ -12,6 +12,7 @@ import {
 } from '../../src/shared/infrastructure/repositories/Reseteable.ts'
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
 import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
+import type { EmailSenderFake } from '../fakes/EmailSenderFake.js'
 
 export class TestClient {
   public readonly container: Container
@@ -30,10 +31,15 @@ export class TestClient {
     return this.container.get<Clock>(Token.CLOCK)
   }
 
+  getEmailSender() {
+    return this.container.get<EmailSenderFake>(Token.EMAIL_SENDER)
+  }
+
   async reset() {
     const repositories = await Promise.all([
       this.container.getAsync<Reseteable>(Token.SPEAKER_REPOSITORY),
       this.container.getAsync<Reseteable>(Token.EVENT_REPOSITORY),
+      this.container.getAsync<Reseteable>(Token.TALK_REPOSITORY),
     ]).then((repositories) => repositories.filter(isReseteable))
 
     for (const repository of repositories) {

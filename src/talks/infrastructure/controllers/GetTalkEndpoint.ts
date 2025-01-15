@@ -4,6 +4,8 @@ import { factory } from '../../../shared/infrastructure/controllers/factory.js'
 import { resolver, validator } from 'hono-openapi/zod'
 import { z } from '../../../shared/infrastructure/controllers/zod.js'
 import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.js'
+import { GetTalk } from '../../use-cases/GetTalk.js'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.js'
 
 /*
 @Controller('/v1/talks/:id')
@@ -58,7 +60,14 @@ export const GetTalkEndpoint = {
     }),
     validator('param', ParamsSchema),
     async (c) => {
-      throw new Error('Unimplemented method GetTalkEndpoint#')
+      const getTalk = await c.var.container.getAsync(GetTalk)
+      const param = c.req.valid('param')
+
+      const talk = await getTalk.execute(new TalkId(param.id))
+
+      const talkPrimitives = talk.toPrimitives()
+
+      return c.json(talkPrimitives)
     }
   ),
 }

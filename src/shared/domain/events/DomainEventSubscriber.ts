@@ -5,5 +5,7 @@ export abstract class DomainEventSubscriber<T extends DomainEvent> {
     return instance instanceof DomainEventSubscriber
   }
 
+  abstract canHandle(domainEvent: DomainEvent): boolean
+
   abstract on(domainEvent: T): Promise<void>
 }

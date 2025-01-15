@@ -1,0 +1,30 @@
+import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts'
+import { Talk, type TalkPrimitives } from '../../domain/models/Talk.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+
+export class TalkRepositoryMemory implements TalkRepository, Reseteable {
+  protected talks: Map<string, TalkPrimitives> = new Map()
+
+  async save(talk: Talk) {
+    this.saveSync(talk)
+  }
+
+  protected saveSync(talk: Talk) {
+    const talkPrimitives = talk.toPrimitives()
+
+    this.talks.set(talkPrimitives.id, talkPrimitives)
+  }
+
+  async findBy(talkId: TalkId): Promise<Talk | undefined> {
+    const talkPrimitives = this.talks.get(talkId.toPrimitives())
+
+    if (!talkPrimitives) return undefined
+
+    return Talk.fromPrimitives(talkPrimitives)
+  }
+
+  async reset() {
+    this.talks.clear()
+  }
+}
