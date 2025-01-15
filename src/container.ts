@@ -3,7 +3,6 @@ import { BindingScopeEnum, Container } from 'inversify'
 import { RegisterSpeaker } from './speakers/use-cases/RegisterSpeaker.ts'
 import { ClockFake } from './shared/infrastructure/services/clock/ClockFake.ts'
 import { Token } from './shared/domain/services/Token.ts'
-import { SpeakerRepositoryMemory } from './speakers/infrastructure/repositories/SpeakerRepositoryMemory.ts'
 import { CryptoNode } from './shared/infrastructure/services/crypto/CryptoNode.ts'
 import { EventBusMemory } from './shared/infrastructure/events/EventBus/EventBusMemory.ts'
 import { LoginSpeaker } from './speakers/use-cases/LoginSpeaker.ts'
@@ -13,8 +12,6 @@ import { CreateEvent } from './events/use-cases/CreateEvent.ts'
 import { ListEvents } from './events/use-cases/ListEvents.ts'
 import { createMongoClient } from './shared/infrastructure/repositories/CreateMongoClient.ts'
 import { createHono } from './shared/infrastructure/controllers/CreateHono.ts'
-import { EventRepositoryMemory } from './events/infrastructure/repositories/EventRepositoryMemory.ts'
-import { TalkRepositoryMemory } from './talks/infrastructure/repositories/TalkRepositoryMemory.ts'
 import { ProposeTalk } from './talks/use-cases/ProposeTalk.ts'
 import { GetTalk } from './talks/use-cases/GetTalk.ts'
 import { EmailSenderFake } from '../test/fakes/EmailSenderFake.ts'
@@ -32,6 +29,9 @@ import { ProposeTalkEndpoint } from './talks/infrastructure/controllers/ProposeT
 import { GetTalkEndpoint } from './talks/infrastructure/controllers/GetTalkEndpoint.js'
 import { ReviewTalkEndpoint } from './talks/infrastructure/controllers/ReviewTalkEndpoint.js'
 import { ApproveTalkEndpoint } from './talks/infrastructure/controllers/ApproveTalkEndpoint.js'
+import { SpeakerRepositoryMongo } from './speakers/infrastructure/repositories/SepakerRepositoryMongo.js'
+import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.js'
+import { TalkRepositoryMongo } from './talks/infrastructure/repositories/TalkRepositoryMongo.js'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -65,9 +65,9 @@ container.bind(Token.ENDPOINT).toConstantValue(ApproveTalkEndpoint)
 container.bind(TalkProposedSubscriber).toDynamicValue(TalkProposedSubscriber.create)
 
 // Repositories
-container.bind(Token.SPEAKER_REPOSITORY).toConstantValue(new SpeakerRepositoryMemory())
-container.bind(Token.EVENT_REPOSITORY).toConstantValue(new EventRepositoryMemory())
-container.bind(Token.TALK_REPOSITORY).toConstantValue(new TalkRepositoryMemory())
+container.bind(Token.SPEAKER_REPOSITORY).toDynamicValue(SpeakerRepositoryMongo.create)
+container.bind(Token.EVENT_REPOSITORY).toDynamicValue(EventRepositoryMongo.create)
+container.bind(Token.TALK_REPOSITORY).toDynamicValue(TalkRepositoryMongo.create)
 
 // Services
 container.bind(Token.CRYPTO).toConstantValue(new CryptoNode())

@@ -1,14 +1,20 @@
-import { Injectable } from '@nestjs/common'
+import type { interfaces } from 'inversify'
 import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../shared/infrastructure/config'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { Speaker, SpeakerPrimitives } from '../../domain/models/Speaker'
-import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import { config } from '../../../shared/infrastructure/config.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { Speaker, type SpeakerPrimitives } from '../../domain/models/Speaker.ts'
+import type { SpeakerRepository } from '../../domain/repositories/SpeakerRepository.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
 
-@Injectable()
-export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
+export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable, Closable {
+  public static async create({ container }: interfaces.Context) {
+    const client = await container.getAsync(MongoClient)
+    console.log('I have the mongo client, creating repo')
+    return new SpeakerRepositoryMongo(client)
+  }
+
   private readonly speakers: Collection<SpeakerPrimitives>
 
   constructor(private readonly client: MongoClient) {
@@ -52,5 +58,9 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
 
   async reset() {
     await this.speakers.deleteMany()
+  }
+
+  async close(): Promise<void> {
+    await this.client.close()
   }
 }

@@ -1,0 +1,102 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { BindingScopeEnum, Container } from 'inversify'
+import { MongoClient } from 'mongodb'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers.ts'
+import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo.ts'
+import { SpeakerRepositoryMemory } from './SpeakerRepositoryMemory.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { SpeakerRepository } from '../../domain/repositories/SpeakerRepository.ts'
+import {
+  conchaEmail,
+  conchaId,
+  conchaSpeaker,
+} from '../../../../test/mother/SpeakerMother/Concha.ts'
+import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.js'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
+
+describe('SpeakerRepository', () => {
+  const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
+  container.bind(SpeakerRepositoryMemory).toDynamicValue(SpeakerRepositoryMemory.create)
+  container.bind(SpeakerRepositoryMongo).toDynamicValue(SpeakerRepositoryMongo.create)
+  container.bind(MongoClient).toDynamicValue(createMongoClient)
+
+  describe.each([
+    [SpeakerRepositoryMemory.name, SpeakerRepositoryMemory],
+    [SpeakerRepositoryMongo.name, SpeakerRepositoryMongo],
+  ])(`%s`, (name, repositoryClass) => {
+    let speakerRepository: SpeakerRepository & Reseteable & Closable
+
+    beforeAll(async () => {
+      speakerRepository = await container.getAsync(repositoryClass as any)
+    })
+
+    beforeEach(async () => {
+      await speakerRepository.reset()
+    })
+
+    afterAll(async () => {
+      await speakerRepository.close()
+    })
+
+    it('saves the speaker', async () => {
+      const speakerId = conchaId()
+      const speaker = conchaSpeaker({ id: speakerId })
+
+      await speakerRepository.save(speaker)
+
+      const savedSpeaker = await speakerRepository.findById(speakerId)
+      expect(savedSpeaker).toEqual(speaker)
+    })
+
+    it('checks if the speaker exists', async () => {
+      const speakerId = new SpeakerId(CONCHA_ASENSIO.id)
+      const speaker = conchaSpeaker({ id: speakerId })
+      await speakerRepository.save(speaker)
+
+      const exists = await speakerRepository.exists(speakerId)
+
+      expect(exists).toBe(true)
+    })
+
+    describe('findBy email', () => {
+      it('returns undefined if does not exists', async () => {
+        const email = conchaEmail()
+
+        const speaker = await speakerRepository.findBy(email)
+
+        expect(speaker).toBeUndefined()
+      })
+
+      it('returns the speaker if exists', async () => {
+        const email = conchaEmail()
+        const speaker = conchaSpeaker({ email })
+        await speakerRepository.save(speaker)
+
+        const savedSpeaker = await speakerRepository.findBy(email)
+
+        expect(savedSpeaker).toEqual(speaker)
+      })
+    })
+
+    describe('existsWith', () => {
+      it('returns false if does not exists', async () => {
+        const email = conchaEmail()
+
+        const exists = await speakerRepository.existsWith(email)
+
+        expect(exists).toBe(false)
+      })
+
+      it('checks if the speaker with an email already exists', async () => {
+        const email = conchaEmail()
+        const speaker = conchaSpeaker({ email })
+        await speakerRepository.save(speaker)
+
+        const exists = await speakerRepository.existsWith(email)
+
+        expect(exists).toBe(true)
+      })
+    })
+  })
+})

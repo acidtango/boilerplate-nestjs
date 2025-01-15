@@ -6,11 +6,12 @@
   "scripts": {
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
+    "format:ci": "node --run format:check",
     "start": "node --experimental-transform-types --disable-warning=ExperimentalWarning src/main.ts",
     "start:dev": "node --experimental-transform-types --disable-warning=ExperimentalWarning --watch src/main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
-    "lint:ci": "yarn lint:check",
+    "lint:ci": "node --run lint:check",
     "typecheck": "tsc",
     "test:unitary": "vitest --config ./test/config/vitest.unitary.ts",
     "test:integration": "vitest --config ./test/config/vitest.integration.ts",
@@ -40,6 +41,5 @@
     "vitest": "^2.1.8",
     "zod": "^3.24.1",
     "zod-openapi": "^4.2.2"
-  },
-  "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca"
+  }
 }

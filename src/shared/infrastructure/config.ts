@@ -14,7 +14,7 @@ export const config = {
     endpoint:
       process.env.AWS_ENDPOINT === 'default'
         ? undefined
-        : process.env.AWS_ENDPOINT ?? 'http://localhost:4566',
+        : (process.env.AWS_ENDPOINT ?? 'http://localhost:4566'),
     sqs: {
       url:
         process.env.AWS_SQS_URL ||

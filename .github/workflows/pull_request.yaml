@@ -34,15 +34,15 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Typecheck
-        run: yarn typecheck
+        run: node --run typecheck
       - name: Eslint
-        run: yarn lint:ci
+        run: node --run lint:ci
       - name: Prettier
-        run: yarn format:ci
+        run: node --run format:ci
 
   tests:
     needs: skip-draft
@@ -81,12 +81,19 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
+      - name: Unitary Tests
+        run: node --run test:unitary --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+      - name: Integration Tests
+        run: node --run test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        env:
+          DB_HOST: db
+          AWS_ENDPOINT: http://aws:4566
+          AWS_SQS_URL: http://sqs.eu-west-1.aws:4566/000000000000/localstack-queue
       - name: Tests
-        run: |
-          yarn test:ci --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: node --run test:e2e --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           DB_HOST: db
           AWS_ENDPOINT: http://aws:4566

@@ -20,6 +20,8 @@ export class TestClient {
   private app: OpenAPIHono
 
   public static async create(container: Container) {
+    console.log(process.env.USE_MONGO_REPOSITORIES)
+
     return new TestClient(await container.getAsync(Token.APP), container)
   }
 
