@@ -2,8 +2,13 @@ import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts
 import { Talk, type TalkPrimitives } from '../../domain/models/Talk.ts'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
 
-export class TalkRepositoryMemory implements TalkRepository, Reseteable {
+export class TalkRepositoryMemory implements TalkRepository, Reseteable, Closable {
+  public static create() {
+    return new TalkRepositoryMemory()
+  }
+
   protected talks: Map<string, TalkPrimitives> = new Map()
 
   async save(talk: Talk) {
@@ -27,4 +32,6 @@ export class TalkRepositoryMemory implements TalkRepository, Reseteable {
   async reset() {
     this.talks.clear()
   }
+
+  async close(): Promise<void> {}
 }
