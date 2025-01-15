@@ -22,6 +22,16 @@ import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEven
 import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.ts'
 import { ReviewTalk } from './talks/use-cases/ReviewTalk.ts'
 import { ApproveTalk } from './talks/use-cases/ApproveTalk.js'
+import { CreateEventEndpoint } from './events/infrastructure/controllers/CreateEventEndpoint.js'
+import { ListEventsEndpoint } from './events/infrastructure/controllers/ListEventsEndpoint.js'
+import { RegisterSpeakerEndpoint } from './speakers/infrastructure/controllers/RegisterSpeakerEndpoint.js'
+import { LoginSpeakerEndpoint } from './speakers/infrastructure/controllers/LoginSpeakerEndpoint.js'
+import { UpdateSpeakerProfileEndpoint } from './speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.js'
+import { GetSpeakerEndpoint } from './speakers/infrastructure/controllers/GetSpeakerEndpoint.js'
+import { ProposeTalkEndpoint } from './talks/infrastructure/controllers/ProposeTalkEndpoint.js'
+import { GetTalkEndpoint } from './talks/infrastructure/controllers/GetTalkEndpoint.js'
+import { ReviewTalkEndpoint } from './talks/infrastructure/controllers/ReviewTalkEndpoint.js'
+import { ApproveTalkEndpoint } from './talks/infrastructure/controllers/ApproveTalkEndpoint.js'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -38,6 +48,18 @@ container.bind(ProposeTalk).toDynamicValue(ProposeTalk.create)
 container.bind(GetTalk).toDynamicValue(GetTalk.create)
 container.bind(ReviewTalk).toDynamicValue(ReviewTalk.create)
 container.bind(ApproveTalk).toDynamicValue(ApproveTalk.create)
+
+// Controllers
+container.bind(Token.ENDPOINT).toConstantValue(CreateEventEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(ListEventsEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(RegisterSpeakerEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(LoginSpeakerEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(UpdateSpeakerProfileEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(GetSpeakerEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(ProposeTalkEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(GetTalkEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(ReviewTalkEndpoint)
+container.bind(Token.ENDPOINT).toConstantValue(ApproveTalkEndpoint)
 
 // Subscribers
 container.bind(TalkProposedSubscriber).toDynamicValue(TalkProposedSubscriber.create)

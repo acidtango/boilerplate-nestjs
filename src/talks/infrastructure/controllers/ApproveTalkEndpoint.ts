@@ -1,6 +1,6 @@
 import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.js'
 import { z } from '../../../shared/infrastructure/controllers/zod.js'
 import { ApproveTalk } from '../../use-cases/ApproveTalk.ts'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
@@ -42,4 +42,4 @@ export const ApproveTalkEndpoint = {
       return c.body(null, 200)
     }
   ),
-}
+} satisfies Endpoint

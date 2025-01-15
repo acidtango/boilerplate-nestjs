@@ -5,7 +5,7 @@ import { LoginSpeakerResponseDTO } from './dtos/LoginSpeakerResponseDTO.ts'
 import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
 import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
 import { LoginSpeaker } from '../../use-cases/LoginSpeaker.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 
 export const LoginSpeakerEndpoint = {
   method: 'post' as const,
@@ -37,4 +37,4 @@ export const LoginSpeakerEndpoint = {
       return c.json({ accessToken }, 200)
     }
   ),
-}
+} satisfies Endpoint

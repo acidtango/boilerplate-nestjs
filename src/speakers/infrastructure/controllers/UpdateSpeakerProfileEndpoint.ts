@@ -5,7 +5,7 @@ import { SpeakerName } from '../../domain/models/SpeakerName.ts'
 import { SpeakerAge } from '../../domain/models/SpeakerAge.ts'
 import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers.ts'
 import { UpdateSpeakerProfile } from '../../use-cases/UpdateSpeakerProfile.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 
@@ -50,4 +50,4 @@ export const UpdateSpeakerProfileEndpoint = {
       return c.body(null, 200)
     }
   ),
-}
+} satisfies Endpoint

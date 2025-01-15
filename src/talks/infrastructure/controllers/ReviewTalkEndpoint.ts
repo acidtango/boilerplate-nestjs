@@ -6,7 +6,7 @@ import { ReviewTalk } from '../../use-cases/ReviewTalk.ts'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO.ts'
 import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.ts'
 import { z } from '../../../shared/infrastructure/controllers/zod.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 
 const ParamsSchema = z.object({
   id: z
@@ -49,4 +49,4 @@ export const ReviewTalkEndpoint = {
       return c.body(null, 200)
     }
   ),
-}
+} satisfies Endpoint

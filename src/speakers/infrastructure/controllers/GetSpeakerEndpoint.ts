@@ -6,7 +6,7 @@ import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
 import type { SpeakerProfilePrimitives } from '../../domain/models/SpeakerProfile.ts'
 import { SpeakerProfileDTO } from './dtos/SpeakerProfileDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { z } from '../../../shared/infrastructure/controllers/zod.ts'
 
 const ParamsSchema = z.object({
@@ -59,7 +59,7 @@ export const GetSpeakerEndpoint = {
       )
     }
   ),
-}
+} satisfies Endpoint
 
 function mapProfileToDTO(
   profilePrimitives?: SpeakerProfilePrimitives

@@ -6,7 +6,7 @@ import { EventName } from '../../domain/models/EventName.ts'
 import { EventProposalsDateRange } from '../../domain/models/EventProposalsDateRange.ts'
 import { CreateEventRequestDTO } from './dtos/CreateEventRequestDTO.ts'
 import { CreateEvent } from '../../use-cases/CreateEvent.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 
 export const CreateEventEndpoint = {
   method: 'post' as const,
@@ -44,4 +44,4 @@ export const CreateEventEndpoint = {
       return c.body(null, 201)
     }
   ),
-}
+} satisfies Endpoint

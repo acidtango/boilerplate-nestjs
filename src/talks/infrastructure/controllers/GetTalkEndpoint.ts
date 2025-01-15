@@ -1,6 +1,6 @@
 import { describeRoute } from 'hono-openapi'
 import { TalkResponseDTO } from './dtos/TalkResponseDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { resolver, validator } from 'hono-openapi/zod'
 import { z } from '../../../shared/infrastructure/controllers/zod.ts'
 import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.ts'
@@ -50,4 +50,4 @@ export const GetTalkEndpoint = {
       return c.json(talkPrimitives)
     }
   ),
-}
+} satisfies Endpoint

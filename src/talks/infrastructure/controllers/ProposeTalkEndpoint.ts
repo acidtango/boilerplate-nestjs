@@ -1,7 +1,7 @@
 import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { ProposeTalk } from '../../use-cases/ProposeTalk.ts'
 import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
 import { TalkTitle } from '../../domain/models/TalkTitle.ts'
@@ -40,4 +40,4 @@ export const ProposeTalkEndpoint = {
       return c.body(null, 201)
     }
   ),
-}
+} satisfies Endpoint
