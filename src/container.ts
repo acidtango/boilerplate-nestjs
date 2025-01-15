@@ -21,6 +21,7 @@ import { EmailSenderFake } from '../test/fakes/EmailSenderFake.ts'
 import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEventMapper/DomainEventMapperFake.ts'
 import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.ts'
 import { ReviewTalk } from './talks/use-cases/ReviewTalk.ts'
+import { ApproveTalk } from './talks/use-cases/ApproveTalk.js'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -36,6 +37,7 @@ container.bind(ListEvents).toDynamicValue(ListEvents.create)
 container.bind(ProposeTalk).toDynamicValue(ProposeTalk.create)
 container.bind(GetTalk).toDynamicValue(GetTalk.create)
 container.bind(ReviewTalk).toDynamicValue(ReviewTalk.create)
+container.bind(ApproveTalk).toDynamicValue(ApproveTalk.create)
 
 // Subscribers
 container.bind(TalkProposedSubscriber).toDynamicValue(TalkProposedSubscriber.create)

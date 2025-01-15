@@ -211,6 +211,23 @@ export class TestClient {
       res,
     }
   }
+
+  async approveTalk({ id = JUNIOR_XP.id }) {
+    const res = await this.app.request(`/api/v1/talks/${id}/approve`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        isApproved: true,
+      }),
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      res,
+    }
+  }
 }
 
 export async function createClient() {

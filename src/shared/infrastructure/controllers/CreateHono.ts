@@ -11,6 +11,7 @@ import { GetSpeakerEndpoint } from '../../../speakers/infrastructure/controllers
 import { ProposeTalkEndpoint } from '../../../talks/infrastructure/controllers/ProposeTalkEndpoint.ts'
 import { GetTalkEndpoint } from '../../../talks/infrastructure/controllers/GetTalkEndpoint.ts'
 import { ReviewTalkEndpoint } from '../../../talks/infrastructure/controllers/ReviewTalkEndpoint.ts'
+import { ApproveTalkEndpoint } from '../../../talks/infrastructure/controllers/ApproveTalkEndpoint.js'
 
 declare module 'hono' {
   interface ContextVariableMap {
@@ -41,6 +42,7 @@ export function createHono({ container }: interfaces.Context) {
   app[ProposeTalkEndpoint.method](ProposeTalkEndpoint.path, ...ProposeTalkEndpoint.handlers)
   app[GetTalkEndpoint.method](GetTalkEndpoint.path, ...GetTalkEndpoint.handlers)
   app[ReviewTalkEndpoint.method](ReviewTalkEndpoint.path, ...ReviewTalkEndpoint.handlers)
+  app[ApproveTalkEndpoint.method](ApproveTalkEndpoint.path, ...ApproveTalkEndpoint.handlers)
   // listEvents(app)
 
   return app
