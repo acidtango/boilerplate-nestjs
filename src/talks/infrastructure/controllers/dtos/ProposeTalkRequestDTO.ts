@@ -2,7 +2,7 @@ import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks.ts'
 import { Language } from '../../../../shared/domain/models/Language.ts'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events.ts'
-import { z } from '../../../../shared/infrastructure/controllers/zod.js'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 
 export const ProposeTalkRequestDTO = z
   .object({

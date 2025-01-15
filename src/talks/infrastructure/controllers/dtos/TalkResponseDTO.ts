@@ -4,7 +4,7 @@ import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speak
 import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks.ts'
 import { Language } from '../../../../shared/domain/models/Language.ts'
 import { TalkStatus } from '../../../domain/models/TalkStatus.ts'
-import { z } from '../../../../shared/infrastructure/controllers/zod.js'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 
 export const TalkResponseDTO = z.object({
   id: z.string().uuid().openapi({ example: JUNIOR_XP.id }),

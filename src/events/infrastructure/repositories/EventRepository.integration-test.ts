@@ -5,7 +5,7 @@ import type { Reseteable } from '../../../shared/infrastructure/repositories/Res
 import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
 import { EventRepositoryMemory } from './EventRepositoryMemory.ts'
-import { EventRepositoryMongo } from './EventRepositoryMongo.js'
+import { EventRepositoryMongo } from './EventRepositoryMongo.ts'
 import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay.ts'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion.ts'
 import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'

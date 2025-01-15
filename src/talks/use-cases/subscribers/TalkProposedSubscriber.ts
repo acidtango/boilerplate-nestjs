@@ -10,7 +10,7 @@ import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts
 import { TalkFinder } from '../../domain/services/TalkFinder.ts'
 import type { SpeakerRepository } from '../../../speakers/domain/repositories/SpeakerRepository.ts'
 import { SpeakerFinder } from '../../../speakers/domain/services/SpeakerFinder.ts'
-import type { DomainEvent } from '../../../shared/domain/events/DomainEvent.js'
+import type { DomainEvent } from '../../../shared/domain/events/DomainEvent.ts'
 
 export class TalkProposedSubscriber extends DomainEventSubscriber<TalkProposed> {
   private readonly talkFinder: TalkFinder

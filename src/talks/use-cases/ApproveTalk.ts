@@ -3,7 +3,7 @@ import { TalkId } from '../../shared/domain/models/ids/TalkId.ts'
 import type { TalkRepository } from '../domain/repositories/TalkRepository.ts'
 import { TalkFinder } from '../domain/services/TalkFinder.ts'
 import type { interfaces } from 'inversify'
-import { Token } from '../../shared/domain/services/Token.js'
+import { Token } from '../../shared/domain/services/Token.ts'
 
 export class ApproveTalk extends UseCase {
   private readonly talkFinder: TalkFinder

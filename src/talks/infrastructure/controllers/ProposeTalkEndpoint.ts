@@ -1,13 +1,13 @@
 import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
-import { ProposeTalk } from '../../use-cases/ProposeTalk.js'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId.js'
-import { TalkTitle } from '../../domain/models/TalkTitle.js'
-import { TalkDescription } from '../../domain/models/TalkDescription.js'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.js'
-import { EventId } from '../../../shared/domain/models/ids/EventId.js'
+import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { ProposeTalk } from '../../use-cases/ProposeTalk.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import { TalkTitle } from '../../domain/models/TalkTitle.ts'
+import { TalkDescription } from '../../domain/models/TalkDescription.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
 
 export const ProposeTalkEndpoint = {
   method: 'post' as const,

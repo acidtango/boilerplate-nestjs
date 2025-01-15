@@ -13,7 +13,7 @@ import {
 import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
 import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
 import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
-import type { EmailSenderFake } from '../fakes/EmailSenderFake.js'
+import type { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
 
 export class TestClient {
   public readonly container: Container

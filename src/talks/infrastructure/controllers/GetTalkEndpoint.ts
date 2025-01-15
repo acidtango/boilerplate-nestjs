@@ -1,11 +1,11 @@
 import { describeRoute } from 'hono-openapi'
 import { TalkResponseDTO } from './dtos/TalkResponseDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { resolver, validator } from 'hono-openapi/zod'
-import { z } from '../../../shared/infrastructure/controllers/zod.js'
-import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.js'
-import { GetTalk } from '../../use-cases/GetTalk.js'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId.js'
+import { z } from '../../../shared/infrastructure/controllers/zod.ts'
+import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.ts'
+import { GetTalk } from '../../use-cases/GetTalk.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
 
 const ParamsSchema = z.object({
   id: z

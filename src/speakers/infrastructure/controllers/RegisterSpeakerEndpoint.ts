@@ -3,7 +3,7 @@ import { RegisterSpeakerRequestDTO } from './dtos/RegisterSpeakerRequestDTO.ts'
 import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
 import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 

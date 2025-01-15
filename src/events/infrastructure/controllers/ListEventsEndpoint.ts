@@ -2,7 +2,7 @@ import { resolver } from 'hono-openapi/zod'
 import { z } from '../../../shared/infrastructure/controllers/zod.ts'
 import { ListEvents } from '../../use-cases/ListEvents.ts'
 import { EventResponseDTO } from './dtos/EventResponseDTO.ts'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
 import { describeRoute } from 'hono-openapi'
 
 export const ListEventsEndpoint = {

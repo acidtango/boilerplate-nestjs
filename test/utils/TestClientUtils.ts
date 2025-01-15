@@ -1,6 +1,6 @@
 import { TestClient } from './TestClient.ts'
 import type { Container } from 'inversify'
-import { Token } from '../../src/shared/domain/services/Token.js'
+import { Token } from '../../src/shared/domain/services/Token.ts'
 
 export class TestClientUtils extends TestClient {
   public static async create(container: Container) {

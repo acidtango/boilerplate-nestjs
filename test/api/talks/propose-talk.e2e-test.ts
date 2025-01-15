@@ -3,7 +3,7 @@ import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/even
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks.ts'
 import { createClient } from '../../utils/createClient.ts'
-import { waitFor } from '../../utils/waitFor.js'
+import { waitFor } from '../../utils/waitFor.ts'
 
 beforeEach(async () => {
   const client = await createClient()

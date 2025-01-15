@@ -10,7 +10,7 @@ import { UpdateSpeakerProfileEndpoint } from '../../../speakers/infrastructure/c
 import { GetSpeakerEndpoint } from '../../../speakers/infrastructure/controllers/GetSpeakerEndpoint.ts'
 import { ProposeTalkEndpoint } from '../../../talks/infrastructure/controllers/ProposeTalkEndpoint.ts'
 import { GetTalkEndpoint } from '../../../talks/infrastructure/controllers/GetTalkEndpoint.ts'
-import { ReviewTalkEndpoint } from '../../../talks/infrastructure/controllers/ReviewTalkEndpoint.js'
+import { ReviewTalkEndpoint } from '../../../talks/infrastructure/controllers/ReviewTalkEndpoint.ts'
 
 declare module 'hono' {
   interface ContextVariableMap {

@@ -5,8 +5,8 @@ import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
 import { ReviewTalk } from '../../use-cases/ReviewTalk.ts'
 import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO.ts'
 import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.ts'
-import { z } from '../../../shared/infrastructure/controllers/zod.js'
-import { factory } from '../../../shared/infrastructure/controllers/factory.js'
+import { z } from '../../../shared/infrastructure/controllers/zod.ts'
+import { factory } from '../../../shared/infrastructure/controllers/factory.ts'
 
 const ParamsSchema = z.object({
   id: z

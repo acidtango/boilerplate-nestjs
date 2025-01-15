@@ -3,8 +3,8 @@ import { type DomainEventMapper, type SubscribersAndEvent } from './DomainEventM
 import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber.ts'
 import { DomainEvent } from '../../../domain/events/DomainEvent.ts'
 import { TalkProposed } from '../../../../talks/domain/events/TalkProposed.ts'
-import { TalkProposedSubscriber } from '../../../../talks/use-cases/subscribers/TalkProposedSubscriber.js'
-import { DomainEventCode } from '../../../domain/events/DomainEventCode.js'
+import { TalkProposedSubscriber } from '../../../../talks/use-cases/subscribers/TalkProposedSubscriber.ts'
+import { DomainEventCode } from '../../../domain/events/DomainEventCode.ts'
 
 export class DomainEventMapperFake implements DomainEventMapper {
   public static create({ container }: interfaces.Context) {

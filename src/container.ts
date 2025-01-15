@@ -17,10 +17,10 @@ import { EventRepositoryMemory } from './events/infrastructure/repositories/Even
 import { TalkRepositoryMemory } from './talks/infrastructure/repositories/TalkRepositoryMemory.ts'
 import { ProposeTalk } from './talks/use-cases/ProposeTalk.ts'
 import { GetTalk } from './talks/use-cases/GetTalk.ts'
-import { EmailSenderFake } from '../test/fakes/EmailSenderFake.js'
-import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEventMapper/DomainEventMapperFake.js'
-import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.js'
-import { ReviewTalk } from './talks/use-cases/ReviewTalk.js'
+import { EmailSenderFake } from '../test/fakes/EmailSenderFake.ts'
+import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEventMapper/DomainEventMapperFake.ts'
+import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.ts'
+import { ReviewTalk } from './talks/use-cases/ReviewTalk.ts'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
