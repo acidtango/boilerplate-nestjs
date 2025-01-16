@@ -33,7 +33,7 @@
     "run-checks": "yarn typecheck && yarn format:check && yarn lint:check"
   },
   "engines": {
-    "node": "^20.11.0",
+    "node": "^22.13.0",
     "yarn": "~1.22.19"
   },
   "dependencies": {
