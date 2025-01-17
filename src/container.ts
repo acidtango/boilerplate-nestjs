@@ -17,7 +17,6 @@ import {
 import { createHono } from './shared/infrastructure/controllers/CreateHono.ts'
 import { ProposeTalk } from './talks/use-cases/ProposeTalk.ts'
 import { GetTalk } from './talks/use-cases/GetTalk.ts'
-import { EmailSenderFake } from '../test/fakes/EmailSenderFake.ts'
 import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEventMapper/DomainEventMapperFake.ts'
 import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.ts'
 import { ReviewTalk } from './talks/use-cases/ReviewTalk.ts'
@@ -36,6 +35,7 @@ import { SpeakerRepositoryMongo } from './speakers/infrastructure/repositories/S
 import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.ts'
 import { TalkRepositoryMongo } from './talks/infrastructure/repositories/TalkRepositoryMongo.ts'
 import { config } from './shared/infrastructure/config.ts'
+import { EmailSenderNoop } from './shared/infrastructure/email/EmailSenderNoop.ts'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -77,7 +77,7 @@ container.bind(Token.TALK_REPOSITORY).toDynamicValue(TalkRepositoryMongo.create)
 container.bind(Token.CRYPTO).toConstantValue(new CryptoNode())
 container.bind(Token.CLOCK).toConstantValue(new ClockFake())
 container.bind(Token.EVENT_BUS).toDynamicValue(EventBusMemory.create)
-container.bind(Token.EMAIL_SENDER).toConstantValue(new EmailSenderFake())
+container.bind(Token.EMAIL_SENDER).toConstantValue(new EmailSenderNoop())
 container.bind(Token.DOMAIN_EVENT_MAPPER).toDynamicValue(DomainEventMapperFake.create)
 
 // Libraries
