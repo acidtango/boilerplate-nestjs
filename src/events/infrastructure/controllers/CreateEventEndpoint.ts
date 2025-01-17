@@ -13,11 +13,13 @@ export const CreateEventEndpoint = {
   path: '/api/v1/events',
   handlers: factory.createHandlers(
     describeRoute({
-      description: 'Creates an event',
+      summary: 'Create a new event',
+      description:
+        'This endpoint allows the user to create a new event in the Codetalk platform. An event represents a conference, meetup, or similar gathering where sessions can be scheduled, and speakers can participate. The user provides the event details, including its name, date, location, and other relevant information. Upon successful creation, the API returns the details of the newly created event.',
       tags: ['Events'],
       responses: {
         201: {
-          description: 'Event created',
+          description: 'The event was successfully created',
         },
       },
     }),
@@ -27,14 +29,8 @@ export const CreateEventEndpoint = {
       const body = c.req.valid('json')
       const id = EventId.fromPrimitives(body.id)
       const name = EventName.fromPrimitives(body.name)
-      const dateRange = EventDateRange.fromPrimitives({
-        startDate: new Date(body.dateRange.startDate),
-        endDate: new Date(body.dateRange.endDate),
-      })
-      const proposalsDateRange = EventProposalsDateRange.fromPrimitives({
-        startDate: new Date(body.proposalsDateRange.startDate),
-        deadline: new Date(body.proposalsDateRange.deadline),
-      })
+      const dateRange = EventDateRange.fromPrimitives(body.dateRange)
+      const proposalsDateRange = EventProposalsDateRange.fromPrimitives(body.proposalsDateRange)
       await createEvent.execute({
         id,
         name,

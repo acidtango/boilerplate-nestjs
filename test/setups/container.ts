@@ -5,11 +5,14 @@ import type { MongoOptions } from '../../src/shared/infrastructure/repositories/
 import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory.ts'
 import { SpeakerRepositoryMemory } from '../../src/speakers/infrastructure/repositories/SpeakerRepositoryMemory.ts'
 import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory.ts'
+import { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
 
 prodContainer.rebind(Token.DB_CONFIG).toConstantValue({
   ...config.db,
   database: 'test-' + process.env.VITEST_POOL_ID,
 } satisfies MongoOptions)
+
+prodContainer.rebind(Token.EMAIL_SENDER).toConstantValue(new EmailSenderFake())
 
 if (!config.forceEnableORMRepositories) {
   prodContainer.rebind(Token.EVENT_REPOSITORY).toDynamicValue(EventRepositoryMemory.create)

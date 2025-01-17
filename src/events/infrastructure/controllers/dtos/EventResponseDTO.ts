@@ -10,4 +10,8 @@ export const EventResponseDTO = z
     dateRange: DateRangeDTO,
     proposalsDateRange: ProposalDateRangeDTO,
   })
-  .openapi('EventResponseDTO')
+  .openapi({
+    ref: 'EventResponse',
+    description:
+      "Represents the detailed information of an event in the Codetalk platform. This includes the event's unique identifier, name, duration, and the time frame during which proposals can be submitted. It serves as the response structure for endpoints that provide event data.",
+  })

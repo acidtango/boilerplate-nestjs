@@ -1,13 +1,18 @@
 import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 import { DateRangeDTO } from './DateRangeDTO.ts'
 import { ProposalDateRangeDTO as ProposalDateRangeDTO } from './ProposalDateRangeDTO.ts'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events.ts'
+import { EventIdDTO } from './EventIdDTO.ts'
+import { EventNameDTO } from './EventNameDTO.ts'
 
 export const CreateEventRequestDTO = z
   .object({
-    id: z.string().uuid().openapi({ example: JSDAY_CANARIAS.id }),
-    name: z.string().openapi({ example: JSDAY_CANARIAS.name }),
+    id: EventIdDTO,
+    name: EventNameDTO,
     dateRange: DateRangeDTO,
     proposalsDateRange: ProposalDateRangeDTO,
   })
-  .openapi('CreateEventRequestDTO')
+  .openapi({
+    ref: 'CreateEventRequest',
+    description:
+      "Represents the structure of the request payload for creating a new event in the Codetalk platform. This includes the event's unique identifier, name, duration, and the proposal submission period",
+  })
