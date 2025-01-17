@@ -1,8 +1,8 @@
 import type { interfaces } from 'inversify'
 import { Hono } from 'hono'
 import { containerMiddleware } from './ContainerMiddleware.ts'
-import { Token } from '../../domain/services/Token.js'
-import type { Endpoint } from './factory.js'
+import { Token } from '../../domain/services/Token.ts'
+import type { Endpoint } from './factory.ts'
 
 declare module 'hono' {
   interface ContextVariableMap {

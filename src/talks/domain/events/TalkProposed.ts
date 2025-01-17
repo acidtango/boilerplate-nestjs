@@ -9,6 +9,8 @@ type TalkProposedPrimitives = Primitives<TalkProposed>
 export class TalkProposed extends DomainEvent {
   public static readonly code = DomainEventCode.TALK_PROPOSED
 
+  public readonly talkId: TalkId
+
   public static fromPrimitives(primitives: TalkProposedPrimitives) {
     return new TalkProposed(
       TalkId.fromPrimitives(primitives.talkId),
@@ -21,12 +23,9 @@ export class TalkProposed extends DomainEvent {
     return new TalkProposed(talkId)
   }
 
-  private constructor(
-    public readonly talkId: TalkId,
-    eventId?: DomainId,
-    occurredAt?: Date
-  ) {
+  private constructor(talkId: TalkId, eventId?: DomainId, occurredAt?: Date) {
     super(DomainEventCode.TALK_PROPOSED, eventId, occurredAt)
+    this.talkId = talkId
   }
 
   toPrimitives() {

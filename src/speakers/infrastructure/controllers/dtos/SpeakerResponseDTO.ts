@@ -1,4 +1,4 @@
-import { z } from '@hono/zod-openapi'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 import { SpeakerProfileDTO } from './SpeakerProfileDTO.ts'
 

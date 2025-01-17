@@ -1,8 +1,6 @@
 import { expect } from 'vitest'
 import { MongoClient } from 'mongodb'
-import type { OpenAPIHono } from '@hono/zod-openapi'
 import type { Container } from 'inversify'
-import { container } from '../../src/container.ts'
 import type { Clock } from '../../src/shared/domain/services/Clock.ts'
 import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers.ts'
 import { Token } from '../../src/shared/domain/services/Token.ts'
@@ -14,18 +12,18 @@ import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.
 import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
 import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
 import type { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
+import { container } from '../setups/container.ts'
+import type { Hono } from 'hono'
 
 export class TestClient {
   public readonly container: Container
-  private app: OpenAPIHono
+  private app: Hono
 
   public static async create(container: Container) {
-    console.log(process.env.USE_MONGO_REPOSITORIES)
-
     return new TestClient(await container.getAsync(Token.APP), container)
   }
 
-  constructor(app: OpenAPIHono, container: Container) {
+  constructor(app: Hono, container: Container) {
     this.app = app
     this.container = container
   }
@@ -106,7 +104,6 @@ export class TestClient {
         language: CONCHA_ASENSIO.language,
       }),
     })
-    console.log(await res.text())
     expect(res.status).toBe(200)
     return {
       status: res.status,

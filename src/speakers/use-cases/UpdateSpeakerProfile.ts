@@ -17,10 +17,12 @@ export type UpdateSpeakerProfileParams = {
 }
 
 export class UpdateSpeakerProfile extends UseCase {
-  public static create({ container }: interfaces.Context) {
+  public static async create({ container }: interfaces.Context) {
     return new UpdateSpeakerProfile(
-      container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
-      container.get<EventBus>(Token.EVENT_BUS)
+      ...(await Promise.all([
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+        container.getAsync<EventBus>(Token.EVENT_BUS),
+      ]))
     )
   }
 

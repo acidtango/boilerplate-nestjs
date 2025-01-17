@@ -4,8 +4,11 @@ import { TalkTitleTooLongError } from '../errors/TalkTitleTooLongError.ts'
 export class TalkTitle extends ValueObject {
   private static readonly MAX_LENGTH = 100
 
-  constructor(private readonly title: string) {
+  private readonly title: string
+
+  constructor(title: string) {
     super()
+    this.title = title
     this.ensureIsNotTooLong()
   }
 

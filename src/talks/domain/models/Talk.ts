@@ -17,6 +17,16 @@ import { TalkProposed } from '../events/TalkProposed.ts'
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
+  private readonly id: TalkId
+  private readonly title: TalkTitle
+  private readonly description: TalkDescription
+  private readonly language: Language
+  private readonly cospeakers: SpeakerId[]
+  private readonly speakerId: SpeakerId
+  private readonly eventId: EventId
+  private reviewerId?: OrganizerId
+  private isApproved?: boolean
+
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const {
       id,
@@ -60,17 +70,26 @@ export class Talk extends AggregateRoot {
   }
 
   private constructor(
-    private readonly id: TalkId,
-    private readonly title: TalkTitle,
-    private readonly description: TalkDescription,
-    private readonly language: Language,
-    private readonly cospeakers: SpeakerId[],
-    private readonly speakerId: SpeakerId,
-    private readonly eventId: EventId,
-    private reviewerId?: OrganizerId,
-    private isApproved?: boolean
+    id: TalkId,
+    title: TalkTitle,
+    description: TalkDescription,
+    language: Language,
+    cospeakers: SpeakerId[],
+    speakerId: SpeakerId,
+    eventId: EventId,
+    reviewerId?: OrganizerId,
+    isApproved?: boolean
   ) {
     super()
+    this.id = id
+    this.title = title
+    this.description = description
+    this.language = language
+    this.cospeakers = cospeakers
+    this.speakerId = speakerId
+    this.eventId = eventId
+    this.reviewerId = reviewerId
+    this.isApproved = isApproved
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
   }
 

@@ -30,22 +30,30 @@ export class ProposeTalk extends UseCase {
 
   private readonly eventFinder: EventFinder
 
-  public static create({ container }: interfaces.Context) {
+  private readonly eventBus: EventBus
+
+  private readonly talkRepository: TalkRepository
+
+  public static async create({ container }: interfaces.Context) {
     return new ProposeTalk(
-      container.get<EventBus>(Token.EVENT_BUS),
-      container.get<TalkRepository>(Token.TALK_REPOSITORY),
-      container.get<EventRepository>(Token.EVENT_REPOSITORY),
-      container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY)
+      ...(await Promise.all([
+        container.get<EventBus>(Token.EVENT_BUS),
+        container.getAsync<TalkRepository>(Token.TALK_REPOSITORY),
+        container.getAsync<EventRepository>(Token.EVENT_REPOSITORY),
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+      ]))
     )
   }
 
   constructor(
-    private readonly eventBus: EventBus,
-    private readonly talkRepository: TalkRepository,
-    private readonly eventRepository: EventRepository, // TODO: unused
+    eventBus: EventBus,
+    talkRepository: TalkRepository,
+    eventRepository: EventRepository,
     speakerRepository: SpeakerRepository
   ) {
     super()
+    this.eventBus = eventBus
+    this.talkRepository = talkRepository
     this.speakerFinder = new SpeakerFinder(speakerRepository)
     this.eventFinder = new EventFinder(eventRepository)
   }

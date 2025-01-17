@@ -6,8 +6,8 @@ import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError.ts'
 import { Token } from '../../shared/domain/services/Token.ts'
 
 export class GetSpeaker {
-  public static create({ container }: interfaces.Context) {
-    return new GetSpeaker(container.get(Token.SPEAKER_REPOSITORY))
+  public static async create({ container }: interfaces.Context) {
+    return new GetSpeaker(await container.get(Token.SPEAKER_REPOSITORY))
   }
 
   private readonly speakerRepository: SpeakerRepository

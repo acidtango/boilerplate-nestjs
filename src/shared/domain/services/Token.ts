@@ -9,6 +9,7 @@ export const Token = {
   CLOCK: 'CLOCK',
   CRYPTO: 'CRYPTO',
   EMAIL_SENDER: 'EMAIL_SENDER',
+  DB_CONFIG: 'DB_CONFIG',
 } as const
 
 export type Token = (typeof Token)[keyof typeof Token]

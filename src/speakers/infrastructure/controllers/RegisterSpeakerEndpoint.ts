@@ -8,7 +8,7 @@ import { describeRoute } from 'hono-openapi'
 import { validator } from 'hono-openapi/zod'
 
 export const RegisterSpeakerEndpoint = {
-  method: 'post' as const,
+  method: 'post',
   path: '/api/v1/speakers/registration',
   handlers: factory.createHandlers(
     describeRoute({

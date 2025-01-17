@@ -6,8 +6,8 @@ import type { Reseteable } from '../../../shared/infrastructure/repositories/Res
 import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts'
 import { BindingScopeEnum, Container } from 'inversify'
 import { MongoClient } from 'mongodb'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.js'
-import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
+import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
 describe('TalkRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })

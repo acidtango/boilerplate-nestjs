@@ -15,7 +15,8 @@
     "typecheck": "tsc",
     "test:unitary": "vitest --config ./test/config/vitest.unitary.ts",
     "test:integration": "vitest --config ./test/config/vitest.integration.ts",
-    "test:e2e": "vitest --config ./test/config/vitest.e2e-db.ts"
+    "test:e2e:db": "vitest --config ./test/config/vitest.e2e-db.ts",
+    "test:memory": "vitest --config ./test/config/vitest.memory.ts"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +24,6 @@
   "dependencies": {
     "@hono/node-server": "^1.12.0",
     "@hono/swagger-ui": "^0.4.0",
-    "@hono/zod-openapi": "^0.15.3",
     "hono": "^4.5.5",
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -38,7 +38,7 @@
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1",
-    "vitest": "^2.1.8",
+    "vitest": "^3.0.1",
     "zod": "^3.24.1",
     "zod-openapi": "^4.2.2"
   }

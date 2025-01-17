@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
 import { BindingScopeEnum, Container } from 'inversify'
 import { RegisterSpeaker } from './speakers/use-cases/RegisterSpeaker.ts'
 import { ClockFake } from './shared/infrastructure/services/clock/ClockFake.ts'
@@ -10,7 +10,10 @@ import { UpdateSpeakerProfile } from './speakers/use-cases/UpdateSpeakerProfile.
 import { GetSpeaker } from './speakers/use-cases/GetSpeaker.ts'
 import { CreateEvent } from './events/use-cases/CreateEvent.ts'
 import { ListEvents } from './events/use-cases/ListEvents.ts'
-import { createMongoClient } from './shared/infrastructure/repositories/CreateMongoClient.ts'
+import {
+  createDb,
+  createMongoClient,
+} from './shared/infrastructure/repositories/CreateMongoClient.ts'
 import { createHono } from './shared/infrastructure/controllers/CreateHono.ts'
 import { ProposeTalk } from './talks/use-cases/ProposeTalk.ts'
 import { GetTalk } from './talks/use-cases/GetTalk.ts'
@@ -18,20 +21,21 @@ import { EmailSenderFake } from '../test/fakes/EmailSenderFake.ts'
 import { DomainEventMapperFake } from './shared/infrastructure/events/DomainEventMapper/DomainEventMapperFake.ts'
 import { TalkProposedSubscriber } from './talks/use-cases/subscribers/TalkProposedSubscriber.ts'
 import { ReviewTalk } from './talks/use-cases/ReviewTalk.ts'
-import { ApproveTalk } from './talks/use-cases/ApproveTalk.js'
-import { CreateEventEndpoint } from './events/infrastructure/controllers/CreateEventEndpoint.js'
-import { ListEventsEndpoint } from './events/infrastructure/controllers/ListEventsEndpoint.js'
-import { RegisterSpeakerEndpoint } from './speakers/infrastructure/controllers/RegisterSpeakerEndpoint.js'
-import { LoginSpeakerEndpoint } from './speakers/infrastructure/controllers/LoginSpeakerEndpoint.js'
-import { UpdateSpeakerProfileEndpoint } from './speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.js'
-import { GetSpeakerEndpoint } from './speakers/infrastructure/controllers/GetSpeakerEndpoint.js'
-import { ProposeTalkEndpoint } from './talks/infrastructure/controllers/ProposeTalkEndpoint.js'
-import { GetTalkEndpoint } from './talks/infrastructure/controllers/GetTalkEndpoint.js'
-import { ReviewTalkEndpoint } from './talks/infrastructure/controllers/ReviewTalkEndpoint.js'
-import { ApproveTalkEndpoint } from './talks/infrastructure/controllers/ApproveTalkEndpoint.js'
-import { SpeakerRepositoryMongo } from './speakers/infrastructure/repositories/SepakerRepositoryMongo.js'
-import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.js'
-import { TalkRepositoryMongo } from './talks/infrastructure/repositories/TalkRepositoryMongo.js'
+import { ApproveTalk } from './talks/use-cases/ApproveTalk.ts'
+import { CreateEventEndpoint } from './events/infrastructure/controllers/CreateEventEndpoint.ts'
+import { ListEventsEndpoint } from './events/infrastructure/controllers/ListEventsEndpoint.ts'
+import { RegisterSpeakerEndpoint } from './speakers/infrastructure/controllers/RegisterSpeakerEndpoint.ts'
+import { LoginSpeakerEndpoint } from './speakers/infrastructure/controllers/LoginSpeakerEndpoint.ts'
+import { UpdateSpeakerProfileEndpoint } from './speakers/infrastructure/controllers/UpdateSpeakerProfileEndpoint.ts'
+import { GetSpeakerEndpoint } from './speakers/infrastructure/controllers/GetSpeakerEndpoint.ts'
+import { ProposeTalkEndpoint } from './talks/infrastructure/controllers/ProposeTalkEndpoint.ts'
+import { GetTalkEndpoint } from './talks/infrastructure/controllers/GetTalkEndpoint.ts'
+import { ReviewTalkEndpoint } from './talks/infrastructure/controllers/ReviewTalkEndpoint.ts'
+import { ApproveTalkEndpoint } from './talks/infrastructure/controllers/ApproveTalkEndpoint.ts'
+import { SpeakerRepositoryMongo } from './speakers/infrastructure/repositories/SepakerRepositoryMongo.ts'
+import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.ts'
+import { TalkRepositoryMongo } from './talks/infrastructure/repositories/TalkRepositoryMongo.ts'
+import { config } from './shared/infrastructure/config.ts'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
 
@@ -78,6 +82,8 @@ container.bind(Token.DOMAIN_EVENT_MAPPER).toDynamicValue(DomainEventMapperFake.c
 
 // Libraries
 container.bind(MongoClient).toDynamicValue(createMongoClient)
+container.bind(Db).toDynamicValue(createDb)
+container.bind(Token.DB_CONFIG).toConstantValue(config.db)
 
 // Hono
 container.bind(Token.APP).toDynamicValue(createHono)

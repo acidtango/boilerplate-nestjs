@@ -5,11 +5,15 @@ import type { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper.t
 import { Token } from '../../../domain/services/Token.ts'
 
 export class EventBusMemory implements EventBus {
-  public static create({ container }: interfaces.Context) {
-    return new EventBusMemory(container.get(Token.DOMAIN_EVENT_MAPPER))
+  public static async create({ container }: interfaces.Context) {
+    return new EventBusMemory(await container.getAsync(Token.DOMAIN_EVENT_MAPPER))
   }
 
-  constructor(private readonly domainEventMapper: DomainEventMapper) {}
+  private readonly domainEventMapper: DomainEventMapper
+
+  constructor(domainEventMapper: DomainEventMapper) {
+    this.domainEventMapper = domainEventMapper
+  }
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
     for await (const event of domainEvents) {

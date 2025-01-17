@@ -4,8 +4,11 @@ import { TalkDescriptionTooLongError } from '../errors/TalkDescriptionTooLongErr
 export class TalkDescription extends ValueObject {
   private static readonly MAX_LENGTH = 1000
 
-  constructor(private readonly description: string) {
+  private readonly description: string
+
+  constructor(description: string) {
     super()
+    this.description = description
     this.ensureIsNotTooLong()
   }
 

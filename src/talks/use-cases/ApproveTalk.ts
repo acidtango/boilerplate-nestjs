@@ -8,12 +8,15 @@ import { Token } from '../../shared/domain/services/Token.ts'
 export class ApproveTalk extends UseCase {
   private readonly talkFinder: TalkFinder
 
+  private readonly talkRepository: TalkRepository
+
   public static create({ container }: interfaces.Context) {
     return new ApproveTalk(container.get(Token.TALK_REPOSITORY))
   }
 
-  constructor(private readonly talkRepository: TalkRepository) {
+  constructor(talkRepository: TalkRepository) {
     super()
+    this.talkRepository = talkRepository
     this.talkFinder = new TalkFinder(talkRepository)
   }
 

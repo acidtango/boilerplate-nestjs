@@ -12,8 +12,8 @@ import {
   conchaId,
   conchaSpeaker,
 } from '../../../../test/mother/SpeakerMother/Concha.ts'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.js'
-import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
+import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
 describe('SpeakerRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })

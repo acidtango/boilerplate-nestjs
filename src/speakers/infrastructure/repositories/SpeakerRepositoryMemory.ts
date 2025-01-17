@@ -3,7 +3,7 @@ import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
 import { Speaker, type SpeakerPrimitives } from '../../domain/models/Speaker.ts'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
 import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
-import type { Closable } from '../../../shared/infrastructure/repositories/Closable.js'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
 export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable, Closable {
   public static create() {

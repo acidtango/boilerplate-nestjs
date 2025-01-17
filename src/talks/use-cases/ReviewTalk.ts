@@ -14,6 +14,8 @@ export type ReviewTalkParams = {
 
 export class ReviewTalk extends UseCase {
   private readonly talkFinder: TalkFinder
+  private readonly eventBus: EventBus
+  private readonly talkRepository: TalkRepository
 
   public static create({ container }: interfaces.Context) {
     return new ReviewTalk(
@@ -22,11 +24,10 @@ export class ReviewTalk extends UseCase {
     )
   }
 
-  constructor(
-    private readonly eventBus: EventBus,
-    private readonly talkRepository: TalkRepository
-  ) {
+  constructor(eventBus: EventBus, talkRepository: TalkRepository) {
     super()
+    this.eventBus = eventBus
+    this.talkRepository = talkRepository
     this.talkFinder = new TalkFinder(talkRepository)
   }
 

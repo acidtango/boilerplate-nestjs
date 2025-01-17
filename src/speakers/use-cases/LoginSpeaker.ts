@@ -16,8 +16,11 @@ export type LoginSpeakerParams = {
 }
 
 export class LoginSpeaker {
-  static create({ container }: interfaces.Context) {
-    return new LoginSpeaker(container.get(Token.SPEAKER_REPOSITORY), container.get(Token.CLOCK))
+  static async create({ container }: interfaces.Context) {
+    return new LoginSpeaker(
+      await container.getAsync(Token.SPEAKER_REPOSITORY),
+      container.get(Token.CLOCK)
+    )
   }
 
   private readonly speakerRepository: SpeakerRepository

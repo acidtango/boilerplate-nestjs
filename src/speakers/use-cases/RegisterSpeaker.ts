@@ -17,11 +17,13 @@ export type RegisterSpeakerParams = {
 }
 
 export class RegisterSpeaker {
-  public static create({ container }: interfaces.Context) {
+  public static async create({ container }: interfaces.Context) {
     return new RegisterSpeaker(
-      container.get(Token.SPEAKER_REPOSITORY),
-      container.get(Token.CRYPTO),
-      container.get(Token.EVENT_BUS)
+      ...(await Promise.all([
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+        container.getAsync<Crypto>(Token.CRYPTO),
+        container.getAsync<EventBus>(Token.EVENT_BUS),
+      ]))
     )
   }
 

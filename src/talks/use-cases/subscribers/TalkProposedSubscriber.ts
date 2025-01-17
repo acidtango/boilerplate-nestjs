@@ -17,20 +17,25 @@ export class TalkProposedSubscriber extends DomainEventSubscriber<TalkProposed> 
 
   private readonly speakerFinder: SpeakerFinder
 
-  public static create({ container }: interfaces.Context) {
+  private readonly emailSender: EmailSender
+
+  public static async create({ container }: interfaces.Context) {
     return new TalkProposedSubscriber(
-      container.get(Token.EMAIL_SENDER),
-      container.get(Token.TALK_REPOSITORY),
-      container.get(Token.SPEAKER_REPOSITORY)
+      ...(await Promise.all([
+        container.getAsync<EmailSender>(Token.EMAIL_SENDER),
+        container.getAsync<TalkRepository>(Token.TALK_REPOSITORY),
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+      ]))
     )
   }
 
   constructor(
-    private readonly emailSender: EmailSender,
+    emailSender: EmailSender,
     talkRepository: TalkRepository,
     speakerRepository: SpeakerRepository
   ) {
     super()
+    this.emailSender = emailSender
     this.talkFinder = new TalkFinder(talkRepository)
     this.speakerFinder = new SpeakerFinder(speakerRepository)
   }

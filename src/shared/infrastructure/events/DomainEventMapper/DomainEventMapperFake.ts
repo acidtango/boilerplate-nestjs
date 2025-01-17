@@ -7,11 +7,15 @@ import { TalkProposedSubscriber } from '../../../../talks/use-cases/subscribers/
 import { DomainEventCode } from '../../../domain/events/DomainEventCode.ts'
 
 export class DomainEventMapperFake implements DomainEventMapper {
-  public static create({ container }: interfaces.Context) {
-    return new DomainEventMapperFake(container.get(TalkProposedSubscriber))
+  private readonly subscriber: DomainEventSubscriber<DomainEvent>
+
+  public static async create({ container }: interfaces.Context) {
+    return new DomainEventMapperFake(await container.getAsync(TalkProposedSubscriber))
   }
 
-  constructor(private readonly subscriber: DomainEventSubscriber<DomainEvent>) {}
+  constructor(subscriber: DomainEventSubscriber<DomainEvent>) {
+    this.subscriber = subscriber
+  }
 
   getSubscribersAndEvent(code: DomainEventCode): SubscribersAndEvent | undefined {
     if (code !== DomainEventCode.TALK_PROPOSED) {
