@@ -6,15 +6,20 @@ import { Language } from '../../../../shared/domain/models/Language.ts'
 import { TalkStatus } from '../../../domain/models/TalkStatus.ts'
 import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 
-export const TalkResponseDTO = z.object({
-  id: z.string().uuid().openapi({ example: JUNIOR_XP.id }),
-  title: z.string().openapi({ example: JUNIOR_XP.title }),
-  description: z.string().openapi({ example: JUNIOR_XP.description }),
-  language: z.nativeEnum(Language).openapi({ example: Language.ENGLISH }),
-  cospeakers: z.array(z.string()).openapi({ example: JUNIOR_XP.cospeakers }),
-  status: z.nativeEnum(TalkStatus).openapi({ example: TalkStatus.PROPOSAL }),
-  speakerId: z.string().uuid().openapi({ example: CONCHA_ASENSIO.id }),
-  reviewerId: z.string().uuid().nullable().openapi({ example: DAILOS.id }),
-  isApproved: z.boolean().nullable().openapi({ example: false }),
-  eventId: z.string().uuid().openapi({ example: JSDAY_CANARIAS.id }),
-})
+export const TalkResponseDTO = z
+  .object({
+    id: z.string().uuid().openapi({ example: JUNIOR_XP.id }),
+    title: z.string().openapi({ example: JUNIOR_XP.title }),
+    description: z.string().openapi({ example: JUNIOR_XP.description }),
+    language: z.nativeEnum(Language).openapi({ example: Language.ENGLISH }),
+    cospeakers: z.array(z.string()).openapi({ example: JUNIOR_XP.cospeakers }),
+    status: z.nativeEnum(TalkStatus).openapi({ example: TalkStatus.PROPOSAL }),
+    speakerId: z.string().uuid().openapi({ example: CONCHA_ASENSIO.id }),
+    reviewerId: z.string().uuid().nullable().openapi({ example: DAILOS.id }),
+    isApproved: z.boolean().nullable().openapi({ example: false }),
+    eventId: z.string().uuid().openapi({ example: JSDAY_CANARIAS.id }),
+  })
+  .openapi({
+    ref: 'TalkResponseDTO',
+    description: 'TODO',
+  })
