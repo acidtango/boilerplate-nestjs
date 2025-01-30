@@ -1,14 +1,9 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events.ts'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { JUNIOR_XP } from '../../../src/shared/infrastructure/fixtures/talks.ts'
 import { createClient } from '../../utils/createClient.ts'
 import { waitFor } from '../../utils/waitFor.ts'
-
-beforeEach(async () => {
-  const client = await createClient()
-  await client.reset()
-})
 
 describe('create talk', () => {
   it('can be created', async () => {

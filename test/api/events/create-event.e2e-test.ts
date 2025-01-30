@@ -1,11 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { createClient } from '../../utils/TestClient.ts'
 import { JSDAY_CANARIAS } from '../../../src/shared/infrastructure/fixtures/events.ts'
-
-beforeEach(async () => {
-  const client = await createClient()
-  await client.reset()
-})
 
 describe('create event', () => {
   it('can be created', async () => {

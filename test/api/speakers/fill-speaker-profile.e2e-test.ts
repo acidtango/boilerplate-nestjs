@@ -1,11 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { createClient } from '../../utils/TestClient.ts'
-
-beforeEach(async () => {
-  const client = await createClient()
-  await client.reset()
-})
 
 describe('fill speaker profile', () => {
   it('can fill the profile', async () => {

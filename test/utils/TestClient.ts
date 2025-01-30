@@ -14,6 +14,7 @@ import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
 import type { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
 import { container } from '../setups/container.ts'
 import type { Hono } from 'hono'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory.js'
 
 export class TestClient {
   public readonly container: Container
@@ -46,6 +47,11 @@ export class TestClient {
     for (const repository of repositories) {
       await repository.reset()
     }
+  }
+
+  async waitForAllEvents() {
+    const eventBus = await this.container.getAsync<EventBusMemory>(Token.EVENT_BUS)
+    await eventBus.waitForEvents()
   }
 
   async close() {

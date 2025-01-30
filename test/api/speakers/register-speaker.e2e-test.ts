@@ -1,13 +1,8 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { JwtPayload } from 'jsonwebtoken'
 import * as jwt from 'jsonwebtoken'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { createClient } from '../../utils/TestClient.ts'
-
-beforeEach(async () => {
-  const client = await createClient()
-  await client.reset()
-})
 
 describe('register speaker', () => {
   it('registers the user and then can login', async () => {
