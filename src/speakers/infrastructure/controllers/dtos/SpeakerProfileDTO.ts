@@ -1,4 +1,5 @@
 import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
+import type { z as zod } from 'zod'
 import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
 import { Language } from '../../../../shared/domain/models/Language.ts'
 
@@ -12,3 +13,5 @@ export const SpeakerProfileDTO = z
     ref: 'SpeakerProfileDTO',
     description: 'TODO',
   })
+
+export type SpeakerProfileDTO = zod.infer<typeof SpeakerProfileDTO>
