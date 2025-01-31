@@ -3,14 +3,16 @@
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8080],
-  "postCreateCommand": "yarn install --frozen-lockfile",
+  "postCreateCommand": "npm install",
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "mutantdino.resourcemonitor",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "vitest.explorer",
+        "mongodb.mongodb-vscode"
       ]
     }
   }
