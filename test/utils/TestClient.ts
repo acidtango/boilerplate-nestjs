@@ -14,7 +14,7 @@ import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
 import type { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
 import { container } from '../setups/container.ts'
 import type { Hono } from 'hono'
-import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory.js'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory.ts'
 
 export class TestClient {
   public readonly container: Container

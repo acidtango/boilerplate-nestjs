@@ -1,6 +1,6 @@
 {
   "dockerComposeFile": "../docker-compose.yml",
-  "service": "api",
+  "service": "devcontainer",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8080],
   "postCreateCommand": "yarn install --frozen-lockfile",

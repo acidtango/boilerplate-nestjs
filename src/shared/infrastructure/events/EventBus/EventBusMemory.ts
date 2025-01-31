@@ -3,7 +3,7 @@ import type { EventBus } from '../../../domain/models/hex/EventBus.ts'
 import { DomainEvent, type DomainEventPrimitives } from '../../../domain/events/DomainEvent.ts'
 import type { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper.ts'
 import { Token } from '../../../domain/services/Token.ts'
-import { sleep } from '../../utils/sleep.js'
+import { sleep } from '../../utils/sleep.ts'
 
 export class EventBusMemory implements EventBus {
   public static async create({ container }: interfaces.Context) {

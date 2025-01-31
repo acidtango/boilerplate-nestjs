@@ -13,7 +13,7 @@ import {
 } from '../../../../test/mother/SpeakerMother/Concha.ts'
 import { mongoModule } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
 import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
-import { Token } from '../../../shared/domain/services/Token.js'
+import { Token } from '../../../shared/domain/services/Token.ts'
 import { container as prodContainer } from '../../../container.ts'
 import { testMongoOptions } from '../../../../test/setups/testMongoOptions.ts'
 

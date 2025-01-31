@@ -8,9 +8,9 @@ import { EventRepositoryMongo } from './EventRepositoryMongo.ts'
 import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay.ts'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion.ts'
 import { mongoModule } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
-import { container as prodContainer } from '../../../container.js'
-import { Token } from '../../../shared/domain/services/Token.js'
-import { testMongoOptions } from '../../../../test/setups/testMongoOptions.js'
+import { container as prodContainer } from '../../../container.ts'
+import { Token } from '../../../shared/domain/services/Token.ts'
+import { testMongoOptions } from '../../../../test/setups/testMongoOptions.ts'
 
 describe('TalkEventRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })

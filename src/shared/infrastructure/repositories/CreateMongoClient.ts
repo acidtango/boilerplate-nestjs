@@ -1,7 +1,7 @@
 import { ContainerModule, type interfaces } from 'inversify'
 import { Db, MongoClient } from 'mongodb'
 import { Token } from '../../domain/services/Token.ts'
-import { config } from '../config.js'
+import { config } from '../config.ts'
 
 export type MongoOptions = {
   username: string
