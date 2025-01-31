@@ -28,7 +28,7 @@ describe('SpeakerRepository', () => {
     let speakerRepository: SpeakerRepository & Reseteable & Closable
 
     beforeAll(async () => {
-      speakerRepository = await container.getAsync(repositoryClass as any)
+      speakerRepository = await container.getAsync(repositoryClass)
     })
 
     beforeEach(async () => {

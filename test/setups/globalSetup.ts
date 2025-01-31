@@ -7,7 +7,7 @@ import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/
 
 let repos = [] as (Closable & Reseteable)[]
 
-beforeAll(async (ctx) => {
+beforeAll(async () => {
   repos = await Promise.all([
     container.getAsync<Closable & Reseteable>(Token.EVENT_REPOSITORY),
     container.getAsync<Closable & Reseteable>(Token.SPEAKER_REPOSITORY),

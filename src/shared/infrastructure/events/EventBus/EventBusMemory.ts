@@ -12,7 +12,7 @@ export class EventBusMemory implements EventBus {
 
   private readonly domainEventMapper: DomainEventMapper
 
-  private promises: Array<Promise<any>> = []
+  private promises: Array<Promise<unknown>> = []
 
   constructor(domainEventMapper: DomainEventMapper) {
     this.domainEventMapper = domainEventMapper

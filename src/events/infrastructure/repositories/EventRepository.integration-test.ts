@@ -23,7 +23,7 @@ describe('TalkEventRepository', () => {
     let talkEventRepository: EventRepository & Reseteable & Closable
 
     beforeAll(async () => {
-      talkEventRepository = await container.getAsync(repositoryClass as any)
+      talkEventRepository = await container.getAsync(repositoryClass)
     })
 
     beforeEach(async () => {
