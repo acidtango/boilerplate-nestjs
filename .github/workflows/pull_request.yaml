@@ -85,15 +85,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Unitary Tests
-        run: node --run test:unitary --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: node --run test:unitary -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - name: Integration Tests
-        run: node --run test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: node --run test:integration -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           DB_HOST: db
           AWS_ENDPOINT: http://aws:4566
           AWS_SQS_URL: http://sqs.eu-west-1.aws:4566/000000000000/localstack-queue
       - name: Tests
-        run: node --run test:e2e --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: node --run test:e2e:db -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           DB_HOST: db
           AWS_ENDPOINT: http://aws:4566
