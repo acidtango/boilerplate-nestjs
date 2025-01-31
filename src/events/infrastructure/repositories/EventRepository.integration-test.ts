@@ -1,4 +1,3 @@
-import { MongoClient } from 'mongodb'
 import { BindingScopeEnum, Container } from 'inversify'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
@@ -8,13 +7,17 @@ import { EventRepositoryMemory } from './EventRepositoryMemory.ts'
 import { EventRepositoryMongo } from './EventRepositoryMongo.ts'
 import { jsdayEvent, jsdayId } from '../../../../test/mother/EventMother/JsDay.ts'
 import { codemotionEvent } from '../../../../test/mother/EventMother/Codemotion.ts'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import { mongoModule } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import { container as prodContainer } from '../../../container.js'
+import { Token } from '../../../shared/domain/services/Token.js'
+import { testMongoOptions } from '../../../../test/setups/testMongoOptions.js'
 
 describe('TalkEventRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
   container.bind(EventRepositoryMemory).toDynamicValue(EventRepositoryMemory.create)
   container.bind(EventRepositoryMongo).toDynamicValue(EventRepositoryMongo.create)
-  container.bind(MongoClient).toDynamicValue(createMongoClient)
+  container.load(mongoModule)
+  prodContainer.rebind(Token.DB_CONFIG).toConstantValue(testMongoOptions)
 
   describe.each([
     [EventRepositoryMemory.name, EventRepositoryMemory],

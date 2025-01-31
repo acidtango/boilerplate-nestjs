@@ -1,4 +1,3 @@
-import { Db, MongoClient } from 'mongodb'
 import { BindingScopeEnum, Container } from 'inversify'
 import { RegisterSpeaker } from './speakers/use-cases/RegisterSpeaker.ts'
 import { ClockFake } from './shared/infrastructure/services/clock/ClockFake.ts'
@@ -10,10 +9,7 @@ import { UpdateSpeakerProfile } from './speakers/use-cases/UpdateSpeakerProfile.
 import { GetSpeaker } from './speakers/use-cases/GetSpeaker.ts'
 import { CreateEvent } from './events/use-cases/CreateEvent.ts'
 import { ListEvents } from './events/use-cases/ListEvents.ts'
-import {
-  createDb,
-  createMongoClient,
-} from './shared/infrastructure/repositories/CreateMongoClient.ts'
+import { mongoModule } from './shared/infrastructure/repositories/CreateMongoClient.ts'
 import { createHono } from './shared/infrastructure/controllers/CreateHono.ts'
 import { ProposeTalk } from './talks/use-cases/ProposeTalk.ts'
 import { GetTalk } from './talks/use-cases/GetTalk.ts'
@@ -34,7 +30,6 @@ import { ApproveTalkEndpoint } from './talks/infrastructure/controllers/ApproveT
 import { SpeakerRepositoryMongo } from './speakers/infrastructure/repositories/SepakerRepositoryMongo.ts'
 import { EventRepositoryMongo } from './events/infrastructure/repositories/EventRepositoryMongo.ts'
 import { TalkRepositoryMongo } from './talks/infrastructure/repositories/TalkRepositoryMongo.ts'
-import { config } from './shared/infrastructure/config.ts'
 import { EmailSenderNoop } from './shared/infrastructure/email/EmailSenderNoop.ts'
 
 export const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
@@ -81,9 +76,7 @@ container.bind(Token.EMAIL_SENDER).toConstantValue(new EmailSenderNoop())
 container.bind(Token.DOMAIN_EVENT_MAPPER).toDynamicValue(DomainEventMapperFake.create)
 
 // Libraries
-container.bind(MongoClient).toDynamicValue(createMongoClient)
-container.bind(Db).toDynamicValue(createDb)
-container.bind(Token.DB_CONFIG).toConstantValue(config.db)
+container.load(mongoModule)
 
 // Hono
 container.bind(Token.APP).toDynamicValue(createHono)

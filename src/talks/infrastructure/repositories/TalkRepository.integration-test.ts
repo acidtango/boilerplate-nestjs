@@ -5,15 +5,18 @@ import { TalkRepositoryMemory } from './TalkRepositoryMemory.ts'
 import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
 import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts'
 import { BindingScopeEnum, Container } from 'inversify'
-import { MongoClient } from 'mongodb'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import { mongoModule } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
 import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
+import { container as prodContainer } from '../../../container.js'
+import { Token } from '../../../shared/domain/services/Token.js'
+import { testMongoOptions } from '../../../../test/setups/testMongoOptions.js'
 
 describe('TalkRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
   container.bind(TalkRepositoryMemory).toDynamicValue(TalkRepositoryMemory.create)
   container.bind(TalkRepositoryMongo).toDynamicValue(TalkRepositoryMongo.create)
-  container.bind(MongoClient).toDynamicValue(createMongoClient)
+  container.load(mongoModule)
+  prodContainer.rebind(Token.DB_CONFIG).toConstantValue(testMongoOptions)
 
   describe.each([
     [TalkRepositoryMemory.name, TalkRepositoryMemory],

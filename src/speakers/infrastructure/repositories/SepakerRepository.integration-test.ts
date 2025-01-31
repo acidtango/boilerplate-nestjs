@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { BindingScopeEnum, Container } from 'inversify'
-import { MongoClient } from 'mongodb'
 import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
 import { CONCHA_ASENSIO } from '../../../shared/infrastructure/fixtures/speakers.ts'
 import { SpeakerRepositoryMongo } from './SepakerRepositoryMongo.ts'
@@ -12,14 +11,18 @@ import {
   conchaId,
   conchaSpeaker,
 } from '../../../../test/mother/SpeakerMother/Concha.ts'
-import { createMongoClient } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
+import { mongoModule } from '../../../shared/infrastructure/repositories/CreateMongoClient.ts'
 import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
+import { Token } from '../../../shared/domain/services/Token.js'
+import { container as prodContainer } from '../../../container.ts'
+import { testMongoOptions } from '../../../../test/setups/testMongoOptions.ts'
 
 describe('SpeakerRepository', () => {
   const container = new Container({ defaultScope: BindingScopeEnum.Singleton })
   container.bind(SpeakerRepositoryMemory).toDynamicValue(SpeakerRepositoryMemory.create)
   container.bind(SpeakerRepositoryMongo).toDynamicValue(SpeakerRepositoryMongo.create)
-  container.bind(MongoClient).toDynamicValue(createMongoClient)
+  container.load(mongoModule)
+  prodContainer.rebind(Token.DB_CONFIG).toConstantValue(testMongoOptions)
 
   describe.each([
     [SpeakerRepositoryMemory.name, SpeakerRepositoryMemory],

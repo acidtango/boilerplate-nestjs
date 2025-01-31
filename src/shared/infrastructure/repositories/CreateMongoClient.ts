@@ -1,6 +1,7 @@
-import type { interfaces } from 'inversify'
-import { MongoClient } from 'mongodb'
+import { ContainerModule, type interfaces } from 'inversify'
+import { Db, MongoClient } from 'mongodb'
 import { Token } from '../../domain/services/Token.ts'
+import { config } from '../config.js'
 
 export type MongoOptions = {
   username: string
@@ -12,18 +13,17 @@ export type MongoOptions = {
 
 export async function createMongoClient({ container }: interfaces.Context) {
   const { username, password, host, port } = container.get<MongoOptions>(Token.DB_CONFIG)
-  const mongoClient = new MongoClient(`mongodb://${username}:${password}@${host}:${port}`)
-  // console.log('Connecting mongo')
-  // await mongoClient.connect()
-  // console.log('Mongo connected')
-  return mongoClient
+  return new MongoClient(`mongodb://${username}:${password}@${host}:${port}`)
 }
 
 export async function createDb({ container }: interfaces.Context) {
   const client = await container.getAsync(MongoClient)
   const { database } = container.get<MongoOptions>(Token.DB_CONFIG)
-  // console.log('Connecting mongo')
-  // await mongoClient.connect()
-  // console.log('Mongo connected')
   return client.db(database)
 }
+
+export const mongoModule = new ContainerModule((bind) => {
+  bind(MongoClient).toDynamicValue(createMongoClient)
+  bind(Db).toDynamicValue(createDb)
+  bind(Token.DB_CONFIG).toConstantValue(config.db)
+})
