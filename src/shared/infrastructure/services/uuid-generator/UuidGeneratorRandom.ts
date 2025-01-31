@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { UuidGenerator } from '../../../domain/services/UuidGenerator'
+import type { UuidGenerator } from '../../../domain/services/UuidGenerator.ts'
 
 export class UuidGeneratorRandom implements UuidGenerator {
   public static generate(): string {

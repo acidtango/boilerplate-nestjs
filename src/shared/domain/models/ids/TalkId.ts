@@ -1,4 +1,4 @@
-import { DomainId } from '../hex/DomainId'
+import { DomainId } from '../hex/DomainId.ts'
 
 export class TalkId extends DomainId {
   private readonly TOKEN = 'TalkId'

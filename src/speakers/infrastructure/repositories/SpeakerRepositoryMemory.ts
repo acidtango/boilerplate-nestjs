@@ -1,10 +1,15 @@
-import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { Speaker, SpeakerPrimitives } from '../../domain/models/Speaker'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import type { SpeakerRepository } from '../../domain/repositories/SpeakerRepository.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { Speaker, type SpeakerPrimitives } from '../../domain/models/Speaker.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
-export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable {
+export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable, Closable {
+  public static create() {
+    return new SpeakerRepositoryMemory()
+  }
+
   protected speakers: Map<string, SpeakerPrimitives> = new Map()
 
   async save(speaker: Speaker): Promise<void> {
@@ -48,4 +53,6 @@ export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable {
   async reset() {
     this.speakers.clear()
   }
+
+  async close(): Promise<void> {}
 }

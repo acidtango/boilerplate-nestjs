@@ -1,31 +1,49 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { TalkProposed } from '../../domain/events/TalkProposed'
-import { DomainEventSubscriber } from '../../../shared/domain/events/DomainEventSubscriber'
-import { HandleEvent } from '../../../shared/domain/events/HandleEvent'
-import { Token } from '../../../shared/domain/services/Token'
-import { EmailSender, ThanksForTheProposal } from '../../../shared/domain/services/EmailSender'
-import { TalkRepository } from '../../domain/repositories/TalkRepository'
-import { TalkFinder } from '../../domain/services/TalkFinder'
-import { SpeakerRepository } from '../../../speakers/domain/repositories/SpeakerRepository'
-import { SpeakerFinder } from '../../../speakers/domain/services/SpeakerFinder'
+import type { interfaces } from 'inversify'
+import { TalkProposed } from '../../domain/events/TalkProposed.ts'
+import { DomainEventSubscriber } from '../../../shared/domain/events/DomainEventSubscriber.ts'
+import { Token } from '../../../shared/domain/services/Token.ts'
+import {
+  type EmailSender,
+  ThanksForTheProposal,
+} from '../../../shared/domain/services/EmailSender.ts'
+import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts'
+import { TalkFinder } from '../../domain/services/TalkFinder.ts'
+import type { SpeakerRepository } from '../../../speakers/domain/repositories/SpeakerRepository.ts'
+import { SpeakerFinder } from '../../../speakers/domain/services/SpeakerFinder.ts'
+import type { DomainEvent } from '../../../shared/domain/events/DomainEvent.ts'
 
-@Injectable()
 export class TalkProposedSubscriber extends DomainEventSubscriber<TalkProposed> {
   private readonly talkFinder: TalkFinder
 
   private readonly speakerFinder: SpeakerFinder
 
+  private readonly emailSender: EmailSender
+
+  public static async create({ container }: interfaces.Context) {
+    return new TalkProposedSubscriber(
+      ...(await Promise.all([
+        container.getAsync<EmailSender>(Token.EMAIL_SENDER),
+        container.getAsync<TalkRepository>(Token.TALK_REPOSITORY),
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+      ]))
+    )
+  }
+
   constructor(
-    @Inject(Token.EMAIL_SENDER) private readonly emailSender: EmailSender,
-    @Inject(Token.TALK_REPOSITORY) talkRepository: TalkRepository,
-    @Inject(Token.SPEAKER_REPOSITORY) speakerRepository: SpeakerRepository
+    emailSender: EmailSender,
+    talkRepository: TalkRepository,
+    speakerRepository: SpeakerRepository
   ) {
     super()
+    this.emailSender = emailSender
     this.talkFinder = new TalkFinder(talkRepository)
     this.speakerFinder = new SpeakerFinder(speakerRepository)
   }
 
-  @HandleEvent(TalkProposed)
+  canHandle(domainEvent: DomainEvent): boolean {
+    return domainEvent instanceof TalkProposed
+  }
+
   async on({ talkId }: TalkProposed) {
     const talk = await this.talkFinder.findOrThrowBy(talkId)
     const speaker = await this.speakerFinder.findOrThrowBy(talk.getSpeakerId())

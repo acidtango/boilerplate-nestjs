@@ -1,12 +1,19 @@
-import { UseCase } from '../../shared/domain/models/hex/UseCase'
-import { TalkEvent } from '../domain/models/TalkEvent'
-import { EventRepository } from '../domain/repositories/EventRepository'
-import { Inject } from '@nestjs/common'
-import { Token } from '../../shared/domain/services/Token'
+import type { interfaces } from 'inversify'
+import { UseCase } from '../../shared/domain/models/hex/UseCase.ts'
+import { TalkEvent } from '../domain/models/TalkEvent.ts'
+import type { EventRepository } from '../domain/repositories/EventRepository.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
 
 export class ListEvents extends UseCase {
-  constructor(@Inject(Token.EVENT_REPOSITORY) private readonly eventRepository: EventRepository) {
+  public static async create({ container }: interfaces.Context) {
+    return new ListEvents(await container.getAsync(Token.EVENT_REPOSITORY))
+  }
+
+  private readonly eventRepository: EventRepository
+
+  constructor(eventRepository: EventRepository) {
     super()
+    this.eventRepository = eventRepository
   }
 
   async execute(): Promise<TalkEvent[]> {

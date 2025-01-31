@@ -1,6 +1,6 @@
-import { Talk } from '../../src/talks/domain/models/Talk'
-import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory'
-import { juniorXpId, juniorXpTalk } from '../mother/TalkMother/JuniorXp'
+import { Talk } from '../../src/talks/domain/models/Talk.ts'
+import { TalkRepositoryMemory } from '../../src/talks/infrastructure/repositories/TalkRepositoryMemory.ts'
+import { juniorXpId, juniorXpTalk } from '../mother/TalkMother/JuniorXp.ts'
 
 export class TalkRepositoryFake extends TalkRepositoryMemory {
   static empty() {

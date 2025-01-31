@@ -1,17 +1,20 @@
-import { Collection, MongoClient } from 'mongodb'
-import { Injectable } from '@nestjs/common'
-import { TalkRepository } from '../../domain/repositories/TalkRepository'
-import { Talk, TalkPrimitives } from '../../domain/models/Talk'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { config } from '../../../shared/infrastructure/config'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
+import type { interfaces } from 'inversify'
+import { Collection, Db } from 'mongodb'
+import type { TalkRepository } from '../../domain/repositories/TalkRepository.ts'
+import { Talk, type TalkPrimitives } from '../../domain/models/Talk.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
-@Injectable()
-export class TalkRepositoryMongo implements TalkRepository, Reseteable {
+export class TalkRepositoryMongo implements TalkRepository, Reseteable, Closable {
+  public static async create({ container }: interfaces.Context) {
+    const db = await container.getAsync(Db)
+    return new TalkRepositoryMongo(db)
+  }
+
   private readonly talks: Collection<TalkPrimitives>
 
-  constructor(private readonly client: MongoClient) {
-    const db = client.db(config.db.database)
+  constructor(db: Db) {
     this.talks = db.collection('talks')
   }
 
@@ -32,4 +35,6 @@ export class TalkRepositoryMongo implements TalkRepository, Reseteable {
   async reset() {
     await this.talks.deleteMany()
   }
+
+  async close(): Promise<void> {}
 }

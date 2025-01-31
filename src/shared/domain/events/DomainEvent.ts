@@ -1,7 +1,7 @@
-import { DomainEventCode } from './DomainEventCode'
-import { DomainId } from '../models/hex/DomainId'
-import { UuidGeneratorRandom } from '../../infrastructure/services/uuid-generator/UuidGeneratorRandom'
-import { Primitives } from '../models/hex/Primitives'
+import type { DomainEventCode } from './DomainEventCode.ts'
+import { DomainId } from '../models/hex/DomainId.ts'
+import { UuidGeneratorRandom } from '../../infrastructure/services/uuid-generator/UuidGeneratorRandom.ts'
+import type { Primitives } from '../models/hex/Primitives.ts'
 
 export type DomainEventPrimitives = Primitives<DomainEvent> & Record<string, unknown>
 
@@ -14,11 +14,21 @@ export abstract class DomainEvent {
     }
   }
 
+  public readonly code: DomainEventCode
+
+  public readonly eventId: DomainId
+
+  public readonly occurredAt: Date
+
   protected constructor(
-    public readonly code: DomainEventCode,
-    public readonly eventId: DomainId = new DomainId(UuidGeneratorRandom.generate()),
-    public readonly occurredAt: Date = new Date()
-  ) {}
+    code: DomainEventCode,
+    eventId: DomainId = new DomainId(UuidGeneratorRandom.generate()),
+    occurredAt: Date = new Date()
+  ) {
+    this.occurredAt = occurredAt
+    this.eventId = eventId
+    this.code = code
+  }
 
   toPrimitives() {
     return DomainEvent.toPrimitives(this)

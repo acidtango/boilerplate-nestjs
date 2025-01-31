@@ -1,9 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsUUID } from 'class-validator'
-import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
+import { DAILOS } from '../../../../shared/infrastructure/fixtures/organizers.ts'
 
-export class ReviewTalkRequestDTO {
-  @ApiProperty({ example: DAILOS.id })
-  @IsUUID()
-  reviewerId!: string
-}
+export const ReviewTalkRequestDTO = z
+  .object({
+    reviewerId: z.string().uuid().openapi({ example: DAILOS.id }),
+  })
+  .openapi({
+    ref: 'ReviewTalkRequestDTO',
+    description: 'TODO',
+  })

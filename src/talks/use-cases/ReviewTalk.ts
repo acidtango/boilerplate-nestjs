@@ -1,26 +1,33 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { EventBus } from '../../shared/domain/models/hex/EventBus'
-import { UseCase } from '../../shared/domain/models/hex/UseCase'
-import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId'
-import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { Token } from '../../shared/domain/services/Token'
-import { TalkFinder } from '../domain/services/TalkFinder'
-import { TalkRepository } from '../domain/repositories/TalkRepository'
+import type { interfaces } from 'inversify'
+import type { EventBus } from '../../shared/domain/models/hex/EventBus.ts'
+import { UseCase } from '../../shared/domain/models/hex/UseCase.ts'
+import { OrganizerId } from '../../shared/domain/models/ids/OrganizerId.ts'
+import { TalkId } from '../../shared/domain/models/ids/TalkId.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
+import { TalkFinder } from '../domain/services/TalkFinder.ts'
+import type { TalkRepository } from '../domain/repositories/TalkRepository.ts'
 
 export type ReviewTalkParams = {
   talkId: TalkId
   reviewerId: OrganizerId
 }
 
-@Injectable()
 export class ReviewTalk extends UseCase {
   private readonly talkFinder: TalkFinder
+  private readonly eventBus: EventBus
+  private readonly talkRepository: TalkRepository
 
-  constructor(
-    @Inject(Token.EVENT_BUS) private readonly eventBus: EventBus,
-    @Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository
-  ) {
+  public static create({ container }: interfaces.Context) {
+    return new ReviewTalk(
+      container.get<EventBus>(Token.EVENT_BUS),
+      container.get<TalkRepository>(Token.TALK_REPOSITORY)
+    )
+  }
+
+  constructor(eventBus: EventBus, talkRepository: TalkRepository) {
     super()
+    this.eventBus = eventBus
+    this.talkRepository = talkRepository
     this.talkFinder = new TalkFinder(talkRepository)
   }
 

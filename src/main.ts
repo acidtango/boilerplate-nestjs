@@ -1,40 +1,34 @@
-import { IncomingMessage } from 'http'
-import { VersioningType } from '@nestjs/common'
-import { NestFactory } from '@nestjs/core'
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import morgan from 'morgan'
-import { MainModule } from './MainModule'
-import { config } from './shared/infrastructure/config'
+import { serve } from '@hono/node-server'
+import { swaggerUI } from '@hono/swagger-ui'
+import { openAPISpecs } from 'hono-openapi'
+import { app } from './app.ts'
+import { config } from './shared/infrastructure/config.ts'
 
-async function bootstrap() {
-  const app = await NestFactory.create(MainModule)
+app.get('/ui', swaggerUI({ url: '/docs' }))
 
-  // Starts listening for shutdown hooks
-  app.enableShutdownHooks()
+app.get(
+  '/docs',
+  openAPISpecs(app, {
+    documentation: {
+      info: {
+        title: 'Hono API',
+        version: '1.0.0',
+        description: 'Greeting API',
+      },
+      servers: [{ url: 'http://localhost:8080', description: 'Local Server' }],
+    },
+  })
+)
 
-  app.setGlobalPrefix(config.apiPrefix)
-  app.enableVersioning({ type: VersioningType.URI })
-
-  // Add Morgan for HTTP Logging
-  const isHealthEndpoint = (req: IncomingMessage) => req.url === '/health'
-  app.use(morgan('combined', { skip: isHealthEndpoint }))
-
-  // Auto generated API documentation!!!
-  const documentBuilder = new DocumentBuilder()
-    .setTitle('CodeTalk')
-    .setDescription('CodeTalk')
-    .setVersion('1.0')
-    .addBearerAuth()
-  const options = documentBuilder.build()
-
-  const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('docs', app, document)
-  // Just run 'yarn start' and visit http://localhost:8080/docs
-  // To generate and download a Swagger JSON file, go to http://localhost:8080/docs-json
-  if (!config.testModeEnabled) {
-    // app.useLogger(app.get(Logger))
+serve(
+  {
+    fetch: app.fetch,
+    port: config.listeningPort,
+  },
+  (info) => {
+    const url = `http://localhost:${info.port}`
+    console.log(`Server listening on ${url}`)
+    console.log(`Swagger Docs available at ${url}/docs`)
+    console.log(`Swagger UI available at ${url}/ui`)
   }
-
-  await app.listen(config.listeningPort)
-}
-bootstrap()
+)

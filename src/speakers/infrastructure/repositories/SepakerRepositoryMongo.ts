@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common'
-import { Collection, MongoClient } from 'mongodb'
-import { config } from '../../../shared/infrastructure/config'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { Speaker, SpeakerPrimitives } from '../../domain/models/Speaker'
-import { SpeakerRepository } from '../../domain/repositories/SpeakerRepository'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
+import type { interfaces } from 'inversify'
+import { Collection, Db } from 'mongodb'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { Speaker, type SpeakerPrimitives } from '../../domain/models/Speaker.ts'
+import type { SpeakerRepository } from '../../domain/repositories/SpeakerRepository.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
-@Injectable()
-export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
+export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable, Closable {
+  public static async create({ container }: interfaces.Context) {
+    const db = await container.getAsync(Db)
+    return new SpeakerRepositoryMongo(db)
+  }
+
   private readonly speakers: Collection<SpeakerPrimitives>
 
-  constructor(private readonly client: MongoClient) {
-    const db = client.db(config.db.database)
+  constructor(db: Db) {
     this.speakers = db.collection('speakers')
   }
 
@@ -53,4 +56,6 @@ export class SpeakerRepositoryMongo implements SpeakerRepository, Reseteable {
   async reset() {
     await this.speakers.deleteMany()
   }
+
+  async close(): Promise<void> {}
 }

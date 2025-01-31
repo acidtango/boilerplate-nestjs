@@ -1,27 +1,52 @@
-import { Body, Controller, HttpStatus, Param, Put } from '@nestjs/common'
-import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { ReviewTalk } from '../../use-cases/ReviewTalk'
-import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO'
-import { ApiParam } from '@nestjs/swagger'
-import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks'
+import { describeRoute } from 'hono-openapi'
+import { validator } from 'hono-openapi/zod'
+import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import { ReviewTalk } from '../../use-cases/ReviewTalk.ts'
+import { ReviewTalkRequestDTO } from './dtos/ReviewTalkRequestDTO.ts'
+import { JUNIOR_XP } from '../../../shared/infrastructure/fixtures/talks.ts'
+import { z } from '../../../shared/infrastructure/controllers/zod.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
 
-@Controller('/v1/talks/:id/assignation')
-export class ReviewTalkEndpoint {
-  constructor(private readonly reviewTalk: ReviewTalk) {}
+const ParamsSchema = z.object({
+  id: z
+    .string()
+    .uuid()
+    .openapi({
+      param: {
+        name: 'id',
+        in: 'path',
+      },
+      example: JUNIOR_XP.id,
+    }),
+})
 
-  @Endpoint({
-    tag: DocumentationTag.TALKS,
-    description: 'Assigns a talk to a reviewer',
-    status: HttpStatus.OK,
-  })
-  @ApiParam({ name: 'id', example: JUNIOR_XP.id })
-  @Put()
-  async execute(@Param('id') id: string, @Body() body: ReviewTalkRequestDTO) {
-    await this.reviewTalk.execute({
-      talkId: TalkId.fromPrimitives(id),
-      reviewerId: OrganizerId.fromPrimitives(body.reviewerId),
-    })
-  }
-}
+export const ReviewTalkEndpoint = {
+  method: 'put' as const,
+  path: '/api/v1/talks/:id/assignation',
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'Assigns a talk for review',
+      tags: ['Talks'],
+      responses: {
+        200: {
+          description: 'Talk assigned for review',
+        },
+      },
+    }),
+    validator('param', ParamsSchema),
+    validator('json', ReviewTalkRequestDTO),
+    async (c) => {
+      const reviewTalk = await c.var.container.getAsync(ReviewTalk)
+      const param = c.req.valid('param')
+      const body = c.req.valid('json')
+
+      await reviewTalk.execute({
+        talkId: TalkId.fromPrimitives(param.id),
+        reviewerId: OrganizerId.fromPrimitives(body.reviewerId),
+      })
+
+      return c.body(null, 200)
+    }
+  ),
+} satisfies Endpoint

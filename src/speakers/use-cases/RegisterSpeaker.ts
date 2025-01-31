@@ -1,14 +1,14 @@
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { EmailAddress } from '../../shared/domain/models/EmailAddress'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword'
-import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
-import { Inject } from '@nestjs/common'
-import { Token } from '../../shared/domain/services/Token'
-import { Speaker } from '../domain/models/Speaker'
-import { EventBus } from '../../shared/domain/models/hex/EventBus'
-import { Crypto } from '../../shared/domain/services/Crypto'
-import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError'
-import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError'
+import type { interfaces } from 'inversify'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId.ts'
+import { EmailAddress } from '../../shared/domain/models/EmailAddress.ts'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword.ts'
+import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
+import { Speaker } from '../domain/models/Speaker.ts'
+import type { EventBus } from '../../shared/domain/models/hex/EventBus.ts'
+import type { Crypto } from '../../shared/domain/services/Crypto.ts'
+import { SpeakerEmailAlreadyUsedError } from '../domain/errors/SpeakerEmailAlreadyUsedError.ts'
+import { SpeakerAlreadyCreatedError } from '../domain/errors/SpeakerAlreadyCreatedError.ts'
 
 export type RegisterSpeakerParams = {
   id: SpeakerId
@@ -17,11 +17,27 @@ export type RegisterSpeakerParams = {
 }
 
 export class RegisterSpeaker {
-  constructor(
-    @Inject(Token.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository,
-    @Inject(Token.CRYPTO) private readonly crypto: Crypto,
-    @Inject(Token.EVENT_BUS) private readonly eventBus: EventBus
-  ) {}
+  public static async create({ container }: interfaces.Context) {
+    return new RegisterSpeaker(
+      ...(await Promise.all([
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+        container.getAsync<Crypto>(Token.CRYPTO),
+        container.getAsync<EventBus>(Token.EVENT_BUS),
+      ]))
+    )
+  }
+
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly crypto: Crypto
+
+  private readonly eventBus: EventBus
+
+  constructor(speakerRepository: SpeakerRepository, crypto: Crypto, eventBus: EventBus) {
+    this.eventBus = eventBus
+    this.crypto = crypto
+    this.speakerRepository = speakerRepository
+  }
 
   async execute({ email, id, password }: RegisterSpeakerParams): Promise<void> {
     await this.ensureSpeakerWithEmailDoesNotAlreadyExists(email)

@@ -1,4 +1,4 @@
-import { Language } from '../../domain/models/Language'
+import { Language } from '../../domain/models/Language.ts'
 
 export const CONCHA_ASENSIO = {
   id: 'b741e452-a5ca-48f3-92f0-5bdbc4d84c81',

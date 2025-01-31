@@ -1,29 +1,36 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
-import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { RegisterSpeakerRequestDTO } from './dtos/RegisterSpeakerRequestDTO'
-import { RegisterSpeaker } from '../../use-cases/RegisterSpeaker'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
-import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
+import { RegisterSpeaker } from '../../use-cases/RegisterSpeaker.ts'
+import { RegisterSpeakerRequestDTO } from './dtos/RegisterSpeakerRequestDTO.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { describeRoute } from 'hono-openapi'
+import { validator } from 'hono-openapi/zod'
 
-@Controller('/v1/speakers/registration')
-export class RegisterSpeakerEndpoint {
-  constructor(private readonly registerSpeaker: RegisterSpeaker) {}
+export const RegisterSpeakerEndpoint = {
+  method: 'post',
+  path: '/api/v1/speakers/registration',
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'Creates an event',
+      tags: ['Speakers'],
+      responses: {
+        201: {
+          description: 'Speaker registered',
+        },
+      },
+    }),
+    validator('json', RegisterSpeakerRequestDTO),
+    async (c) => {
+      const registerSpeaker = await c.var.container.getAsync(RegisterSpeaker)
 
-  @Endpoint({
-    tag: DocumentationTag.SPEAKERS,
-    description: 'Registers a speaker',
-    status: HttpStatus.CREATED,
-  })
-  @Post()
-  async execute(@Body() body: RegisterSpeakerRequestDTO) {
-    const id = SpeakerId.fromPrimitives(body.id)
-    const email = EmailAddress.fromPrimitives(body.email)
-    const password = PlainPassword.fromPrimitives(body.password)
-    await this.registerSpeaker.execute({
-      id,
-      email,
-      password,
-    })
-  }
-}
+      const body = c.req.valid('json')
+      await registerSpeaker.execute({
+        id: SpeakerId.fromPrimitives(body.id),
+        email: EmailAddress.fromPrimitives(body.email),
+        password: PlainPassword.fromPrimitives(body.password),
+      })
+      return c.body(null, 201)
+    }
+  ),
+} satisfies Endpoint

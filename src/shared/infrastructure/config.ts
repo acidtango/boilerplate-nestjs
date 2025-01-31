@@ -14,14 +14,13 @@ export const config = {
     endpoint:
       process.env.AWS_ENDPOINT === 'default'
         ? undefined
-        : process.env.AWS_ENDPOINT ?? 'http://localhost:4566',
+        : (process.env.AWS_ENDPOINT ?? 'http://localhost:4566'),
     sqs: {
       url:
         process.env.AWS_SQS_URL ||
         'http://sqs.eu-west-1.localhost.localstack.cloud:4566/000000000000/localstack-queue',
     },
   },
-  deployEnvironment: process.env.DEPLOY_ENV || 'dev',
   forceEnableORMRepositories: process.env.ENABLE_TEST_ORM_REPOSITORIES === 'true',
   listeningPort: parseInt(process.env.APP_PORT || '8080', 10),
   apiPrefix: process.env.API_PREFIX || 'api/',

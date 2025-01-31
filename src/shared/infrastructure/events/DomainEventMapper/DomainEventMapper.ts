@@ -1,6 +1,6 @@
-import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber'
-import { DomainEvent, DomainEventClass } from '../../../domain/events/DomainEvent'
-import { DomainEventCode } from '../../../domain/events/DomainEventCode'
+import { DomainEventSubscriber } from '../../../domain/events/DomainEventSubscriber.ts'
+import { DomainEvent, type DomainEventClass } from '../../../domain/events/DomainEvent.ts'
+import { DomainEventCode } from '../../../domain/events/DomainEventCode.ts'
 
 export type SubscribersAndEvent = {
   subscribers: Array<DomainEventSubscriber<DomainEvent>>

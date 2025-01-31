@@ -1,10 +1,15 @@
-import { EventRepository } from '../../domain/repositories/EventRepository'
-import { TalkEvent, TalkEventPrimitives } from '../../domain/models/TalkEvent'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable'
+import type { EventRepository } from '../../domain/repositories/EventRepository.ts'
+import { TalkEvent, type TalkEventPrimitives } from '../../domain/models/TalkEvent.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
+import type { Reseteable } from '../../../shared/infrastructure/repositories/Reseteable.ts'
+import type { Closable } from '../../../shared/infrastructure/repositories/Closable.ts'
 
-export class EventRepositoryMemory implements EventRepository, Reseteable {
+export class EventRepositoryMemory implements EventRepository, Reseteable, Closable {
   private readonly talkEvents: Map<string, TalkEventPrimitives> = new Map()
+
+  public static create() {
+    return new EventRepositoryMemory()
+  }
 
   async save(talkEvent: TalkEvent): Promise<void> {
     this.saveSync(talkEvent)
@@ -23,6 +28,8 @@ export class EventRepositoryMemory implements EventRepository, Reseteable {
   async reset() {
     this.talkEvents.clear()
   }
+
+  async close(): Promise<void> {}
 
   protected saveSync(talkEvent: TalkEvent) {
     const talkEventPrimitives = talkEvent.toPrimitives()

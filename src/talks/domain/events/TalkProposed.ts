@@ -1,13 +1,15 @@
-import { DomainEvent } from '../../../shared/domain/events/DomainEvent'
-import { DomainEventCode } from '../../../shared/domain/events/DomainEventCode'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { Primitives } from '../../../shared/domain/models/hex/Primitives'
-import { DomainId } from '../../../shared/domain/models/hex/DomainId'
+import { DomainEvent } from '../../../shared/domain/events/DomainEvent.ts'
+import { DomainEventCode } from '../../../shared/domain/events/DomainEventCode.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import type { Primitives } from '../../../shared/domain/models/hex/Primitives.ts'
+import { DomainId } from '../../../shared/domain/models/hex/DomainId.ts'
 
 type TalkProposedPrimitives = Primitives<TalkProposed>
 
 export class TalkProposed extends DomainEvent {
   public static readonly code = DomainEventCode.TALK_PROPOSED
+
+  public readonly talkId: TalkId
 
   public static fromPrimitives(primitives: TalkProposedPrimitives) {
     return new TalkProposed(
@@ -21,12 +23,9 @@ export class TalkProposed extends DomainEvent {
     return new TalkProposed(talkId)
   }
 
-  private constructor(
-    public readonly talkId: TalkId,
-    eventId?: DomainId,
-    occurredAt?: Date
-  ) {
+  private constructor(talkId: TalkId, eventId?: DomainId, occurredAt?: Date) {
     super(DomainEventCode.TALK_PROPOSED, eventId, occurredAt)
+    this.talkId = talkId
   }
 
   toPrimitives() {

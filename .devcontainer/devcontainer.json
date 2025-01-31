@@ -1,0 +1,19 @@
+{
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [8080],
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker",
+        "mutantdino.resourcemonitor",
+        "eamodio.gitlens",
+        "vitest.explorer",
+        "mongodb.mongodb-vscode"
+      ]
+    }
+  }
+}

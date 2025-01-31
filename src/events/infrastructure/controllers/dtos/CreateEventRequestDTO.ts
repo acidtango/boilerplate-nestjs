@@ -1,26 +1,18 @@
-import { DateRangeDTO } from './DateRangeDTO'
-import { ProposalDateRangeDTO as ProposalDateRangeDTO } from './ProposalDateRangeDTO'
-import { IsString, IsUUID, ValidateNested } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
-import { Type } from 'class-transformer'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
+import { DateRangeDTO } from './DateRangeDTO.ts'
+import { ProposalDateRangeDTO as ProposalDateRangeDTO } from './ProposalDateRangeDTO.ts'
+import { EventIdDTO } from './EventIdDTO.ts'
+import { EventNameDTO } from './EventNameDTO.ts'
 
-export class CreateEventRequestDTO {
-  @ApiProperty({ example: JSDAY_CANARIAS.id })
-  @IsUUID()
-  id!: string
-
-  @ApiProperty({ example: JSDAY_CANARIAS.name })
-  @IsString()
-  name!: string
-
-  @ApiProperty()
-  @Type(() => DateRangeDTO)
-  @ValidateNested()
-  dateRange!: DateRangeDTO
-
-  @ApiProperty()
-  @Type(() => ProposalDateRangeDTO)
-  @ValidateNested()
-  proposalsDateRange!: ProposalDateRangeDTO
-}
+export const CreateEventRequestDTO = z
+  .object({
+    id: EventIdDTO,
+    name: EventNameDTO,
+    dateRange: DateRangeDTO,
+    proposalsDateRange: ProposalDateRangeDTO,
+  })
+  .openapi({
+    ref: 'CreateEventRequest',
+    description:
+      "Represents the structure of the request payload for creating a new event in the Codetalk platform. This includes the event's unique identifier, name, duration, and the proposal submission period",
+  })

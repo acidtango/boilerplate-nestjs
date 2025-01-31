@@ -1,13 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { UseCase } from '../../shared/domain/models/hex/UseCase'
-import { Language } from '../../shared/domain/models/Language'
-import { SpeakerAge } from '../domain/models/SpeakerAge'
-import { SpeakerName } from '../domain/models/SpeakerName'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
-import { SpeakerFinder } from '../domain/services/SpeakerFinder'
-import { Token } from '../../shared/domain/services/Token'
-import { EventBus } from '../../shared/domain/models/hex/EventBus'
+import type { interfaces } from 'inversify'
+import { UseCase } from '../../shared/domain/models/hex/UseCase.ts'
+import { Language } from '../../shared/domain/models/Language.ts'
+import { SpeakerAge } from '../domain/models/SpeakerAge.ts'
+import { SpeakerName } from '../domain/models/SpeakerName.ts'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId.ts'
+import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository.ts'
+import { SpeakerFinder } from '../domain/services/SpeakerFinder.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
+import type { EventBus } from '../../shared/domain/models/hex/EventBus.ts'
 
 export type UpdateSpeakerProfileParams = {
   id: SpeakerId
@@ -16,17 +16,26 @@ export type UpdateSpeakerProfileParams = {
   language: Language
 }
 
-@Injectable()
 export class UpdateSpeakerProfile extends UseCase {
+  public static async create({ container }: interfaces.Context) {
+    return new UpdateSpeakerProfile(
+      ...(await Promise.all([
+        container.getAsync<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+        container.getAsync<EventBus>(Token.EVENT_BUS),
+      ]))
+    )
+  }
+
   private readonly speakerFinder: SpeakerFinder
 
-  constructor(
-    @Inject(Token.SPEAKER_REPOSITORY)
-    private readonly speakerRepository: SpeakerRepository,
-    @Inject(Token.EVENT_BUS)
-    private readonly eventBus: EventBus
-  ) {
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly eventBus: EventBus
+
+  constructor(speakerRepository: SpeakerRepository, eventBus: EventBus) {
     super()
+    this.eventBus = eventBus
+    this.speakerRepository = speakerRepository
     this.speakerFinder = new SpeakerFinder(speakerRepository)
   }
 

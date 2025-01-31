@@ -1,4 +1,4 @@
-import { sleep } from '../../src/shared/infrastructure/utils/sleep'
+import { sleep } from '../../src/shared/infrastructure/utils/sleep.ts'
 
 /**
  * This function tries to mimic the behavior of

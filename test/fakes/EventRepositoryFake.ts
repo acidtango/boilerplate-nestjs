@@ -1,5 +1,6 @@
-import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory'
-import { TalkEvent } from '../../src/events/domain/models/TalkEvent'
+import { expect } from 'vitest'
+import { EventRepositoryMemory } from '../../src/events/infrastructure/repositories/EventRepositoryMemory.ts'
+import { TalkEvent } from '../../src/events/domain/models/TalkEvent.ts'
 
 export class EventRepositoryFake extends EventRepositoryMemory {
   private saveCalled = false

@@ -1,11 +1,11 @@
-import { TalkId } from '../../../src/shared/domain/models/ids/TalkId'
-import { IMPROVING_TESTS } from '../../../src/shared/infrastructure/fixtures/talks'
-import { Talk } from '../../../src/talks/domain/models/Talk'
-import { TalkTitle } from '../../../src/talks/domain/models/TalkTitle'
-import { TalkDescription } from '../../../src/talks/domain/models/TalkDescription'
-import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId'
-import { EventId } from '../../../src/shared/domain/models/ids/EventId'
-import { flushDomainEvents } from '../Common'
+import { TalkId } from '../../../src/shared/domain/models/ids/TalkId.ts'
+import { IMPROVING_TESTS } from '../../../src/shared/infrastructure/fixtures/talks.ts'
+import { Talk } from '../../../src/talks/domain/models/Talk.ts'
+import { TalkTitle } from '../../../src/talks/domain/models/TalkTitle.ts'
+import { TalkDescription } from '../../../src/talks/domain/models/TalkDescription.ts'
+import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId.ts'
+import { EventId } from '../../../src/shared/domain/models/ids/EventId.ts'
+import { flushDomainEvents } from '../Common.ts'
 
 export function improvingTestsId() {
   return new TalkId(IMPROVING_TESTS.id)

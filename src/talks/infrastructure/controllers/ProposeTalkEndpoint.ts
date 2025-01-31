@@ -1,32 +1,43 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common'
-import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { ProposeTalk } from '../../use-cases/ProposeTalk'
-import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { TalkTitle } from '../../domain/models/TalkTitle'
-import { TalkDescription } from '../../domain/models/TalkDescription'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
+import { describeRoute } from 'hono-openapi'
+import { validator } from 'hono-openapi/zod'
+import { ProposeTalkRequestDTO } from './dtos/ProposeTalkRequestDTO.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { ProposeTalk } from '../../use-cases/ProposeTalk.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import { TalkTitle } from '../../domain/models/TalkTitle.ts'
+import { TalkDescription } from '../../domain/models/TalkDescription.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
 
-@Controller('/v1/talks')
-export class ProposeTalkEndpoint {
-  constructor(private readonly proposeTalk: ProposeTalk) {}
+export const ProposeTalkEndpoint = {
+  method: 'post' as const,
+  path: '/api/v1/talks',
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'Proposes a talk',
+      tags: ['Talks'], // TODO: use enum
+      responses: {
+        201: {
+          description: 'Talk proposed',
+        },
+      },
+    }),
+    validator('json', ProposeTalkRequestDTO),
+    async (c) => {
+      const proposeTalk = await c.var.container.getAsync(ProposeTalk)
+      const body = c.req.valid('json')
 
-  @Endpoint({
-    tag: DocumentationTag.TALKS,
-    description: 'Creates a talk',
-    status: HttpStatus.CREATED,
-  })
-  @Post()
-  async execute(@Body() body: ProposeTalkRequestDTO) {
-    await this.proposeTalk.execute({
-      id: TalkId.fromPrimitives(body.id),
-      title: TalkTitle.fromPrimitives(body.title),
-      description: TalkDescription.fromPrimitives(body.description),
-      cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
-      language: body.language,
-      eventId: EventId.fromPrimitives(body.eventId),
-      speakerId: SpeakerId.fromPrimitives(body.speakerId),
-    })
-  }
-}
+      await proposeTalk.execute({
+        id: TalkId.fromPrimitives(body.id),
+        title: TalkTitle.fromPrimitives(body.title),
+        description: TalkDescription.fromPrimitives(body.description),
+        cospeakers: body.cospeakers.map(SpeakerId.fromPrimitives),
+        language: body.language,
+        eventId: EventId.fromPrimitives(body.eventId),
+        speakerId: SpeakerId.fromPrimitives(body.speakerId),
+      })
+
+      return c.body(null, 201)
+    }
+  ),
+} satisfies Endpoint

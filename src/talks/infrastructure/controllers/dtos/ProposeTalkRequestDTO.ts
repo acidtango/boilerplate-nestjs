@@ -1,36 +1,20 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsEnum, IsString, IsUUID } from 'class-validator'
-import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks'
-import { Language } from '../../../../shared/domain/models/Language'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
-import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events'
+import { JUNIOR_XP } from '../../../../shared/infrastructure/fixtures/talks.ts'
+import { Language } from '../../../../shared/domain/models/Language.ts'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
+import { JSDAY_CANARIAS } from '../../../../shared/infrastructure/fixtures/events.ts'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
 
-export class ProposeTalkRequestDTO {
-  @ApiProperty({ example: JUNIOR_XP.id })
-  @IsUUID()
-  id!: string
-
-  @ApiProperty({ example: JUNIOR_XP.title })
-  @IsString()
-  title!: string
-
-  @ApiProperty({ example: JUNIOR_XP.description })
-  @IsString()
-  description!: string
-
-  @ApiProperty({ example: Language.ENGLISH, enum: Language })
-  @IsEnum(Language)
-  language!: Language
-
-  @ApiProperty({ example: JUNIOR_XP.cospeakers, type: [String] })
-  @IsString({ each: true })
-  cospeakers!: string[]
-
-  @ApiProperty({ example: CONCHA_ASENSIO.id })
-  @IsUUID()
-  speakerId!: string
-
-  @ApiProperty({ example: JSDAY_CANARIAS.id })
-  @IsUUID()
-  eventId!: string
-}
+export const ProposeTalkRequestDTO = z
+  .object({
+    id: z.string().uuid().openapi({ example: JUNIOR_XP.id }),
+    title: z.string().openapi({ example: JUNIOR_XP.title }),
+    description: z.string().openapi({ example: JUNIOR_XP.description }),
+    language: z.nativeEnum(Language).openapi({ example: Language.ENGLISH }),
+    cospeakers: z.array(z.string()).openapi({ example: JUNIOR_XP.cospeakers }),
+    speakerId: z.string().uuid().openapi({ example: CONCHA_ASENSIO.id }),
+    eventId: z.string().uuid().openapi({ example: JSDAY_CANARIAS.id }),
+  })
+  .openapi({
+    ref: 'ProposeTalkRequestDTO',
+    description: 'TODO',
+  })

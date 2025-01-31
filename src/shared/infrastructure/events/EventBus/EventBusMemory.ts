@@ -1,33 +1,46 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { EventBus } from '../../../domain/models/hex/EventBus'
-import { DomainEvent } from '../../../domain/events/DomainEvent'
-import { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper'
-import { Token } from '../../../domain/services/Token'
+import type { interfaces } from 'inversify'
+import type { EventBus } from '../../../domain/models/hex/EventBus.ts'
+import { DomainEvent, type DomainEventPrimitives } from '../../../domain/events/DomainEvent.ts'
+import type { DomainEventMapper } from '../DomainEventMapper/DomainEventMapper.ts'
+import { Token } from '../../../domain/services/Token.ts'
+import { sleep } from '../../utils/sleep.ts'
 
-@Injectable()
 export class EventBusMemory implements EventBus {
-  constructor(
-    @Inject(Token.DOMAIN_EVENT_MAPPER) private readonly domainEventMapper: DomainEventMapper
-  ) {}
+  public static async create({ container }: interfaces.Context) {
+    return new EventBusMemory(await container.getAsync(Token.DOMAIN_EVENT_MAPPER))
+  }
+
+  private readonly domainEventMapper: DomainEventMapper
+
+  private promises: Array<Promise<unknown>> = []
+
+  constructor(domainEventMapper: DomainEventMapper) {
+    this.domainEventMapper = domainEventMapper
+  }
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
-    for await (const event of domainEvents) {
-      const subscribersAndEvent = this.domainEventMapper.getSubscribersAndEvent(event.code)
+    domainEvents.forEach((event) => {
+      const promise = sleep(0).then(() => this.handle(event.toPrimitives()))
+      this.promises.push(promise)
+    })
+  }
 
-      if (!subscribersAndEvent) return
+  async handle(event: DomainEventPrimitives) {
+    const subscribersAndEvent = this.domainEventMapper.getSubscribersAndEvent(event.code)
 
-      const { subscribers, eventClass } = subscribersAndEvent
-
-      if (!subscribers || !eventClass) return
-
-      for await (const subscriber of subscribers) {
-        try {
-          await subscriber.on(event)
-        } catch (error: unknown) {
-          console.error('TODO: Correctly manage error', error)
-          throw error
-        }
-      }
+    if (!subscribersAndEvent) {
+      return
     }
+
+    const { subscribers, eventClass } = subscribersAndEvent
+
+    for await (const subscriber of subscribers) {
+      const domainEvent = eventClass.fromPrimitives(event)
+      await subscriber.on(domainEvent)
+    }
+  }
+
+  waitForEvents() {
+    return Promise.all(this.promises)
   }
 }

@@ -1,16 +1,16 @@
-import { SpeakerName } from './SpeakerName'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { SpeakerAge } from './SpeakerAge'
-import { EmailAddress } from '../../../shared/domain/models/EmailAddress'
-import { Language } from '../../../shared/domain/models/Language'
-import { Primitives } from '../../../shared/domain/models/hex/Primitives'
-import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot'
-import { HashedPassword } from '../../../shared/domain/models/HashedPassword'
-import { PlainPassword } from '../../../shared/domain/models/PlainPassword'
-import { SpeakerRegistered } from '../events/SpeakerRegistered'
-import { SpeakerProfileUpdated } from '../events/SpeakerProfileUpdated'
-import { ProfileNotFilledError } from '../errors/ProfileNotFilledError'
-import { SpeakerProfile } from './SpeakerProfile'
+import { SpeakerName } from './SpeakerName.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { SpeakerAge } from './SpeakerAge.ts'
+import { EmailAddress } from '../../../shared/domain/models/EmailAddress.ts'
+import { Language } from '../../../shared/domain/models/Language.ts'
+import type { Primitives } from '../../../shared/domain/models/hex/Primitives.ts'
+import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot.ts'
+import { HashedPassword } from '../../../shared/domain/models/HashedPassword.ts'
+import { PlainPassword } from '../../../shared/domain/models/PlainPassword.ts'
+import { SpeakerRegistered } from '../events/SpeakerRegistered.ts'
+import { SpeakerProfileUpdated } from '../events/SpeakerProfileUpdated.ts'
+import { ProfileNotFilledError } from '../errors/ProfileNotFilledError.ts'
+import { SpeakerProfile } from './SpeakerProfile.ts'
 
 export type SpeakerPrimitives = Primitives<Speaker>
 
@@ -41,15 +41,33 @@ export class Speaker extends AggregateRoot {
     return speaker
   }
 
+  private readonly id: SpeakerId
+
+  private readonly email: EmailAddress
+
+  private readonly password: HashedPassword
+
+  private readonly salt: string
+
+  private readonly isEmailValidated: boolean
+
+  private profile?: SpeakerProfile
+
   constructor(
-    private readonly id: SpeakerId,
-    private readonly email: EmailAddress,
-    private readonly password: HashedPassword,
-    private readonly salt: string,
-    private readonly isEmailValidated: boolean,
-    private profile?: SpeakerProfile
+    id: SpeakerId,
+    email: EmailAddress,
+    password: HashedPassword,
+    salt: string,
+    isEmailValidated: boolean,
+    profile?: SpeakerProfile
   ) {
     super()
+    this.id = id
+    this.email = email
+    this.password = password
+    this.salt = salt
+    this.isEmailValidated = isEmailValidated
+    this.profile = profile
   }
 
   has(value: PlainPassword | SpeakerName | SpeakerAge | Language) {

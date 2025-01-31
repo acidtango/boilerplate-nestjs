@@ -1,22 +1,32 @@
-import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot'
-import { EventId } from '../../../shared/domain/models/ids/EventId'
-import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId'
-import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId'
-import { TalkId } from '../../../shared/domain/models/ids/TalkId'
-import { Primitives } from '../../../shared/domain/models/hex/Primitives'
-import { Language } from '../../../shared/domain/models/Language'
-import { TalkAssignedForReview } from '../events/TalkAssignedForReview'
-import { TalkDescription } from './TalkDescription'
-import { TalkStatus } from './TalkStatus'
-import { TalkTitle } from './TalkTitle'
-import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError'
-import { TalkAlreadyBeingReviewed } from '../errors/TalkAlreadyBeingReviewed'
-import { TalkCannotBeApprovedError } from '../errors/TalkCannotBeApprovedError'
-import { TalkProposed } from '../events/TalkProposed'
+import { AggregateRoot } from '../../../shared/domain/models/hex/AggregateRoot.ts'
+import { EventId } from '../../../shared/domain/models/ids/EventId.ts'
+import { OrganizerId } from '../../../shared/domain/models/ids/OrganizerId.ts'
+import { SpeakerId } from '../../../shared/domain/models/ids/SpeakerId.ts'
+import { TalkId } from '../../../shared/domain/models/ids/TalkId.ts'
+import type { Primitives } from '../../../shared/domain/models/hex/Primitives.ts'
+import { Language } from '../../../shared/domain/models/Language.ts'
+import { TalkAssignedForReview } from '../events/TalkAssignedForReview.ts'
+import { TalkDescription } from './TalkDescription.ts'
+import { TalkStatus } from './TalkStatus.ts'
+import { TalkTitle } from './TalkTitle.ts'
+import { MaximumCospeakersReachedError } from '../errors/MaximumCospeakersReachedError.ts'
+import { TalkAlreadyBeingReviewed } from '../errors/TalkAlreadyBeingReviewed.ts'
+import { TalkCannotBeApprovedError } from '../errors/TalkCannotBeApprovedError.ts'
+import { TalkProposed } from '../events/TalkProposed.ts'
 
 export type TalkPrimitives = Primitives<Talk>
 
 export class Talk extends AggregateRoot {
+  private readonly id: TalkId
+  private readonly title: TalkTitle
+  private readonly description: TalkDescription
+  private readonly language: Language
+  private readonly cospeakers: SpeakerId[]
+  private readonly speakerId: SpeakerId
+  private readonly eventId: EventId
+  private reviewerId?: OrganizerId
+  private isApproved?: boolean
+
   static fromPrimitives(talkPrimitives: TalkPrimitives) {
     const {
       id,
@@ -60,17 +70,26 @@ export class Talk extends AggregateRoot {
   }
 
   private constructor(
-    private readonly id: TalkId,
-    private readonly title: TalkTitle,
-    private readonly description: TalkDescription,
-    private readonly language: Language,
-    private readonly cospeakers: SpeakerId[],
-    private readonly speakerId: SpeakerId,
-    private readonly eventId: EventId,
-    private reviewerId?: OrganizerId,
-    private isApproved?: boolean
+    id: TalkId,
+    title: TalkTitle,
+    description: TalkDescription,
+    language: Language,
+    cospeakers: SpeakerId[],
+    speakerId: SpeakerId,
+    eventId: EventId,
+    reviewerId?: OrganizerId,
+    isApproved?: boolean
   ) {
     super()
+    this.id = id
+    this.title = title
+    this.description = description
+    this.language = language
+    this.cospeakers = cospeakers
+    this.speakerId = speakerId
+    this.eventId = eventId
+    this.reviewerId = reviewerId
+    this.isApproved = isApproved
     if (cospeakers.length >= 4) throw new MaximumCospeakersReachedError()
   }
 

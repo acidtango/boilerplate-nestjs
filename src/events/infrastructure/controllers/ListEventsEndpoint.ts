@@ -1,36 +1,50 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common'
-import { DocumentationTag, Endpoint } from '../../../shared/infrastructure/decorators/Endpoint'
-import { ListEvents } from '../../use-cases/ListEvents'
-import { EventResponseDTO } from './dtos/EventResponseDTO'
+import { resolver } from 'hono-openapi/zod'
+import { z } from '../../../shared/infrastructure/controllers/zod.ts'
+import { ListEvents } from '../../use-cases/ListEvents.ts'
+import { EventResponseDTO } from './dtos/EventResponseDTO.ts'
+import { type Endpoint, factory } from '../../../shared/infrastructure/controllers/factory.ts'
+import { describeRoute } from 'hono-openapi'
 
-@Controller('/v1/events')
-export class ListEventsEndpoint {
-  constructor(private readonly listEvents: ListEvents) {}
-
-  @Endpoint({
-    tag: DocumentationTag.EVENTS,
-    description: 'List events',
-    status: HttpStatus.OK,
-  })
-  @Get()
-  async execute(): Promise<EventResponseDTO[]> {
-    const events = await this.listEvents.execute()
-
-    return events.map((event) => {
-      const eventPrimitives = event.toPrimitives()
-
-      return {
-        id: eventPrimitives.id,
-        name: eventPrimitives.name,
-        dateRange: {
-          startDate: eventPrimitives.dateRange.startDate.toISOString(),
-          endDate: eventPrimitives.dateRange.endDate.toISOString(),
+export const ListEventsEndpoint = {
+  method: 'get' as const,
+  path: '/api/v1/events',
+  handlers: factory.createHandlers(
+    describeRoute({
+      description: 'List events',
+      tags: ['Events'],
+      responses: {
+        200: {
+          description: 'Lists the events',
+          content: {
+            'application/json': {
+              schema: resolver(z.array(EventResponseDTO)),
+            },
+          },
         },
-        proposalsDateRange: {
-          startDate: eventPrimitives.proposalsDateRange.startDate.toISOString(),
-          deadline: eventPrimitives.proposalsDateRange.deadline.toISOString(),
-        },
-      }
-    })
-  }
-}
+      },
+    }),
+    async (c) => {
+      const listEvents = await c.var.container.getAsync(ListEvents)
+      const events = await listEvents.execute()
+
+      const mapped = events.map((event) => {
+        const eventPrimitives = event.toPrimitives()
+
+        return {
+          id: eventPrimitives.id,
+          name: eventPrimitives.name,
+          dateRange: {
+            startDate: eventPrimitives.dateRange.startDate.toISOString(),
+            endDate: eventPrimitives.dateRange.endDate.toISOString(),
+          },
+          proposalsDateRange: {
+            startDate: eventPrimitives.proposalsDateRange.startDate.toISOString(),
+            deadline: eventPrimitives.proposalsDateRange.deadline.toISOString(),
+          },
+        }
+      })
+
+      return c.json(mapped, 200)
+    }
+  ),
+} satisfies Endpoint

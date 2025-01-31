@@ -1,8 +1,6 @@
-import { TestClientUtils } from './TestClientUtils'
-import { TestApi } from './TestApi'
+import { TestClientUtils } from './TestClientUtils.ts'
+import { container } from '../setups/container.ts'
 
 export async function createClient() {
-  const testApi = await TestApi.create()
-  await testApi.clearState()
-  return new TestClientUtils(testApi)
+  return TestClientUtils.create(container)
 }

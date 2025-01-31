@@ -1,5 +1,6 @@
-import { DomainEvent } from '../../src/shared/domain/events/DomainEvent'
-import { EventBus } from '../../src/shared/domain/models/hex/EventBus'
+import { expect } from 'vitest'
+import { DomainEvent } from '../../src/shared/domain/events/DomainEvent.ts'
+import type { EventBus } from '../../src/shared/domain/models/hex/EventBus.ts'
 
 export class EventBusFake implements EventBus {
   private readonly events: DomainEvent[] = []

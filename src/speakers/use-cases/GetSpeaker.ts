@@ -1,15 +1,20 @@
-import { Speaker } from '../domain/models/Speaker'
-import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId'
-import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
-import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError'
-import { Inject, Injectable } from '@nestjs/common'
-import { Token } from '../../shared/domain/services/Token'
+import type { interfaces } from 'inversify'
+import { Speaker } from '../domain/models/Speaker.ts'
+import { SpeakerId } from '../../shared/domain/models/ids/SpeakerId.ts'
+import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository.ts'
+import { SpeakerNotFoundError } from '../domain/errors/SpeakerNotFoundError.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
 
-@Injectable()
 export class GetSpeaker {
-  constructor(
-    @Inject(Token.SPEAKER_REPOSITORY) private readonly speakerRepository: SpeakerRepository
-  ) {}
+  public static async create({ container }: interfaces.Context) {
+    return new GetSpeaker(await container.get(Token.SPEAKER_REPOSITORY))
+  }
+
+  private readonly speakerRepository: SpeakerRepository
+
+  constructor(speakerRepository: SpeakerRepository) {
+    this.speakerRepository = speakerRepository
+  }
 
   async execute(speakerId: SpeakerId): Promise<Speaker> {
     const speaker = await this.speakerRepository.findById(speakerId)

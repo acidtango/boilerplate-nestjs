@@ -1,29 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsEnum, IsInt, IsPositive, IsString } from 'class-validator'
-import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers'
-import { Language } from '../../../../shared/domain/models/Language'
+import { z } from '../../../../shared/infrastructure/controllers/zod.ts'
+import type { z as zod } from 'zod'
+import { CONCHA_ASENSIO } from '../../../../shared/infrastructure/fixtures/speakers.ts'
+import { Language } from '../../../../shared/domain/models/Language.ts'
 
-export class SpeakerProfileDTO {
-  @ApiProperty({ example: CONCHA_ASENSIO.name })
-  @IsString()
-  name!: string
+export const SpeakerProfileDTO = z
+  .object({
+    name: z.string().openapi({ example: CONCHA_ASENSIO.name }),
+    age: z.number().int().positive().openapi({ example: CONCHA_ASENSIO.age }),
+    language: z.nativeEnum(Language).openapi({ example: CONCHA_ASENSIO.language }),
+  })
+  .openapi({
+    ref: 'SpeakerProfileDTO',
+    description: 'TODO',
+  })
 
-  @ApiProperty({ example: CONCHA_ASENSIO.age })
-  @IsPositive()
-  @IsInt()
-  age!: number
-
-  @ApiProperty({ example: CONCHA_ASENSIO.language, enum: Language })
-  @IsEnum(Language)
-  language!: Language
-
-  static create(params: SpeakerProfileDTO) {
-    const speakerProfileDTO = new SpeakerProfileDTO()
-
-    speakerProfileDTO.name = params.name
-    speakerProfileDTO.age = params.age
-    speakerProfileDTO.language = params.language
-
-    return speakerProfileDTO
-  }
-}
+export type SpeakerProfileDTO = zod.infer<typeof SpeakerProfileDTO>

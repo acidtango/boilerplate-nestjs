@@ -1,28 +1,36 @@
-import * as jwt from 'jsonwebtoken'
-import { EmailAddress } from '../../shared/domain/models/EmailAddress'
-import { PlainPassword } from '../../shared/domain/models/PlainPassword'
-import { SpeakerRepository } from '../domain/repositories/SpeakerRepository'
-import { Clock } from '../../shared/domain/services/Clock'
-import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError'
-import { Speaker } from '../domain/models/Speaker'
-import { Inject, Injectable } from '@nestjs/common'
-import { Token } from '../../shared/domain/services/Token'
-import { JwtPayload } from '../../auth/domain/JwtPayload'
-import { Role } from '../../shared/domain/models/Role'
+import jwt from 'jsonwebtoken'
+import type { interfaces } from 'inversify'
+import { EmailAddress } from '../../shared/domain/models/EmailAddress.ts'
+import { PlainPassword } from '../../shared/domain/models/PlainPassword.ts'
+import type { SpeakerRepository } from '../domain/repositories/SpeakerRepository.ts'
+import type { Clock } from '../../shared/domain/services/Clock.ts'
+import { InvalidCredentialsError } from '../domain/errors/InvalidCredentialsError.ts'
+import { Speaker } from '../domain/models/Speaker.ts'
+import type { JwtPayload } from '../../auth/domain/JwtPayload.ts'
+import { Role } from '../../shared/domain/models/Role.ts'
+import { Token } from '../../shared/domain/services/Token.ts'
 
 export type LoginSpeakerParams = {
   email: EmailAddress
   password: PlainPassword
 }
 
-@Injectable()
 export class LoginSpeaker {
-  constructor(
-    @Inject(Token.SPEAKER_REPOSITORY)
-    private readonly speakerRepository: SpeakerRepository,
-    @Inject(Token.CLOCK)
-    private readonly clock: Clock
-  ) {}
+  static async create({ container }: interfaces.Context) {
+    return new LoginSpeaker(
+      await container.getAsync(Token.SPEAKER_REPOSITORY),
+      container.get(Token.CLOCK)
+    )
+  }
+
+  private readonly speakerRepository: SpeakerRepository
+
+  private readonly clock: Clock
+
+  constructor(speakerRepository: SpeakerRepository, clock: Clock) {
+    this.clock = clock
+    this.speakerRepository = speakerRepository
+  }
 
   async execute({ email, password }: LoginSpeakerParams): Promise<string> {
     const speaker = await this.speakerRepository.findBy(email)

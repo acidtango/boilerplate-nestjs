@@ -1,8 +1,11 @@
-import { ValueObject } from './hex/ValueObject'
+import { ValueObject } from './hex/ValueObject.ts'
 
 export class EmailAddress extends ValueObject {
-  constructor(private readonly email: string) {
+  private readonly email: string
+
+  constructor(email: string) {
     super()
+    this.email = email
   }
 
   static fromPrimitives(email: string): EmailAddress {

@@ -1,11 +1,14 @@
-import { ValueObject } from '../../../shared/domain/models/hex/ValueObject'
-import { TalkDescriptionTooLongError } from '../errors/TalkDescriptionTooLongError'
+import { ValueObject } from '../../../shared/domain/models/hex/ValueObject.ts'
+import { TalkDescriptionTooLongError } from '../errors/TalkDescriptionTooLongError.ts'
 
 export class TalkDescription extends ValueObject {
   private static readonly MAX_LENGTH = 1000
 
-  constructor(private readonly description: string) {
+  private readonly description: string
+
+  constructor(description: string) {
     super()
+    this.description = description
     this.ensureIsNotTooLong()
   }
 

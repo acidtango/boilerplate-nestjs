@@ -1,16 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { UseCase } from '../../shared/domain/models/hex/UseCase'
-import { TalkId } from '../../shared/domain/models/ids/TalkId'
-import { Token } from '../../shared/domain/services/Token'
-import { TalkRepository } from '../domain/repositories/TalkRepository'
-import { TalkFinder } from '../domain/services/TalkFinder'
+import { UseCase } from '../../shared/domain/models/hex/UseCase.ts'
+import { TalkId } from '../../shared/domain/models/ids/TalkId.ts'
+import type { TalkRepository } from '../domain/repositories/TalkRepository.ts'
+import { TalkFinder } from '../domain/services/TalkFinder.ts'
+import type { interfaces } from 'inversify'
+import { Token } from '../../shared/domain/services/Token.ts'
 
-@Injectable()
 export class ApproveTalk extends UseCase {
   private readonly talkFinder: TalkFinder
 
-  constructor(@Inject(Token.TALK_REPOSITORY) private readonly talkRepository: TalkRepository) {
+  private readonly talkRepository: TalkRepository
+
+  public static create({ container }: interfaces.Context) {
+    return new ApproveTalk(container.get(Token.TALK_REPOSITORY))
+  }
+
+  constructor(talkRepository: TalkRepository) {
     super()
+    this.talkRepository = talkRepository
     this.talkFinder = new TalkFinder(talkRepository)
   }
 

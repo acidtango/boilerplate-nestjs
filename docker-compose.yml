@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 services:
   db:
     image: mongo:6.0.15-jammy
@@ -6,38 +6,38 @@ services:
       MONGO_INITDB_ROOT_USERNAME: acid
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - "27017:27017"
+      - 27017:27017
+    volumes:
+      - db-data:/data/db
+
   aws:
     image: localstack/localstack
     environment:
       SERVICES: sqs
       AWS_DEFAULT_REGION: eu-west-1
     ports:
-      - '4566:4566'
+      - 4566:4566
+    volumes:
+      - ./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+
   api:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile.dev
+    build: .
     environment:
       DB_HOST: db
-      DB_PORT: 5432
-      DB_USERNAME: acid
-      DB_PASSWORD: password
-      DB_DATABASE: develop
-      DEPLOY_ENV: dev
-      AWS_ENDPOINT: aws
-
-    working_dir: /home/node/
-    volumes:
-      - "./src:/home/node/src"
-      - "./test:/home/node/test"
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        ./entrypoint.sh
+      AWS_ENDPOINT: http://aws:4566
+      AWS_SQS_URL: http://sqs.eu-west-1.aws:4566/000000000000/localstack-queue
     ports:
-      - "8080:8080"
-    networks:
-      - default
+      - 8080:8080
 
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/typescript-node
+    command: sleep infinity
+    environment:
+      DB_HOST: db
+      AWS_ENDPOINT: http://aws:4566
+      AWS_SQS_URL: http://sqs.eu-west-1.aws:4566/000000000000/localstack-queue
+    volumes:
+      - .:/workspace:cached
+
+volumes:
+  db-data:

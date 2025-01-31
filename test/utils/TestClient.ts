@@ -1,40 +1,144 @@
-import { HttpStatus } from '@nestjs/common'
-import { tepper } from 'tepper'
-import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events'
-import { EventResponseDTO } from '../../src/events/infrastructure/controllers/dtos/EventResponseDTO'
-import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers'
-import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks'
-import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers'
-import { TestApi } from './TestApi'
+import { expect } from 'vitest'
+import { MongoClient } from 'mongodb'
+import type { Container } from 'inversify'
+import type { Clock } from '../../src/shared/domain/services/Clock.ts'
+import { CONCHA_ASENSIO } from '../../src/shared/infrastructure/fixtures/speakers.ts'
+import { Token } from '../../src/shared/domain/services/Token.ts'
+import {
+  isReseteable,
+  type Reseteable,
+} from '../../src/shared/infrastructure/repositories/Reseteable.ts'
+import { JSDAY_CANARIAS } from '../../src/shared/infrastructure/fixtures/events.ts'
+import { JUNIOR_XP } from '../../src/shared/infrastructure/fixtures/talks.ts'
+import { DAILOS } from '../../src/shared/infrastructure/fixtures/organizers.ts'
+import type { EmailSenderFake } from '../fakes/EmailSenderFake.ts'
+import { container } from '../setups/container.ts'
+import type { Hono } from 'hono'
+import { EventBusMemory } from '../../src/shared/infrastructure/events/EventBus/EventBusMemory.ts'
 
 export class TestClient {
-  constructor(private readonly testApi: TestApi) {}
+  public readonly container: Container
+  private app: Hono
 
-  get app() {
-    return this.testApi.getApp()
+  public static async create(container: Container) {
+    return new TestClient(await container.getAsync(Token.APP), container)
+  }
+
+  constructor(app: Hono, container: Container) {
+    this.app = app
+    this.container = container
   }
 
   getClock() {
-    return this.testApi.getClock()
-  }
-
-  getEventBus() {
-    return this.testApi.getEventBus()
+    return this.container.get<Clock>(Token.CLOCK)
   }
 
   getEmailSender() {
-    return this.testApi.getEmailSender()
+    return this.container.get<EmailSenderFake>(Token.EMAIL_SENDER)
   }
 
-  health() {
-    return tepper(this.app).get('/health')
+  async reset() {
+    const repositories = await Promise.all([
+      this.container.getAsync<Reseteable>(Token.SPEAKER_REPOSITORY),
+      this.container.getAsync<Reseteable>(Token.EVENT_REPOSITORY),
+      this.container.getAsync<Reseteable>(Token.TALK_REPOSITORY),
+    ]).then((repositories) => repositories.filter(isReseteable))
+
+    for (const repository of repositories) {
+      await repository.reset()
+    }
   }
 
-  createEvent({ id = JSDAY_CANARIAS.id } = {}) {
-    return tepper(this.app)
-      .post('/api/v1/events')
-      .send({
-        id,
+  async waitForAllEvents() {
+    const eventBus = await this.container.getAsync<EventBusMemory>(Token.EVENT_BUS)
+    await eventBus.waitForEvents()
+  }
+
+  async close() {
+    const mongoClient = this.container.get(MongoClient)
+    await mongoClient.close()
+  }
+
+  async registerSpeaker() {
+    const res = await this.app.request('/api/v1/speakers/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: CONCHA_ASENSIO.id,
+        email: CONCHA_ASENSIO.email,
+        password: CONCHA_ASENSIO.password,
+      }),
+    })
+    expect(res.status).toBe(201)
+    return {
+      status: res.status,
+      res,
+    }
+  }
+
+  async loginSpeaker() {
+    const res = await this.app.request('/api/v1/speakers/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: CONCHA_ASENSIO.email,
+        password: CONCHA_ASENSIO.password,
+      }),
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
+  }
+
+  async updateProfile({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
+    const res = await this.app.request(`/api/v1/speakers/${id}/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        name: CONCHA_ASENSIO.name,
+        age: CONCHA_ASENSIO.age,
+        language: CONCHA_ASENSIO.language,
+      }),
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      res,
+    }
+  }
+
+  async getSpeaker({ id = CONCHA_ASENSIO.id, jwt = CONCHA_ASENSIO.jwt } = {}) {
+    const res = await this.app.request(`/api/v1/speakers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
+  }
+
+  async createEvent() {
+    const res = await this.app.request('/api/v1/events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: JSDAY_CANARIAS.id,
         name: JSDAY_CANARIAS.name,
         dateRange: {
           startDate: JSDAY_CANARIAS.startDate,
@@ -44,35 +148,42 @@ export class TestClient {
           startDate: JSDAY_CANARIAS.proposalsStartDate,
           deadline: JSDAY_CANARIAS.proposalsDeadlineDate,
         },
-      })
-      .expectStatus(HttpStatus.CREATED)
+      }),
+    })
+    expect(res.status).toBe(201)
+    return {
+      status: res.status,
+      res,
+    }
   }
 
-  registerSpeaker({ id = CONCHA_ASENSIO.id } = {}) {
-    return tepper(this.app)
-      .post('/api/v1/speakers/registration')
-      .send({
-        id,
-        email: CONCHA_ASENSIO.email,
-        password: CONCHA_ASENSIO.password,
-      })
-      .expectStatus(HttpStatus.CREATED)
+  async getEvents() {
+    const res = await this.app.request('/api/v1/events')
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
   }
 
-  loginSpeaker() {
-    return tepper(this.app)
-      .post('/api/v1/speakers/login')
-      .send({
-        email: CONCHA_ASENSIO.email,
-        password: CONCHA_ASENSIO.password,
-      })
-      .expectStatus(HttpStatus.OK)
+  async getTalk(id = JUNIOR_XP.id) {
+    const res = await this.app.request(`/api/v1/talks/${id}`)
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      body: await res.json(),
+      res,
+    }
   }
 
-  proposeTalk({ id = JUNIOR_XP.id } = {}) {
-    return tepper(this.app)
-      .post('/api/v1/talks')
-      .send({
+  async proposeTalk({ id = JUNIOR_XP.id } = {}) {
+    const res = await this.app.request('/api/v1/talks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         id,
         title: JUNIOR_XP.title,
         description: JUNIOR_XP.description,
@@ -80,45 +191,50 @@ export class TestClient {
         cospeakers: JUNIOR_XP.cospeakers,
         speakerId: CONCHA_ASENSIO.id,
         eventId: JSDAY_CANARIAS.id,
-      })
-      .expectStatus(HttpStatus.CREATED)
+      }),
+    })
+    expect(res.status).toBe(201)
+    return {
+      status: res.status,
+      res,
+    }
   }
 
-  getTalk(id = JUNIOR_XP.id) {
-    return tepper(this.app).get(`/api/v1/talks/${id}`).expectStatus(HttpStatus.OK)
+  async assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
+    const res = await this.app.request(`/api/v1/talks/${id}/assignation`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reviewerId,
+      }),
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      res,
+    }
   }
 
-  updateProfile({ id = CONCHA_ASENSIO.id, jwt = '' } = {}) {
-    return tepper(this.app)
-      .put(`/api/v1/speakers/${id}/profile`)
-      .authWith(jwt)
-      .send({
-        name: CONCHA_ASENSIO.name,
-        age: CONCHA_ASENSIO.age,
-        language: CONCHA_ASENSIO.language,
-      })
-      .expectStatus(HttpStatus.OK)
+  async approveTalk({ id = JUNIOR_XP.id }) {
+    const res = await this.app.request(`/api/v1/talks/${id}/approve`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        isApproved: true,
+      }),
+    })
+    expect(res.status).toBe(200)
+    return {
+      status: res.status,
+      res,
+    }
   }
+}
 
-  getSpeaker({ id = CONCHA_ASENSIO.id, jwt = CONCHA_ASENSIO.jwt } = {}) {
-    return tepper(this.app).get(`/api/v1/speakers/${id}`).authWith(jwt).expectStatus(HttpStatus.OK)
-  }
-
-  getEvents() {
-    return tepper(this.app).get<EventResponseDTO[]>('/api/v1/events').expectStatus(HttpStatus.OK)
-  }
-
-  assignReviewer({ id = JUNIOR_XP.id, reviewerId = DAILOS.id }) {
-    return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/assignation`)
-      .send({ reviewerId })
-      .expectStatus(HttpStatus.OK)
-  }
-
-  approveTalk({ id = JUNIOR_XP.id }) {
-    return tepper(this.app)
-      .put<EventResponseDTO[]>(`/api/v1/talks/${id}/approve`)
-
-      .expectStatus(HttpStatus.OK)
-  }
+export async function createClient() {
+  return TestClient.create(container)
 }
