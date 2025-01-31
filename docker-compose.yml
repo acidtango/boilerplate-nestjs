@@ -30,7 +30,7 @@ services:
       - 8080:8080
 
   devcontainer:
-    image: mcr.microsoft.com/devcontainers/typescript-node:20
+    image: mcr.microsoft.com/devcontainers/typescript-node:23
     command: sleep infinity
     environment:
       DB_HOST: db
