@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - main
-      - dev-containers
     types: [synchronize, opened, reopened, ready_for_review]
 
 concurrency:
