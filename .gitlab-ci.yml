@@ -1,5 +1,5 @@
 services:
-  - postgres:14.12-alpine
+  - postgres:17.4-alpine
 
 variables:
   POSTGRES_DB: develop
