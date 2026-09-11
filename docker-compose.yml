@@ -11,7 +11,7 @@ services:
       - db-data:/data/db
 
   aws:
-    image: localstack/localstack:3.0
+    image: localstack/localstack:3.8
     environment:
       SERVICES: sqs
       AWS_DEFAULT_REGION: eu-west-1
