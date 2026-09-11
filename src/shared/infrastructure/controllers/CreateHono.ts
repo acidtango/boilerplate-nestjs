@@ -23,10 +23,14 @@ export function createHono({ container }: interfaces.Context) {
   for (const endpoint of container.getAll<Endpoint>(Token.ENDPOINT)) {
     const shouldBeSecured = endpoint.secured ?? true
     const handlers = [
-      ...(shouldBeSecured ? [jwt({ secret: config.jwt.secret })] : []),
+      ...(shouldBeSecured ? [jwt({ secret: config.jwt.secret, alg: 'HS256' })] : []),
       ...endpoint.handlers,
     ]
-    app[endpoint.method](endpoint.path, ...handlers)
+    const register = app[endpoint.method].bind(app) as (
+      path: string,
+      ...handlers: Array<unknown>
+    ) => void
+    register(endpoint.path, ...handlers)
   }
   app.onError(handle)
 
