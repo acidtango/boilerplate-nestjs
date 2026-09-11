@@ -8,6 +8,7 @@ ENV NODE_ENV production
 
 ADD ./package.json ./package.json
 ADD ./pnpm-lock.yaml ./pnpm-lock.yaml
+ADD ./pnpm-workspace.yaml ./pnpm-workspace.yaml
 
 RUN pnpm install --frozen-lockfile --production
 
