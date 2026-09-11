@@ -1,5 +1,5 @@
-import type { Language } from '../../../shared/domain/models/Language.ts'
 import type { Primitives } from '../../../shared/domain/models/hex/Primitives.ts'
+import type { Language } from '../../../shared/domain/models/Language.ts'
 import { SpeakerAge } from './SpeakerAge.ts'
 import { SpeakerName } from './SpeakerName.ts'
 
