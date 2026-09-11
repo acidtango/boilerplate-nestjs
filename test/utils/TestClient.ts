@@ -32,7 +32,7 @@ export class TestClient {
           .text()
           .then(() => app.request(input))
       },
-      prefixUrl: 'http://localhost',
+      baseUrl: 'http://localhost',
     })
   }
 

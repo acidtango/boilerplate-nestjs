@@ -47,7 +47,7 @@ export class SpeakerRepositoryMemory implements SpeakerRepository, Reseteable, C
   }
 
   private asArray() {
-    return new Array(...this.speakers.values())
+    return [...this.speakers.values()]
   }
 
   async reset() {
