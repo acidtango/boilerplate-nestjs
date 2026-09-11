@@ -50,6 +50,10 @@
         "/^mongo/",
         "/^postgres/"
       ]
+    },
+    {
+      "matchPackageNames": ["localstack/localstack"],
+      "enabled": false
     }
   ]
 }
