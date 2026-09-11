@@ -59,7 +59,7 @@ jobs:
         volumes:
           - ${{ github.workspace }}/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
       aws:
-        image: localstack/localstack
+        image: localstack/localstack:3.0
         env:
           SERVICES: sqs
           AWS_DEFAULT_REGION: eu-west-1
