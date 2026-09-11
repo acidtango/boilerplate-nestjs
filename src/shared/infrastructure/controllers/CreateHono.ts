@@ -26,8 +26,11 @@ export function createHono({ container }: interfaces.Context) {
       ...(shouldBeSecured ? [jwt({ secret: config.jwt.secret, alg: 'HS256' })] : []),
       ...endpoint.handlers,
     ]
-    // biome-ignore lint/suspicious/noExplicitAny: Dynamic method routing on union type
-    ;(app[endpoint.method] as any)(endpoint.path, ...handlers)
+    const register = app[endpoint.method].bind(app) as (
+      path: string,
+      ...handlers: Array<unknown>
+    ) => void
+    register(endpoint.path, ...handlers)
   }
   app.onError(handle)
 

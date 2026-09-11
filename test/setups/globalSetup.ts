@@ -10,8 +10,9 @@ function isNotE2E(fileName: string) {
   return !fileName.match(/e2e/)
 }
 
-beforeAll(async (context) => {
-  if (isNotE2E(context.name)) {
+// biome-ignore lint/correctness/noEmptyPattern: vitest requires an object destructuring pattern for the fixture-context argument
+beforeAll(async ({}, suite) => {
+  if (isNotE2E(suite.name)) {
     return
   }
   const { container } = await import('./container.ts')
@@ -39,8 +40,9 @@ afterEach(async (context) => {
   await eventBus.reset()
 })
 
-afterAll(async (context) => {
-  if (isNotE2E(context.name)) {
+// biome-ignore lint/correctness/noEmptyPattern: vitest requires an object destructuring pattern for the fixture-context argument
+afterAll(async ({}, suite) => {
+  if (isNotE2E(suite.name)) {
     return
   }
   for (const repo of repos) {
