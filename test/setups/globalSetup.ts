@@ -78,7 +78,9 @@ expect.extend({
 
   async hasBody(received, expected) {
     if (received instanceof HTTPError) {
-      const body = await received.response.json()
+      // ky pre-parses and consumes the response body into `data` when building an HTTPError,
+      // so `received.response.json()` is no longer readable here.
+      const body = received.data
       const pass = this.equals(body, expected)
 
       return {

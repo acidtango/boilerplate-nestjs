@@ -2,8 +2,8 @@ import {
   CreateQueueCommand,
   GetQueueAttributesCommand,
   ListQueuesCommand,
-  SQSClient,
   SendMessageCommand,
+  SQSClient,
 } from '@aws-sdk/client-sqs'
 import type { interfaces } from 'inversify'
 import { Consumer } from 'sqs-consumer'

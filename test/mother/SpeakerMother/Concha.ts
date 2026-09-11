@@ -1,6 +1,6 @@
 import { EmailAddress } from '../../../src/shared/domain/models/EmailAddress.ts'
-import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword.ts'
 import { SpeakerId } from '../../../src/shared/domain/models/ids/SpeakerId.ts'
+import { PlainPassword } from '../../../src/shared/domain/models/PlainPassword.ts'
 import { CONCHA_ASENSIO } from '../../../src/shared/infrastructure/fixtures/speakers.ts'
 import { Speaker } from '../../../src/speakers/domain/models/Speaker.ts'
 import { SpeakerAge } from '../../../src/speakers/domain/models/SpeakerAge.ts'
